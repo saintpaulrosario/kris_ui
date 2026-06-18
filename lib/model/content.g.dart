@@ -9,8 +9,11 @@ part of 'content.dart';
 Content _$ContentFromJson(Map json) =>
     $checkedCreate('Content', json, ($checkedConvert) {
       final val = Content(
-        payload: $checkedConvert('payload', (v) => v as String?),
-        type: $checkedConvert('type', (v) => v as String?),
+        payload: $checkedConvert('payload', (v) => v as String? ?? ''),
+        types: $checkedConvert(
+          'types',
+          (v) => (v as List<dynamic>?)?.map((e) => e as String).toList(),
+        ),
         word: $checkedConvert(
           'word',
           (v) => v == null
@@ -28,8 +31,8 @@ Content _$ContentFromJson(Map json) =>
     });
 
 Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
-  'payload': ?instance.payload,
-  'type': ?instance.type,
-  'word': ?instance.word?.toJson(),
-  'text': ?instance.text?.toJson(),
+  'payload': instance.payload,
+  'types': instance.types,
+  'word': instance.word?.toJson(),
+  'text': instance.text?.toJson(),
 };

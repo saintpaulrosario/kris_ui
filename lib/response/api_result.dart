@@ -1,42 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'api_result.g.dart';
 
-@immutable
 @JsonSerializable(
+  genericArgumentFactories: true,
+  dateTimeUtc: true,
   includeIfNull: true,
   ignoreUnannotated: false,
-  genericArgumentFactories: true,
+  explicitToJson: true,
+  anyMap: true,
+  checked: true,
 )
 class ApiResult<T> {
-  final String code;
   final bool success;
+
+  @JsonKey(includeIfNull: true, defaultValue: '')
   final String message;
+
   final T payload;
 
   const ApiResult({
-    required this.code,
     required this.success,
     required this.message,
     required this.payload,
   });
 
   // ✅ Named constructor instead of factory
-  const ApiResult.initial()
-    : code = '',
-      success = true,
-      message = '',
-      payload = null as T;
+  const ApiResult.initial() : success = true, message = '', payload = null as T;
 
-  ApiResult copyWith({
-    String? code,
-    bool? success,
-    String? message,
-    dynamic payload,
-  }) {
+  ApiResult copyWith({bool? success, String? message, T? payload}) {
     return ApiResult(
-      code: code ?? this.code,
       success: success ?? this.success,
       payload: payload ?? this.payload,
       message: message ?? this.message,

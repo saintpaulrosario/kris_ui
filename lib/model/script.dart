@@ -2,21 +2,29 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'content.dart';
 import 'idenity.dart';
+import 'word.dart';
 
 part 'script.g.dart';
 
 @JsonSerializable(
-  nullable: true,
-  includeIfNull: false,
+  dateTimeUtc: true,
+  includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
-class Script extends Identity {
-  final List<Content>? contents;
+class Script extends Word {
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identity>? text;
 
-  Script({required this.contents})
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identity>? contents;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<String>? types;
+
+  Script({required this.text, required this.contents, required this.types})
     : super(sku: '', version: 0, row: 0, ordinal: 0);
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);

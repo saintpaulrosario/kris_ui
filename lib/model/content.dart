@@ -5,22 +5,28 @@ import 'idenity.dart';
 part 'content.g.dart';
 
 @JsonSerializable(
-  nullable: true,
-  includeIfNull: false,
+  includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
 class Content extends Identity {
+  @JsonKey(disallowNullValue: false, defaultValue: '')
   final String? payload;
-  final String? type;
+
+  //@JsonKey(disallowNullValue: false, defaultValue: '')
+  final List<String>? types;
+
+  //@JsonKey(disallowNullValue: false, defaultValue: '')
   final Identity? word;
+
+  //@JsonKey(disallowNullValue: false, defaultValue: )
   final Identity? text;
 
   Content({
     required this.payload,
-    required this.type,
+    required this.types,
     required this.word,
     required this.text,
   }) : super(sku: '', version: 0, row: 0, ordinal: 0);
@@ -28,7 +34,7 @@ class Content extends Identity {
   factory Content.initial() {
     return Content(
       payload: "",
-      type: "",
+      types: [],
       word: Identity.initial(),
       text: Identity.initial(),
     );

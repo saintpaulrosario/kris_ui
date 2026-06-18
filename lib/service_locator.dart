@@ -22,9 +22,11 @@ void setupLocator() {
   //   () => DioClient(getIt<AuthInterceptor>()),
   // );
 
-  final dio = getIt<Dio>();
   final base_url_kris = 'http://192.168.12.232:8080';
   // APIs
+
+  getIt.registerLazySingleton<Dio>(() => Dio());
+  final dio = getIt<Dio>();
 
   getIt.registerLazySingleton<ScriptApi>(
     () => ScriptApi(dio, baseUrl: base_url_kris),
