@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:kris/data/api/script_api.dart';
 
 import 'data/service/script_service.dart';
+import 'logic/word/word_api.dart';
+import 'logic/word/word_service.dart';
 
 final getIt = GetIt.instance;
 void setupLocator() {
@@ -22,58 +24,21 @@ void setupLocator() {
   //   () => DioClient(getIt<AuthInterceptor>()),
   // );
 
-  final base_url_kris = 'http://192.168.12.232:8080';
+  final baseUrlKris = 'http://127.0.0.1:8080';
   // APIs
 
   getIt.registerLazySingleton<Dio>(() => Dio());
   final dio = getIt<Dio>();
 
   getIt.registerLazySingleton<ScriptApi>(
-    () => ScriptApi(dio, baseUrl: base_url_kris),
+    () => ScriptApi(dio, baseUrl: baseUrlKris),
   );
-  // getIt.registerLazySingleton<TopicApi>(
-  //   () => TopicApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<CommunityApi>(
-  //   () => CommunityApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<DiscussionApi>(
-  //   () => DiscussionApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<CommentApi>(
-  //   () => CommentApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<ImageApi>(
-  //   () => ImageApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<ProfileApi>(
-  //   () => ProfileApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<WordApi>(
-  //   () => WordApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<SoundApi>(
-  //   () => SoundApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<Api.ImageApi>(
-  //   () => Api.ImageApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // //getIt.registerLazySingleton<TranslationApi>(() => TranslationApi(dio,baseUrl: tenin_baseUrl));
-  // getIt.registerLazySingleton<LanguageApi>(
-  //   () => LanguageApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // //getIt.registerLazySingleton<TypeApi>(() => TypeApi(dio,baseUrl: tenin_baseUrl));
-  // getIt.registerLazySingleton<ScriptApi>(
-  //   () => ScriptApi(dio, baseUrl: tenin_baseUrl),
-  // );
-  // getIt.registerLazySingleton<DialectApi>(
-  //   () => DialectApi(dio, baseUrl: tenin_baseUrl),
-  // );
 
-  // getIt.registerLazySingleton<SenbaApi>(
-  //   () => SenbaApi(dio, baseUrl: senba_baseUrl),
-  // );
+  getIt.registerLazySingleton<WordApi>(
+    () => WordApi(dio, baseUrl: baseUrlKris),
+  );
 
   // // Services
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
+  getIt.registerLazySingleton<WordService>(() => WordService());
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kris/service_locator.dart';
 
-import 'presentation/home_page.dart';
+import 'presentation/page/home_page.dart';
 
 void main() {
   setupLocator();

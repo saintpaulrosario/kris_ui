@@ -31,11 +31,11 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
       await _scriptService.retrive().then((result) {
         result.fold(
           (error) => emit(state.copyWith(fetching: false, error: error)),
-          (scripts) {
+          (success) {
             // _scriptSubject.add(scripts);
             //Stream<List<Script>> resultStream = Stream.value(scripts);
             emit(
-              state.copyWith(fetching: false, success: true, scripts: scripts),
+              state.copyWith(fetching: false, success: true, scripts: success),
             );
           },
         );

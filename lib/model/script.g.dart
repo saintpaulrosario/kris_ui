@@ -26,7 +26,7 @@ Script _$ScriptFromJson(Map json) =>
               (v as List<dynamic>?)
                   ?.map(
                     (e) =>
-                        Identity.fromJson(Map<String, dynamic>.from(e as Map)),
+                        Content.fromJson(Map<String, dynamic>.from(e as Map)),
                   )
                   .toList() ??
               [],

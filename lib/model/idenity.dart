@@ -5,7 +5,6 @@ import 'audit.dart';
 part 'idenity.g.dart';
 
 @JsonSerializable(
-  dateTimeUtc: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
@@ -42,5 +41,6 @@ class Identity extends Audit {
   factory Identity.fromJson(Map<String, dynamic> json) =>
       _$IdentityFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$IdentityToJson(this);
 }

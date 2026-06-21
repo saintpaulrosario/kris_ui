@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 part 'audit.g.dart';
 
 @JsonSerializable(
-  nullable: true,
   includeIfNull: false,
   ignoreUnannotated: false,
   explicitToJson: true,

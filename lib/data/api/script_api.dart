@@ -1,5 +1,3 @@
-import 'dart:io' show HttpResponse;
-
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../model/script.dart';
@@ -11,6 +9,6 @@ part 'script_api.g.dart';
 abstract class ScriptApi {
   factory ScriptApi(Dio dio, {String baseUrl}) = _ScriptApi;
 
-  @GET("script")
+  @GET("/script")
   Future<HttpResponse<ApiResult<List<Script>>>> retrieveAll();
 }

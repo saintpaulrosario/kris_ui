@@ -7,19 +7,18 @@ import 'word.dart';
 part 'script.g.dart';
 
 @JsonSerializable(
-  dateTimeUtc: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
-class Script extends Word {
+class Script extends Identity {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identity>? text;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identity>? contents;
+  final List<Content>? contents;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<String>? types;
@@ -29,5 +28,6 @@ class Script extends Word {
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ScriptToJson(this);
 }
