@@ -31,6 +31,18 @@ class Word extends Identity {
     required this.images,
   });
 
+  factory Word.initial() {
+    return Word(
+      sku: '',
+      version: 0,
+      row: 0,
+      ordinal: 0,
+      texts: [],
+      contents: [],
+      images: [],
+    );
+  }
+
   factory Word.fromJson(Map<String, dynamic> json) => _$WordFromJson(json);
 
   @override

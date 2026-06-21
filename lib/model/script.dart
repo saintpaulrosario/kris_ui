@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'content.dart';
 import 'idenity.dart';
-import 'word.dart';
 
 part 'script.g.dart';
 

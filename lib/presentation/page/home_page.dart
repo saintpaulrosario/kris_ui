@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/screen/word_scree.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/screen/word_screen.dart';
+
+import '../../logic/image/bloc/image_bloc.dart';
+import '../../logic/script/bloc/script_bloc.dart';
+import '../../logic/word/bloc/word_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +18,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kris')),
-      body: WordScreen(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => WordBloc()),
+          BlocProvider(create: (context) => ImageBloc()),
+          BlocProvider(create: (context) => ScriptBloc()),
+        ],
+        child: WordScreen(),
+      ),
     );
   }
 }

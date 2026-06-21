@@ -13,14 +13,14 @@ part 'idenity.g.dart';
 )
 class Identity extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: '')
-  final String? sku;
+  final String sku;
 
-  final int? version;
+  final int version;
 
   @JsonKey(disallowNullValue: false, defaultValue: -1)
-  final int? row;
+  final int row;
 
-  final int? ordinal;
+  final int ordinal;
 
   Identity({
     required this.sku,

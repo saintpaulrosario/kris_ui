@@ -1,7 +1,8 @@
 part of 'word_bloc.dart';
 
 class WordState extends BaseState {
-  final List<Word>? words;
+  final List<Word> words;
+  final Word selection;
 
   WordState({
     required this.words,
@@ -9,6 +10,7 @@ class WordState extends BaseState {
     required super.success,
     required super.message,
     required super.error,
+    required this.selection,
   });
 
   factory WordState.initial() {
@@ -18,6 +20,7 @@ class WordState extends BaseState {
       success: false,
       message: '',
       error: ErrorResponse.initial(),
+      selection: Word.initial(),
     );
   }
 
@@ -29,6 +32,7 @@ class WordState extends BaseState {
     int? code,
     bool? fetching,
     List<Word>? words,
+    Word? selection,
   }) {
     return WordState(
       words: words ?? this.words,
@@ -36,6 +40,7 @@ class WordState extends BaseState {
       success: success ?? this.success,
       message: message ?? this.message,
       error: error ?? this.error,
+      selection: selection ?? this.selection,
     );
   }
 }

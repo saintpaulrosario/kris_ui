@@ -10,9 +10,9 @@ Identity _$IdentityFromJson(Map json) =>
     $checkedCreate('Identity', json, ($checkedConvert) {
       final val = Identity(
         sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-        version: $checkedConvert('version', (v) => (v as num?)?.toInt()),
+        version: $checkedConvert('version', (v) => (v as num).toInt()),
         row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
-        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt()),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
       );
       return val;
     });

@@ -10,9 +10,9 @@ Word _$WordFromJson(Map json) =>
     $checkedCreate('Word', json, ($checkedConvert) {
       final val = Word(
         sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-        version: $checkedConvert('version', (v) => (v as num?)?.toInt()),
+        version: $checkedConvert('version', (v) => (v as num).toInt()),
         row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
-        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt()),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
         texts: $checkedConvert(
           'texts',
           (v) =>

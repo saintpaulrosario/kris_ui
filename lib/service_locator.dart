@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:kris/data/api/script_api.dart';
 
 import 'data/service/script_service.dart';
+import 'logic/image/image_api.dart';
+import 'logic/image/image_service.dart';
 import 'logic/word/word_api.dart';
 import 'logic/word/word_service.dart';
 
@@ -38,7 +40,12 @@ void setupLocator() {
     () => WordApi(dio, baseUrl: baseUrlKris),
   );
 
+  getIt.registerLazySingleton<ImageApi>(
+    () => ImageApi(dio, baseUrl: baseUrlKris),
+  );
+
   // // Services
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
   getIt.registerLazySingleton<WordService>(() => WordService());
+  getIt.registerLazySingleton<ImageService>(() => ImageService());
 }
