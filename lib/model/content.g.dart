@@ -18,13 +18,13 @@ Content _$ContentFromJson(Map json) =>
           'word',
           (v) => v == null
               ? null
-              : Identity.fromJson(Map<String, dynamic>.from(v as Map)),
+              : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
         ),
         text: $checkedConvert(
           'text',
           (v) => v == null
               ? null
-              : Identity.fromJson(Map<String, dynamic>.from(v as Map)),
+              : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
         ),
       );
       return val;

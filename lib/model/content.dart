@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'idenity.dart';
+import 'identifier.dart';
 
 part 'content.g.dart';
 
@@ -11,7 +11,7 @@ part 'content.g.dart';
   anyMap: true,
   checked: true,
 )
-class Content extends Identity {
+class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String? payload;
 
@@ -19,10 +19,10 @@ class Content extends Identity {
   final List<String>? types;
 
   //@JsonKey(disallowNullValue: false, defaultValue: '')
-  final Identity? word;
+  final Identifier? word;
 
   //@JsonKey(disallowNullValue: false, defaultValue: )
-  final Identity? text;
+  final Identifier? text;
 
   Content({
     required this.payload,
@@ -35,8 +35,8 @@ class Content extends Identity {
     return Content(
       payload: "",
       types: [],
-      word: Identity.initial(),
-      text: Identity.initial(),
+      word: Identifier.initial(),
+      text: Identifier.initial(),
     );
   }
 

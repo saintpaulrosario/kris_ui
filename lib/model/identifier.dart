@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'audit.dart';
 
-part 'idenity.g.dart';
+part 'identifier.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -11,7 +11,7 @@ part 'idenity.g.dart';
   anyMap: true,
   checked: true,
 )
-class Identity extends Audit {
+class Identifier extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String sku;
 
@@ -22,7 +22,7 @@ class Identity extends Audit {
 
   final int ordinal;
 
-  Identity({
+  Identifier({
     required this.sku,
     required this.version,
     required this.row,
@@ -34,13 +34,13 @@ class Identity extends Audit {
          lastModifiedBy: '',
        );
 
-  factory Identity.initial() {
-    return Identity(sku: "", version: 0, row: -1, ordinal: -1);
+  factory Identifier.initial() {
+    return Identifier(sku: "", version: 0, row: -1, ordinal: -1);
   }
 
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+  factory Identifier.fromJson(Map<String, dynamic> json) =>
+      _$IdentifierFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$IdentityToJson(this);
+  Map<String, dynamic> toJson() => _$IdentifierToJson(this);
 }

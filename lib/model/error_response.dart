@@ -11,17 +11,12 @@ part 'error_response.g.dart';
   checked: true,
 )
 class ErrorResponse {
-  final String error;
+  final String? error;
   final String message;
-  final String remedy;
-  final String uri;
+  final String? remedy;
+  final String? uri;
 
-  ErrorResponse({
-    required this.error,
-    required this.message,
-    required this.remedy,
-    required this.uri,
-  });
+  ErrorResponse(this.message, {this.error, this.remedy, this.uri});
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$ErrorResponseFromJson(json);
@@ -29,6 +24,6 @@ class ErrorResponse {
   Map<String, dynamic> toJson() => _$ErrorResponseToJson(this);
 
   factory ErrorResponse.initial() {
-    return ErrorResponse(error: '', message: '', remedy: '', uri: '');
+    return ErrorResponse('', error: '', remedy: '', uri: '');
   }
 }

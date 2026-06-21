@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'idenity.dart';
+import 'identifier.dart';
 
 part 'word.g.dart';
 
@@ -11,15 +11,15 @@ part 'word.g.dart';
   anyMap: true,
   checked: true,
 )
-class Word extends Identity {
+class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identity> texts;
+  final List<Identifier> texts;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identity> contents;
+  final List<Identifier> contents;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identity> images;
+  final List<Identifier> images;
 
   Word({
     required super.sku,

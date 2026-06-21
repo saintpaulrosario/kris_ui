@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'identifier.dart';
 import 'instrument.dart';
 
-part 'image.g.dart';
+part 'sound.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -12,22 +12,22 @@ part 'image.g.dart';
   anyMap: true,
   checked: true,
 )
-class Image extends Instrument {
+class Sound extends Instrument {
   @JsonKey(defaultValue: [])
-  final List<Identifier> words;
+  final List<String> contents;
 
   @JsonKey(defaultValue: [])
-  final List<Identifier> sounds;
+  final List<Identifier> images;
 
-  Image({required this.words, required this.sounds})
+  Sound({required this.contents, required this.images})
     : super(payload: '', contentType: '', size: 0, description: '', tags: []);
 
-  factory Image.initial() {
-    return Image(words: [], sounds: []);
+  factory Sound.initial() {
+    return Sound(contents: [], images: []);
   }
 
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory Sound.fromJson(Map<String, dynamic> json) => _$SoundFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  Map<String, dynamic> toJson() => _$SoundToJson(this);
 }

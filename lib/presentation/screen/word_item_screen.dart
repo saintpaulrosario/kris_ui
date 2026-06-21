@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/word.dart';
+import '../widget/content_list_widget.dart';
 import '../widget/image_list_widget.dart';
 
 class WordItemScreen extends StatefulWidget {
@@ -31,14 +32,53 @@ class _WordItemScreenState extends State<WordItemScreen> {
         if (!state.success) {
           return const Text('Failed to retrieve word');
         }
-        return Row(
-          children: [
-            ImageListWidget(images: state.selection.images),
-            // sound widget
-            // text widget -> content widget
-            Text(widget.word.sku),
-            Text(widget.word.ordinal.toString()),
-          ],
+        return Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Text("Images"),
+                              //ImageListWidget(images: state.selection.images),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Text("Contents"),
+                              // ContentListWidget(
+                              //   contents: state.selection.contents,
+                              // ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(children: [Text("skues")]),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(children: [Text("sound")]),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

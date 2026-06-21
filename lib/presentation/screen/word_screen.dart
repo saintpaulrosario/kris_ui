@@ -39,22 +39,23 @@ class _WordScreenState extends State<WordScreen> {
         if (state.words.isEmpty) {
           return const Text('No words available');
         }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Flexible(
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return const Divider(height: 1.0);
-                },
-                itemCount: state.words.length,
-                itemBuilder: (context, index) {
-                  var word = state.words[index];
-                  return WordItemScreen(word: word);
-                },
-              ),
+        return SingleChildScrollView(
+          child: Card(
+            color: Colors.red,
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              clipBehavior: Clip.hardEdge,
+              separatorBuilder: (context, index) {
+                return const Divider(height: 1.0);
+              },
+              itemCount: state.words.length,
+              itemBuilder: (context, index) {
+                var word = state.words[index];
+                return WordItemScreen(word: word);
+              },
             ),
-          ],
+          ),
         );
       },
     );

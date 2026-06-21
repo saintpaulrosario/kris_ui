@@ -1,31 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../logic/image/bloc/image_bloc.dart';
 import '../../model/identifier.dart';
-import 'image_item_widget.dart';
 
-class ImageListWidget extends StatefulWidget {
-  final List<Identifier> images;
+class ContentListWidget extends StatefulWidget {
+  final List<Identifier> contents;
 
-  const ImageListWidget({super.key, required this.images});
+  const ContentListWidget({super.key, required this.contents});
 
   @override
-  State<ImageListWidget> createState() => _ImageListWidgetState();
+  State<ContentListWidget> createState() => _ImageListWidgetState();
 }
 
-class _ImageListWidgetState extends State<ImageListWidget> {
+class _ImageListWidgetState extends State<ContentListWidget> {
   @override
   void initState() {
     super.initState();
-    List<String> skus = widget.images.map((image) => image.sku).toList();
-    context.read<ImageBloc>().add(RetrieveImagesBySkusEvent(skus: skus));
+    //List<String> skus = widget.images.map((image) => image.sku).toList();
+    //context.read<ImageBloc>().add(RetrieveImagesBySkusEvent(skus: skus));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Expanded(
       child: BlocBuilder<ImageBloc, ImageState>(
         builder: (context, state) {
           if (state.fetching) {
@@ -58,8 +59,8 @@ class _ImageListWidgetState extends State<ImageListWidget> {
           }
 
           // todo get image  now
-          final image = state.images.first;
-          return ImageItemWidget(image: image);
+          final content = state.images.first;
+          return const Text("No content available");
         },
       ),
     );
