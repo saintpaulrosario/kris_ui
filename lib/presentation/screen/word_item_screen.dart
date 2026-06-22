@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/word.dart';
-import '../widget/content_list_widget.dart';
 import '../widget/image_list_widget.dart';
 import '../widget/word_text_list_wiget.dart';
 
@@ -73,7 +72,11 @@ class _WordItemScreenState extends State<WordItemScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8),
-                          Expanded(child: ImageListWidget(images: word.images)),
+                          Expanded(
+                            child: ImageListWidget(
+                              imagesIdentifiers: word.images,
+                            ),
+                          ),
                         ],
                       ),
                     ),

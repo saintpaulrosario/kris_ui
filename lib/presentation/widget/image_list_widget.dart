@@ -7,9 +7,9 @@ import '../../model/identifier.dart';
 import 'image_item_widget.dart';
 
 class ImageListWidget extends StatefulWidget {
-  final List<Identifier> images;
+  final List<Identifier> imagesIdentifiers;
 
-  const ImageListWidget({super.key, required this.images});
+  const ImageListWidget({super.key, required this.imagesIdentifiers});
 
   @override
   State<ImageListWidget> createState() => _ImageListWidgetState();
@@ -18,10 +18,10 @@ class ImageListWidget extends StatefulWidget {
 class _ImageListWidgetState extends State<ImageListWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.images.isEmpty) {
+    if (widget.imagesIdentifiers.isEmpty) {
       return const Text('No images available');
     }
-    final image = widget.images.first;
-    return ImageItemWidget(image: image);
+    final image = widget.imagesIdentifiers.first;
+    return ImageItemWidget(imageIdentifier: image);
   }
 }

@@ -28,12 +28,12 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
         (error) => emit(
           state.copyWith(fetching: false, success: false, failure: true),
         ),
-        (success) => emit(
+        (image) => emit(
           state.copyWith(
             fetching: false,
             success: true,
-            image: success,
-            failure: true,
+            image: image,
+            failure: false,
           ),
         ),
       );

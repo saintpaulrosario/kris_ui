@@ -8,9 +8,9 @@ import 'package:shimmer/shimmer.dart';
 import '../../logic/image/bloc/image_bloc.dart';
 
 class ImageItemWidget extends StatefulWidget {
-  final Identifier image;
+  final Identifier imageIdentifier;
 
-  const ImageItemWidget({super.key, required this.image});
+  const ImageItemWidget({super.key, required this.imageIdentifier});
 
   @override
   State<ImageItemWidget> createState() => _ImageItemWidgetState();
@@ -21,7 +21,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   void initState() {
     super.initState();
     context.read<ImageBloc>().add(
-      RetrieveImagesBySkuEvent(sku: '08a82050-6ad7-4ff3-bbb7-41927412a49d'),
+      RetrieveImagesBySkuEvent(sku: widget.imageIdentifier.sku),
     );
   }
 
@@ -29,7 +29,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<ImageBloc, ImageState>(
       builder: (context, state) {
-        if (state.fetching) {
+        if (state.fetching == true) {
           return Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -39,12 +39,16 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
               color: Colors.white,
             ),
           );
-        } else if (state.failure || !state.fetching) {
+        } else if (state.failure == true && state.fetching == false) {
           return FittedBox(
             fit: BoxFit.contain,
             child: const Icon(Icons.broken_image, size: 44, color: Colors.grey),
           );
-        } else {
+        } else if (state.fetching == false && state.failure == true) {
+          return Text('error fetching image');
+        }
+
+        if (state.success) {
           Uint8List imageBytes = Uint8List.fromList(
             base64Decode(state.image.payload),
           );
