@@ -1,11 +1,11 @@
-part of 'word_bloc.dart';
+part of 'content_bloc.dart';
 
-class WordState extends BaseState {
-  final List<Word> words;
-  final Word selection;
+class ContentState extends BaseState {
+  final List<Content> contents;
+  final Content selection;
 
-  WordState({
-    required this.words,
+  ContentState({
+    required this.contents,
     required super.fetching,
     required super.success,
     required super.message,
@@ -14,31 +14,31 @@ class WordState extends BaseState {
     required super.failure,
   });
 
-  factory WordState.initial() {
-    return WordState(
-      words: [],
+  factory ContentState.initial() {
+    return ContentState(
+      contents: [],
       fetching: false,
       success: false,
       message: '',
       error: ErrorResponse.initial(),
-      selection: Word.initial(),
+      selection: Content.initial(),
       failure: false,
     );
   }
 
   @override
-  WordState copyWith({
+  ContentState copyWith({
     ErrorResponse? error,
     bool? success,
     String? message,
     int? code,
     bool? fetching,
-    List<Word>? words,
-    Word? selection,
+    List<Content>? contents,
+    Content? selection,
     bool? failure,
   }) {
-    return WordState(
-      words: words ?? this.words,
+    return ContentState(
+      contents: contents ?? this.contents,
       fetching: fetching ?? this.fetching,
       success: success ?? this.success,
       message: message ?? this.message,

@@ -19,13 +19,41 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     });
 
     on<RetrieveWordsEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true));
+      emit(state.copyWith(fetching: true, success: false, failure: false));
       Either<ErrorResponse, List<Word>> results = await _wordService.retrive();
 
       results.fold(
-        (error) => emit(state.copyWith(fetching: false, success: false)),
-        (success) => emit(
-          state.copyWith(fetching: false, success: true, words: success),
+        (error) => emit(
+          state.copyWith(fetching: false, success: false, failure: true),
+        ),
+        (words) => emit(
+          state.copyWith(
+            fetching: false,
+            success: true,
+            words: words,
+            failure: false,
+          ),
+        ),
+      );
+    });
+
+    on<RetrieveWordBySkuEvent>((event, emit) async {
+      emit(state.copyWith(fetching: true, success: false, failure: false));
+      Either<ErrorResponse, Word> result = await _wordService.retrieveWordBySku(
+        event.sku,
+      );
+
+      result.fold(
+        (error) => emit(
+          state.copyWith(fetching: false, success: false, failure: true),
+        ),
+        (word) => emit(
+          state.copyWith(
+            fetching: false,
+            success: true,
+            selection: word,
+            failure: false,
+          ),
         ),
       );
     });

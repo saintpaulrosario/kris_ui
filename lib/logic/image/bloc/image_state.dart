@@ -9,6 +9,7 @@ class ImageState extends BaseState {
         success: false,
         message: '',
         error: ErrorResponse.initial(),
+        failure: false,
       );
 
   factory ImageState.initial() {
@@ -19,6 +20,7 @@ class ImageState extends BaseState {
   ImageState copyWith({
     ErrorResponse? error,
     bool? success,
+    bool? failure,
     String? message,
     int? code,
     bool? fetching,

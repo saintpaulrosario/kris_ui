@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:shimmer/shimmer.dart';
@@ -22,7 +21,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   void initState() {
     super.initState();
     context.read<ImageBloc>().add(
-      RetrieveImagesBySkuEvent(sku: "08a82050-6ad7-4ff3-bbb7-41927412a49d"),
+      RetrieveImagesBySkuEvent(sku: '08a82050-6ad7-4ff3-bbb7-41927412a49d'),
     );
   }
 
@@ -40,25 +39,23 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
               color: Colors.white,
             ),
           );
+        } else if (state.failure || !state.fetching) {
+          return FittedBox(
+            fit: BoxFit.contain,
+            child: const Icon(Icons.broken_image, size: 44, color: Colors.grey),
+          );
+        } else {
+          Uint8List imageBytes = Uint8List.fromList(
+            base64Decode(state.image.payload),
+          );
+          return Expanded(
+            child: Image.memory(
+              imageBytes,
+              height: double.infinity,
+              width: double.infinity,
+            ),
+          );
         }
-
-        // if (!state.success) {
-        //   return FittedBox(
-        //     fit: BoxFit.contain,
-        //     child: const Icon(Icons.broken_image, size: 44, color: Colors.grey),
-        //   );
-        // }
-
-        Uint8List imageBytes = Uint8List.fromList(
-          base64Decode(state.image.payload),
-        );
-        return Expanded(
-          child: Image.memory(
-            imageBytes,
-            height: double.infinity,
-            width: double.infinity,
-          ),
-        );
       },
     );
   }

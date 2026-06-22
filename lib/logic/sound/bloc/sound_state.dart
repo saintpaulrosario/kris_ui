@@ -9,6 +9,7 @@ class SoundState extends BaseState {
     required this.selections,
     required this.selection,
   }) : super(
+         failure: false,
          fetching: false,
          success: false,
          message: '',
@@ -32,6 +33,7 @@ class SoundState extends BaseState {
     List<Sound>? sounds,
     List<Sound>? selections,
     Sound? selection,
+    bool? failure,
   }) {
     return SoundState(
       sounds: sounds ?? this.sounds,

@@ -19,15 +19,22 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     });
 
     on<RetrieveImagesBySkuEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false));
+      emit(state.copyWith(fetching: true, success: false, failure: false));
       Either<ErrorResponse, Image> result = await _imageService.retrive(
         event.sku,
       );
 
       result.fold(
-        (error) => emit(state.copyWith(fetching: false, success: false)),
+        (error) => emit(
+          state.copyWith(fetching: false, success: false, failure: true),
+        ),
         (success) => emit(
-          state.copyWith(fetching: false, success: true, image: success),
+          state.copyWith(
+            fetching: false,
+            success: true,
+            image: success,
+            failure: true,
+          ),
         ),
       );
     });

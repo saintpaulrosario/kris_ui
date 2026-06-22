@@ -13,21 +13,33 @@ part 'content.g.dart';
 )
 class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
-  final String? payload;
+  final String payload;
 
-  //@JsonKey(disallowNullValue: false, defaultValue: '')
-  final List<String>? types;
+  @JsonKey(disallowNullValue: false)
+  final Identifier word;
 
-  //@JsonKey(disallowNullValue: false, defaultValue: '')
-  final Identifier? word;
+  @JsonKey(disallowNullValue: false)
+  final Identifier text;
 
-  //@JsonKey(disallowNullValue: false, defaultValue: )
-  final Identifier? text;
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> types;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> scripts;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> languages;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> sounds;
 
   Content({
     required this.payload,
     required this.types,
     required this.word,
+    required this.scripts,
+    required this.languages,
+    required this.sounds,
     required this.text,
   }) : super(sku: '', version: 0, row: 0, ordinal: 0);
 
@@ -37,6 +49,9 @@ class Content extends Identifier {
       types: [],
       word: Identifier.initial(),
       text: Identifier.initial(),
+      scripts: [],
+      languages: [],
+      sounds: [],
     );
   }
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'word_api.dart';
+part of 'content_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'word_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _WordApi implements WordApi {
-  _WordApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _ContentApi implements ContentApi {
+  _ContentApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -22,29 +22,31 @@ class _WordApi implements WordApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<List<Word>>>> retrieveAll() async {
+  Future<HttpResponse<ApiResult<List<Content>>>> retrieveAll() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Word>>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word',
+            '/content',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Word>> _value;
+    late ApiResult<List<Content>> _value;
     try {
-      _value = ApiResult<List<Word>>.fromJson(
+      _value = ApiResult<List<Content>>.fromJson(
         _result.data!,
         (json) => json is List<dynamic>
             ? json
-                  .map<Word>((i) => Word.fromJson(i as Map<String, dynamic>))
+                  .map<Content>(
+                    (i) => Content.fromJson(i as Map<String, dynamic>),
+                  )
                   .toList()
             : List.empty(),
       );
@@ -57,31 +59,38 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Word>>> retrieveWordBySku({
-    String? sku,
-    int? ordinal,
+  Future<HttpResponse<ApiResult<List<Content>>>> retrieveTextBySku(
+    String identifier, {
+    bool? sku,
+    bool? ordinal,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Word>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/identifier',
+            '/content/${identifier}/text',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Word> _value;
+    late ApiResult<List<Content>> _value;
     try {
-      _value = ApiResult<Word>.fromJson(
+      _value = ApiResult<List<Content>>.fromJson(
         _result.data!,
-        (json) => Word.fromJson(json as Map<String, dynamic>),
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Content>(
+                    (i) => Content.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
