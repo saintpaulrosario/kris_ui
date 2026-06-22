@@ -27,7 +27,11 @@ class Instrument extends Identifier {
     required this.size,
     required this.description,
     required this.tags,
-  }) : super(sku: '', version: 0, row: 0, ordinal: 0);
+    required super.sku,
+    required super.version,
+    required super.row,
+    required super.ordinal,
+  });
 
   factory Instrument.initial() {
     return Instrument(
@@ -36,6 +40,10 @@ class Instrument extends Identifier {
       size: 0,
       description: '',
       tags: [],
+      sku: '',
+      version: 0,
+      row: 0,
+      ordinal: 0,
     );
   }
 

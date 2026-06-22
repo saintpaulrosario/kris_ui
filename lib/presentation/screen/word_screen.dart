@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
-import 'word_item_screen.dart';
+import '../widget/word_list_widget.dart';
 
 class WordScreen extends StatefulWidget {
   const WordScreen({super.key});
@@ -21,17 +21,6 @@ class _WordScreenState extends State<WordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WordBloc, WordState>(
-      // listenWhen: (previous, current) {
-      //   //return current.fetching || previous.fetching;
-      //   return true;
-      // },
-      // listener: (BuildContext context, WordState state) {
-      //   context.read<WordBloc>().add(RetrieveWordsEvent());
-      // },
-      // buildWhen: (previous, current) {
-      //   //return previous.fetching || current.fetching;
-      //   return true;
-      // },
       builder: (context, state) {
         if (state.fetching) {
           return const CircularProgressIndicator();
@@ -39,25 +28,28 @@ class _WordScreenState extends State<WordScreen> {
         if (state.words.isEmpty) {
           return const Text('No words available');
         }
-        return SingleChildScrollView(
-          child: Card(
-            color: Colors.red,
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              clipBehavior: Clip.hardEdge,
-              separatorBuilder: (context, index) {
-                return const Divider(height: 1.0);
-              },
-              itemCount: state.words.length,
-              itemBuilder: (context, index) {
-                var word = state.words[index];
-                return WordItemScreen(word: word);
-              },
-            ),
-          ),
-        );
+        return WordListWidget(words: state.words);
       },
     );
   }
 }
+
+
+        // return SingleChildScrollView(
+        //   child: Card(
+        //     color: Colors.red,
+        //     child: ListView.separated(
+        //       shrinkWrap: true,
+        //       physics: NeverScrollableScrollPhysics(),
+        //       clipBehavior: Clip.hardEdge,
+        //       separatorBuilder: (context, index) {
+        //         return const Divider(height: 1.0);
+        //       },
+        //       itemCount: state.words.length,
+        //       itemBuilder: (context, index) {
+        //         var word = state.words[index];
+        //         return WordItemScreen(word: word);
+        //       },
+        //     ),
+        //   ),
+        // );

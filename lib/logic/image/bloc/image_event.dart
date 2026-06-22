@@ -2,10 +2,10 @@ part of 'image_bloc.dart';
 
 class ImageEvent {}
 
-class RetrieveImagesBySkusEvent extends ImageEvent {
-  final List<String> skus;
+class RetrieveImagesBySkuEvent extends ImageEvent {
+  final String sku;
 
-  RetrieveImagesBySkusEvent({required this.skus});
+  RetrieveImagesBySkuEvent({required this.sku});
 }
 
 class RetrieveImagesByOrdinalsEvent extends ImageEvent {

@@ -1,10 +1,9 @@
 part of 'image_bloc.dart';
 
 class ImageState extends BaseState {
-  final List<Image> images;
-  final Image selection;
+  final Image image;
 
-  ImageState({required this.images, required this.selection})
+  ImageState({required this.image})
     : super(
         fetching: false,
         success: false,
@@ -13,7 +12,7 @@ class ImageState extends BaseState {
       );
 
   factory ImageState.initial() {
-    return ImageState(images: [], selection: Image.initial());
+    return ImageState(image: Image.initial());
   }
 
   @override
@@ -23,12 +22,8 @@ class ImageState extends BaseState {
     String? message,
     int? code,
     bool? fetching,
-    List<Image>? images,
-    Image? selection,
+    Image? image,
   }) {
-    return ImageState(
-      images: images ?? this.images,
-      selection: selection ?? this.selection,
-    );
+    return ImageState(image: image ?? this.image);
   }
 }

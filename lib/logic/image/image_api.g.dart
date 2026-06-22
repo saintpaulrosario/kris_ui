@@ -22,33 +22,31 @@ class _ImageApi implements ImageApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<List<Image>>>> retrieve(
-    List<String> skus,
-  ) async {
+  Future<HttpResponse<ApiResult<Image>>> retrieve({
+    required String identifier,
+    required bool sku,
+    required bool ordinal,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'skus': skus};
+    final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Image>>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Image>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image',
+            '/image/${identifier}/identifier',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Image>> _value;
+    late ApiResult<Image> _value;
     try {
-      _value = ApiResult<List<Image>>.fromJson(
+      _value = ApiResult<Image>.fromJson(
         _result.data!,
-        (json) => json is List<dynamic>
-            ? json
-                  .map<Image>((i) => Image.fromJson(i as Map<String, dynamic>))
-                  .toList()
-            : List.empty(),
+        (json) => Image.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

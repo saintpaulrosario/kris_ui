@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:kris/logic/base_state.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/sound.dart';

@@ -15,14 +15,13 @@ class BaseState {
 
   factory BaseState.initial() {
     return BaseState(
-      success: false,
-      message: '',
+      success: true,
+      message: 'no data available',
       fetching: false,
       error: ErrorResponse.initial(),
     );
   }
 
-  @override
   BaseState copyWith({
     ErrorResponse? error,
     bool? success,

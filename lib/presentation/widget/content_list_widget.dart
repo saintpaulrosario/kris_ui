@@ -59,7 +59,7 @@ class _ImageListWidgetState extends State<ContentListWidget> {
           }
 
           // todo get image  now
-          final content = state.images.first;
+          // final content = state.images.first;
           return const Text("No content available");
         },
       ),

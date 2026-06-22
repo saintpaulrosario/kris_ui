@@ -17,12 +17,20 @@ Instrument _$InstrumentFromJson(Map json) =>
           'tags',
           (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
         ),
+        sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+        version: $checkedConvert('version', (v) => (v as num).toInt()),
+        row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
       );
       return val;
     });
 
 Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
     <String, dynamic>{
+      'sku': instance.sku,
+      'version': instance.version,
+      'row': instance.row,
+      'ordinal': instance.ordinal,
       'payload': instance.payload,
       'contentType': instance.contentType,
       'size': instance.size,

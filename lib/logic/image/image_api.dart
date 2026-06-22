@@ -9,8 +9,10 @@ part 'image_api.g.dart';
 abstract class ImageApi {
   factory ImageApi(Dio dio, {String baseUrl}) = _ImageApi;
 
-  @GET("/image")
-  Future<HttpResponse<ApiResult<List<Image>>>> retrieve(
-    @Query("skus", encoded: true) List<String> skus,
-  );
+  @GET("/image/{identifier}/identifier")
+  Future<HttpResponse<ApiResult<Image>>> retrieve({
+    @Path("identifier") required String identifier,
+    @Query("sku", encoded: true) required bool sku,
+    @Query("ordinal", encoded: true) required bool ordinal,
+  });
 }

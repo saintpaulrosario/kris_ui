@@ -8,6 +8,7 @@ import '../widget/image_list_widget.dart';
 
 class WordItemScreen extends StatefulWidget {
   final Word word;
+
   const WordItemScreen({super.key, required this.word});
 
   @override
@@ -26,57 +27,78 @@ class _WordItemScreenState extends State<WordItemScreen> {
     return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
         if (state.fetching) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (!state.success) {
-          return const Text('Failed to retrieve word');
+          return const Center(child: Text('Failed to retrieve word'));
         }
+
         return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: SizedBox(
+            height: 500, // Give Row children a bounded height
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: ImageListWidget(images: state.selection.images),
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          "Contents",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
                         Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Text("Images"),
-                              //ImageListWidget(images: state.selection.images),
-                            ],
+                          child: ContentListWidget(
+                            contents: state.selection.contents,
                           ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Text("Contents"),
-                              // ContentListWidget(
-                              //   contents: state.selection.contents,
-                              // ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(children: [Text("skues")]),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(children: [Text("sound")]),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  const Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Skues",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  const Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sound",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
