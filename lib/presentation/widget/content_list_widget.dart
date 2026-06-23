@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../model/identifier.dart';
 
 class ContentListWidget extends StatefulWidget {
-  final List<Identifier> contents;
+  final List<Identifier> contentsIdentifiers;
 
-  const ContentListWidget({super.key, required this.contents});
+  const ContentListWidget({super.key, required this.contentsIdentifiers});
 
   @override
   State<ContentListWidget> createState() => _ImageListWidgetState();
@@ -22,13 +22,14 @@ class _ImageListWidgetState extends State<ContentListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(),
-      itemCount: widget.contents.length,
-      itemBuilder: (context, index) {
-        final content = widget.contents[index];
-        return Text(content.sku);
-      },
+    //return Text(widget.contentsIdentifiers.first.sku);
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: widget.contentsIdentifiers
+            .map((content) => ListTile(title: Text(content.sku)))
+            .toList(),
+      ),
     );
   }
 }

@@ -14,7 +14,7 @@ class WordTextListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Card(
-        color: Colors.red,
+        color: Colors.green,
         child: ListView.separated(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -25,7 +25,10 @@ class WordTextListWidget extends StatelessWidget {
           itemCount: texts.length,
           itemBuilder: (context, index) {
             var text = texts[index];
-            return Card(child: WordTextItemWidget(textIdentifier: text));
+            return Card(
+              color: Colors.yellow,
+              child: WordTextItemWidget(textIdentifier: text),
+            );
           },
         ),
       ),

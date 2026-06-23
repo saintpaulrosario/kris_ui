@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/model/word_text.dart';
+import 'package:kris/presentation/widget/content_list_widget.dart';
 
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
@@ -34,14 +35,15 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         // if (!state.success) {
         //   return const Center(child: Text('Failed to load text content.'));
         // }
+
         return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: state.text.contents.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
-            final content = state.text.contents[index];
-            return Text(content.sku);
+            final contentsIdentifiers = state.text.contents;
+            return ContentListWidget(contentsIdentifiers: contentsIdentifiers);
           },
         );
       },

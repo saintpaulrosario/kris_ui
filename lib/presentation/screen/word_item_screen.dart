@@ -35,9 +35,10 @@ class _WordItemScreenState extends State<WordItemScreen> {
           final word = state.selection;
           // maybe iterate over text?
           return Card(
+            color: Colors.blue,
             margin: const EdgeInsets.all(8),
             child: SizedBox(
-              height: 150, // important: bounded height
+              height: 350, // important: bounded height
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Row(
@@ -61,7 +62,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
                       ),
                     ),
 
-                    /// Images belong to a word
+                    // Images belong to a word
                     Expanded(
                       flex: 2,
                       child: Column(

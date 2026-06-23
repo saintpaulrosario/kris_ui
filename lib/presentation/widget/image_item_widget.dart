@@ -54,7 +54,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
         Uint8List imageBytes = Uint8List.fromList(
           base64Decode(state.image.payload),
         );
-        return Expanded(
+        return Flexible(
           child: Image.memory(
             imageBytes,
             height: double.infinity,
