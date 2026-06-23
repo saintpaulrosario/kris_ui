@@ -16,4 +16,11 @@ abstract class WordTextApi {
     @Query("sku", encoded: true) bool sku,
     @Query("ordinal", encoded: true) bool ordinal,
   );
+
+  @GET("/text/{identifier}/word")
+  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordSku(
+    @Path("identifier") String identifier,
+    @Query("sku", encoded: true) bool sku,
+    @Query("ordinal", encoded: true) bool ordinal,
+  );
 }

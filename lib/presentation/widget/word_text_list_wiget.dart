@@ -12,26 +12,35 @@ class WordTextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        color: Colors.green,
-        child: ListView.separated(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          clipBehavior: Clip.hardEdge,
-          separatorBuilder: (context, index) {
-            return const Divider(height: 1.0);
-          },
-          itemCount: texts.length,
-          itemBuilder: (context, index) {
-            var text = texts[index];
-            return Card(
-              color: Colors.yellow,
-              child: WordTextItemWidget(textIdentifier: text),
-            );
-          },
-        ),
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: texts
+            .map((text) => WordTextItemWidget(textIdentifier: text))
+            .toList(),
       ),
     );
+
+    // return SingleChildScrollView(
+    //   child: Card(
+    //     color: Colors.green,
+    //     child: ListView.separated(
+    //       shrinkWrap: true,
+    //       physics: NeverScrollableScrollPhysics(),
+    //       clipBehavior: Clip.hardEdge,
+    //       separatorBuilder: (context, index) {
+    //         return const Divider(height: 1.0);
+    //       },
+    //       itemCount: texts.length,
+    //       itemBuilder: (context, index) {
+    //         var text = texts[index];
+    //         return Card(
+    //           color: Colors.yellow,
+    //           child: WordTextItemWidget(textIdentifier: text),
+    //         );
+    //       },
+    //     ),
+    //   ),
+    // );
   }
 }

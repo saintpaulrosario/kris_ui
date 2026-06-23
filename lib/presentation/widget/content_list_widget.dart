@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/identifier.dart';
+import '../../model/content.dart';
 
 class ContentListWidget extends StatefulWidget {
-  final List<Identifier> contentsIdentifiers;
+  final List<Content> contents;
 
-  const ContentListWidget({super.key, required this.contentsIdentifiers});
+  const ContentListWidget({super.key, required this.contents});
 
   @override
   State<ContentListWidget> createState() => _ImageListWidgetState();
@@ -26,8 +25,8 @@ class _ImageListWidgetState extends State<ContentListWidget> {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: widget.contentsIdentifiers
-            .map((content) => ListTile(title: Text(content.sku)))
+        children: widget.contents
+            .map((content) => ListTile(title: Text(content.payload)))
             .toList(),
       ),
     );

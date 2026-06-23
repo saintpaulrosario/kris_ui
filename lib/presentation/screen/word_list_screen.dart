@@ -29,25 +29,13 @@ class _WordListScreenState extends State<WordListScreen> {
         } else if (state.failure == true) {
           return const Text('Failed to retrieve words');
         } else if (state.success == true) {
-          List<Word> words = state.words;
-
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Card(
-              color: Colors.red,
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                clipBehavior: Clip.hardEdge,
-                separatorBuilder: (context, index) {
-                  return const Divider(height: 1.0);
-                },
-                itemCount: words.length,
-                itemBuilder: (context, index) {
-                  var word = words[index];
-                  return WordItemScreen(word: word);
-                },
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: state.words
+                  .map((word) => ListTile(title: WordItemScreen(word: word)))
+                  .toList(),
             ),
           );
         } else {

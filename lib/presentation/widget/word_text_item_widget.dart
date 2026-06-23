@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/model/word_text.dart';
+import 'package:kris/logic/content/bloc/content_bloc.dart';
 import 'package:kris/presentation/widget/content_list_widget.dart';
 
-import '../../logic/text/bloc/word_text_bloc.dart';
-import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/identifier.dart';
 
 class WordTextItemWidget extends StatefulWidget {
@@ -20,14 +18,14 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<WordTextBloc>().add(
-      WordTextEventRetrieveBySku(sku: widget.textIdentifier.sku),
+    context.read<ContentBloc>().add(
+      ContentEventRetriveByTextSku(widget.textIdentifier.sku),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WordTextBloc, WordTextState>(
+    return BlocBuilder<ContentBloc, ContentState>(
       builder: (context, state) {
         if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
@@ -39,11 +37,11 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.text.contents.length,
+          itemCount: state.contents.length,
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
-            final contentsIdentifiers = state.text.contents;
-            return ContentListWidget(contentsIdentifiers: contentsIdentifiers);
+            //final contentsIdentifiers = state.text.contents;
+            return ContentListWidget(contents: state.contents);
           },
         );
       },

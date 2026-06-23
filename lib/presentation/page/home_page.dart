@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
+import '../../logic/content/bloc/content_bloc.dart';
 import '../../logic/image/bloc/image_bloc.dart';
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/sound/bloc/sound_bloc.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
           BlocProvider(create: (context) => SoundBloc()),
           BlocProvider(create: (context) => ScriptBloc()),
           BlocProvider(create: (context) => WordTextBloc()),
+          BlocProvider(create: (context) => ContentBloc()),
         ],
         child: WordListScreen(),
       ),

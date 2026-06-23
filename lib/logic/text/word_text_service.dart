@@ -33,4 +33,28 @@ class WordTextService {
       return left(ErrorResponse(e.toString()));
     }
   }
+
+  Future<Either<ErrorResponse, List<WordText>>> retriveByWordSku(
+    String identifier,
+  ) async {
+    try {
+      final HttpResponse<ApiResult<List<WordText>>> httpResponse =
+          await _wordTextApi.retriveByWordSku(identifier, true, false);
+
+      ApiResult<List<WordText>> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final List<WordText> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
 }

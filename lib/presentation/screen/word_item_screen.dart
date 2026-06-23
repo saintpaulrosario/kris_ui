@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/word/bloc/word_bloc.dart';
+import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/word.dart';
 import '../widget/image_list_widget.dart';
 import '../widget/word_text_list_wiget.dart';
@@ -20,75 +20,65 @@ class _WordItemScreenState extends State<WordItemScreen> {
   void initState() {
     super.initState();
 
-    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
+    context.read<WordTextBloc>().add(
+      WordTextEventRetrieveByWordSku(sku: widget.word.sku),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WordBloc, WordState>(
+    return BlocBuilder<WordTextBloc, WordTextState>(
       builder: (context, state) {
-        if (state.fetching == true) {
+        if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state.failure == true) {
-          return const Center(child: Text('Failed to retrieve word'));
-        } else if (state.success == true && state.failure == false) {
-          final word = state.selection;
-          // maybe iterate over text?
-          return Card(
-            color: Colors.blue,
-            margin: const EdgeInsets.all(8),
-            child: SizedBox(
-              height: 350, // important: bounded height
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// texts
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Text',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 8),
-                          Expanded(
-                            child: WordTextListWidget(texts: word.texts),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Images belong to a word
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Images',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 8),
-                          Expanded(
-                            child: ImageListWidget(
-                              imagesIdentifiers: word.images,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        } else {
-          return const Center(child: Text('No word available'));
         }
+
+        if (state.failure) {
+          return const Center(child: Text('Failed to retrieve word'));
+        }
+
+        return Card(
+          margin: const EdgeInsets.all(8),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  flex: 10,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Text',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      WordTextListWidget(texts: state.texts),
+                    ],
+                  ),
+                ),
+
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Images',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      ImageListWidget(imagesIdentifiers: widget.word.images),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }
