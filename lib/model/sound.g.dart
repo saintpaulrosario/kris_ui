@@ -33,9 +33,9 @@ Sound _$SoundFromJson(Map json) => $checkedCreate('Sound', json, (
       (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     ),
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-    version: $checkedConvert('version', (v) => (v as num).toInt()),
+    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? -1),
     row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? -1),
   );
   return val;
 });

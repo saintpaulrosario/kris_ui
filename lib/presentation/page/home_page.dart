@@ -5,6 +5,7 @@ import 'package:kris/presentation/screen/word_list_screen.dart';
 import '../../logic/image/bloc/image_bloc.dart';
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/sound/bloc/sound_bloc.dart';
+import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
           BlocProvider(create: (context) => ImageBloc()),
           BlocProvider(create: (context) => SoundBloc()),
           BlocProvider(create: (context) => ScriptBloc()),
+          BlocProvider(create: (context) => WordTextBloc()),
         ],
         child: WordListScreen(),
       ),

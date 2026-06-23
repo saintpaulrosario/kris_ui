@@ -15,11 +15,13 @@ class Identifier extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String sku;
 
+  @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int version;
 
   @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int row;
 
+  @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int ordinal;
 
   Identifier({

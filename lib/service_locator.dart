@@ -7,6 +7,8 @@ import 'logic/content/content_api.dart';
 import 'logic/content/content_service.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
+import 'logic/text/word_text_api.dart';
+import 'logic/text/word_text_service.dart';
 import 'logic/word/word_api.dart';
 import 'logic/word/word_service.dart';
 import 'logic/sound/sound_api.dart';
@@ -55,10 +57,16 @@ void setupLocator() {
   getIt.registerLazySingleton<ContentApi>(
     () => ContentApi(dio, baseUrl: baseUrlKris),
   );
+
+  getIt.registerLazySingleton<WordTextApi>(
+    () => WordTextApi(dio, baseUrl: baseUrlKris),
+  );
+
   // // Services
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
   getIt.registerLazySingleton<WordService>(() => WordService());
   getIt.registerLazySingleton<ImageService>(() => ImageService());
   getIt.registerLazySingleton<SoundService>(() => SoundService());
   getIt.registerLazySingleton<ContentService>(() => ContentService());
+  getIt.registerLazySingleton<WordTextService>(() => WordTextService());
 }

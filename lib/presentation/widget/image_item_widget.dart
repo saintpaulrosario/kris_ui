@@ -39,27 +39,28 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
               color: Colors.white,
             ),
           );
-        } else if (state.failure == true && state.fetching == false) {
+        } else if (state.failure == true &&
+            state.fetching == false &&
+            state.success == false) {
           return FittedBox(
             fit: BoxFit.contain,
             child: const Icon(Icons.broken_image, size: 44, color: Colors.grey),
           );
-        } else if (state.fetching == false && state.failure == true) {
+        } else if (state.fetching == false &&
+            state.failure == true &&
+            state.success == false) {
           return Text('error fetching image');
         }
-
-        if (state.success) {
-          Uint8List imageBytes = Uint8List.fromList(
-            base64Decode(state.image.payload),
-          );
-          return Expanded(
-            child: Image.memory(
-              imageBytes,
-              height: double.infinity,
-              width: double.infinity,
-            ),
-          );
-        }
+        Uint8List imageBytes = Uint8List.fromList(
+          base64Decode(state.image.payload),
+        );
+        return Expanded(
+          child: Image.memory(
+            imageBytes,
+            height: double.infinity,
+            width: double.infinity,
+          ),
+        );
       },
     );
   }
