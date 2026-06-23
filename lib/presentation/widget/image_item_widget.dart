@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../logic/image/bloc/image_bloc.dart';
 
 class ImageItemWidget extends StatefulWidget {
@@ -20,6 +21,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<ImageBloc>().add(
       RetrieveImagesBySkuEvent(sku: widget.imageIdentifier.sku),
     );
@@ -29,28 +31,37 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<ImageBloc, ImageState>(
       builder: (context, state) {
-        if (state.fetching == true) {
+        if (state.fetching) {
           return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
             child: Container(
               width: double.infinity,
-              height: double.infinity,
+              height: 300,
               color: Colors.white,
             ),
           );
         }
-        if (state.failure == true) {
-          return FittedBox(
-            fit: BoxFit.contain,
-            child: const Icon(Icons.broken_image, size: 44, color: Colors.grey),
+
+        if (state.failure) {
+          return const Center(
+            child: Icon(Icons.broken_image, size: 44, color: Colors.grey),
           );
         }
-        Uint8List imageBytes = Uint8List.fromList(
+
+        if (state.image.payload.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        final Uint8List imageBytes = Uint8List.fromList(
           base64Decode(state.image.payload),
         );
-        return Flexible(
-          child: Image.memory(imageBytes, height: 30, width: double.infinity),
+
+        return InteractiveViewer(
+          minScale: 0.5,
+          maxScale: 5.0,
+          panEnabled: true,
+          child: Image.memory(imageBytes, fit: BoxFit.contain),
         );
       },
     );

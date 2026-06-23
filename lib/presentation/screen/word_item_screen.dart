@@ -70,7 +70,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
                         'Images',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      const SizedBox(height: 8),
+                      // LineDivider(),
                       ImageListWidget(imagesIdentifiers: widget.word.images),
                     ],
                   ),
