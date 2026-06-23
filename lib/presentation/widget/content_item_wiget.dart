@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kris/presentation/widget/sound_list_wiget.dart';
 
 import '../../model/content.dart';
 
@@ -24,7 +25,7 @@ class ContentItemWidget extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [Text('sound')],
+              children: [SoundListWidget(sounds: content.sounds)],
             ),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/sound/bloc/sound_bloc.dart';
 import 'package:kris/model/identifier.dart';
 
+import '../../model/sound.dart';
 import 'sound_item_wiget.dart';
 
 class SoundListWidget extends StatefulWidget {
@@ -32,23 +33,24 @@ class _SoundListWidgetState extends State<SoundListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.sounds.isEmpty) {
-      return const Text("No sound");
-    }
-    return BlocBuilder<SoundBloc, SoundState>(
-      builder: (context, state) {
-        if (state.fetching) {
-          return const CircularProgressIndicator();
-        }
+    // if (widget.sounds.isEmpty) {
+    //   return const Text("No sound");
+    // }
 
-        if (state.error.message.isNotEmpty) {
-          return Text(state.error.message);
-        }
+    return SoundItemWidget(sound: Sound.initial());
+    // return BlocBuilder<SoundBloc, SoundState>(
+    //   builder: (context, state) {
+    //     if (state.fetching) {
+    //       return const CircularProgressIndicator();
+    //     }
 
-        var sound = state.sounds.first;
+    //     if (state.error.message.isNotEmpty) {
+    //       return Text(state.error.message);
+    //     }
 
-        return SoundItemWidget(sound: sound);
-      },
-    );
+    //     var sound = state.sounds.first;
+
+    //     return SoundItemWidget(sound: sound);
+    //   },
   }
 }
