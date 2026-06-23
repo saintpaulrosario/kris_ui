@@ -50,11 +50,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Text',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
+                      Text(widget.word.sku),
                       WordTextListWidget(texts: state.texts),
                     ],
                   ),
