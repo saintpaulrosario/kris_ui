@@ -29,14 +29,9 @@ class _WordItemScreenState extends State<WordItemScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WordTextBloc, WordTextState>(
       builder: (context, state) {
-        if (state.fetching) {
+        if (state.fetching == true) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        if (state.failure) {
-          return const Center(child: Text('Failed to retrieve word'));
-        }
-
         return Card(
           margin: const EdgeInsets.all(8),
           child: Padding(

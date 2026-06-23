@@ -24,23 +24,19 @@ class _WordListScreenState extends State<WordListScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
-        if (state.fetching == true) {
+        if (state.fetching) {
           return const CircularProgressIndicator();
-        } else if (state.failure == true) {
-          return const Text('Failed to retrieve words');
-        } else if (state.success == true) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: state.words
-                  .map((word) => ListTile(title: WordItemScreen(word: word)))
-                  .toList(),
-            ),
-          );
-        } else {
-          return const Text('No words available');
         }
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: state.words
+                .map((word) => ListTile(title: WordItemScreen(word: word)))
+                .toList(),
+          ),
+        );
       },
     );
   }

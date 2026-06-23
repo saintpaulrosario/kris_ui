@@ -30,20 +30,11 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
         }
-        // if (!state.success) {
-        //   return const Center(child: Text('Failed to load text content.'));
-        // }
+        if (!state.success) {
+          return const Center(child: Text('Failed to load text content.'));
+        }
 
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.contents.length,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (context, index) {
-            //final contentsIdentifiers = state.text.contents;
-            return ContentListWidget(contents: state.contents);
-          },
-        );
+        return ContentListWidget(contents: state.contents);
       },
     );
   }

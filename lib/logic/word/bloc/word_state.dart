@@ -18,7 +18,7 @@ class WordState extends BaseState {
     return WordState(
       words: [],
       fetching: false,
-      success: false,
+      success: true,
       message: '',
       error: ErrorResponse.initial(),
       selection: Word.initial(),

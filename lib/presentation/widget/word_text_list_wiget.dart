@@ -6,17 +6,20 @@ import '../screen/word_item_screen.dart';
 import 'word_text_item_widget.dart';
 
 class WordTextListWidget extends StatelessWidget {
-  final List<Identifier> texts;
+  final List<Identifier> textsIdentifiers;
 
-  const WordTextListWidget({super.key, required this.texts});
+  const WordTextListWidget({super.key, required this.textsIdentifiers});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: texts
-            .map((text) => WordTextItemWidget(textIdentifier: text))
+        children: textsIdentifiers
+            .map(
+              (textIdentifier) =>
+                  WordTextItemWidget(textIdentifier: textIdentifier),
+            )
             .toList(),
       ),
     );
