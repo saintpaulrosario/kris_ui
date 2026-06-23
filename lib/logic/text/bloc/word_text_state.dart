@@ -6,7 +6,6 @@ class WordTextState extends BaseState {
 
   WordTextState({required this.texts, required this.selection})
     : super(
-        failure: false,
         fetching: false,
         success: false,
         message: '',

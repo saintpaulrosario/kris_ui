@@ -8,37 +8,42 @@ class SoundState extends BaseState {
     required this.sounds,
     required this.selections,
     required this.selection,
-  }) : super(
-         failure: false,
-         fetching: false,
-         success: false,
-         message: '',
-         error: ErrorResponse.initial(),
-       );
+    required super.fetching,
+    required super.success,
+    required super.message,
+    required super.error,
+  });
 
   factory SoundState.initial() {
     return SoundState(
       sounds: [],
       selections: [],
       selection: Sound.fromJson({}),
+      fetching: false,
+      success: false,
+      message: '',
+      error: ErrorResponse.initial(),
     );
   }
 
+  @override
   SoundState copyWith({
     ErrorResponse? error,
     bool? success,
     String? message,
-    int? code,
     bool? fetching,
     List<Sound>? sounds,
     List<Sound>? selections,
     Sound? selection,
-    bool? failure,
   }) {
     return SoundState(
       sounds: sounds ?? this.sounds,
       selections: selections ?? this.selections,
       selection: selection ?? this.selection,
+      fetching: fetching ?? this.fetching,
+      success: success ?? this.success,
+      message: message ?? this.message,
+      error: error ?? this.error,
     );
   }
 }

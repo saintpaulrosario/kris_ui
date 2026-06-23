@@ -43,14 +43,10 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
           );
         }
 
-        if (state.failure) {
+        if (!state.success) {
           return const Center(
             child: Icon(Icons.broken_image, size: 44, color: Colors.grey),
           );
-        }
-
-        if (state.image.payload.isEmpty) {
-          return const SizedBox.shrink();
         }
 
         final Uint8List imageBytes = Uint8List.fromList(

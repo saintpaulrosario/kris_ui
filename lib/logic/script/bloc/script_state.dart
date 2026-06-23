@@ -6,7 +6,6 @@ class ScriptState extends BaseState {
   final List<Script>? scripts;
 
   ScriptState({
-    required super.failure,
     required super.fetching,
     required super.success,
     required super.message,
@@ -20,7 +19,6 @@ class ScriptState extends BaseState {
       message: '',
       fetching: false,
       error: ErrorResponse.initial(),
-      failure: false,
       scripts: [],
     );
   }
@@ -30,9 +28,7 @@ class ScriptState extends BaseState {
     ErrorResponse? error,
     bool? success,
     String? message,
-    int? code,
     bool? fetching,
-    bool? failure,
     List<Script>? scripts,
   }) {
     return ScriptState(
@@ -40,7 +36,6 @@ class ScriptState extends BaseState {
       fetching: fetching ?? this.fetching,
       success: success ?? this.success,
       message: message ?? this.message,
-      failure: failure ?? this.failure,
       scripts: scripts ?? this.scripts,
     );
   }

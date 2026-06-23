@@ -11,7 +11,6 @@ class ContentState extends BaseState {
     required super.message,
     required super.error,
     required this.selection,
-    required super.failure,
   });
 
   factory ContentState.initial() {
@@ -22,7 +21,6 @@ class ContentState extends BaseState {
       message: '',
       error: ErrorResponse.initial(),
       selection: Content.initial(),
-      failure: false,
     );
   }
 
@@ -44,7 +42,6 @@ class ContentState extends BaseState {
       message: message ?? this.message,
       error: error ?? this.error,
       selection: selection ?? this.selection,
-      failure: failure ?? this.failure,
     );
   }
 }

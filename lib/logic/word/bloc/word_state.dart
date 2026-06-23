@@ -11,18 +11,16 @@ class WordState extends BaseState {
     required super.message,
     required super.error,
     required this.selection,
-    required super.failure,
   });
 
   factory WordState.initial() {
     return WordState(
       words: [],
       fetching: false,
-      success: true,
+      success: false,
       message: '',
       error: ErrorResponse.initial(),
       selection: Word.initial(),
-      failure: false,
     );
   }
 
@@ -31,7 +29,6 @@ class WordState extends BaseState {
     ErrorResponse? error,
     bool? success,
     String? message,
-    int? code,
     bool? fetching,
     List<Word>? words,
     Word? selection,
@@ -44,7 +41,6 @@ class WordState extends BaseState {
       message: message ?? this.message,
       error: error ?? this.error,
       selection: selection ?? this.selection,
-      failure: failure ?? this.failure,
     );
   }
 }
