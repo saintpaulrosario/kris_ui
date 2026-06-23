@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../model/content.dart';
+import 'content_item_wiget.dart';
 
 class ContentListWidget extends StatefulWidget {
   final List<Content> contents;
@@ -26,7 +27,7 @@ class _ImageListWidgetState extends State<ContentListWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: widget.contents
-            .map((content) => ListTile(title: Text(content.payload)))
+            .map((content) => ContentItemWidget(content: content))
             .toList(),
       ),
     );
