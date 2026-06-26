@@ -48,15 +48,11 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
       'word',
       (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
-    scripts: $checkedConvert(
-      'scripts',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
+    script: $checkedConvert(
+      'script',
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     types: $checkedConvert(
       'types',
@@ -78,7 +74,7 @@ Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
   'row': instance.row,
   'ordinal': instance.ordinal,
   'word': instance.word.toJson(),
-  'scripts': instance.scripts.map((e) => e.toJson()).toList(),
+  'script': instance.script?.toJson(),
   'languages': instance.languages.map((e) => e.toJson()).toList(),
   'dialects': instance.dialects.map((e) => e.toJson()).toList(),
   'types': instance.types.map((e) => e.toJson()).toList(),

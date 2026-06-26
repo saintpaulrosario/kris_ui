@@ -14,8 +14,8 @@ part 'word_text.g.dart';
 class WordText extends Identifier {
   final Identifier word;
 
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> scripts;
+  @JsonKey(disallowNullValue: false, defaultValue: null)
+  final Identifier? script;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> languages;
@@ -38,7 +38,7 @@ class WordText extends Identifier {
     required this.contents,
     required this.languages,
     required this.word,
-    required this.scripts,
+    required this.script,
     required this.types,
   });
 
@@ -52,7 +52,7 @@ class WordText extends Identifier {
       contents: [],
       languages: [],
       word: Identifier.initial(),
-      scripts: [],
+      script: Identifier.initial(),
       types: [],
     );
   }

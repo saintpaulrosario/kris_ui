@@ -4,11 +4,12 @@ import 'package:kris/logic/content/bloc/content_bloc.dart';
 import 'package:kris/presentation/widget/content_list_widget.dart';
 
 import '../../model/identifier.dart';
+import '../../model/word_text.dart';
 
 class WordTextItemWidget extends StatefulWidget {
-  final Identifier textIdentifier;
+  final WordText text;
 
-  const WordTextItemWidget({super.key, required this.textIdentifier});
+  const WordTextItemWidget({super.key, required this.text});
 
   @override
   State<WordTextItemWidget> createState() => _WordTextItemWidgetState();
@@ -19,7 +20,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   void initState() {
     super.initState();
     context.read<ContentBloc>().add(
-      ContentEventRetriveByTextSku(widget.textIdentifier.sku),
+      ContentEventRetriveByTextSku(widget.text.sku),
     );
   }
 

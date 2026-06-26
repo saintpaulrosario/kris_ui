@@ -15,24 +15,20 @@ abstract class WordTextApi {
   Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
     @Path("identifier") String identifier,
     @Query("sku", encoded: true) bool sku,
-  );
-
-  @GET("/text/{identifier}")
-  Future<HttpResponse<ApiResult<WordText>>> retrieveByOrdinal(
-    @Path("identifier") int identifier,
     @Query("ordinal", encoded: true) bool ordinal,
   );
 
-  @GET("/text/{identifier}/word")
+  @GET("/text/word/{identifier}")
   Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordSku(
     @Path("identifier") String identifier, {
     @Query("sku", encoded: true) required bool sku,
     @Query("ordinal", encoded: true) required bool ordinal,
   });
 
-  @GET("/text/{identifier}/word")
-  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordIdentifier(
-    @Path("identifier") int identifier, {
+  @GET("/text/{textIdentifier}/word{wordIdentifier}")
+  Future<HttpResponse<ApiResult<WordText>>> retriveByTextAndWordIdentifier(
+    @Path("textIdentifier") String textIdentifier,
+    @Path("wordIdentifier") String wordIdentifier, {
     @Query("sku", encoded: true) required bool sku,
     @Query("ordinal", encoded: true) required bool ordinal,
   });

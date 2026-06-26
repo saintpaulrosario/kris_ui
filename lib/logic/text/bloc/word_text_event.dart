@@ -8,8 +8,18 @@ class WordTextEventRetrieveBySku extends WordTextEvent {
   WordTextEventRetrieveBySku({required this.sku});
 }
 
-class WordTextEventRetrieveByWordSku extends WordTextEvent {
-  final String sku;
+class WordTextEventRetrieveByTextAndWordSku extends WordTextEvent {
+  final String textSku;
+  final String wordSku;
 
-  WordTextEventRetrieveByWordSku({required this.sku});
+  WordTextEventRetrieveByTextAndWordSku({
+    required this.textSku,
+    required this.wordSku,
+  });
+}
+
+class WordTextEventRetrieveByWordSku extends WordTextEvent {
+  final String wordSku;
+
+  WordTextEventRetrieveByWordSku({required this.wordSku});
 }

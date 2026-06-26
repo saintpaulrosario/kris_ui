@@ -20,7 +20,23 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
 
     on<WordTextEventRetrieveBySku>((event, emit) async {
       emit(state.copyWith(fetching: true, success: false));
-      final results = await _wordTextService.retrive(sku: event.sku);
+      final results = await _wordTextService.retrieveAll(sku: event.sku);
+
+      results.fold(
+        (error) =>
+            emit(state.copyWith(fetching: false, success: false, error: error)),
+        (text) => emit(
+          state.copyWith(fetching: false, success: true, selection: text),
+        ),
+      );
+    });
+
+    on<WordTextEventRetrieveByTextAndWordSku>((event, emit) async {
+      emit(state.copyWith(fetching: true, success: false));
+      final results = await _wordTextService.retriveByTextAndWordSkus(
+        textIdentifier: event.textSku,
+        wordIdentifier: event.wordSku,
+      );
 
       results.fold(
         (error) =>
@@ -33,8 +49,8 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
 
     on<WordTextEventRetrieveByWordSku>((event, emit) async {
       emit(state.copyWith(fetching: true, success: false));
-      final results = await _wordTextService.retriveByWordByIdentifier(
-        sku: event.sku,
+      final results = await _wordTextService.retriveByWordSku(
+        wordIdentifier: event.wordSku,
       );
 
       results.fold(

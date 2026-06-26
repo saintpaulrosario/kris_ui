@@ -18,11 +18,10 @@ class WordItemScreen extends StatefulWidget {
 class _WordItemScreenState extends State<WordItemScreen> {
   @override
   void initState() {
-    super.initState();
-
     context.read<WordTextBloc>().add(
-      WordTextEventRetrieveByWordSku(sku: widget.word.sku),
+      WordTextEventRetrieveByWordSku(wordSku: widget.word.sku),
     );
+    super.initState();
   }
 
   @override
@@ -47,8 +46,9 @@ class _WordItemScreenState extends State<WordItemScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("text sku: ${widget.word.sku}"),
-                        WordTextListWidget(textsIdentifiers: widget.word.texts),
+                        Text("word sku: ${widget.word.sku}"),
+                        // we get a single text
+                        WordTextListWidget(texts: state.texts),
                       ],
                     ),
                   ),
