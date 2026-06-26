@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'identifier.dart';
 import 'instrument.dart';
@@ -45,7 +46,7 @@ class Sound extends Instrument {
       sku: '',
       version: -1,
       row: -1,
-      ordinal: -1,
+      ordinal: 0,
     );
   }
 

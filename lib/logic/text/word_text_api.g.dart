@@ -22,13 +22,46 @@ class _WordTextApi implements WordTextApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<WordText>>> retrieve(
+  Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
     String identifier,
     bool sku,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'sku': sku};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<WordText>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/text/${identifier}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<WordText> _value;
+    try {
+      _value = ApiResult<WordText>.fromJson(
+        _result.data!,
+        (json) => WordText.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<WordText>>> retrieveByOrdinal(
+    int identifier,
     bool ordinal,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
+    final queryParameters = <String, dynamic>{r'ordinal': ordinal};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<WordText>>>(
@@ -58,10 +91,51 @@ class _WordTextApi implements WordTextApi {
 
   @override
   Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordSku(
-    String identifier,
-    bool sku,
-    bool ordinal,
-  ) async {
+    String identifier, {
+    required bool sku,
+    required bool ordinal,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<List<WordText>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/text/${identifier}/word',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<List<WordText>> _value;
+    try {
+      _value = ApiResult<List<WordText>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<WordText>(
+                    (i) => WordText.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordIdentifier(
+    int identifier, {
+    required bool sku,
+    required bool ordinal,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
     final _headers = <String, dynamic>{};

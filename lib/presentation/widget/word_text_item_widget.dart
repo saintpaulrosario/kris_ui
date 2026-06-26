@@ -27,14 +27,13 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<ContentBloc, ContentState>(
       builder: (context, state) {
-        if (state.fetching) {
+        if (state.fetching == true && state.success == false) {
           return const Center(child: CircularProgressIndicator());
+        } else if (state.fetching == false && state.success == false) {
+          return const Center(child: Text('no word yet available.'));
+        } else {
+          return ContentListWidget(contents: state.contents);
         }
-        if (!state.success) {
-          return const Center(child: Text('Failed to load text content.'));
-        }
-
-        return ContentListWidget(contents: state.contents);
       },
     );
   }

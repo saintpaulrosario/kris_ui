@@ -17,7 +17,7 @@ class ContentState extends BaseState {
     return ContentState(
       contents: [],
       fetching: false,
-      success: false,
+      success: true,
       message: '',
       error: ErrorResponse.initial(),
       selection: Content.initial(),

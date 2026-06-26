@@ -29,47 +29,50 @@ class _WordItemScreenState extends State<WordItemScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WordTextBloc, WordTextState>(
       builder: (context, state) {
-        if (state.fetching == true) {
+        if (state.fetching == true && state.success == false) {
           return const Center(child: CircularProgressIndicator());
-        }
-        return Card(
-          margin: const EdgeInsets.all(8),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: 10,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.word.sku),
-                      WordTextListWidget(textsIdentifiers: state.texts),
-                    ],
+        } else if (state.success == false && state.fetching == false) {
+          return const Center(child: Text('no words yet available'));
+        } else {
+          return Card(
+            margin: const EdgeInsets.all(8),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 10,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("text sku: ${widget.word.sku}"),
+                        WordTextListWidget(textsIdentifiers: widget.word.texts),
+                      ],
+                    ),
                   ),
-                ),
 
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Images',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      // LineDivider(),
-                      ImageListWidget(imagesIdentifiers: widget.word.images),
-                    ],
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Images',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        // LineDivider(),
+                        ImageListWidget(imagesIdentifiers: widget.word.images),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }

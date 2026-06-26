@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'identifier.dart';
 
@@ -21,6 +22,9 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> images;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> roots;
+
   Word({
     required super.sku,
     required super.version,
@@ -29,6 +33,7 @@ class Word extends Identifier {
     required this.texts,
     required this.contents,
     required this.images,
+    required this.roots,
   });
 
   factory Word.initial() {
@@ -36,10 +41,11 @@ class Word extends Identifier {
       sku: '',
       version: 0,
       row: 0,
-      ordinal: 0,
+      ordinal: -1,
       texts: [],
       contents: [],
       images: [],
+      roots: [],
     );
   }
 

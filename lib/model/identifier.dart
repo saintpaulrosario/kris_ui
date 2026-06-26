@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'audit.dart';
 
@@ -37,7 +38,7 @@ class Identifier extends Audit {
        );
 
   factory Identifier.initial() {
-    return Identifier(sku: "", version: 0, row: -1, ordinal: -1);
+    return Identifier(sku: '', version: 0, row: -1, ordinal: -1);
   }
 
   factory Identifier.fromJson(Map<String, dynamic> json) =>

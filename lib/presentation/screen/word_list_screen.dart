@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
-import '../../model/word.dart';
 
 class WordListScreen extends StatefulWidget {
   const WordListScreen({super.key});
@@ -24,19 +23,21 @@ class _WordListScreenState extends State<WordListScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
-        if (state.fetching) {
+        if (state.fetching == true && state.success == false) {
           return const CircularProgressIndicator();
+        } else if (state.success == false && state.fetching == false) {
+          return const Text('no words yet available');
+        } else {
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: state.words
+                  .map((word) => ListTile(title: WordItemScreen(word: word)))
+                  .toList(),
+            ),
+          );
         }
-
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: state.words
-                .map((word) => ListTile(title: WordItemScreen(word: word)))
-                .toList(),
-          ),
-        );
       },
     );
   }

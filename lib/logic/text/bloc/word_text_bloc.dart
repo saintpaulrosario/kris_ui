@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word_text.dart';
@@ -18,50 +19,29 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
     });
 
     on<WordTextEventRetrieveBySku>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
-      final results = await _wordTextService.retrive(event.sku);
+      emit(state.copyWith(fetching: true, success: false));
+      final results = await _wordTextService.retrive(sku: event.sku);
 
       results.fold(
-        (error) => emit(
-          state.copyWith(
-            fetching: false,
-            success: false,
-            failure: true,
-            error: error,
-          ),
-        ),
+        (error) =>
+            emit(state.copyWith(fetching: false, success: false, error: error)),
         (text) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            failure: false,
-            selection: text,
-          ),
+          state.copyWith(fetching: false, success: true, selection: text),
         ),
       );
     });
 
     on<WordTextEventRetrieveByWordSku>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
-      final results = await _wordTextService.retriveByWordSku(event.sku);
+      emit(state.copyWith(fetching: true, success: false));
+      final results = await _wordTextService.retriveByWordByIdentifier(
+        sku: event.sku,
+      );
 
       results.fold(
-        (error) => emit(
-          state.copyWith(
-            fetching: false,
-            success: false,
-            failure: true,
-            error: error,
-          ),
-        ),
-        (texts) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            failure: false,
-            texts: texts,
-          ),
-        ),
+        (error) =>
+            emit(state.copyWith(fetching: false, success: false, error: error)),
+        (texts) =>
+            emit(state.copyWith(fetching: false, success: true, texts: texts)),
       );
     });
   }

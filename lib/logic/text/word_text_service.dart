@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/model/sound.dart';
 import 'package:retrofit/dio.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../model/error_response.dart';
 import '../../model/word_text.dart';
@@ -12,10 +13,13 @@ import 'word_text_api.dart';
 class WordTextService {
   final WordTextApi _wordTextApi = getIt<WordTextApi>();
 
-  Future<Either<ErrorResponse, WordText>> retrive(String identifier) async {
+  Future<Either<ErrorResponse, WordText>> retrive({
+    String? sku,
+    int? ordinal,
+  }) async {
     try {
       final HttpResponse<ApiResult<WordText>> httpResponse = await _wordTextApi
-          .retrieve(identifier, true, false);
+          .retrieveBySku(sku!, true);
 
       ApiResult<WordText> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -34,12 +38,13 @@ class WordTextService {
     }
   }
 
-  Future<Either<ErrorResponse, List<WordText>>> retriveByWordSku(
-    String identifier,
-  ) async {
+  Future<Either<ErrorResponse, List<WordText>>> retriveByWordByIdentifier({
+    String? sku,
+    int? ordinal,
+  }) async {
     try {
       final HttpResponse<ApiResult<List<WordText>>> httpResponse =
-          await _wordTextApi.retriveByWordSku(identifier, true, false);
+          await _wordTextApi.retriveByWordSku(sku!, sku: true, ordinal: false);
 
       ApiResult<List<WordText>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {

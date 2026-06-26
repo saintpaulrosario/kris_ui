@@ -7,7 +7,7 @@ class WordTextState extends BaseState {
   WordTextState({required this.texts, required this.selection})
     : super(
         fetching: false,
-        success: false,
+        success: true,
         message: '',
         error: ErrorResponse.initial(),
       );
@@ -20,11 +20,9 @@ class WordTextState extends BaseState {
     ErrorResponse? error,
     bool? success,
     String? message,
-    int? code,
     bool? fetching,
     List<WordText>? texts,
     WordText? selection,
-    bool? failure,
   }) {
     return WordTextState(
       texts: texts ?? this.texts,

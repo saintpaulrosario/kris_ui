@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:kris/model/word_text.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:uuid/uuid.dart';
 import '../../model/sound.dart';
 import '../../response/api_result.dart';
 
@@ -11,16 +12,28 @@ abstract class WordTextApi {
   factory WordTextApi(Dio dio, {String baseUrl}) = _WordTextApi;
 
   @GET("/text/{identifier}")
-  Future<HttpResponse<ApiResult<WordText>>> retrieve(
+  Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
     @Path("identifier") String identifier,
     @Query("sku", encoded: true) bool sku,
+  );
+
+  @GET("/text/{identifier}")
+  Future<HttpResponse<ApiResult<WordText>>> retrieveByOrdinal(
+    @Path("identifier") int identifier,
     @Query("ordinal", encoded: true) bool ordinal,
   );
 
   @GET("/text/{identifier}/word")
   Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordSku(
-    @Path("identifier") String identifier,
-    @Query("sku", encoded: true) bool sku,
-    @Query("ordinal", encoded: true) bool ordinal,
-  );
+    @Path("identifier") String identifier, {
+    @Query("sku", encoded: true) required bool sku,
+    @Query("ordinal", encoded: true) required bool ordinal,
+  });
+
+  @GET("/text/{identifier}/word")
+  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordIdentifier(
+    @Path("identifier") int identifier, {
+    @Query("sku", encoded: true) required bool sku,
+    @Query("ordinal", encoded: true) required bool ordinal,
+  });
 }

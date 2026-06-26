@@ -15,7 +15,7 @@ class BaseState {
 
   factory BaseState.initial() {
     return BaseState(
-      success: false,
+      success: true,
       message: '',
       fetching: false,
       error: ErrorResponse.initial(),

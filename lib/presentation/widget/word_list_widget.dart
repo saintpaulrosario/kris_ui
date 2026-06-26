@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:pluto_grid/pluto_grid.dart';
 
 import '../../model/word.dart';
 import '../screen/word_item_screen.dart';
