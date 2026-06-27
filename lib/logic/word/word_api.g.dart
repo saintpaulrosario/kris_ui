@@ -57,9 +57,10 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Word>>> retrieveWordBySku({
-    String? sku,
-    int? ordinal,
+  Future<HttpResponse<ApiResult<Word>>> retrieveBySku(
+    String identifier, {
+    bool? sku,
+    bool? ordinal,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
@@ -70,7 +71,7 @@ class _WordApi implements WordApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/identifier',
+            '/word/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

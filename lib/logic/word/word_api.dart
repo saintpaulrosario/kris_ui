@@ -12,9 +12,10 @@ abstract class WordApi {
   @GET("/word")
   Future<HttpResponse<ApiResult<List<Word>>>> retrieveAll();
 
-  @GET("/word/identifier")
-  Future<HttpResponse<ApiResult<Word>>> retrieveWordBySku({
-    @Query("sku") String? sku,
-    @Query("ordinal") int? ordinal,
+  @GET("/word/{identifier}")
+  Future<HttpResponse<ApiResult<Word>>> retrieveBySku(
+    @Path("identifier") String identifier, {
+    @Query("sku") bool? sku,
+    @Query("ordinal") bool? ordinal,
   });
 }

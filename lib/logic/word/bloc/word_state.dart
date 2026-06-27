@@ -2,7 +2,7 @@ part of 'word_bloc.dart';
 
 class WordState extends BaseState {
   final List<Word> words;
-  final Word selection;
+  final BehaviorSubject selection;
 
   WordState({
     required this.words,
@@ -20,7 +20,7 @@ class WordState extends BaseState {
       success: false,
       message: '',
       error: ErrorResponse.initial(),
-      selection: Word.initial(),
+      selection: BehaviorSubject<Word?>(),
     );
   }
 
@@ -31,7 +31,7 @@ class WordState extends BaseState {
     String? message,
     bool? fetching,
     List<Word>? words,
-    Word? selection,
+    BehaviorSubject<Word?>? selection,
     bool? failure,
   }) {
     return WordState(

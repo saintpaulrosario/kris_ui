@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word_text.dart';
 
-import 'word_text_item_widget.dart';
+import '../../model/identifier.dart';
 
 class WordTextListWidget extends StatelessWidget {
-  final List<WordText> texts;
+  final List<Identifier> textsIdentifiers;
 
-  const WordTextListWidget({super.key, required this.texts});
+  const WordTextListWidget({super.key, required this.textsIdentifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +14,12 @@ class WordTextListWidget extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: texts.length,
+        itemCount: textsIdentifiers.length,
         separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
-          WordText text = texts[index];
-          //return Text("text sku: ${text.sku}");
-          return WordTextItemWidget(text: text);
+          Identifier text = textsIdentifiers[index];
+          return Text("text sku: ${text.sku}");
+          //return WordTextItemWidget(text: text);
         },
       ),
     );

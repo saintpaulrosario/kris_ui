@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import '../../logic/text/bloc/word_text_bloc.dart';
+import '../../model/identifier.dart';
 import '../../model/word.dart';
 import '../../model/word_text.dart';
 import '../widget/image_list_widget.dart';
+import '../widget/word_text_item_widget.dart';
 import '../widget/word_text_list_wiget.dart';
 
 class WordItemScreen extends StatefulWidget {
@@ -19,15 +22,13 @@ class WordItemScreen extends StatefulWidget {
 class _WordItemScreenState extends State<WordItemScreen> {
   @override
   void initState() {
-    context.read<WordTextBloc>().add(
-      WordTextEventRetrieveByWordSku(wordSku: widget.word.sku),
-    );
+    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WordTextBloc, WordTextState>(
+    return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
         if (state.fetching == true && state.success == false) {
           return const Center(child: CircularProgressIndicator());
@@ -35,7 +36,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
           return const Center(child: Text('no words yet available'));
         } else {
           return StreamBuilder(
-            stream: state.texts.stream,
+            stream: state.selection.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -44,7 +45,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
               } else if (!snapshot.hasData) {
                 return const Center(child: Text('still retriving word'));
               } else {
-                List<WordText> texts = snapshot.data!;
+                List<Identifier> textsIdentifiers = snapshot.data!;
                 return Card(
                   margin: const EdgeInsets.all(8),
                   child: Padding(
@@ -59,8 +60,11 @@ class _WordItemScreenState extends State<WordItemScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("word sku: ${widget.word.sku}"),
+
                               // we get a single text
-                              WordTextListWidget(texts: texts),
+                              WordTextListWidget(
+                                textsIdentifiers: textsIdentifiers,
+                              ),
                             ],
                           ),
                         ),

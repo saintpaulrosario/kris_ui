@@ -15,8 +15,8 @@ class WordListScreen extends StatefulWidget {
 class _WordListScreenState extends State<WordListScreen> {
   @override
   void initState() {
-    super.initState();
     context.read<WordBloc>().add(RetrieveWordsEvent());
+    super.initState();
   }
 
   // do define the headers?

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:rxdart/subjects.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word.dart';
@@ -47,14 +48,10 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         (error) => emit(
           state.copyWith(fetching: false, success: false, failure: true),
         ),
-        (word) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            selection: word,
-            failure: false,
-          ),
-        ),
+        (word) {
+          state.selection.add(word);
+          emit(state.copyWith(fetching: false, success: true, failure: false));
+        },
       );
     });
   }

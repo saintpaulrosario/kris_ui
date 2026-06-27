@@ -29,7 +29,7 @@ class WordService {
 
   Future<Either<ErrorResponse, Word>> retrieveWordBySku(String sku) async {
     final HttpResponse<ApiResult<Word>> httpResponse = await _wordApi
-        .retrieveWordBySku(sku: sku);
+        .retrieveBySku(sku, sku: true, ordinal: false);
 
     ApiResult<Word> apiResult = httpResponse.data;
     if (httpResponse.response.statusCode == 200) {
