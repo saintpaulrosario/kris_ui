@@ -23,11 +23,13 @@ class _ImageListWidgetState extends State<ContentListWidget> {
   @override
   Widget build(BuildContext context) {
     //return Text(widget.contentsIdentifiers.first.sku);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: widget.contents
-          .map((content) => ContentItemWidget(content: content))
-          .toList(),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.contents.length,
+      itemBuilder: (context, index) {
+        return ContentItemWidget(content: widget.contents[index]);
+      },
     );
   }
 }

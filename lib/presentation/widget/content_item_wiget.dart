@@ -27,6 +27,12 @@ class ContentItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [SoundListWidget(sounds: content.sounds)],
             ),
+            const SizedBox(width: 8),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text("definition")],
+            ),
           ],
         ),
       ),

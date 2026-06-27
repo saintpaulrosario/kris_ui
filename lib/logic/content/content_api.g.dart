@@ -73,7 +73,7 @@ class _ContentApi implements ContentApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/content/${identifier}/text',
+            '/content/text/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -16,8 +16,14 @@ class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String payload;
 
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
+  final int rank;
+
   @JsonKey(disallowNullValue: false)
   final Identifier word;
+
+  @JsonKey(disallowNullValue: false)
+  final Identifier? script;
 
   @JsonKey(disallowNullValue: false)
   final Identifier text;
@@ -34,6 +40,9 @@ class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> examples;
+
   Content({
     required this.payload,
     required this.types,
@@ -42,6 +51,9 @@ class Content extends Identifier {
     required this.languages,
     required this.sounds,
     required this.text,
+    required this.rank,
+    required this.script,
+    required this.examples,
   }) : super(sku: '', version: 0, row: 0, ordinal: 0);
 
   factory Content.initial() {
@@ -53,6 +65,9 @@ class Content extends Identifier {
       scripts: [],
       languages: [],
       sounds: [],
+      examples: [],
+      script: Identifier.initial(),
+      rank: 0,
     );
   }
 

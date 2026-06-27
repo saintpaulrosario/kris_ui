@@ -59,10 +59,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Images',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
                         // LineDivider(),
                         ImageListWidget(imagesIdentifiers: widget.word.images),
                       ],

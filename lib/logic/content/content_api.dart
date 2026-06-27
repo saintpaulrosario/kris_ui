@@ -12,7 +12,7 @@ abstract class ContentApi {
   @GET("/content")
   Future<HttpResponse<ApiResult<List<Content>>>> retrieveAll();
 
-  @GET("/content/{identifier}/text")
+  @GET("/content/text/{identifier}")
   Future<HttpResponse<ApiResult<List<Content>>>> retrieveTextBySku(
     @Path("identifier") String identifier, {
     @Query("sku") bool? sku,

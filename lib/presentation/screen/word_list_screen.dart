@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
+import '../../model/word.dart';
 
 class WordListScreen extends StatefulWidget {
   const WordListScreen({super.key});
@@ -32,9 +33,17 @@ class _WordListScreenState extends State<WordListScreen> {
             scrollDirection: Axis.vertical,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: state.words
-                  .map((word) => ListTile(title: WordItemScreen(word: word)))
-                  .toList(),
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.words.length,
+                  itemBuilder: (context, index) {
+                    Word word = state.words[index];
+                    return WordItemScreen(word: word);
+                  },
+                ),
+              ],
             ),
           );
         }
