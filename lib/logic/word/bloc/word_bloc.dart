@@ -49,8 +49,15 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           state.copyWith(fetching: false, success: false, failure: true),
         ),
         (word) {
-          state.selection.add(word);
-          emit(state.copyWith(fetching: false, success: true, failure: false));
+          //state.selection.add(word);
+          emit(
+            state.copyWith(
+              fetching: false,
+              success: true,
+              failure: false,
+              selection: word,
+            ),
+          );
         },
       );
     });

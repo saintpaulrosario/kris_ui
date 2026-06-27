@@ -7,3 +7,9 @@ class ContentEventRetriveByTextSku extends ContentEvent {
 
   ContentEventRetriveByTextSku(this.textSku);
 }
+
+class ContentEventRetriveBySku extends ContentEvent {
+  final String sku;
+
+  ContentEventRetriveBySku(this.sku);
+}

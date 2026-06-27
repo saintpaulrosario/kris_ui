@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/word_text.dart';
 
 import '../../model/identifier.dart';
+import 'word_text_item_widget.dart';
 
 class WordTextListWidget extends StatelessWidget {
   final List<Identifier> textsIdentifiers;
@@ -17,9 +17,8 @@ class WordTextListWidget extends StatelessWidget {
         itemCount: textsIdentifiers.length,
         separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
-          Identifier text = textsIdentifiers[index];
-          return Text("text sku: ${text.sku}");
-          //return WordTextItemWidget(text: text);
+          Identifier identifier = textsIdentifiers[index];
+          return WordTextItemWidget(identifier: identifier);
         },
       ),
     );

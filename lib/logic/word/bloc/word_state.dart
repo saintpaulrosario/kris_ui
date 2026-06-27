@@ -2,7 +2,7 @@ part of 'word_bloc.dart';
 
 class WordState extends BaseState {
   final List<Word> words;
-  final BehaviorSubject selection;
+  final Word selection;
 
   WordState({
     required this.words,
@@ -20,7 +20,7 @@ class WordState extends BaseState {
       success: false,
       message: '',
       error: ErrorResponse.initial(),
-      selection: BehaviorSubject<Word?>(),
+      selection: Word.initial(),
     );
   }
 
@@ -31,7 +31,7 @@ class WordState extends BaseState {
     String? message,
     bool? fetching,
     List<Word>? words,
-    BehaviorSubject<Word?>? selection,
+    Word? selection,
     bool? failure,
   }) {
     return WordState(
@@ -42,5 +42,17 @@ class WordState extends BaseState {
       error: error ?? this.error,
       selection: selection ?? this.selection,
     );
+  }
+
+  @override
+  int get hashCode => Object.hash(words, selection);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is WordState &&
+        other.words == words &&
+        identical(other.selection, selection);
   }
 }

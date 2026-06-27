@@ -49,6 +49,16 @@ class Word extends Identifier {
     );
   }
 
+  @override
+  int get hashCode => Object.hash(sku, ordinal);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Word && other.sku == sku && other.ordinal == ordinal;
+  }
+
   factory Word.fromJson(Map<String, dynamic> json) => _$WordFromJson(json);
 
   @override

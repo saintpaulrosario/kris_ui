@@ -18,4 +18,9 @@ abstract class ContentApi {
     @Query("sku") bool? sku,
     @Query("ordinal") bool? ordinal,
   });
+
+  @GET("/content/{identifier}")
+  Future<HttpResponse<ApiResult<Content>>> retrieveByIdentifier(
+    @Path("identifier") String identifier,
+  );
 }

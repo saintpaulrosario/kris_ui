@@ -35,4 +35,16 @@ class BaseState {
       message: message ?? this.message,
     );
   }
+
+  @override
+  int get hashCode => Object.hash(fetching, success);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is BaseState &&
+        other.fetching == fetching &&
+        other.success == success;
+  }
 }

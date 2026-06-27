@@ -24,11 +24,9 @@ class _WordTextApi implements WordTextApi {
   @override
   Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
     String identifier,
-    bool sku,
-    bool ordinal,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<WordText>>>(

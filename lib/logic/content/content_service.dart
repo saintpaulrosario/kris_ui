@@ -38,4 +38,26 @@ class ContentService {
       return left(ErrorResponse(e.toString()));
     }
   }
+
+  Future<Either<ErrorResponse, Content>> retriveBySku(String identifier) async {
+    try {
+      final HttpResponse<ApiResult<Content>> httpResponse = await _contentApi
+          .retrieveByIdentifier(identifier);
+
+      ApiResult<Content> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final Content payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
 }

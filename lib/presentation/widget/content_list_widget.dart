@@ -28,7 +28,8 @@ class _ImageListWidgetState extends State<ContentListWidget> {
       itemCount: widget.contents.length,
       itemBuilder: (context, index) {
         Content content = widget.contents[index];
-        return ContentItemWidget(content: content);
+        return Text("content sku");
+        //return ContentItemWidget(content: content);
       },
     );
   }
