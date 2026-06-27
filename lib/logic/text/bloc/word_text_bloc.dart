@@ -58,7 +58,8 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
         (error) =>
             emit(state.copyWith(fetching: false, success: false, error: error)),
         (result) {
-          emit(state.copyWith(fetching: false, success: true, texts: result));
+          state.texts.add(result);
+          emit(state.copyWith(fetching: false, success: true));
         },
       );
     });

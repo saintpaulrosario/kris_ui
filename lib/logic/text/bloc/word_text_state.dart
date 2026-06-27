@@ -1,7 +1,7 @@
 part of 'word_text_bloc.dart';
 
 class WordTextState extends BaseState {
-  final List<WordText> texts;
+  final ReplaySubject<List<WordText>> texts;
   final WordText selection;
 
   WordTextState({required this.texts, required this.selection})
@@ -13,7 +13,10 @@ class WordTextState extends BaseState {
       );
 
   factory WordTextState.initial() {
-    return WordTextState(texts: [], selection: WordText.initial());
+    return WordTextState(
+      texts: ReplaySubject<List<WordText>>(),
+      selection: WordText.initial(),
+    );
   }
 
   WordTextState copyWith({
@@ -21,7 +24,7 @@ class WordTextState extends BaseState {
     bool? success,
     String? message,
     bool? fetching,
-    List<WordText>? texts,
+    ReplaySubject<List<WordText>>? texts,
     WordText? selection,
   }) {
     return WordTextState(
