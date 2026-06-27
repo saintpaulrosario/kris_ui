@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/error_response.dart';
@@ -57,8 +58,7 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
         (error) =>
             emit(state.copyWith(fetching: false, success: false, error: error)),
         (result) {
-          List<WordText> texts = state.texts..addAll(result);
-          emit(state.copyWith(fetching: false, success: true, texts: texts));
+          emit(state.copyWith(fetching: false, success: true, texts: result));
         },
       );
     });
