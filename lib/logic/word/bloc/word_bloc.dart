@@ -27,14 +27,21 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         (error) => emit(
           state.copyWith(fetching: false, success: false, failure: true),
         ),
-        (words) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            words: words,
-            failure: false,
-          ),
-        ),
+        (results) {
+          final words = state.words;
+          for (var word in results) {
+            words[word.sku] = word;
+          }
+
+          emit(
+            state.copyWith(
+              fetching: false,
+              success: true,
+              failure: false,
+              words: words,
+            ),
+          );
+        },
       );
     });
 
@@ -50,14 +57,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         ),
         (word) {
           //state.selection.add(word);
-          emit(
-            state.copyWith(
-              fetching: false,
-              success: true,
-              failure: false,
-              selection: word,
-            ),
-          );
+          emit(state.copyWith(fetching: false, success: true, failure: false));
         },
       );
     });

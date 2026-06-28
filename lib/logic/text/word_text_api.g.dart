@@ -55,7 +55,7 @@ class _WordTextApi implements WordTextApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordSku(
+  Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordIdentifier(
     String identifier, {
     required bool sku,
     required bool ordinal,

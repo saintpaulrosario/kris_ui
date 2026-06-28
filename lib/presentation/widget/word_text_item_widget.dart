@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/content/bloc/content_bloc.dart';
-import 'package:kris/presentation/widget/content_list_widget.dart';
 
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/identifier.dart';
-import '../../model/word_text.dart';
 import 'content_item_wiget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
@@ -30,22 +27,25 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<WordTextBloc, WordTextState>(
       builder: (context, state) {
-        if (state.fetching == true && state.success == false) {
+        if (state.loading.contains(widget.identifier.sku)) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state.fetching == false && state.success == false) {
-          return const Center(child: Text('no word yet available.'));
+        } else if (state.errors.containsKey(widget.identifier.sku)) {
+          return const Center(child: Text('Failed to load'));
+        } else if (state.texts[widget.identifier.sku] == null) {
+          return const Center(child: Text('No data available'));
         } else {
-          List<Identifier> contents = state.selection.contents;
+          final wordText = state.texts[widget.identifier.sku];
+
+          final contents = wordText!.contents;
+
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: contents.length,
             itemBuilder: (context, index) {
-              Identifier content = contents[index];
-              return ContentItemWidget(identifier: content);
+              return ContentItemWidget(identifier: contents[index]);
             },
           );
-          //return ContentListWidget(contents: state.contents);
         }
       },
     );

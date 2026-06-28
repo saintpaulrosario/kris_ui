@@ -1,14 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:kris/model/identifier.dart';
 
 import '../../model/content.dart';
 import 'content_item_wiget.dart';
 
 class ContentListWidget extends StatefulWidget {
-  final List<Content> contents;
+  final List<Identifier> identifiers;
 
-  const ContentListWidget({super.key, required this.contents});
+  const ContentListWidget({super.key, required this.identifiers});
 
   @override
   State<ContentListWidget> createState() => _ImageListWidgetState();
@@ -25,11 +26,10 @@ class _ImageListWidgetState extends State<ContentListWidget> {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.contents.length,
+      itemCount: widget.identifiers.length,
       itemBuilder: (context, index) {
-        Content content = widget.contents[index];
-        return Text("content sku");
-        //return ContentItemWidget(content: content);
+        Identifier identifier = widget.identifiers[index];
+        return ContentItemWidget(identifier: identifier);
       },
     );
   }

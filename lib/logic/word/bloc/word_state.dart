@@ -1,58 +1,46 @@
 part of 'word_bloc.dart';
 
 class WordState extends BaseState {
-  final List<Word> words;
-  final Word selection;
+  final Map<String, Word> words;
+  final Set<String> loading;
 
   WordState({
     required this.words,
+    required this.loading,
     required super.fetching,
     required super.success,
     required super.message,
     required super.error,
-    required this.selection,
   });
 
   factory WordState.initial() {
     return WordState(
-      words: [],
+      words: {},
+      loading: {},
       fetching: false,
       success: false,
       message: '',
       error: ErrorResponse.initial(),
-      selection: Word.initial(),
     );
   }
 
   @override
   WordState copyWith({
+    Map<String, Word>? words,
+    Set<String>? loading,
     ErrorResponse? error,
     bool? success,
     String? message,
     bool? fetching,
-    List<Word>? words,
-    Word? selection,
     bool? failure,
   }) {
     return WordState(
-      words: words ?? this.words,
       fetching: fetching ?? this.fetching,
       success: success ?? this.success,
       message: message ?? this.message,
       error: error ?? this.error,
-      selection: selection ?? this.selection,
+      words: words ?? this.words,
+      loading: loading ?? this.loading,
     );
-  }
-
-  @override
-  int get hashCode => Object.hash(words, selection);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WordState &&
-        other.words == words &&
-        identical(other.selection, selection);
   }
 }

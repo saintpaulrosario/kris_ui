@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kris')),
+      appBar: AppBar(title: const Text('ߞߙߌߛ')),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => WordBloc()),

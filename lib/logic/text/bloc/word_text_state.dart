@@ -1,35 +1,29 @@
 part of 'word_text_bloc.dart';
 
-class WordTextState extends BaseState {
-  final ReplaySubject<List<WordText>> texts;
-  final WordText selection;
+class WordTextState {
+  final Map<String, WordText> texts;
+  final Map<String, ErrorResponse> errors;
+  final Set<String> loading;
 
-  WordTextState({required this.texts, required this.selection})
-    : super(
-        fetching: false,
-        success: true,
-        message: '',
-        error: ErrorResponse.initial(),
-      );
+  const WordTextState({
+    required this.texts,
+    required this.errors,
+    required this.loading,
+  });
 
   factory WordTextState.initial() {
-    return WordTextState(
-      texts: ReplaySubject<List<WordText>>(),
-      selection: WordText.initial(),
-    );
+    return const WordTextState(texts: {}, errors: {}, loading: {});
   }
 
   WordTextState copyWith({
-    ErrorResponse? error,
-    bool? success,
-    String? message,
-    bool? fetching,
-    ReplaySubject<List<WordText>>? texts,
-    WordText? selection,
+    Map<String, WordText>? texts,
+    Map<String, ErrorResponse>? errors,
+    Set<String>? loading,
   }) {
     return WordTextState(
       texts: texts ?? this.texts,
-      selection: selection ?? this.selection,
+      errors: errors ?? this.errors,
+      loading: loading ?? this.loading,
     );
   }
 }
