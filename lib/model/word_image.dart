@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'identifier.dart';
 import 'instrument.dart';
 
-part 'image.g.dart';
+part 'word_image.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -13,14 +13,14 @@ part 'image.g.dart';
   anyMap: true,
   checked: true,
 )
-class Image extends Instrument {
+class WordImage extends Instrument {
   @JsonKey(defaultValue: [])
   final List<Identifier> words;
 
   @JsonKey(defaultValue: [])
   final List<Identifier> sounds;
 
-  Image({
+  WordImage({
     required this.words,
     required this.sounds,
     required super.payload,
@@ -34,8 +34,8 @@ class Image extends Instrument {
     required super.ordinal,
   });
 
-  factory Image.initial() {
-    return Image(
+  factory WordImage.initial() {
+    return WordImage(
       words: [],
       sounds: [],
       payload: '',
@@ -50,8 +50,9 @@ class Image extends Instrument {
     );
   }
 
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+  factory WordImage.fromJson(Map<String, dynamic> json) =>
+      _$WordImageFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ImageToJson(this);
+  Map<String, dynamic> toJson() => _$WordImageToJson(this);
 }

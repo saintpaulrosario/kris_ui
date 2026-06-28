@@ -15,7 +15,7 @@ class RetrieveImagesByOrdinalsEvent extends ImageEvent {
 }
 
 class ImageSelectedEvent extends ImageEvent {
-  final Image image;
+  final WordImage image;
 
   ImageSelectedEvent({required this.image});
 }

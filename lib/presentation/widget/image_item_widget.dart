@@ -7,6 +7,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../logic/image/bloc/image_bloc.dart';
+import '../../model/word_image.dart';
 
 class ImageItemWidget extends StatefulWidget {
   final Identifier imageIdentifier;
@@ -29,9 +30,12 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ImageBloc, ImageState>(
+    return BlocSelector<ImageBloc, ImageState, bool>(
+      selector: (state) {
+        return state.fetching.contains(widget.imageIdentifier.sku);
+      },
       builder: (context, state) {
-        if (state.fetching) {
+        if (state) {
           return Shimmer.fromColors(
             baseColor: Colors.grey.shade300,
             highlightColor: Colors.grey.shade100,
@@ -43,21 +47,35 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
           );
         }
 
-        if (!state.success) {
-          return const Center(
-            child: Icon(Icons.broken_image, size: 44, color: Colors.grey),
-          );
-        }
-
-        final Uint8List imageBytes = Uint8List.fromList(
-          base64Decode(state.image.payload),
-        );
-
-        return InteractiveViewer(
-          minScale: 0.5,
-          maxScale: 5.0,
-          panEnabled: true,
-          child: Image.memory(imageBytes, fit: BoxFit.contain),
+        return BlocSelector<ImageBloc, ImageState, Map<String, WordImage>>(
+          selector: (state) {
+            return state.images;
+          },
+          builder: (context, state) {
+            if (state.isEmpty ||
+                !state.containsKey(widget.imageIdentifier.sku)) {
+              return const Center(
+                child: Icon(Icons.broken_image, size: 44, color: Colors.grey),
+              );
+            } else {
+              return BlocSelector<ImageBloc, ImageState, WordImage>(
+                selector: (state) {
+                  return state.images[widget.imageIdentifier.sku]!;
+                },
+                builder: (context, state) {
+                  final Uint8List imageBytes = Uint8List.fromList(
+                    base64Decode(state.payload),
+                  );
+                  return InteractiveViewer(
+                    minScale: 0.5,
+                    maxScale: 5.0,
+                    panEnabled: true,
+                    child: Image.memory(imageBytes, fit: BoxFit.contain),
+                  );
+                },
+              );
+            }
+          },
         );
       },
     );

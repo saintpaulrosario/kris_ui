@@ -22,7 +22,7 @@ class _ImageApi implements ImageApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<Image>>> retrieve({
+  Future<HttpResponse<ApiResult<WordImage>>> retrieve({
     required String identifier,
     required bool sku,
     required bool ordinal,
@@ -31,7 +31,7 @@ class _ImageApi implements ImageApi {
     final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Image>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<WordImage>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -42,11 +42,11 @@ class _ImageApi implements ImageApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Image> _value;
+    late ApiResult<WordImage> _value;
     try {
-      _value = ApiResult<Image>.fromJson(
+      _value = ApiResult<WordImage>.fromJson(
         _result.data!,
-        (json) => Image.fromJson(json as Map<String, dynamic>),
+        (json) => WordImage.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

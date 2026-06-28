@@ -16,16 +16,20 @@ class SoundBloc extends Bloc<SoundEvent, SoundState> {
     on<SoundEvent>((event, emit) {});
 
     on<RetrieveSoundsEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true));
-      final results = await _soundService.retrive(event.skus);
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
 
-      results.fold(
-        (error) =>
-            emit(state.copyWith(fetching: false, success: false, error: error)),
-        (success) => emit(
-          state.copyWith(fetching: false, success: true, sounds: success),
-        ),
-      );
+      final results = await _soundService.retriveBySku(event.sku);
+
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
+
+      results.fold((error) {}, (success) {
+        final sounds = Map<String, Sound>.from(state.sounds);
+        sounds[event.sku] = success;
+        emit(state.copyWith(sounds: sounds));
+      });
     });
   }
 }

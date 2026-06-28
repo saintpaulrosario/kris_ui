@@ -1,11 +1,13 @@
-part of 'script_bloc.dart';
+// part of 'script_bloc.dart';
 
-class ScriptEvent {}
+// import 'package:kris/model/script.dart';
 
-class RetrieveScriptsEvent extends ScriptEvent {}
+// class ScriptEvent {}
 
-class SelectScriptsEvent extends ScriptEvent {
-  final List<Script> selection;
+// class RetrieveScriptsEvent extends ScriptEvent {}
 
-  SelectScriptsEvent({required this.selection});
-}
+// class SelectScriptsEvent extends ScriptEvent {
+//   final List<Script> selection;
+
+//   SelectScriptsEvent({required this.selection});
+// }

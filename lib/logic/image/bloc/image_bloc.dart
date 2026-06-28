@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/image.dart';
+import '../../../model/word_image.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import '../image_service.dart';
@@ -19,16 +19,20 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     });
 
     on<RetrieveImagesBySkuEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false));
-      Either<ErrorResponse, Image> result = await _imageService.retrive(
-        event.sku,
-      );
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
 
-      result.fold(
-        (error) => emit(state.copyWith(fetching: false, success: false)),
-        (image) =>
-            emit(state.copyWith(fetching: false, success: true, image: image)),
-      );
+      Either<ErrorResponse, WordImage> result = await _imageService
+          .retriveBySku(event.sku);
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
+
+      result.fold((error) {}, (image) {
+        final images = Map<String, WordImage>.from(state.images);
+        images[event.sku] = image;
+        emit(state.copyWith(images: images));
+      });
     });
   }
 }

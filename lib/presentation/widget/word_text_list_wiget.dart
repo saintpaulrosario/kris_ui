@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/word_text.dart';
 
 import '../../model/identifier.dart';
 import 'word_text_item_widget.dart';
 
 class WordTextListWidget extends StatelessWidget {
-  final List<WordText> wordTexts;
+  final List<Identifier> identifiers;
 
-  const WordTextListWidget({super.key, required this.wordTexts});
+  const WordTextListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +14,11 @@ class WordTextListWidget extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: wordTexts.length,
+        itemCount: identifiers.length,
         separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
-          Identifier identifier = wordTexts[index];
+          Identifier identifier = identifiers[index];
+
           return WordTextItemWidget(identifier: identifier);
         },
       ),

@@ -13,4 +13,11 @@ abstract class SoundApi {
   Future<HttpResponse<ApiResult<List<Sound>>>> retrieve(
     @Query("skus", encoded: true) List<String> skus,
   );
+
+  @GET("/sound/{identifier}")
+  Future<HttpResponse<ApiResult<Sound>>> retrieveBySku(
+    @Path("identifier") String identifier, {
+    @Query("sku", encoded: true) bool? sku,
+    @Query("ordinal", encoded: true) bool? ordinal,
+  });
 }

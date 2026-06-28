@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'image.dart';
+part of 'word_image.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Image _$ImageFromJson(Map json) => $checkedCreate('Image', json, (
+WordImage _$WordImageFromJson(Map json) => $checkedCreate('WordImage', json, (
   $checkedConvert,
 ) {
-  final val = Image(
+  final val = WordImage(
     words: $checkedConvert(
       'words',
       (v) =>
@@ -46,7 +46,7 @@ Image _$ImageFromJson(Map json) => $checkedCreate('Image', json, (
   return val;
 });
 
-Map<String, dynamic> _$ImageToJson(Image instance) => <String, dynamic>{
+Map<String, dynamic> _$WordImageToJson(WordImage instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'row': instance.row,

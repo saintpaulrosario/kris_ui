@@ -19,27 +19,25 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
       // TODO: implement event handler
     });
 
-    on<WordTextEventRetrieveByWordSku>((event, emit) async {
-      final loading = Set<String>.from(state.loading);
-      loading.add(event.wordSku);
+    on<WordTextEventRetrieveBySku>((event, emit) async {
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
 
-      emit(state.copyWith(loading: loading));
+      emit(state.copyWith(fetching: fetching));
 
-      final results = await _wordTextService.retrieveByWordSku(event.wordSku);
+      final results = await _wordTextService.retrieveBySku(event.sku);
 
-      final notLoading = Set<String>.from(state.loading);
-      notLoading.remove(event.wordSku);
-      emit(state.copyWith(loading: notLoading));
+      // final notLoading = Set<String>.from(state.loading);
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
 
       results.fold(
         (error) {
-          emit(state.copyWith(errors: {...state.errors, event.wordSku: error}));
+          emit(state.copyWith(errors: {...state.errors, event.sku: error}));
         },
         (result) {
           final texts = Map<String, WordText>.from(state.texts);
-          for (WordText wordText in result) {
-            texts[event.wordSku] = wordText;
-          }
+          texts[event.sku] = result;
           emit(state.copyWith(texts: texts));
         },
       );

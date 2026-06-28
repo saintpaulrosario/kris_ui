@@ -11,14 +11,14 @@ import 'sound_api.dart';
 class SoundService {
   final SoundApi _soundApi = getIt<SoundApi>();
 
-  Future<Either<ErrorResponse, List<Sound>>> retrive(List<String> skus) async {
+  Future<Either<ErrorResponse, Sound>> retriveBySku(String identifier) async {
     try {
-      final HttpResponse<ApiResult<List<Sound>>> httpResponse = await _soundApi
-          .retrieve(skus);
+      final HttpResponse<ApiResult<Sound>> httpResponse = await _soundApi
+          .retrieveBySku(identifier, sku: true, ordinal: false);
 
-      ApiResult<List<Sound>> apiResult = httpResponse.data;
+      ApiResult<Sound> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final List<Sound> payload = apiResult.payload;
+        final Sound payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

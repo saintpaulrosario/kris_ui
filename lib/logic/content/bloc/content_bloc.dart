@@ -18,54 +18,36 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     });
 
     on<ContentEventRetriveByTextSku>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.textSku);
+      emit(state.copyWith(fetching: fetching));
+
       final results = await _contentService.retriveByTextIdentifier(
         event.textSku,
       );
 
-      results.fold(
-        (error) => emit(
-          state.copyWith(
-            fetching: false,
-            success: false,
-            failure: true,
-            error: error,
-          ),
-        ),
-        (contents) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            failure: false,
-            contents: contents,
-          ),
-        ),
-      );
+      fetching.remove(event.textSku);
+      emit(state.copyWith(fetching: fetching));
+
+      results.fold((error) {}, (contents) {});
     });
 
     on<ContentEventRetriveBySku>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
+
       final Either<ErrorResponse, Content> result = await _contentService
           .retriveBySku(event.sku);
 
-      result.fold(
-        (error) => emit(
-          state.copyWith(
-            fetching: false,
-            success: false,
-            failure: true,
-            error: error,
-          ),
-        ),
-        (content) => emit(
-          state.copyWith(
-            fetching: false,
-            success: true,
-            failure: false,
-            selection: content,
-          ),
-        ),
-      );
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
+
+      result.fold((error) {}, (content) {
+        final contents = Map<String, Content>.from(state.contents);
+        contents[event.sku] = content;
+        emit(state.copyWith(contents: contents));
+      });
     });
   }
 }

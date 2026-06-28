@@ -20,46 +20,33 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     });
 
     on<RetrieveWordsEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
       Either<ErrorResponse, List<Word>> results = await _wordService.retrive();
 
-      results.fold(
-        (error) => emit(
-          state.copyWith(fetching: false, success: false, failure: true),
-        ),
-        (results) {
-          final words = state.words;
-          for (var word in results) {
-            words[word.sku] = word;
-          }
+      results.fold((error) {}, (results) {
+        final words = state.words;
+        for (var word in results) {
+          words[word.sku] = word;
+        }
 
-          emit(
-            state.copyWith(
-              fetching: false,
-              success: true,
-              failure: false,
-              words: words,
-            ),
-          );
-        },
-      );
+        emit(state.copyWith(words: words));
+      });
     });
 
-    on<RetrieveWordBySkuEvent>((event, emit) async {
-      emit(state.copyWith(fetching: true, success: false, failure: false));
-      Either<ErrorResponse, Word> result = await _wordService.retrieveWordBySku(
-        event.sku,
-      );
+    // on<RetrieveWordBySkuEvent>((event, emit) async {
+    //   emit(state.copyWith(fetching: true, success: false, failure: false));
+    //   Either<ErrorResponse, Word> result = await _wordService.retrieveWordBySku(
+    //     event.sku,
+    //   );
 
-      result.fold(
-        (error) => emit(
-          state.copyWith(fetching: false, success: false, failure: true),
-        ),
-        (word) {
-          //state.selection.add(word);
-          emit(state.copyWith(fetching: false, success: true, failure: false));
-        },
-      );
-    });
+    //   result.fold(
+    //     (error) => emit(
+    //       state.copyWith(fetching: false, success: false, failure: true),
+    //     ),
+    //     (word) {
+    //       //state.selection.add(word);
+    //       emit(state.copyWith(fetching: false, success: true, failure: false));
+    //     },
+    //   );
+    // });
   }
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/word_text_list_wiget.dart';
 
-import '../../logic/text/bloc/word_text_bloc.dart';
+import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/word.dart';
-import '../../model/word_text.dart';
-import '../widget/content_list_widget.dart';
 import '../widget/image_list_widget.dart';
 
 class WordItemScreen extends StatefulWidget {
@@ -19,19 +18,16 @@ class WordItemScreen extends StatefulWidget {
 class _WordItemScreenState extends State<WordItemScreen> {
   @override
   void initState() {
+    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
     super.initState();
-
-    context.read<WordTextBloc>().add(
-      WordTextEventRetrieveByWordSku(wordSku: widget.word.sku),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordTextBloc, WordTextState, bool>(
-      selector: (state) => state.loading.contains(widget.word.sku),
-      builder: (context, loading) {
-        if (loading) {
+    return BlocSelector<WordBloc, WordState, bool>(
+      selector: (state) => state.fetching.contains(widget.word.sku),
+      builder: (context, fetching) {
+        if (fetching) {
           return const Card(
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -40,10 +36,10 @@ class _WordItemScreenState extends State<WordItemScreen> {
           );
         }
 
-        return BlocSelector<WordTextBloc, WordTextState, WordText?>(
-          selector: (state) => state.texts[widget.word.sku],
-          builder: (context, wordText) {
-            if (wordText == null) {
+        return BlocSelector<WordBloc, WordState, Word?>(
+          selector: (state) => state.words[widget.word.sku],
+          builder: (context, state) {
+            if (state == null) {
               return const Card(
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -64,9 +60,8 @@ class _WordItemScreenState extends State<WordItemScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.word.sku), // change to your field
-
-                          ContentListWidget(identifiers: wordText.contents),
+                          Text(widget.word.sku),
+                          WordTextListWidget(identifiers: state.texts),
                         ],
                       ),
                     ),
