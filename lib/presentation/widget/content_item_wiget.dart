@@ -40,7 +40,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
             builder: (context, state) {
               if (state.isEmpty) {
                 return const Center(child: Text("No content available"));
-              } else if (state.containsKey(widget.identifier.sku)) {
+              } else if (!state.containsKey(widget.identifier.sku)) {
                 return const Center(child: Text("Content not found"));
               } else {
                 return BlocSelector<ContentBloc, ContentState, Content?>(
