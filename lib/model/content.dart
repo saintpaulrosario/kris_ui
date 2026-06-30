@@ -43,7 +43,7 @@ class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> examples;
 
-  Content({
+  const Content({
     required this.payload,
     required this.elements,
     required this.word,
@@ -58,6 +58,10 @@ class Content extends Identifier {
     required super.version,
     required super.row,
     required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory Content.initial() {
@@ -76,6 +80,10 @@ class Content extends Identifier {
       version: 0,
       row: 0,
       ordinal: 0,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

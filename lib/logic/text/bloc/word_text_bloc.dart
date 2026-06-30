@@ -27,10 +27,6 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
 
       final results = await _wordTextService.retrieveBySku(event.sku);
 
-      // final notLoading = Set<String>.from(state.loading);
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
-
       results.fold(
         (error) {
           emit(state.copyWith(errors: {...state.errors, event.sku: error}));
@@ -41,6 +37,8 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           emit(state.copyWith(texts: texts));
         },
       );
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
     });
   }
 }

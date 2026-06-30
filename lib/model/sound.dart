@@ -20,7 +20,7 @@ class Sound extends Instrument {
   @JsonKey(defaultValue: [])
   final List<Identifier> images;
 
-  Sound({
+  const Sound({
     required this.contents,
     required this.images,
     required super.payload,
@@ -32,6 +32,10 @@ class Sound extends Instrument {
     required super.version,
     required super.row,
     required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory Sound.initial() {
@@ -47,6 +51,10 @@ class Sound extends Instrument {
       version: -1,
       row: -1,
       ordinal: 0,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

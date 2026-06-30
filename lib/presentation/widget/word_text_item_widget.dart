@@ -29,8 +29,8 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<WordTextBloc, WordTextState, bool>(
       selector: (state) => state.fetching.contains(widget.identifier.sku),
-      builder: (context, loading) {
-        if (loading) {
+      builder: (context, fetching) {
+        if (fetching) {
           return const Center(child: CircularProgressIndicator());
         } else {
           return BlocSelector<

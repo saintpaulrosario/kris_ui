@@ -15,7 +15,7 @@ class Audit {
   final String? createdBy;
   final String? lastModifiedBy;
 
-  Audit({
+  const Audit({
     required this.createdDate,
     required this.lastModifiedDate,
     required this.createdBy,
@@ -30,6 +30,12 @@ class Audit {
       lastModifiedBy: null,
     );
   }
+
+  const Audit.empty()
+    : createdDate = null,
+      lastModifiedDate = null,
+      createdBy = null,
+      lastModifiedBy = null;
 
   factory Audit.fromJson(Map<String, dynamic> json) => _$AuditFromJson(json);
 

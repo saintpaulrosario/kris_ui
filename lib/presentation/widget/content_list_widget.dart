@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:kris/model/identifier.dart';
 
-import '../../model/content.dart';
 import 'content_item_wiget.dart';
 
 class ContentListWidget extends StatefulWidget {

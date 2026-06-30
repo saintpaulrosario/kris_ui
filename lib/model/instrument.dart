@@ -22,7 +22,7 @@ class Instrument extends Identifier {
   @JsonKey(defaultValue: <String>[])
   final List<String> tags;
 
-  Instrument({
+  const Instrument({
     required this.payload,
     required this.contentType,
     required this.size,
@@ -32,6 +32,10 @@ class Instrument extends Identifier {
     required super.version,
     required super.row,
     required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory Instrument.initial() {
@@ -45,6 +49,10 @@ class Instrument extends Identifier {
       version: 0,
       row: 0,
       ordinal: 0,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

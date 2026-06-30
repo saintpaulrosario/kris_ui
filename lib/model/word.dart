@@ -25,7 +25,7 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> roots;
 
-  Word({
+  const Word({
     required super.sku,
     required super.version,
     required super.row,
@@ -34,6 +34,10 @@ class Word extends Identifier {
     required this.contents,
     required this.images,
     required this.roots,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory Word.initial() {
@@ -46,6 +50,10 @@ class Word extends Identifier {
       contents: [],
       images: [],
       roots: [],
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

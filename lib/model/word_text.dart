@@ -15,8 +15,8 @@ class WordText extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> words;
 
-  @JsonKey(disallowNullValue: false, defaultValue: null)
-  final Identifier script;
+  @JsonKey(disallowNullValue: false)
+  final Identifier? script;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> languages;
@@ -30,7 +30,7 @@ class WordText extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
 
-  WordText({
+  const WordText({
     required super.sku,
     required super.version,
     required super.row,
@@ -41,6 +41,10 @@ class WordText extends Identifier {
     required this.words,
     required this.script,
     required this.elements,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory WordText.initial() {
@@ -55,6 +59,10 @@ class WordText extends Identifier {
       words: [],
       script: Identifier.initial(),
       elements: [],
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

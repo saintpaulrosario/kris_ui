@@ -20,7 +20,7 @@ class WordImage extends Instrument {
   @JsonKey(defaultValue: [])
   final List<Identifier> sounds;
 
-  WordImage({
+  const WordImage({
     required this.words,
     required this.sounds,
     required super.payload,
@@ -32,6 +32,10 @@ class WordImage extends Instrument {
     required super.version,
     required super.row,
     required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
   });
 
   factory WordImage.initial() {
@@ -47,6 +51,10 @@ class WordImage extends Instrument {
       version: 0,
       row: 0,
       ordinal: 0,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

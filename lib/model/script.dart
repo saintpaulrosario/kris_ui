@@ -22,8 +22,19 @@ class Script extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> elements;
 
-  Script({required this.text, required this.contents, required this.elements})
-    : super(sku: '', version: 0, row: 0, ordinal: -1);
+  const Script({
+    required this.text,
+    required this.contents,
+    required this.elements,
+    required super.sku,
+    required super.version,
+    required super.row,
+    required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
+  });
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);
 

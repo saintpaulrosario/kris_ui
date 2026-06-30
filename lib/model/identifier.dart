@@ -25,24 +25,43 @@ class Identifier extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int ordinal;
 
-  Identifier({
+  const Identifier({
     required this.sku,
     required this.version,
     required this.row,
     required this.ordinal,
-  }) : super(
-         createdDate: null,
-         lastModifiedDate: null,
-         createdBy: '',
-         lastModifiedBy: '',
-       );
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
+  });
+
+  const Identifier.empty()
+    : sku = '',
+      version = -1,
+      row = -1,
+      ordinal = -1,
+      super.empty();
 
   factory Identifier.initial() {
-    return Identifier(sku: '', version: 0, row: -1, ordinal: -1);
+    return Identifier(
+      sku: '',
+      version: 0,
+      row: -1,
+      ordinal: -1,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
+    );
   }
 
-  factory Identifier.fromJson(Map<String, dynamic> json) =>
-      _$IdentifierFromJson(json);
+  factory Identifier.fromJson(Map<String, dynamic> json) {
+    if (json == null || json.isEmpty) {
+      return Identifier.initial();
+    }
+    return _$IdentifierFromJson(json);
+  }
 
   @override
   Map<String, dynamic> toJson() => _$IdentifierToJson(this);
