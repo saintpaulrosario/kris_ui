@@ -36,13 +36,6 @@ class Identifier extends Audit {
     required super.lastModifiedBy,
   });
 
-  const Identifier.empty()
-    : sku = '',
-      version = -1,
-      row = -1,
-      ordinal = -1,
-      super.empty();
-
   factory Identifier.initial() {
     return Identifier(
       sku: '',
