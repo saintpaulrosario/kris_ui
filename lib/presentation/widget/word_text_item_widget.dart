@@ -54,7 +54,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
                   builder: (context, state) {
                     return Card(
                       child: ListTile(
-                        leading: ScriptItemWidget(identifier: state.script!),
+                        //leading: ScriptItemWidget(identifier: state.script!),
                         title: ContentListWidget(identifiers: state.contents),
                       ),
                     );

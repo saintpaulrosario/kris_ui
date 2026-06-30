@@ -63,7 +63,7 @@ class _ScriptItemWidgetState extends State<ScriptItemWidget> {
                       },
                       builder: (context, wordTextState) {
                         if (!wordTextState.containsKey(scriptState.sku)) {
-                          return Text(" script Text not found");
+                          return Text("script Text not found");
                         } else {
                           return Text(wordTextState[scriptState.sku]!.sku);
                         }
