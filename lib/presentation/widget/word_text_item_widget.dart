@@ -40,7 +40,12 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
               if (state == null) {
                 return const Center(child: Text("No content available"));
               }
-              return ContentListWidget(identifiers: state.contents);
+              return Card(
+                child: ListTile(
+                  leading: Text("show script here"),
+                  title: ContentListWidget(identifiers: state.contents),
+                ),
+              );
             },
           );
         }
