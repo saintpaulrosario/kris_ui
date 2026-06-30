@@ -43,9 +43,9 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
               } else if (!state.containsKey(widget.identifier.sku)) {
                 return const Center(child: Text("Content not found"));
               } else {
-                return BlocSelector<ContentBloc, ContentState, Content?>(
+                return BlocSelector<ContentBloc, ContentState, Content>(
                   selector: (state) {
-                    return state.contents[widget.identifier.sku];
+                    return state.contents[widget.identifier.sku]!;
                   },
                   builder: (context, state) {
                     return Card(
@@ -55,22 +55,46 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [Text(state!.payload)],
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                children: [
+                                  Text("(row,ordinal)"),
+                                  Text(
+                                    "${state.row.toString()}, ${state.ordinal.toString()}",
+                                  ),
+                                ],
+                              ),
                             ),
-                            const SizedBox(width: 8),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [SoundListWidget(sounds: state.sounds)],
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SoundListWidget(sounds: state.sounds),
+                                ],
+                              ),
                             ),
-                            const SizedBox(width: 8),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [Text("definition")],
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [Text(state.payload)],
+                              ),
+                            ),
+
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [Text("definition")],
+                              ),
                             ),
                           ],
                         ),

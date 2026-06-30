@@ -54,7 +54,11 @@ class Content extends Identifier {
     required this.rank,
     required this.script,
     required this.examples,
-  }) : super(sku: '', version: 0, row: 0, ordinal: 0);
+    required super.sku,
+    required super.version,
+    required super.row,
+    required super.ordinal,
+  });
 
   factory Content.initial() {
     return Content(
@@ -68,6 +72,10 @@ class Content extends Identifier {
       examples: [],
       script: Identifier.initial(),
       rank: 0,
+      sku: '',
+      version: 0,
+      row: 0,
+      ordinal: 0,
     );
   }
 
