@@ -16,7 +16,7 @@ class WordText extends Identifier {
   final List<Identifier> words;
 
   @JsonKey(disallowNullValue: false, defaultValue: null)
-  final Identifier? script;
+  final Identifier script;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> languages;
@@ -25,7 +25,7 @@ class WordText extends Identifier {
   final List<Identifier> dialects;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> types;
+  final List<Identifier> elements;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
@@ -40,7 +40,7 @@ class WordText extends Identifier {
     required this.languages,
     required this.words,
     required this.script,
-    required this.types,
+    required this.elements,
   });
 
   factory WordText.initial() {
@@ -54,7 +54,7 @@ class WordText extends Identifier {
       languages: [],
       words: [],
       script: Identifier.initial(),
-      types: [],
+      elements: [],
     );
   }
 

@@ -1,13 +1,23 @@
-// part of 'script_bloc.dart';
+part of 'script_bloc.dart';
 
-// import 'package:kris/model/script.dart';
+class ScriptEvent {}
 
-// class ScriptEvent {}
+class RetrieveScriptsEvent extends ScriptEvent {}
 
-// class RetrieveScriptsEvent extends ScriptEvent {}
+class SelectScriptsEvent extends ScriptEvent {
+  final List<Script> selection;
 
-// class SelectScriptsEvent extends ScriptEvent {
-//   final List<Script> selection;
+  SelectScriptsEvent({required this.selection});
+}
 
-//   SelectScriptsEvent({required this.selection});
-// }
+class ScriptEventRetrieveByOrdinal extends ScriptEvent {
+  final int ordinal;
+
+  ScriptEventRetrieveByOrdinal({required this.ordinal});
+}
+
+class ScriptEventRetrieveBySku extends ScriptEvent {
+  final String sku;
+
+  ScriptEventRetrieveBySku({required this.sku});
+}

@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:uuid/uuid.dart';
 
 import 'content.dart';
 import 'identifier.dart';
@@ -18,12 +17,12 @@ class Script extends Identifier {
   final List<Identifier> text;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Content> contents;
+  final List<Identifier> contents;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<String> types;
+  final List<Identifier> elements;
 
-  Script({required this.text, required this.contents, required this.types})
+  Script({required this.text, required this.contents, required this.elements})
     : super(sku: '', version: 0, row: 0, ordinal: -1);
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);

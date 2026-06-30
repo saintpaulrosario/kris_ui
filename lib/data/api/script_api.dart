@@ -11,4 +11,11 @@ abstract class ScriptApi {
 
   @GET("/script")
   Future<HttpResponse<ApiResult<List<Script>>>> retrieveAll();
+
+  @GET("/script/{identifier}")
+  Future<HttpResponse<ApiResult<Script>>> retrieveByIdentifier(
+    @Path("identifier") dynamic identifier, {
+    @Query("ordinal") bool? ordinal,
+    @Query("sku") bool? sku,
+  });
 }

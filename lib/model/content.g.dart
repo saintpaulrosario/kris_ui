@@ -11,8 +11,8 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
 ) {
   final val = Content(
     payload: $checkedConvert('payload', (v) => v as String? ?? ''),
-    types: $checkedConvert(
-      'types',
+    elements: $checkedConvert(
+      'elements',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -94,7 +94,7 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'word': instance.word.toJson(),
   'script': instance.script?.toJson(),
   'text': instance.text.toJson(),
-  'types': instance.types.map((e) => e.toJson()).toList(),
+  'elements': instance.elements.map((e) => e.toJson()).toList(),
   'scripts': instance.scripts.map((e) => e.toJson()).toList(),
   'languages': instance.languages.map((e) => e.toJson()).toList(),
   'sounds': instance.sounds.map((e) => e.toJson()).toList(),

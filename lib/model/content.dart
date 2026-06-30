@@ -29,7 +29,7 @@ class Content extends Identifier {
   final Identifier text;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> types;
+  final List<Identifier> elements;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> scripts;
@@ -45,7 +45,7 @@ class Content extends Identifier {
 
   Content({
     required this.payload,
-    required this.types,
+    required this.elements,
     required this.word,
     required this.scripts,
     required this.languages,
@@ -63,7 +63,7 @@ class Content extends Identifier {
   factory Content.initial() {
     return Content(
       payload: "",
-      types: [],
+      elements: [],
       word: Identifier.initial(),
       text: Identifier.initial(),
       scripts: [],

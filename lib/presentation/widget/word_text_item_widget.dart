@@ -5,6 +5,7 @@ import 'package:kris/presentation/widget/content_list_widget.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/word_text.dart';
+import 'script_item_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
@@ -32,20 +33,34 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         if (loading) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          return BlocSelector<WordTextBloc, WordTextState, WordText?>(
+          return BlocSelector<
+            WordTextBloc,
+            WordTextState,
+            Map<String, WordText>
+          >(
             selector: (state) {
-              return state.texts[widget.identifier.sku];
+              return state.texts;
             },
             builder: (context, state) {
-              if (state == null) {
-                return const Center(child: Text("No content available"));
+              if (state.isEmpty) {
+                return Text('No text available');
+              } else if (!state.containsKey(widget.identifier.sku)) {
+                return Text('Text not available for this SKU');
+              } else {
+                return BlocSelector<WordTextBloc, WordTextState, WordText>(
+                  selector: (state) {
+                    return state.texts[widget.identifier.sku]!;
+                  },
+                  builder: (context, state) {
+                    return Card(
+                      child: ListTile(
+                        leading: ScriptItemWidget(identifier: state.script!),
+                        title: ContentListWidget(identifiers: state.contents),
+                      ),
+                    );
+                  },
+                );
               }
-              return Card(
-                child: ListTile(
-                  leading: Text("show script here"),
-                  title: ContentListWidget(identifiers: state.contents),
-                ),
-              );
             },
           );
         }

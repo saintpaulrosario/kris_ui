@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
           BlocProvider(create: (context) => WordBloc()),
           BlocProvider(create: (context) => ImageBloc()),
           BlocProvider(create: (context) => SoundBloc()),
-          //BlocProvider(create: (context) => ScriptBloc()),
+          BlocProvider(create: (context) => ScriptBloc()),
           BlocProvider(create: (context) => WordTextBloc()),
           BlocProvider(create: (context) => ContentBloc()),
         ],

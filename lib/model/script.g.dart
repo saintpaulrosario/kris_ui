@@ -25,14 +25,20 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
       (v) =>
           (v as List<dynamic>?)
               ?.map(
-                (e) => Content.fromJson(Map<String, dynamic>.from(e as Map)),
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
               )
               .toList() ??
           [],
     ),
-    types: $checkedConvert(
-      'types',
-      (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+    elements: $checkedConvert(
+      'elements',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
   );
   return val;
@@ -41,5 +47,5 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
 Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
   'text': instance.text.map((e) => e.toJson()).toList(),
   'contents': instance.contents.map((e) => e.toJson()).toList(),
-  'types': instance.types,
+  'elements': instance.elements.map((e) => e.toJson()).toList(),
 };
