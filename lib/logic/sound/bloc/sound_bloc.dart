@@ -23,13 +23,13 @@ class SoundBloc extends Bloc<SoundEvent, SoundState> {
       final results = await _soundService.retriveBySku(event.sku);
 
       fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
 
       results.fold((error) {}, (success) {
         final sounds = Map<String, Sound>.from(state.sounds);
         sounds[event.sku] = success;
         emit(state.copyWith(sounds: sounds));
       });
+      emit(state.copyWith(fetching: fetching));
     });
   }
 }

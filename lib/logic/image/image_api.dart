@@ -9,7 +9,7 @@ part 'image_api.g.dart';
 abstract class ImageApi {
   factory ImageApi(Dio dio, {String baseUrl}) = _ImageApi;
 
-  @GET("/image/{identifier}/identifier")
+  @GET("/image/{identifier}")
   Future<HttpResponse<ApiResult<WordImage>>> retrieve({
     @Path("identifier") required String identifier,
     @Query("sku", encoded: true) required bool sku,

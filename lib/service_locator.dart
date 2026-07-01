@@ -32,7 +32,7 @@ void setupLocator() {
   //   () => DioClient(getIt<AuthInterceptor>()),
   // );
 
-  final baseUrlKris = 'http://127.0.0.1:8080';
+  final baseUrlKris = 'http://192.168.12.59:8080';
   // APIs
 
   getIt.registerLazySingleton<Dio>(() => Dio());

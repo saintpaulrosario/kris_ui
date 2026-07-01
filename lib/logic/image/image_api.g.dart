@@ -35,7 +35,7 @@ class _ImageApi implements ImageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image/${identifier}/identifier',
+            '/image/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
