@@ -20,22 +20,22 @@ class Content extends Identifier {
   final int rank;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier word;
+  final Identifier text;
 
   @JsonKey(disallowNullValue: false)
   final Identifier? script;
 
-  @JsonKey(disallowNullValue: false)
-  final Identifier text;
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> dialects;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> languages;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> elements;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> scripts;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> languages;
+  final List<Identifier> words;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
@@ -46,8 +46,7 @@ class Content extends Identifier {
   const Content({
     required this.payload,
     required this.elements,
-    required this.word,
-    required this.scripts,
+    required this.words,
     required this.languages,
     required this.sounds,
     required this.text,
@@ -62,15 +61,14 @@ class Content extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.dialects,
   });
 
   factory Content.initial() {
     return Content(
       payload: "",
       elements: [],
-      word: Identifier.initial(),
-      text: Identifier.initial(),
-      scripts: [],
+      words: [],
       languages: [],
       sounds: [],
       examples: [],
@@ -84,6 +82,8 @@ class Content extends Identifier {
       lastModifiedDate: null,
       createdBy: '',
       lastModifiedBy: '',
+      text: Identifier.initial(),
+      dialects: [],
     );
   }
 

@@ -21,12 +21,8 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
               .toList() ??
           [],
     ),
-    word: $checkedConvert(
-      'word',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-    ),
-    scripts: $checkedConvert(
-      'scripts',
+    words: $checkedConvert(
+      'words',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -90,6 +86,16 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    dialects: $checkedConvert(
+      'dialects',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
   );
   return val;
 });
@@ -105,12 +111,12 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'payload': instance.payload,
   'rank': instance.rank,
-  'word': instance.word.toJson(),
-  'script': instance.script?.toJson(),
   'text': instance.text.toJson(),
-  'elements': instance.elements.map((e) => e.toJson()).toList(),
-  'scripts': instance.scripts.map((e) => e.toJson()).toList(),
+  'script': instance.script?.toJson(),
+  'dialects': instance.dialects.map((e) => e.toJson()).toList(),
   'languages': instance.languages.map((e) => e.toJson()).toList(),
+  'elements': instance.elements.map((e) => e.toJson()).toList(),
+  'words': instance.words.map((e) => e.toJson()).toList(),
   'sounds': instance.sounds.map((e) => e.toJson()).toList(),
   'examples': instance.examples.map((e) => e.toJson()).toList(),
 };
