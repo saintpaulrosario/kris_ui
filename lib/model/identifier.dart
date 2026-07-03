@@ -16,19 +16,15 @@ class Identifier extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String sku;
 
-  @JsonKey(disallowNullValue: false, defaultValue: -1)
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
   final int version;
 
-  @JsonKey(disallowNullValue: false, defaultValue: -1)
-  final int row;
-
-  @JsonKey(disallowNullValue: false, defaultValue: -1)
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
   final int ordinal;
 
   const Identifier({
     required this.sku,
     required this.version,
-    required this.row,
     required this.ordinal,
     required super.createdDate,
     required super.lastModifiedDate,
@@ -40,7 +36,6 @@ class Identifier extends Audit {
     return Identifier(
       sku: '',
       version: 0,
-      row: -1,
       ordinal: -1,
       createdDate: null,
       lastModifiedDate: null,

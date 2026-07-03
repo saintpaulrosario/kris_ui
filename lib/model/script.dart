@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import 'content.dart';
 import 'identifier.dart';
 
 part 'script.g.dart';
@@ -28,7 +26,6 @@ class Script extends Identifier {
     required this.elements,
     required super.sku,
     required super.version,
-    required super.row,
     required super.ordinal,
     required super.createdDate,
     required super.lastModifiedDate,

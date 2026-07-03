@@ -28,7 +28,6 @@ class Word extends Identifier {
   const Word({
     required super.sku,
     required super.version,
-    required super.row,
     required super.ordinal,
     required this.texts,
     required this.contents,
@@ -44,7 +43,6 @@ class Word extends Identifier {
     return Word(
       sku: '',
       version: 0,
-      row: 0,
       ordinal: -1,
       texts: [],
       contents: [],

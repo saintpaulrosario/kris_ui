@@ -21,7 +21,13 @@ class _ImageListWidgetState extends State<ImageListWidget> {
     if (widget.imagesIdentifiers.isEmpty) {
       return const Text('No images available');
     }
-    final image = widget.imagesIdentifiers.first;
-    return ImageItemWidget(imageIdentifier: image);
+
+    return Column(
+      children: [
+        ImageItemWidget(imageIdentifier: widget.imagesIdentifiers.first),
+        if (widget.imagesIdentifiers.length > 1)
+          ImageItemWidget(imageIdentifier: widget.imagesIdentifiers.last),
+      ],
+    );
   }
 }

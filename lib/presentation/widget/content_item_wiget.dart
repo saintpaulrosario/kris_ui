@@ -58,11 +58,17 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                             Expanded(
                               flex: 1,
                               child: Column(
+                                children: [Text(state.ordinal.toString())],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text("(row,ordinal)"),
-                                  Text(
-                                    "${state.row.toString()}, ${state.ordinal.toString()}",
-                                  ),
+                                  //SoundListWidget(sounds: state.sounds),
                                 ],
                               ),
                             ),
@@ -73,17 +79,8 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  SoundListWidget(sounds: state.sounds),
+                                  //Text(state.payload),
                                 ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [Text(state.payload)],
                               ),
                             ),
 

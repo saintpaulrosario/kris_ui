@@ -11,9 +11,8 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
 ) {
   final val = WordText(
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? -1),
-    row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? -1),
+    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
     dialects: $checkedConvert(
       'dialects',
       (v) =>
@@ -91,7 +90,6 @@ Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
   'lastModifiedBy': instance.lastModifiedBy,
   'sku': instance.sku,
   'version': instance.version,
-  'row': instance.row,
   'ordinal': instance.ordinal,
   'words': instance.words.map((e) => e.toJson()).toList(),
   'script': instance.script?.toJson(),

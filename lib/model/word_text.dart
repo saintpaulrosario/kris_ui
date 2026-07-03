@@ -33,7 +33,6 @@ class WordText extends Identifier {
   const WordText({
     required super.sku,
     required super.version,
-    required super.row,
     required super.ordinal,
     required this.dialects,
     required this.contents,
@@ -51,7 +50,6 @@ class WordText extends Identifier {
     return WordText(
       sku: '',
       version: 0,
-      row: 0,
       ordinal: 0,
       dialects: [],
       contents: [],

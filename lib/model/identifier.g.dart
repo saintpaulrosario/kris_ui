@@ -10,9 +10,8 @@ Identifier _$IdentifierFromJson(Map json) =>
     $checkedCreate('Identifier', json, ($checkedConvert) {
       final val = Identifier(
         sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-        version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? -1),
-        row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
-        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? -1),
+        version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
         createdDate: $checkedConvert(
           'createdDate',
           (v) => v == null ? null : DateTime.parse(v as String),
@@ -35,6 +34,5 @@ Map<String, dynamic> _$IdentifierToJson(Identifier instance) =>
       'lastModifiedBy': instance.lastModifiedBy,
       'sku': instance.sku,
       'version': instance.version,
-      'row': instance.row,
       'ordinal': instance.ordinal,
     };

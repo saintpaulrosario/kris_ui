@@ -67,10 +67,11 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
                     base64Decode(state.payload),
                   );
                   return InteractiveViewer(
+                    clipBehavior: Clip.antiAlias,
                     minScale: 0.5,
                     maxScale: 5.0,
                     panEnabled: true,
-                    child: Image.memory(imageBytes, fit: BoxFit.contain),
+                    child: Image.memory(imageBytes, fit: BoxFit.cover),
                   );
                 },
               );
