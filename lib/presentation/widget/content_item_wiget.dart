@@ -5,6 +5,7 @@ import 'package:kris/presentation/widget/sound_list_wiget.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
 import '../../model/content.dart';
+import 'payload_list_widget.dart';
 
 class ContentItemWidget extends StatefulWidget {
   final Identifier identifier;
@@ -55,12 +56,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                children: [Text(state.ordinal.toString())],
-                              ),
-                            ),
+                            Column(children: [Text(state.ordinal.toString())]),
                             Expanded(
                               flex: 1,
                               child: Column(
@@ -68,29 +64,13 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  //SoundListWidget(sounds: state.sounds),
+                                  Text('Ordinal: ${state.ordinal}'),
+                                  Card(
+                                    child: PayloadListWidget(
+                                      identifiers: state.payloads,
+                                    ),
+                                  ),
                                 ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  //Text(state.payload),
-                                ],
-                              ),
-                            ),
-
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [Text("definition")],
                               ),
                             ),
                           ],

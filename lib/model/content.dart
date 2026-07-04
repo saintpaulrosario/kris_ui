@@ -16,7 +16,8 @@ class Content extends Identifier {
   final List<Identifier> payloads;
   final Identifier text;
   final Identifier script;
-  final Identifier language;
+  @JsonKey(disallowNullValue: false)
+  final Identifier? language;
   final Identifier word;
 
   const Content({
@@ -25,15 +26,14 @@ class Content extends Identifier {
     required this.script,
     required this.language,
     required this.word,
-  }) : super(
-         sku: '',
-         version: 0,
-         ordinal: 0,
-         createdDate: null,
-         lastModifiedDate: null,
-         createdBy: '',
-         lastModifiedBy: '',
-       );
+    required super.sku,
+    required super.version,
+    required super.ordinal,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
+  });
 
   factory Content.initial() {
     return Content(
@@ -42,6 +42,13 @@ class Content extends Identifier {
       script: Identifier.initial(),
       language: Identifier.initial(),
       word: Identifier.initial(),
+      sku: '',
+      version: 0,
+      ordinal: 0,
+      createdDate: null,
+      lastModifiedDate: null,
+      createdBy: '',
+      lastModifiedBy: '',
     );
   }
 

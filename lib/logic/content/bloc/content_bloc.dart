@@ -40,14 +40,13 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       final Either<ErrorResponse, Content> result = await _contentService
           .retriveBySku(event.sku);
 
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
-
       result.fold((error) {}, (content) {
         final contents = Map<String, Content>.from(state.contents);
         contents[event.sku] = content;
         emit(state.copyWith(contents: contents));
       });
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
     });
   }
 }

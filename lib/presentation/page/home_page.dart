@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/payload/bloc/payload_bloc.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           BlocProvider(create: (context) => ScriptBloc()),
           BlocProvider(create: (context) => WordTextBloc()),
           BlocProvider(create: (context) => ContentBloc()),
+          BlocProvider(create: (context) => PayloadBloc()),
         ],
         child: WordListScreen(),
       ),

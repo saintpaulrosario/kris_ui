@@ -15,7 +15,7 @@ class SoundBloc extends Bloc<SoundEvent, SoundState> {
   SoundBloc() : super(SoundState.initial()) {
     on<SoundEvent>((event, emit) {});
 
-    on<RetrieveSoundsEvent>((event, emit) async {
+    on<SoundEventFetchBySku>((event, emit) async {
       final fetching = Set<String>.from(state.fetching);
       fetching.add(event.sku);
       emit(state.copyWith(fetching: fetching));
