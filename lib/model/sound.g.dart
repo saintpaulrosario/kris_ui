@@ -6,48 +6,37 @@ part of 'sound.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Sound _$SoundFromJson(Map json) => $checkedCreate('Sound', json, (
-  $checkedConvert,
-) {
-  final val = Sound(
-    contents: $checkedConvert(
-      'contents',
-      (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-    ),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
-    payload: $checkedConvert('payload', (v) => v as String),
-    contentType: $checkedConvert('contentType', (v) => v as String),
-    size: $checkedConvert('size', (v) => (v as num).toInt()),
-    description: $checkedConvert('description', (v) => v as String? ?? ''),
-    tags: $checkedConvert(
-      'tags',
-      (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-    ),
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
-    createdDate: $checkedConvert(
-      'createdDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
-    ),
-    lastModifiedDate: $checkedConvert(
-      'lastModifiedDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
-    ),
-    createdBy: $checkedConvert('createdBy', (v) => v as String?),
-    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-  );
-  return val;
-});
+Sound _$SoundFromJson(Map json) =>
+    $checkedCreate('Sound', json, ($checkedConvert) {
+      final val = Sound(
+        payloads: $checkedConvert(
+          'payloads',
+          (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+        ),
+        payload: $checkedConvert('payload', (v) => v as String),
+        contentType: $checkedConvert('contentType', (v) => v as String),
+        size: $checkedConvert('size', (v) => (v as num).toInt()),
+        description: $checkedConvert('description', (v) => v as String? ?? ''),
+        tags: $checkedConvert(
+          'tags',
+          (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+        ),
+        sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+        version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+        createdDate: $checkedConvert(
+          'createdDate',
+          (v) => v == null ? null : DateTime.parse(v as String),
+        ),
+        lastModifiedDate: $checkedConvert(
+          'lastModifiedDate',
+          (v) => v == null ? null : DateTime.parse(v as String),
+        ),
+        createdBy: $checkedConvert('createdBy', (v) => v as String?),
+        lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+      );
+      return val;
+    });
 
 Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
   'createdDate': instance.createdDate?.toIso8601String(),
@@ -62,6 +51,5 @@ Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
   'size': instance.size,
   'description': instance.description,
   'tags': instance.tags,
-  'contents': instance.contents,
-  'images': instance.images.map((e) => e.toJson()).toList(),
+  'payloads': instance.payloads,
 };

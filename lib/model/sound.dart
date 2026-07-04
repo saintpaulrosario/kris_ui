@@ -15,14 +15,10 @@ part 'sound.g.dart';
 )
 class Sound extends Instrument {
   @JsonKey(defaultValue: [])
-  final List<String> contents;
-
-  @JsonKey(defaultValue: [])
-  final List<Identifier> images;
+  final List<String> payloads;
 
   const Sound({
-    required this.contents,
-    required this.images,
+    required this.payloads,
     required super.payload,
     required super.contentType,
     required super.size,
@@ -39,8 +35,7 @@ class Sound extends Instrument {
 
   factory Sound.initial() {
     return Sound(
-      contents: [],
-      images: [],
+      payloads: [],
       payload: '',
       contentType: '',
       size: 0,
