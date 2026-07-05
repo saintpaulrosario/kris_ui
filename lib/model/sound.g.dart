@@ -8,14 +8,27 @@ part of 'sound.dart';
 
 Sound _$SoundFromJson(Map json) =>
     $checkedCreate('Sound', json, ($checkedConvert) {
+      $checkKeys(
+        json,
+        allowedKeys: const [
+          'createdDate',
+          'lastModifiedDate',
+          'createdBy',
+          'lastModifiedBy',
+          'sku',
+          'version',
+          'ordinal',
+          'payload',
+          'contentType',
+          'size',
+          'description',
+          'tags',
+        ],
+      );
       final val = Sound(
-        payloads: $checkedConvert(
-          'payloads',
-          (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-        ),
-        payload: $checkedConvert('payload', (v) => v as String),
-        contentType: $checkedConvert('contentType', (v) => v as String),
-        size: $checkedConvert('size', (v) => (v as num).toInt()),
+        payload: $checkedConvert('payload', (v) => v as String? ?? ''),
+        contentType: $checkedConvert('contentType', (v) => v as String? ?? ''),
+        size: $checkedConvert('size', (v) => (v as num?)?.toInt() ?? 0),
         description: $checkedConvert('description', (v) => v as String? ?? ''),
         tags: $checkedConvert(
           'tags',
@@ -51,5 +64,4 @@ Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
   'size': instance.size,
   'description': instance.description,
   'tags': instance.tags,
-  'payloads': instance.payloads,
 };

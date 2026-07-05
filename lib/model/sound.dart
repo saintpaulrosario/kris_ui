@@ -9,16 +9,17 @@ part 'sound.g.dart';
 @JsonSerializable(
   includeIfNull: true,
   ignoreUnannotated: false,
+  disallowUnrecognizedKeys: true,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
 class Sound extends Instrument {
-  @JsonKey(defaultValue: [])
-  final List<String> payloads;
+  //@JsonKey(defaultValue: [])
+  //final List<String> payloads;
 
   const Sound({
-    required this.payloads,
+    // required this.payloads,
     required super.payload,
     required super.contentType,
     required super.size,
@@ -35,7 +36,7 @@ class Sound extends Instrument {
 
   factory Sound.initial() {
     return Sound(
-      payloads: [],
+      // payloads: [],
       payload: '',
       contentType: '',
       size: 0,

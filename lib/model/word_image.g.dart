@@ -30,9 +30,9 @@ WordImage _$WordImageFromJson(Map json) => $checkedCreate('WordImage', json, (
               .toList() ??
           [],
     ),
-    payload: $checkedConvert('payload', (v) => v as String),
-    contentType: $checkedConvert('contentType', (v) => v as String),
-    size: $checkedConvert('size', (v) => (v as num).toInt()),
+    payload: $checkedConvert('payload', (v) => v as String? ?? ''),
+    contentType: $checkedConvert('contentType', (v) => v as String? ?? ''),
+    size: $checkedConvert('size', (v) => (v as num?)?.toInt() ?? 0),
     description: $checkedConvert('description', (v) => v as String? ?? ''),
     tags: $checkedConvert(
       'tags',

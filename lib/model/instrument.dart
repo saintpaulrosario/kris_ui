@@ -12,14 +12,19 @@ part 'instrument.g.dart';
   checked: true,
 )
 class Instrument extends Identifier {
+  @JsonKey(disallowNullValue: false, defaultValue: '')
   final String payload;
+
+  @JsonKey(disallowNullValue: false, defaultValue: '')
   final String contentType;
+
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
   final int size;
 
-  @JsonKey(defaultValue: '')
+  @JsonKey(disallowNullValue: false, defaultValue: '')
   final String description;
 
-  @JsonKey(defaultValue: <String>[])
+  @JsonKey(disallowNullValue: false, defaultValue: <String>[])
   final List<String> tags;
 
   const Instrument({

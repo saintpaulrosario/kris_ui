@@ -48,7 +48,7 @@ class _WordListScreenState extends State<WordListScreen> {
                     horizontal: 8,
                     vertical: 4,
                   ),
-                  child: WordItemScreen(word: word),
+                  child: Card(child: WordItemScreen(word: word)),
                 );
               },
             );
