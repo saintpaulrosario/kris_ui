@@ -48,27 +48,40 @@ class _WordItemScreenState extends State<WordItemScreen> {
               );
             }
 
-            return Card(
-              margin: const EdgeInsets.all(8),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Card(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ImageListWidget(
+                            imagesIdentifiers: widget.word.images,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [Text("definition")],
+                      ),
+                    ),
                     Expanded(
                       flex: 3,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(widget.word.sku),
                           WordTextListWidget(identifiers: state.texts),
                         ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ImageListWidget(
-                        imagesIdentifiers: widget.word.images,
                       ),
                     ),
                   ],

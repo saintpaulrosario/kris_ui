@@ -20,14 +20,16 @@ class _ImageListWidgetState extends State<ContentListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.identifiers.length,
-      itemBuilder: (context, index) {
-        Identifier identifier = widget.identifiers[index];
-        return ContentItemWidget(identifier: identifier);
-      },
+    return Card(
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: widget.identifiers.length,
+        itemBuilder: (context, index) {
+          Identifier identifier = widget.identifiers[index];
+          return ContentItemWidget(identifier: identifier);
+        },
+      ),
     );
   }
 }

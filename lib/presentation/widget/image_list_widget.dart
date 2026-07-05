@@ -22,12 +22,20 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       return const Text('No images available');
     }
 
-    return Column(
-      children: [
-        ImageItemWidget(imageIdentifier: widget.imagesIdentifiers.first),
-        if (widget.imagesIdentifiers.length > 1)
-          ImageItemWidget(imageIdentifier: widget.imagesIdentifiers.last),
-      ],
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1,
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
+      ),
+      itemCount: widget.imagesIdentifiers.length,
+      itemBuilder: (context, index) {
+        return ImageItemWidget(
+          imageIdentifier: widget.imagesIdentifiers[index],
+        );
+      },
     );
   }
 }
