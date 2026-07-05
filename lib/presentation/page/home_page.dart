@@ -9,6 +9,7 @@ import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/sound/bloc/sound_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
+import '../widget/menu_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,7 +33,12 @@ class _HomePageState extends State<HomePage> {
           BlocProvider(create: (context) => ContentBloc()),
           BlocProvider(create: (context) => PayloadBloc()),
         ],
-        child: WordListScreen(),
+        child: Column(
+          children: [
+            MenuWidget(),
+            Expanded(child: WordListScreen()),
+          ],
+        ),
       ),
     );
   }
