@@ -52,7 +52,12 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
                     return state.texts[widget.identifier.sku]!;
                   },
                   builder: (context, state) {
-                    return ContentListWidget(identifiers: state.contents);
+                    return Column(
+                      children: [
+                        ScriptItemWidget(identifier: state.script!),
+                        ContentListWidget(identifiers: state.contents),
+                      ],
+                    );
                   },
                 );
               }

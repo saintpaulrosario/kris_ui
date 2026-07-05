@@ -79,7 +79,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(widget.word.sku),
                           WordTextListWidget(identifiers: state.texts),
                         ],
                       ),
