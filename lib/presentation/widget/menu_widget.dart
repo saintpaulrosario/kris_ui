@@ -40,13 +40,26 @@ class _MenuWidgetState extends State<MenuWidget> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(
-                    scriptState.values.length,
-                    (index) => Padding(
+                  children: List.generate(scriptState.values.length, (index) {
+                    final script = scriptState.values.elementAt(index);
+
+                    return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(scriptState.values.elementAt(index).sku),
-                    ),
-                  ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Checkbox(
+                            value: true,
+                            onChanged: (bool? value) {
+                              setState(() {});
+                            },
+                          ),
+                          Text(script.sku),
+                          Text(script.ordinal.toString()),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
               );
             },

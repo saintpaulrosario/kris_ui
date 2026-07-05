@@ -39,5 +39,20 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
       fetching.remove(event.sku);
       emit(state.copyWith(fetching: fetching));
     });
+
+    on<RetrieveScriptsEvent>((event, emit) async {
+      final fetching = Set<String>.from(state.fetching);
+      emit(state.copyWith(fetching: fetching));
+      await _scriptService.retriveAll().then((result) {
+        result.fold((error) {}, (scriptsList) {
+          Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
+          for (var script in scriptsList) {
+            scripts[script.sku] = script;
+          }
+          emit(state.copyWith(scripts: scripts));
+        });
+      });
+      emit(state.copyWith(fetching: fetching));
+    });
   }
 }

@@ -43,4 +43,21 @@ class ScriptService {
       return left(errorResponse);
     }
   }
+
+  Future<Either<ErrorResponse, List<Script>>> retriveAll() async {
+    final HttpResponse<ApiResult<List<Script>>> httpResponse = await _scriptApi
+        .retrieveAll();
+
+    ApiResult<List<Script>> apiResult = httpResponse.data;
+    if (httpResponse.response.statusCode == 200) {
+      final List<Script> payload = apiResult.payload;
+      return right(payload);
+    } else {
+      final ErrorResponse errorResponse = ErrorResponse.fromJson(
+        httpResponse.response.data,
+      );
+      //throw Exception('Failed to retrieve scripts');
+      return left(errorResponse);
+    }
+  }
 }
