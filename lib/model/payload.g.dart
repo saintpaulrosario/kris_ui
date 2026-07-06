@@ -24,19 +24,19 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
       'content',
       (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
-    language: $checkedConvert(
-      'language',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-    ),
     word: $checkedConvert(
       'word',
       (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     sounds: $checkedConvert(
       'sounds',
-      (v) => (v as List<dynamic>)
-          .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
-          .toList(),
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
   );
   return val;
@@ -48,7 +48,6 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'script': instance.script.toJson(),
   'text': instance.text.toJson(),
   'content': instance.content.toJson(),
-  'language': instance.language.toJson(),
   'word': instance.word.toJson(),
   'sounds': instance.sounds.map((e) => e.toJson()).toList(),
 };

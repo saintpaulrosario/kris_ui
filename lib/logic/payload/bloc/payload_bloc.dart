@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/error_response.dart';
+import '../../../model/identifier.dart';
 import '../../../model/payload.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
@@ -37,6 +38,14 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
       );
       fetching.remove(event.sku);
       emit(state.copyWith(fetching: fetching));
+    });
+
+    on<PayloadEventAdd>((event, emit) {
+      List<Identifier> identifiers = event.identifiers;
+
+      for (Identifier identifier in identifiers) {
+        add(PayloadEventRetrieveBySku(identifier.sku));
+      }
     });
   }
 }

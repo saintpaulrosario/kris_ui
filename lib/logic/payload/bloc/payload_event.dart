@@ -7,3 +7,8 @@ class PayloadEventRetrieveBySku extends PayloadEvent {
   final String sku;
   PayloadEventRetrieveBySku(this.sku);
 }
+
+class PayloadEventAdd extends PayloadEvent {
+  final List<Identifier> identifiers;
+  PayloadEventAdd(this.identifiers);
+}

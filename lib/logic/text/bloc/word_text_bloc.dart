@@ -3,15 +3,18 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/error_response.dart';
+import '../../../model/identifier.dart';
 import '../../../model/word_text.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
+import '../../content/bloc/content_bloc.dart';
 import '../word_text_service.dart';
 
 part 'word_text_event.dart';
 part 'word_text_state.dart';
 
 class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
+  final ContentBloc _contentBloc = getIt<ContentBloc>();
   final WordTextService _wordTextService = getIt<WordTextService>();
 
   WordTextBloc() : super(WordTextState.initial()) {
@@ -35,10 +38,19 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           final texts = Map<String, WordText>.from(state.texts);
           texts[event.sku] = result;
           emit(state.copyWith(texts: texts));
+          _contentBloc.add(ContentEventAdd(result.contents));
         },
       );
       fetching.remove(event.sku);
       emit(state.copyWith(fetching: fetching));
+    });
+
+    on<WordTextEventAdd>((event, emit) {
+      List<Identifier> identifiers = event.identifiers;
+
+      for (Identifier identifier in identifiers) {
+        add(WordTextEventRetrieveBySku(sku: identifier.sku));
+      }
     });
   }
 }

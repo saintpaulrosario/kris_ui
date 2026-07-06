@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'identifier.dart';
+import 'word.dart';
 
 part 'script.g.dart';
 
@@ -10,20 +11,8 @@ part 'script.g.dart';
   anyMap: true,
   checked: true,
 )
-class Script extends Identifier {
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> text;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> contents;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> elements;
-
+class Script extends Word {
   const Script({
-    required this.text,
-    required this.contents,
-    required this.elements,
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -31,6 +20,10 @@ class Script extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.texts,
+    required super.contents,
+    required super.images,
+    required super.roots,
   });
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);

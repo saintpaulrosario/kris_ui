@@ -3,12 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:kris/data/api/script_api.dart';
 
 import 'data/service/script_service.dart';
+import 'logic/content/bloc/content_bloc.dart';
 import 'logic/content/content_api.dart';
 import 'logic/content/content_service.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
+import 'logic/payload/bloc/payload_bloc.dart';
 import 'logic/payload/payload_api.dart';
 import 'logic/payload/payload_service.dart';
+import 'logic/text/bloc/word_text_bloc.dart';
 import 'logic/text/word_text_api.dart';
 import 'logic/text/word_text_service.dart';
 import 'logic/word/word_api.dart';
@@ -76,4 +79,9 @@ void setupLocator() {
   getIt.registerLazySingleton<ContentService>(() => ContentService());
   getIt.registerLazySingleton<WordTextService>(() => WordTextService());
   getIt.registerLazySingleton<PayloadService>(() => PayloadService());
+
+  //
+  getIt.registerLazySingleton<ContentBloc>(() => ContentBloc());
+  getIt.registerLazySingleton<WordTextBloc>(() => WordTextBloc());
+  getIt.registerLazySingleton<PayloadBloc>(() => PayloadBloc());
 }

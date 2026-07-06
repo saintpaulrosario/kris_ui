@@ -10,8 +10,21 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
   $checkedConvert,
 ) {
   final val = Script(
-    text: $checkedConvert(
-      'text',
+    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    createdDate: $checkedConvert(
+      'createdDate',
+      (v) => v == null ? null : DateTime.parse(v as String),
+    ),
+    lastModifiedDate: $checkedConvert(
+      'lastModifiedDate',
+      (v) => v == null ? null : DateTime.parse(v as String),
+    ),
+    createdBy: $checkedConvert('createdBy', (v) => v as String?),
+    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    texts: $checkedConvert(
+      'texts',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -30,8 +43,8 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
               .toList() ??
           [],
     ),
-    elements: $checkedConvert(
-      'elements',
+    images: $checkedConvert(
+      'images',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -40,19 +53,16 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
               .toList() ??
           [],
     ),
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-    version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
-    createdDate: $checkedConvert(
-      'createdDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
+    roots: $checkedConvert(
+      'roots',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
-    lastModifiedDate: $checkedConvert(
-      'lastModifiedDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
-    ),
-    createdBy: $checkedConvert('createdBy', (v) => v as String?),
-    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
   );
   return val;
 });
@@ -65,7 +75,8 @@ Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'ordinal': instance.ordinal,
-  'text': instance.text.map((e) => e.toJson()).toList(),
+  'texts': instance.texts.map((e) => e.toJson()).toList(),
   'contents': instance.contents.map((e) => e.toJson()).toList(),
-  'elements': instance.elements.map((e) => e.toJson()).toList(),
+  'images': instance.images.map((e) => e.toJson()).toList(),
+  'roots': instance.roots.map((e) => e.toJson()).toList(),
 };

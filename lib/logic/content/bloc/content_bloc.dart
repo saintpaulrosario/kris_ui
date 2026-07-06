@@ -3,8 +3,10 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../model/content.dart';
 import '../../../model/error_response.dart';
+import '../../../model/identifier.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
+import '../../payload/bloc/payload_bloc.dart';
 import '../content_service.dart';
 
 part 'content_event.dart';
@@ -12,6 +14,7 @@ part 'content_state.dart';
 
 class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final _contentService = getIt.get<ContentService>();
+  final _payloadBloc = getIt.get<PayloadBloc>();
   ContentBloc() : super(ContentState.initial()) {
     on<ContentEvent>((event, emit) {
       // TODO: implement event handler
@@ -43,10 +46,19 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       result.fold((error) {}, (content) {
         final contents = Map<String, Content>.from(state.contents);
         contents[event.sku] = content;
+        _payloadBloc.add(PayloadEventAdd(content.payloads));
         emit(state.copyWith(contents: contents));
       });
       fetching.remove(event.sku);
       emit(state.copyWith(fetching: fetching));
+    });
+
+    on<ContentEventAdd>((event, emit) {
+      List<Identifier> identifiers = event.identifiers;
+
+      for (Identifier identifier in identifiers) {
+        add(ContentEventRetriveBySku(identifier.sku));
+      }
     });
   }
 }

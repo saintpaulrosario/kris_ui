@@ -13,3 +13,9 @@ class ContentEventRetriveBySku extends ContentEvent {
 
   ContentEventRetriveBySku(this.sku);
 }
+
+class ContentEventAdd extends ContentEvent {
+  final List<Identifier> identifiers;
+
+  ContentEventAdd(this.identifiers);
+}

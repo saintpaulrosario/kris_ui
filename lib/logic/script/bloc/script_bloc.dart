@@ -1,12 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/data/service/script_service.dart';
+import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/script.dart';
 
+import '../../../model/content.dart';
 import '../../../model/error_response.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../content/bloc/content_bloc.dart';
+import '../../text/bloc/word_text_bloc.dart';
 
 part 'script_event.dart';
 part 'script_state.dart';
@@ -14,6 +19,7 @@ part 'script_state.dart';
 // TODO should load data from cache if first load
 
 class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
+  final WordTextBloc _wordTextBloc = getIt<WordTextBloc>();
   final ScriptService _scriptService = getIt<ScriptService>();
 
   final BehaviorSubject<Script> _scriptSubject;
@@ -48,6 +54,9 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
           Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
           for (var script in scriptsList) {
             scripts[script.sku] = script;
+            List<Identifier> texts = scripts[script.sku]!.texts;
+            _wordTextBloc.add(WordTextEventAdd(identifiers: texts));
+            // dispatch text event here
           }
           emit(state.copyWith(scripts: scripts));
         });

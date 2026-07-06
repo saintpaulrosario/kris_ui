@@ -15,11 +15,23 @@ part 'payload.g.dart';
 class Payload extends Identifier {
   final int row;
   final String value;
+
+  @JsonKey(disallowNullValue: false)
   final Identifier script;
+
+  @JsonKey(disallowNullValue: false)
   final Identifier text;
+
+  @JsonKey(disallowNullValue: false)
   final Identifier content;
-  final Identifier language;
+
+  // @JsonKey(disallowNullValue: false)
+  // final Identifier language;
+
+  @JsonKey(disallowNullValue: false)
   final Identifier word;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
 
   const Payload({
@@ -28,7 +40,6 @@ class Payload extends Identifier {
     required this.script,
     required this.text,
     required this.content,
-    required this.language,
     required this.word,
     required this.sounds,
   }) : super(
@@ -48,7 +59,6 @@ class Payload extends Identifier {
       script: Identifier.initial(),
       text: Identifier.initial(),
       content: Identifier.initial(),
-      language: Identifier.initial(),
       word: Identifier.initial(),
       sounds: [],
     );
