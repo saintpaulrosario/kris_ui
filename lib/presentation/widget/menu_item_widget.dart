@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/text/bloc/word_text_bloc.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/model/word_text.dart';
+import 'package:kris/presentation/widget/menu_item_text_list_widget.dart';
 
 class ScriptMenuItemWidget extends StatelessWidget {
   final Word word;
@@ -27,7 +29,8 @@ class ScriptMenuItemWidget extends StatelessWidget {
             return state.words[word.sku];
           },
           builder: (context, state) {
-            return Text(word.sku);
+            List<Identifier> identifiers = state!.texts;
+            return MenuItemTextListWidget(identifiers: identifiers);
           },
         );
       },
