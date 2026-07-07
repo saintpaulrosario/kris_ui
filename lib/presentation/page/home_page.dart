@@ -12,9 +12,11 @@ import '../../logic/sound/bloc/sound_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
 import '../widget/menu_widget.dart';
+import 'app_drawer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Widget child;
+  const HomePage({super.key, required this.child});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,7 +26,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ߞߙߌߛ')),
+      appBar: AppBar(title: const Text("ߞߙߌߛߌ")),
+      drawer: AppDrawer(),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => WordBloc()),
@@ -40,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             MenuWidget(),
-            Expanded(child: WordListScreen()),
+            Expanded(child: widget.child),
           ],
         ),
       ),
