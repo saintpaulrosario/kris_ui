@@ -3,6 +3,7 @@ import 'package:kris/data/service/script_service.dart';
 import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/script.dart';
+import 'package:kris/model/word.dart';
 
 import '../../../model/content.dart';
 import '../../../model/error_response.dart';
@@ -62,6 +63,16 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
         });
       });
       emit(state.copyWith(fetching: fetching));
+    });
+
+    on<ScriptsEventSelected>((event, emit) async {
+      Set<Word> selections = Set.from(state.selections);
+      if (event.select) {
+        selections.add(event.selection);
+      } else {
+        selections.remove(event.selection);
+      }
+      emit(state.copyWith(selections: selections));
     });
   }
 }

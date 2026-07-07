@@ -38,7 +38,7 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           final texts = Map<String, WordText>.from(state.texts);
           texts[event.sku] = result;
           emit(state.copyWith(texts: texts));
-          _contentBloc.add(ContentEventAdd(result.contents));
+          // _contentBloc.add(ContentEventAdd(result.contents));
         },
       );
       fetching.remove(event.sku);

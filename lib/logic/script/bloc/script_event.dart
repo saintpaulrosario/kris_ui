@@ -4,10 +4,11 @@ class ScriptEvent {}
 
 class RetrieveScriptsEvent extends ScriptEvent {}
 
-class SelectScriptsEvent extends ScriptEvent {
-  final List<Script> selection;
+class ScriptsEventSelected extends ScriptEvent {
+  final Word selection;
+  final bool select;
 
-  SelectScriptsEvent({required this.selection});
+  ScriptsEventSelected({required this.selection, required this.select});
 }
 
 class ScriptEventRetrieveByOrdinal extends ScriptEvent {
