@@ -1,6 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:kris/data/api/script_api.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
+import 'package:kris/logic/dialect/dialect_api.dart';
+import 'package:kris/logic/dialect/dialect_service.dart';
+import 'package:kris/logic/language/bloc/language_bloc.dart';
+import 'package:kris/logic/language/language_api.dart';
+import 'package:kris/logic/language/language_service.dart';
 
 import 'data/service/script_service.dart';
 import 'logic/content/bloc/content_bloc.dart';
@@ -71,6 +77,14 @@ void setupLocator() {
     () => PayloadApi(dio, baseUrl: baseUrlKris),
   );
 
+  getIt.registerLazySingleton<DialectApi>(
+    () => DialectApi(dio, baseUrl: baseUrlKris),
+  );
+
+  getIt.registerLazySingleton<LanguageApi>(
+    () => LanguageApi(dio, baseUrl: baseUrlKris),
+  );
+
   // // Services
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
   getIt.registerLazySingleton<WordService>(() => WordService());
@@ -79,8 +93,12 @@ void setupLocator() {
   getIt.registerLazySingleton<ContentService>(() => ContentService());
   getIt.registerLazySingleton<WordTextService>(() => WordTextService());
   getIt.registerLazySingleton<PayloadService>(() => PayloadService());
+  getIt.registerLazySingleton<LanguageService>(() => LanguageService());
+  getIt.registerLazySingleton<DialectService>(() => DialectService());
 
   //
+  getIt.registerLazySingleton<DialectBloc>(() => DialectBloc());
+  getIt.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
   getIt.registerLazySingleton<ContentBloc>(() => ContentBloc());
   getIt.registerLazySingleton<WordTextBloc>(() => WordTextBloc());
   getIt.registerLazySingleton<PayloadBloc>(() => PayloadBloc());

@@ -9,3 +9,10 @@ class LanguageEventFetchBySku extends LanguageEvent {
 
   LanguageEventFetchBySku({required this.sku});
 }
+
+class LanguageEventSelected extends LanguageEvent {
+  final bool select;
+  final Word selection;
+
+  LanguageEventSelected({required this.select, required this.selection});
+}
