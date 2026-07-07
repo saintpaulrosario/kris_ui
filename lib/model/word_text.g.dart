@@ -71,11 +71,11 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
     ),
     createdDate: $checkedConvert(
       'createdDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
+      (v) => DateTime.parse(v as String),
     ),
     lastModifiedDate: $checkedConvert(
       'lastModifiedDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
+      (v) => DateTime.parse(v as String),
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
@@ -84,8 +84,8 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
 });
 
 Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
-  'createdDate': instance.createdDate?.toIso8601String(),
-  'lastModifiedDate': instance.lastModifiedDate?.toIso8601String(),
+  'createdDate': instance.createdDate.toIso8601String(),
+  'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': instance.createdBy,
   'lastModifiedBy': instance.lastModifiedBy,
   'sku': instance.sku,

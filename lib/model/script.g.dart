@@ -15,11 +15,11 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
     createdDate: $checkedConvert(
       'createdDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
+      (v) => DateTime.parse(v as String),
     ),
     lastModifiedDate: $checkedConvert(
       'lastModifiedDate',
-      (v) => v == null ? null : DateTime.parse(v as String),
+      (v) => DateTime.parse(v as String),
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
@@ -68,8 +68,8 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
 });
 
 Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
-  'createdDate': instance.createdDate?.toIso8601String(),
-  'lastModifiedDate': instance.lastModifiedDate?.toIso8601String(),
+  'createdDate': instance.createdDate.toIso8601String(),
+  'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': instance.createdBy,
   'lastModifiedBy': instance.lastModifiedBy,
   'sku': instance.sku,

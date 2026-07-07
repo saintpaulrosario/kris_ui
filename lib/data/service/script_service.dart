@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/data/api/script_api.dart';
 import 'package:retrofit/dio.dart';
@@ -28,19 +29,22 @@ class ScriptService {
   }
 
   Future<Either<ErrorResponse, Script>> retriveBySku(String sku) async {
-    final HttpResponse<ApiResult<Script>> httpResponse = await _scriptApi
-        .retrieveByIdentifier(sku, sku: true, ordinal: false);
+    try {
+      final HttpResponse<ApiResult<Script>> httpResponse = await _scriptApi
+          .retrieveByIdentifier(sku, sku: true, ordinal: false);
 
-    ApiResult<Script> apiResult = httpResponse.data;
-    if (httpResponse.response.statusCode == 200) {
-      final Script payload = apiResult.payload;
-      return right(payload);
-    } else {
-      final ErrorResponse errorResponse = ErrorResponse.fromJson(
-        httpResponse.response.data,
-      );
-      //throw Exception('Failed to retrieve scripts');
-      return left(errorResponse);
+      final ApiResult<Script> apiResult = httpResponse.data;
+
+      if (httpResponse.response.statusCode == 200) {
+        final Script script = apiResult.payload;
+        return right(script);
+      } else {
+        return left(ErrorResponse.fromJson(httpResponse.response.data));
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
     }
   }
 

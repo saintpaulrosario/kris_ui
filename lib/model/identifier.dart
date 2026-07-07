@@ -37,8 +37,8 @@ class Identifier extends Audit {
       sku: '',
       version: 0,
       ordinal: -1,
-      createdDate: null,
-      lastModifiedDate: null,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
     );

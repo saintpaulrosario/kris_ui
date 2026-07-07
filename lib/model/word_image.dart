@@ -49,8 +49,8 @@ class WordImage extends Instrument {
       sku: '',
       version: 0,
       ordinal: 0,
-      createdDate: null,
-      lastModifiedDate: null,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
     );

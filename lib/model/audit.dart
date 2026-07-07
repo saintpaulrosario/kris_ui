@@ -10,8 +10,8 @@ part 'audit.g.dart';
   checked: true,
 )
 class Audit {
-  final DateTime? createdDate;
-  final DateTime? lastModifiedDate;
+  final DateTime createdDate;
+  final DateTime lastModifiedDate;
   final String? createdBy;
   final String? lastModifiedBy;
 
@@ -24,18 +24,12 @@ class Audit {
 
   factory Audit.initial() {
     return Audit(
-      createdDate: null,
-      lastModifiedDate: null,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
       createdBy: null,
       lastModifiedBy: null,
     );
   }
-
-  const Audit.empty()
-    : createdDate = null,
-      lastModifiedDate = null,
-      createdBy = null,
-      lastModifiedBy = null;
 
   factory Audit.fromJson(Map<String, dynamic> json) => _$AuditFromJson(json);
 

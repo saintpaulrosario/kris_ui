@@ -20,21 +20,6 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
       // TODO: implement event handler
     });
 
-    on<ContentEventRetriveByTextSku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.textSku);
-      emit(state.copyWith(fetching: fetching));
-
-      final results = await _contentService.retriveByTextIdentifier(
-        event.textSku,
-      );
-
-      fetching.remove(event.textSku);
-      emit(state.copyWith(fetching: fetching));
-
-      results.fold((error) {}, (contents) {});
-    });
-
     on<ContentEventRetriveBySku>((event, emit) async {
       final fetching = Set<String>.from(state.fetching);
       fetching.add(event.sku);

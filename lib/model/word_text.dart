@@ -57,8 +57,8 @@ class WordText extends Identifier {
       words: [],
       script: Identifier.initial(),
       elements: [],
-      createdDate: null,
-      lastModifiedDate: null,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
     );

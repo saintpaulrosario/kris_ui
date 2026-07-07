@@ -34,7 +34,7 @@ class Payload extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
 
-  const Payload({
+  Payload({
     required this.row,
     required this.value,
     required this.script,
@@ -46,8 +46,8 @@ class Payload extends Identifier {
          sku: '',
          version: 0,
          ordinal: 0,
-         createdDate: null,
-         lastModifiedDate: null,
+         createdDate: DateTime.now(),
+         lastModifiedDate: DateTime.now(),
          createdBy: '',
          lastModifiedBy: '',
        );

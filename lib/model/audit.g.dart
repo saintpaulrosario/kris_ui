@@ -11,11 +11,11 @@ Audit _$AuditFromJson(Map json) =>
       final val = Audit(
         createdDate: $checkedConvert(
           'createdDate',
-          (v) => v == null ? null : DateTime.parse(v as String),
+          (v) => DateTime.parse(v as String),
         ),
         lastModifiedDate: $checkedConvert(
           'lastModifiedDate',
-          (v) => v == null ? null : DateTime.parse(v as String),
+          (v) => DateTime.parse(v as String),
         ),
         createdBy: $checkedConvert('createdBy', (v) => v as String?),
         lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
@@ -24,8 +24,8 @@ Audit _$AuditFromJson(Map json) =>
     });
 
 Map<String, dynamic> _$AuditToJson(Audit instance) => <String, dynamic>{
-  'createdDate': ?instance.createdDate?.toIso8601String(),
-  'lastModifiedDate': ?instance.lastModifiedDate?.toIso8601String(),
+  'createdDate': instance.createdDate.toIso8601String(),
+  'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': ?instance.createdBy,
   'lastModifiedBy': ?instance.lastModifiedBy,
 };

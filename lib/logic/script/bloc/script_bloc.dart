@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/data/service/script_service.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/script.dart';
@@ -20,7 +21,7 @@ part 'script_state.dart';
 // TODO should load data from cache if first load
 
 class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
-  final WordTextBloc _wordTextBloc = getIt<WordTextBloc>();
+  final ContentBloc _contentBloc = getIt<ContentBloc>();
   final ScriptService _scriptService = getIt<ScriptService>();
 
   final BehaviorSubject<Script> _scriptSubject;
@@ -41,10 +42,11 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
           Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
           scripts[event.sku] = script;
           emit(state.copyWith(scripts: scripts));
+          //_contentBloc.add(ContentEventAdd(script.contents));
         });
+        fetching.remove(event.sku);
+        emit(state.copyWith(fetching: fetching));
       });
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
     });
 
     on<RetrieveScriptsEvent>((event, emit) async {
@@ -55,8 +57,7 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
           Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
           for (var script in scriptsList) {
             scripts[script.sku] = script;
-            List<Identifier> texts = scripts[script.sku]!.texts;
-            _wordTextBloc.add(WordTextEventAdd(identifiers: texts));
+            _contentBloc.add(ContentEventAdd(script.contents));
             // dispatch text event here
           }
           emit(state.copyWith(scripts: scripts));

@@ -1,20 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/dialect/dialect.dart';
 import 'package:kris/logic/dialect/dialect_service.dart';
-import 'package:meta/meta.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/identifier.dart';
 import '../../../model/word.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
-import '../../text/bloc/word_text_bloc.dart';
 
 part 'dialect_event.dart';
 part 'dialect_state.dart';
 
 class DialectBloc extends Bloc<DialectEvent, DialectState> {
-  final WordTextBloc _wordTextBloc = getIt<WordTextBloc>();
+  final WordBloc _wordBloc = getIt<WordBloc>();
   final DialectService _dialectService = getIt<DialectService>();
 
   DialectBloc() : super(DialectState.initial()) {
@@ -43,14 +41,14 @@ class DialectBloc extends Bloc<DialectEvent, DialectState> {
       final fetching = Set<String>.from(state.fetching);
       emit(state.copyWith(fetching: fetching));
       await _dialectService.retrieveAll().then((result) {
-        result.fold((error) {}, (scriptsList) {
+        result.fold((error) {}, (result) {
           Map<String, Dialect> dialects = Map<String, Dialect>.from(
             state.dialects,
           );
-          for (var script in scriptsList) {
-            dialects[script.sku] = script;
-            List<Identifier> texts = dialects[script.sku]!.texts;
-            _wordTextBloc.add(WordTextEventAdd(identifiers: texts));
+          for (var dialect in result) {
+            dialects[dialect.sku] = dialect;
+
+            _wordBloc.add(WordEventAdd(word: dialect));
             // dispatch text event here
           }
           emit(state.copyWith(dialects: dialects));

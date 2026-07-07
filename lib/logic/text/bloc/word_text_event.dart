@@ -25,7 +25,7 @@ class WordTextEventRetrieveByWordSku extends WordTextEvent {
 }
 
 class WordTextEventAdd extends WordTextEvent {
-  final List<Identifier> identifiers;
+  final Identifier identifier;
 
-  WordTextEventAdd({required this.identifiers});
+  WordTextEventAdd({required this.identifier});
 }

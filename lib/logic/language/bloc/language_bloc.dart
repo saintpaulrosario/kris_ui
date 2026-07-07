@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/language/language.dart';
 import 'package:kris/logic/language/language_service.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/identifier.dart';
@@ -13,7 +14,7 @@ part 'language_event.dart';
 part 'language_state.dart';
 
 class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
-  final WordTextBloc _wordTextBloc = getIt<WordTextBloc>();
+  final WordBloc _wordBloc = getIt<WordBloc>();
   final LanguageService _languageService = getIt<LanguageService>();
 
   LanguageBloc() : super(LanguageState.initial()) {
@@ -26,11 +27,12 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       fetching.add(event.sku);
       emit(state.copyWith(fetching: fetching));
       await _languageService.retrieveBySku(event.sku).then((result) {
-        result.fold((error) {}, (script) {
+        result.fold((error) {}, (language) {
           Map<String, Language> languages = Map<String, Language>.from(
             state.languages,
           );
-          languages[event.sku] = script;
+          languages[event.sku] = language;
+          _wordBloc.add(WordEventAdd(word: language));
           emit(state.copyWith(scripts: languages));
         });
       });
@@ -42,14 +44,15 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       final fetching = Set<String>.from(state.fetching);
       emit(state.copyWith(fetching: fetching));
       await _languageService.retrieveAll().then((result) {
-        result.fold((error) {}, (scriptsList) {
+        result.fold((error) {}, (result) {
           Map<String, Language> languages = Map<String, Language>.from(
             state.languages,
           );
-          for (var script in scriptsList) {
-            languages[script.sku] = script;
-            List<Identifier> texts = languages[script.sku]!.texts;
-            _wordTextBloc.add(WordTextEventAdd(identifiers: texts));
+          for (var language in result) {
+            languages[language.sku] = language;
+
+            _wordBloc.add(WordEventAdd(word: language));
+
             // dispatch text event here
           }
           emit(state.copyWith(scripts: languages));
