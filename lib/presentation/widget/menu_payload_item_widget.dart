@@ -14,6 +14,14 @@ class MenuPayloadItemWidget extends StatefulWidget {
 
 class _MenuPayloadItemWidgetState extends State<MenuPayloadItemWidget> {
   @override
+  void initState() {
+    context.read<PayloadBloc>().add(
+      PayloadEventRetrieveBySku(widget.identifier.sku),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocSelector<PayloadBloc, PayloadState, Map<String, Payload>>(
       selector: (state) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/language/bloc/language_bloc.dart';
+import 'package:kris/logic/language/language.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/menu_item_widget.dart';
@@ -43,6 +45,30 @@ class _MenuWidgetState extends State<MenuWidget> {
               }
               List<Script> scripts = state.values.toList();
               return MenuListWiget(
+                hint: "select a script",
+                label: "script",
+                words: scripts,
+                onPress: ({required Word word, required bool select}) {
+                  context.read<ScriptBloc>().add(
+                    ScriptsEventSelected(selection: word, select: select),
+                  );
+                },
+              );
+            },
+          ),
+          // language
+          BlocSelector<LanguageBloc, LanguageState, Map<String, Language>>(
+            selector: (state) {
+              return state.languages;
+            },
+            builder: (context, state) {
+              if (state.isEmpty) {
+                return Text("No language available for selection");
+              }
+              List<Language> scripts = state.values.toList();
+              return MenuListWiget(
+                hint: "select a langauge",
+                label: "langauge",
                 words: scripts,
                 onPress: ({required Word word, required bool select}) {
                   context.read<ScriptBloc>().add(
@@ -55,17 +81,10 @@ class _MenuWidgetState extends State<MenuWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text("languages")],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [Text("dialects")],
           ),
         ],
       ),
     );
   }
-
-  onPress() {}
 }

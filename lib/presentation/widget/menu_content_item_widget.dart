@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/content/bloc/content_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
+import 'package:kris/presentation/widget/menu_payload_list_widget.dart';
 
 class MenuContentItemWidget extends StatefulWidget {
   final Identifier identifier;
@@ -13,6 +14,14 @@ class MenuContentItemWidget extends StatefulWidget {
 }
 
 class _MenuContentItemWidgetState extends State<MenuContentItemWidget> {
+  @override
+  void initState() {
+    context.read<ContentBloc>().add(
+      ContentEventRetriveBySku(widget.identifier.sku),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<ContentBloc, ContentState, Map<String, Content>>(
@@ -31,7 +40,7 @@ class _MenuContentItemWidgetState extends State<MenuContentItemWidget> {
           },
           builder: (context, state) {
             List<Identifier> identifiers = state!.payloads;
-            return const Placeholder();
+            return MenuPayloadListWidget(identifiers: identifiers);
           },
         );
       },

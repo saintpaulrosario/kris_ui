@@ -6,8 +6,16 @@ import 'menu_item_widget.dart';
 
 class MenuListWiget extends StatefulWidget {
   final List<Word> words;
+  final String label;
+  final String hint;
   final void Function({required Word word, required bool select}) onPress;
-  const MenuListWiget({super.key, required this.words, required this.onPress});
+  const MenuListWiget({
+    super.key,
+    required this.words,
+    required this.onPress,
+    required this.label,
+    required this.hint,
+  });
 
   @override
   State<MenuListWiget> createState() => _MenuListWigetState();
@@ -44,9 +52,9 @@ class _MenuListWigetState extends State<MenuListWiget> {
         .toList();
 
     return DropdownMenu(
-      initialSelection: "Script",
-      label: Text("script"),
-      hintText: "Select language",
+      //initialSelection: "Script",
+      label: Text(widget.label),
+      hintText: widget.hint,
       dropdownMenuEntries: entries,
     );
   }
