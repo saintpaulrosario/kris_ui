@@ -12,6 +12,7 @@ import '../../logic/sound/bloc/sound_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
 import '../widget/menu_widget.dart';
+import 'app_bar_widget.dart';
 import 'app_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("ߞߙߌߛߌ")),
+      appBar: AppBarWidget(),
       drawer: AppDrawer(),
       body: MultiBlocProvider(
         providers: [
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         ],
         child: Column(
           children: [
-            MenuWidget(),
+            //MenuWidget(),
             Expanded(child: widget.child),
           ],
         ),

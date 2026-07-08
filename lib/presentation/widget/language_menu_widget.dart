@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/content/bloc/content_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/dialect/dialect.dart';
+import 'package:kris/logic/language/bloc/language_bloc.dart';
+import 'package:kris/logic/language/language.dart';
 import 'package:kris/logic/payload/bloc/payload_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 
@@ -26,13 +28,13 @@ class _ScriptMenuWidgetState extends State<LanguageMenuWidget> {
   void initState() {
     super.initState();
 
-    context.read<ScriptBloc>().add(RetrieveScriptsEvent());
+    context.read<LanguageBloc>().add(LanguageEventFetchAll());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<DialectBloc, DialectState, Map<String, Dialect>>(
-      selector: (state) => state.dialects,
+    return BlocSelector<LanguageBloc, LanguageState, Map<String, Language>>(
+      selector: (state) => state.languages,
 
       builder: (context, scripts) {
         if (scripts.isEmpty) {

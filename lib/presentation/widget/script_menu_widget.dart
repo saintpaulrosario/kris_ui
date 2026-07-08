@@ -10,15 +10,15 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 
-class ScriptMenuWidget extends StatefulWidget {
-  const ScriptMenuWidget({super.key});
+class ScriptMenuListWidget extends StatefulWidget {
+  const ScriptMenuListWidget({super.key});
 
   @override
-  State<ScriptMenuWidget> createState() => _ScriptMenuWidgetState();
+  State<ScriptMenuListWidget> createState() => _ScriptMenuListWidgetState();
 }
 
-class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
-  final Map<String, String> selectedPayloads = {};
+class _ScriptMenuListWidgetState extends State<ScriptMenuListWidget> {
+  final Set<String> selectedContents = {};
 
   @override
   void initState() {
@@ -37,6 +37,8 @@ class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
           return const Text("No scripts available");
         }
 
+        final scriptList = scripts.values.toList();
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -45,30 +47,51 @@ class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
               menuChildren: [
                 SizedBox(
                   width: 350,
+
                   height: 400,
 
-                  child: ListView.builder(
-                    itemCount: scripts.length,
+                  child: Scrollbar(
+                    thumbVisibility: true,
 
-                    itemBuilder: (context, index) {
-                      final script = scripts.values.elementAt(index);
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
 
-                      return Column(
-                        children: [
-                          if (index > 0) const Divider(),
+                      itemCount: scriptList.length,
 
-                          ...script.contents.map((contentIdentifier) {
-                            return _ContentLoader(
-                              identifier: contentIdentifier,
+                      itemBuilder: (context, scriptIndex) {
+                        final script = scriptList[scriptIndex];
 
-                              selectedPayloads: selectedPayloads,
+                        return Column(
+                          children: [
+                            if (scriptIndex > 0) const Divider(),
 
-                              onChanged: _onPayloadChanged,
-                            );
-                          }),
-                        ],
-                      );
-                    },
+                            ...script.contents.map((contentIdentifier) {
+                              return _ContentGroup(
+                                identifier: contentIdentifier,
+
+                                selected: selectedContents.contains(
+                                  contentIdentifier.sku,
+                                ),
+
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value) {
+                                      selectedContents.add(
+                                        contentIdentifier.sku,
+                                      );
+                                    } else {
+                                      selectedContents.remove(
+                                        contentIdentifier.sku,
+                                      );
+                                    }
+                                  });
+                                },
+                              );
+                            }),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -81,7 +104,7 @@ class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
 
                   child: InputDecorator(
                     decoration: const InputDecoration(
-                      labelText: "Scrips",
+                      labelText: "Select Payload Group",
 
                       border: OutlineInputBorder(),
                     ),
@@ -91,9 +114,9 @@ class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
 
                       children: [
                         Text(
-                          selectedPayloads.isEmpty
-                              ? "Select Script"
-                              : "${selectedPayloads.length} selected",
+                          selectedContents.isEmpty
+                              ? "Select"
+                              : "${selectedContents.length} selected",
                         ),
 
                         Icon(
@@ -108,65 +131,54 @@ class _ScriptMenuWidgetState extends State<ScriptMenuWidget> {
               },
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
-            // Selected payload values
-            Wrap(
-              spacing: 8,
-
-              runSpacing: 8,
-
-              children: selectedPayloads.entries.map((entry) {
-                return Chip(
-                  label: Text(entry.value),
-
-                  deleteIcon: const Icon(Icons.close),
-
-                  onDeleted: () {
-                    setState(() {
-                      selectedPayloads.remove(entry.key);
-                    });
-                  },
-                );
-              }).toList(),
+            const Text(
+              "Selected:",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
+
+            const SizedBox(height: 8),
+
+            ...scripts.values
+                .expand((script) => script.contents)
+                .where((content) => selectedContents.contains(content.sku))
+                .map((content) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+
+                      child: _SelectedContent(identifier: content),
+                    ),
+                  );
+                }),
           ],
         );
       },
     );
   }
-
-  void _onPayloadChanged(String sku, String value, bool selected) {
-    setState(() {
-      if (selected) {
-        selectedPayloads[sku] = value;
-      } else {
-        selectedPayloads.remove(sku);
-      }
-    });
-  }
 }
 
-class _ContentLoader extends StatefulWidget {
+class _ContentGroup extends StatefulWidget {
   final Identifier identifier;
 
-  final Map<String, String> selectedPayloads;
+  final bool selected;
 
-  final Function(String sku, String value, bool selected) onChanged;
+  final Function(bool) onChanged;
 
-  const _ContentLoader({
+  const _ContentGroup({
     required this.identifier,
 
-    required this.selectedPayloads,
+    required this.selected,
 
     required this.onChanged,
   });
 
   @override
-  State<_ContentLoader> createState() => _ContentLoaderState();
+  State<_ContentGroup> createState() => _ContentGroupState();
 }
 
-class _ContentLoaderState extends State<_ContentLoader> {
+class _ContentGroupState extends State<_ContentGroup> {
   @override
   void initState() {
     super.initState();
@@ -187,43 +199,47 @@ class _ContentLoaderState extends State<_ContentLoader> {
         }
 
         return Column(
-          children: content.payloads.map((payloadIdentifier) {
-            return _PayloadLoader(
-              identifier: payloadIdentifier,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
-              checked: widget.selectedPayloads.containsKey(
-                payloadIdentifier.sku,
+          children: [
+            CheckboxListTile(
+              title: const Text(""),
+
+              value: widget.selected,
+
+              onChanged: (value) {
+                widget.onChanged(value ?? false);
+              },
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 50),
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: content.payloads.map((payload) {
+                  return _PayloadText(identifier: payload);
+                }).toList(),
               ),
-
-              onChanged: widget.onChanged,
-            );
-          }).toList(),
+            ),
+          ],
         );
       },
     );
   }
 }
 
-class _PayloadLoader extends StatefulWidget {
+class _PayloadText extends StatefulWidget {
   final Identifier identifier;
 
-  final bool checked;
-
-  final Function(String sku, String value, bool selected) onChanged;
-
-  const _PayloadLoader({
-    required this.identifier,
-
-    required this.checked,
-
-    required this.onChanged,
-  });
+  const _PayloadText({required this.identifier});
 
   @override
-  State<_PayloadLoader> createState() => _PayloadLoaderState();
+  State<_PayloadText> createState() => _PayloadTextState();
 }
 
-class _PayloadLoaderState extends State<_PayloadLoader> {
+class _PayloadTextState extends State<_PayloadText> {
   @override
   void initState() {
     super.initState();
@@ -243,20 +259,35 @@ class _PayloadLoaderState extends State<_PayloadLoader> {
           return const SizedBox();
         }
 
-        return CheckboxListTile(
-          title: Text(payload.value),
+        return Text(payload.value);
+      },
+    );
+  }
+}
 
-          value: widget.checked,
+class _SelectedContent extends StatelessWidget {
+  final Identifier identifier;
 
-          onChanged: (value) {
-            widget.onChanged(
-              widget.identifier.sku,
+  const _SelectedContent({required this.identifier});
 
-              payload.value,
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<ContentBloc, ContentState, Content?>(
+      selector: (state) => state.contents[identifier.sku],
 
-              value ?? false,
-            );
-          },
+      builder: (context, content) {
+        if (content == null) {
+          return const SizedBox();
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            ...content.payloads.map((payload) {
+              return _PayloadText(identifier: payload);
+            }),
+          ],
         );
       },
     );

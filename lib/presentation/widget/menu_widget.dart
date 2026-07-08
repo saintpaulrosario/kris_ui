@@ -35,7 +35,7 @@ class _MenuWidgetState extends State<MenuWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ScriptMenuWidget(),
+          ScriptMenuListWidget(),
           LanguageMenuWidget(),
           DialectMenuWiget(),
         ],

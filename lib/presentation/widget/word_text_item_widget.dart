@@ -6,7 +6,7 @@ import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/word_text.dart';
 import 'menu_list_wiget.dart';
-import 'script_item_widget.dart';
+import 'script_menu_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;

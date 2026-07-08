@@ -26,7 +26,7 @@ class _ScriptMenuWidgetState extends State<DialectMenuWiget> {
   void initState() {
     super.initState();
 
-    context.read<ScriptBloc>().add(RetrieveScriptsEvent());
+    context.read<DialectBloc>().add(DialectEventFetchAll());
   }
 
   @override
