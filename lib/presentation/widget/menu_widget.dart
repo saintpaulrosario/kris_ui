@@ -32,7 +32,7 @@ class _MenuWidgetState extends State<MenuWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [Expanded(child: ScriptMenuListWidget())],
+        children: [ScriptMenuListWidget()],
       ),
     );
   }

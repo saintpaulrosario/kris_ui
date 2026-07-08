@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         ],
         child: Column(
           children: [
-            Expanded(child: MenuWidget()),
+            MenuWidget(),
             Expanded(child: widget.child),
           ],
         ),

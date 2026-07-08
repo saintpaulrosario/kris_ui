@@ -6,7 +6,6 @@ import 'package:kris/logic/payload/bloc/payload_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 
 import 'package:kris/model/content.dart';
-import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 
@@ -18,65 +17,94 @@ class ScriptMenuListWidget extends StatefulWidget {
 }
 
 class _ScriptMenuListWidgetState extends State<ScriptMenuListWidget> {
+  final Set<String> selectedPayloads = {};
+
   @override
   void initState() {
-    context.read<ScriptBloc>().add(RetrieveScriptsEvent());
     super.initState();
+
+    context.read<ScriptBloc>().add(RetrieveScriptsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<ScriptBloc, ScriptState, Map<String, Script>>(
       selector: (state) => state.scripts,
-      builder: (context, state) {
-        if (state.isEmpty) {
-          return Text("No scripts available for selection");
+
+      builder: (context, scripts) {
+        if (scripts.isEmpty) {
+          return const Text("No scripts available");
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.values.length,
-          itemBuilder: (context, index) {
-            Script script = state.values.elementAt(index);
-            return Card(child: ScriptMenuItemWidget(script: script));
-          },
-        );
-      },
-    );
-  }
-}
+        return MenuAnchor(
+          menuChildren: [
+            SizedBox(
+              width: 350,
+              height: 400,
 
-class ScriptMenuItemWidget extends StatelessWidget {
-  final Script script;
+              child: ListView(
+                children: [
+                  ...scripts.values.map((script) {
+                    final scriptIndex = scripts.values.toList().indexOf(script);
 
-  const ScriptMenuItemWidget({super.key, required this.script});
+                    return Column(
+                      children: [
+                        if (scriptIndex > 0) const Divider(),
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<ScriptBloc, ScriptState, bool>(
-      selector: (state) => state.fetching.contains(script.sku),
-      builder: (context, fetching) {
-        if (fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
+                        ...script.contents.map((contentIdentifier) {
+                          return _ContentPayloads(
+                            identifier: contentIdentifier,
+                            selectedPayloads: selectedPayloads,
 
-        return BlocSelector<ScriptBloc, ScriptState, Script?>(
-          selector: (state) => state.scripts[script.sku],
-          builder: (context, script) {
-            if (script == null) {
-              return const Text("Script not found");
-            }
+                            onChanged: (String sku, bool value) {
+                              setState(() {
+                                if (value) {
+                                  selectedPayloads.add(sku);
+                                } else {
+                                  selectedPayloads.remove(sku);
+                                }
+                              });
+                            },
+                          );
+                        }),
+                      ],
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ],
 
-            if (script.contents.isEmpty) {
-              return const Text("No contents");
-            }
+          builder: (context, controller, child) {
+            return InkWell(
+              onTap: () {
+                controller.isOpen ? controller.close() : controller.open();
+              },
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: script.contents
-                  .map((identifier) => _ContentPayloads(identifier: identifier))
-                  .toList(),
+              child: InputDecorator(
+                decoration: const InputDecoration(
+                  labelText: "Select Payloads",
+                  border: OutlineInputBorder(),
+                ),
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                  children: [
+                    Text(
+                      selectedPayloads.isEmpty
+                          ? "Select Payloads"
+                          : "${selectedPayloads.length} selected",
+                    ),
+
+                    Icon(
+                      controller.isOpen
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         );
@@ -86,9 +114,15 @@ class ScriptMenuItemWidget extends StatelessWidget {
 }
 
 class _ContentPayloads extends StatefulWidget {
-  final Identifier identifier;
+  final dynamic identifier;
+  final Set<String> selectedPayloads;
+  final Function(String sku, bool value) onChanged;
 
-  const _ContentPayloads({required this.identifier});
+  const _ContentPayloads({
+    required this.identifier,
+    required this.selectedPayloads,
+    required this.onChanged,
+  });
 
   @override
   State<_ContentPayloads> createState() => _ContentPayloadsState();
@@ -108,20 +142,22 @@ class _ContentPayloadsState extends State<_ContentPayloads> {
   Widget build(BuildContext context) {
     return BlocSelector<ContentBloc, ContentState, Content?>(
       selector: (state) => state.contents[widget.identifier.sku],
+
       builder: (context, content) {
         if (content == null) {
-          return const Text("Content not found");
-        }
-
-        if (content.payloads.isEmpty) {
-          return const Text("No payloads");
+          return const SizedBox();
         }
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: content.payloads
-              .map((identifier) => _PayloadItem(identifier: identifier))
-              .toList(),
+          children: content.payloads.map((payloadIdentifier) {
+            return _PayloadItem(
+              identifier: payloadIdentifier,
+
+              checked: widget.selectedPayloads.contains(payloadIdentifier.sku),
+
+              onChanged: widget.onChanged,
+            );
+          }).toList(),
         );
       },
     );
@@ -129,9 +165,15 @@ class _ContentPayloadsState extends State<_ContentPayloads> {
 }
 
 class _PayloadItem extends StatefulWidget {
-  final Identifier identifier;
+  final dynamic identifier;
+  final bool checked;
+  final Function(String sku, bool value) onChanged;
 
-  const _PayloadItem({required this.identifier});
+  const _PayloadItem({
+    required this.identifier,
+    required this.checked,
+    required this.onChanged,
+  });
 
   @override
   State<_PayloadItem> createState() => _PayloadItemState();
@@ -151,12 +193,21 @@ class _PayloadItemState extends State<_PayloadItem> {
   Widget build(BuildContext context) {
     return BlocSelector<PayloadBloc, PayloadState, Payload?>(
       selector: (state) => state.payloads[widget.identifier.sku],
+
       builder: (context, payload) {
         if (payload == null) {
-          return const Text("Payload not found");
+          return const SizedBox();
         }
 
-        return Text(payload.value);
+        return CheckboxListTile(
+          title: Text(payload.value),
+
+          value: widget.checked,
+
+          onChanged: (value) {
+            widget.onChanged(widget.identifier.sku, value ?? false);
+          },
+        );
       },
     );
   }
