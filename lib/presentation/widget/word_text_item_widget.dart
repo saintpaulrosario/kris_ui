@@ -5,6 +5,7 @@ import 'package:kris/presentation/widget/content_list_widget.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/word_text.dart';
+import 'menu_list_wiget.dart';
 import 'script_item_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {

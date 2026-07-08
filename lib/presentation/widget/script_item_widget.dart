@@ -10,36 +10,59 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 
-class ScriptItemWidget extends StatefulWidget {
-  final Identifier identifier;
-
-  const ScriptItemWidget({super.key, required this.identifier});
+class ScriptMenuListWidget extends StatefulWidget {
+  const ScriptMenuListWidget({super.key});
 
   @override
-  State<ScriptItemWidget> createState() => _ScriptItemWidgetState();
+  State<ScriptMenuListWidget> createState() => _ScriptMenuListWidgetState();
 }
 
-class _ScriptItemWidgetState extends State<ScriptItemWidget> {
+class _ScriptMenuListWidgetState extends State<ScriptMenuListWidget> {
   @override
   void initState() {
+    context.read<ScriptBloc>().add(RetrieveScriptsEvent());
     super.initState();
-
-    context.read<ScriptBloc>().add(
-      ScriptEventRetrieveBySku(sku: widget.identifier.sku),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    return BlocSelector<ScriptBloc, ScriptState, Map<String, Script>>(
+      selector: (state) => state.scripts,
+      builder: (context, state) {
+        if (state.isEmpty) {
+          return Text("No scripts available for selection");
+        }
+
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: state.values.length,
+          itemBuilder: (context, index) {
+            Script script = state.values.elementAt(index);
+            return Card(child: ScriptMenuItemWidget(script: script));
+          },
+        );
+      },
+    );
+  }
+}
+
+class ScriptMenuItemWidget extends StatelessWidget {
+  final Script script;
+
+  const ScriptMenuItemWidget({super.key, required this.script});
+
+  @override
+  Widget build(BuildContext context) {
     return BlocSelector<ScriptBloc, ScriptState, bool>(
-      selector: (state) => state.fetching.contains(widget.identifier.sku),
+      selector: (state) => state.fetching.contains(script.sku),
       builder: (context, fetching) {
         if (fetching) {
           return const Center(child: CircularProgressIndicator());
         }
 
         return BlocSelector<ScriptBloc, ScriptState, Script?>(
-          selector: (state) => state.scripts[widget.identifier.sku],
+          selector: (state) => state.scripts[script.sku],
           builder: (context, script) {
             if (script == null) {
               return const Text("Script not found");
@@ -49,13 +72,11 @@ class _ScriptItemWidgetState extends State<ScriptItemWidget> {
               return const Text("No contents");
             }
 
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: script.contents.length,
-              itemBuilder: (context, index) {
-                return _ContentPayloads(identifier: script.contents[index]);
-              },
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: script.contents
+                  .map((identifier) => _ContentPayloads(identifier: identifier))
+                  .toList(),
             );
           },
         );
@@ -76,10 +97,11 @@ class _ContentPayloads extends StatefulWidget {
 class _ContentPayloadsState extends State<_ContentPayloads> {
   @override
   void initState() {
+    super.initState();
+
     context.read<ContentBloc>().add(
       ContentEventRetriveBySku(widget.identifier.sku),
     );
-    super.initState();
   }
 
   @override
@@ -91,13 +113,15 @@ class _ContentPayloadsState extends State<_ContentPayloads> {
           return const Text("Content not found");
         }
 
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: content.payloads.length,
-          itemBuilder: (context, index) {
-            return _PayloadItem(identifier: content.payloads[index]);
-          },
+        if (content.payloads.isEmpty) {
+          return const Text("No payloads");
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: content.payloads
+              .map((identifier) => _PayloadItem(identifier: identifier))
+              .toList(),
         );
       },
     );
@@ -116,10 +140,11 @@ class _PayloadItem extends StatefulWidget {
 class _PayloadItemState extends State<_PayloadItem> {
   @override
   void initState() {
+    super.initState();
+
     context.read<PayloadBloc>().add(
       PayloadEventRetrieveBySku(widget.identifier.sku),
     );
-    super.initState();
   }
 
   @override
@@ -131,7 +156,7 @@ class _PayloadItemState extends State<_PayloadItem> {
           return const Text("Payload not found");
         }
 
-        return ListTile(title: Text(payload.sku));
+        return Text(payload.value);
       },
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/content/bloc/content_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
+import 'package:kris/logic/dialect/dialect.dart';
 import 'package:kris/logic/payload/bloc/payload_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 
@@ -10,36 +12,36 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 
-class ScriptItemWidget extends StatefulWidget {
+class DialectItemWiget extends StatefulWidget {
   final Identifier identifier;
 
-  const ScriptItemWidget({super.key, required this.identifier});
+  const DialectItemWiget({super.key, required this.identifier});
 
   @override
-  State<ScriptItemWidget> createState() => _ScriptItemWidgetState();
+  State<DialectItemWiget> createState() => _DialectItemWidgetState();
 }
 
-class _ScriptItemWidgetState extends State<ScriptItemWidget> {
+class _DialectItemWidgetState extends State<DialectItemWiget> {
   @override
   void initState() {
     super.initState();
 
-    context.read<ScriptBloc>().add(
-      ScriptEventRetrieveBySku(sku: widget.identifier.sku),
+    context.read<DialectBloc>().add(
+      DialectEventFetchBySku(sku: widget.identifier.sku),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ScriptBloc, ScriptState, bool>(
+    return BlocSelector<DialectBloc, DialectState, bool>(
       selector: (state) => state.fetching.contains(widget.identifier.sku),
       builder: (context, fetching) {
         if (fetching) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return BlocSelector<ScriptBloc, ScriptState, Script?>(
-          selector: (state) => state.scripts[widget.identifier.sku],
+        return BlocSelector<DialectBloc, DialectState, Dialect?>(
+          selector: (state) => state.dialects[widget.identifier.sku],
           builder: (context, script) {
             if (script == null) {
               return const Text("Script not found");
