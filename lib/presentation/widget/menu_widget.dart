@@ -9,7 +9,9 @@ import 'package:kris/presentation/widget/menu_list_wiget.dart';
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../model/script.dart';
 import '../../model/word.dart';
-import 'script_item_widget.dart';
+import 'dialect_menu_wiget.dart';
+import 'language_menu_widget.dart';
+import 'script_menu_widget.dart';
 
 class MenuWidget extends StatefulWidget {
   const MenuWidget({super.key});
@@ -30,9 +32,13 @@ class _MenuWidgetState extends State<MenuWidget> {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [ScriptMenuListWidget()],
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ScriptMenuWidget(),
+          LanguageMenuWidget(),
+          DialectMenuWiget(),
+        ],
       ),
     );
   }
