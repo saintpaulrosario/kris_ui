@@ -5,9 +5,17 @@ import 'package:kris/presentation/widget/menu_content_widget.dart';
 
 class MenuWidget extends StatelessWidget {
   final List<Word> words;
-  final Set<String> selectedContents = {};
+  final Set<Word> selections;
   final ScrollController _scrollController = ScrollController();
-  MenuWidget({super.key, required this.words});
+  final String label;
+  final Function({required Word word, required bool select}) onSelect;
+  MenuWidget({
+    super.key,
+    required this.words,
+    required this.label,
+    required this.onSelect,
+    required this.selections,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,15 +53,15 @@ class MenuWidget extends StatelessWidget {
                       children: [
                         if (scriptIndex > 0) const Divider(),
 
-                        ...script.contents.map((contentIdentifier) {
+                        ...script.contents.map((identifier) {
                           return MenuContentWidget(
-                            identifier: contentIdentifier,
+                            identifier: identifier,
 
-                            selected: selectedContents.contains(
-                              contentIdentifier.sku,
-                            ),
+                            selected: selections.contains(script),
 
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                              onSelect(word: script, select: value);
+                            },
                           );
                         }),
                       ],
@@ -76,8 +84,8 @@ class MenuWidget extends StatelessWidget {
             },
 
             child: InputDecorator(
-              decoration: const InputDecoration(
-                labelText: "Script",
+              decoration: InputDecoration(
+                labelText: label,
 
                 border: OutlineInputBorder(),
 
@@ -88,9 +96,9 @@ class MenuWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      selectedContents.isEmpty
+                      selections.isEmpty
                           ? "Select"
-                          : "${selectedContents.length} selected",
+                          : "${selections.length} selected",
 
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -74,17 +74,30 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                               BlocSelector<
                                 ScriptBloc,
                                 ScriptState,
-                                Map<String, Script>
+                                ScriptState
                               >(
                                 selector: (state) {
-                                  return state.scripts;
+                                  return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.isEmpty) {
+                                  if (state.scripts.isEmpty) {
                                     return Text("scripts not availbe");
                                   }
-                                  List<Word> words = state.values.toList();
-                                  return MenuWidget(words: words);
+
+                                  return MenuWidget(
+                                    words: state.scripts.values.toList(),
+                                    label: "Script",
+                                    onSelect:
+                                        ({required select, required word}) {
+                                          context.read<ScriptBloc>().add(
+                                            ScriptsEventSelected(
+                                              selection: word,
+                                              select: select,
+                                            ),
+                                          );
+                                        },
+                                    selections: state.selections,
+                                  );
                                 },
                               ),
                         ),
@@ -98,17 +111,34 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                               BlocSelector<
                                 LanguageBloc,
                                 LanguageState,
-                                Map<String, Language>
+                                LanguageState
                               >(
                                 selector: (state) {
-                                  return state.languages;
+                                  return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.isEmpty) {
+                                  if (state.languages.isEmpty) {
                                     return Text("languages not availbe");
                                   }
-                                  List<Word> words = state.values.toList();
-                                  return MenuWidget(words: words);
+
+                                  return MenuWidget(
+                                    words: state.languages.values.toList(),
+                                    label: "Language",
+                                    selections: state.selections,
+
+                                    onSelect:
+                                        ({
+                                          required word,
+                                          required bool select,
+                                        }) {
+                                          context.read<LanguageBloc>().add(
+                                            LanguageEventSelected(
+                                              select: select,
+                                              selection: word,
+                                            ),
+                                          );
+                                        },
+                                  );
                                 },
                               ),
                         ),
@@ -122,17 +152,25 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                               BlocSelector<
                                 DialectBloc,
                                 DialectState,
-                                Map<String, Dialect>
+                                DialectState
                               >(
                                 selector: (state) {
-                                  return state.dialects;
+                                  return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.isEmpty) {
+                                  if (state.dialects.isEmpty) {
                                     return Text("dialects not availbe");
                                   }
-                                  List<Word> words = state.values.toList();
-                                  return MenuWidget(words: words);
+
+                                  return MenuWidget(
+                                    words: state.dialects.values.toList(),
+                                    label: "Dialect",
+                                    onSelect:
+                                        ({required select, required word}) {
+                                          //context.read<DialectBloc>().add(Dia)
+                                        },
+                                    selections: {},
+                                  );
                                 },
                               ),
                         ),
