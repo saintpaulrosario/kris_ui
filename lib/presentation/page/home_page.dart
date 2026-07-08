@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/payload/bloc/payload_bloc.dart';
-import 'package:kris/presentation/screen/word_list_screen.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
 import '../../logic/image/bloc/image_bloc.dart';
@@ -11,7 +10,6 @@ import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/sound/bloc/sound_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
-import '../widget/menu_widget.dart';
 import 'app_bar_widget.dart';
 import 'app_drawer.dart';
 
@@ -26,27 +24,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarWidget(),
-      drawer: AppDrawer(),
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => WordBloc()),
-          BlocProvider(create: (context) => ImageBloc()),
-          BlocProvider(create: (context) => SoundBloc()),
-          BlocProvider(create: (context) => ScriptBloc()),
-          BlocProvider(create: (context) => LanguageBloc()),
-          BlocProvider(create: (context) => DialectBloc()),
-          BlocProvider(create: (context) => WordTextBloc()),
-          BlocProvider(create: (context) => ContentBloc()),
-          BlocProvider(create: (context) => PayloadBloc()),
-        ],
-        child: Column(
-          children: [
-            //MenuWidget(),
-            Expanded(child: widget.child),
-          ],
-        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => WordBloc()),
+        BlocProvider(create: (context) => ImageBloc()),
+        BlocProvider(create: (context) => SoundBloc()),
+        BlocProvider(create: (context) => ScriptBloc()),
+        BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(create: (context) => DialectBloc()),
+        BlocProvider(create: (context) => WordTextBloc()),
+        BlocProvider(create: (context) => ContentBloc()),
+        BlocProvider(create: (context) => PayloadBloc()),
+      ],
+      child: Scaffold(
+        appBar: AppBarWidget(),
+        drawer: AppDrawer(),
+        body: widget.child,
       ),
     );
   }

@@ -1,44 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
-import 'package:kris/logic/dialect/dialect.dart';
-import 'package:kris/logic/language/bloc/language_bloc.dart';
-import 'package:kris/logic/language/language.dart';
-import 'package:kris/presentation/widget/menu_list_wiget.dart';
 
-import '../../logic/script/bloc/script_bloc.dart';
-import '../../model/script.dart';
-import '../../model/word.dart';
-import 'dialect_menu_wiget.dart';
-import 'language_menu_widget.dart';
-import 'script_menu_widget.dart';
+import 'package:kris/model/word.dart';
+import 'package:kris/presentation/widget/menu_content_widget.dart';
 
-class MenuWidget extends StatefulWidget {
-  const MenuWidget({super.key});
-
-  @override
-  State<MenuWidget> createState() => _MenuWidgetState();
-}
-
-class _MenuWidgetState extends State<MenuWidget> {
-  @override
-  initState() {
-    context.read<LanguageBloc>().add(LanguageEventFetchAll());
-    context.read<DialectBloc>().add(DialectEventFetchAll());
-    super.initState();
-  }
+class MenuWidget extends StatelessWidget {
+  final List<Word> words;
+  final Set<String> selectedContents = {};
+  final ScrollController _scrollController = ScrollController();
+  MenuWidget({super.key, required this.words});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ScriptMenuListWidget(),
-          LanguageMenuWidget(),
-          DialectMenuWiget(),
+    return SizedBox(
+      width: 150,
+
+      child: MenuAnchor(
+        alignmentOffset: const Offset(0, 5),
+
+        menuChildren: [
+          SizedBox(
+            width: 300,
+
+            height: MediaQuery.of(context).size.height * 0.5,
+
+            child: Material(
+              elevation: 4,
+
+              child: Scrollbar(
+                controller: _scrollController,
+
+                thumbVisibility: true,
+
+                child: ListView.builder(
+                  controller: _scrollController,
+
+                  padding: EdgeInsets.zero,
+
+                  itemCount: words.length,
+
+                  itemBuilder: (context, scriptIndex) {
+                    final script = words[scriptIndex];
+
+                    return Column(
+                      children: [
+                        if (scriptIndex > 0) const Divider(),
+
+                        ...script.contents.map((contentIdentifier) {
+                          return MenuContentWidget(
+                            identifier: contentIdentifier,
+
+                            selected: selectedContents.contains(
+                              contentIdentifier.sku,
+                            ),
+
+                            onChanged: (value) {},
+                          );
+                        }),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
+
+        builder: (context, controller, child) {
+          return InkWell(
+            onTap: () {
+              if (controller.isOpen) {
+                controller.close();
+              } else {
+                controller.open();
+              }
+            },
+
+            child: InputDecorator(
+              decoration: const InputDecoration(
+                labelText: "Script",
+
+                border: OutlineInputBorder(),
+
+                isDense: true,
+              ),
+
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      selectedContents.isEmpty
+                          ? "Select"
+                          : "${selectedContents.length} selected",
+
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+
+                  Icon(
+                    controller.isOpen
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
