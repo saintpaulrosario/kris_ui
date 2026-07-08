@@ -22,6 +22,17 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       // TODO: implement event handler
     });
 
+    on<LanguageEventSelected>((event, emit) {
+      Set<Word> selections = Set.from(state.selections);
+      if (event.select) {
+        selections.add(event.selection);
+      } else {
+        selections.remove(event.selection);
+      }
+
+      emit(state.copyWith(selections: selections));
+    });
+
     on<LanguageEventFetchBySku>((event, emit) async {
       final fetching = Set<String>.from(state.fetching);
       fetching.add(event.sku);

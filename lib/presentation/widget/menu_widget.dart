@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/model/content.dart';
+import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/word.dart';
 import 'package:kris/presentation/widget/menu_content_widget.dart';
@@ -39,32 +43,56 @@ class MenuWidget extends StatelessWidget {
 
                 thumbVisibility: true,
 
-                child: ListView.builder(
-                  controller: _scrollController,
+                child: BlocSelector<ScriptBloc, ScriptState, Set<Word>>(
+                  selector: (state) {
+                    return state.selections;
+                  },
+                  builder: (context, scriptState) {
+                    return ListView.builder(
+                      controller: _scrollController,
 
-                  padding: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
 
-                  itemCount: words.length,
+                      itemCount: words.length,
 
-                  itemBuilder: (context, scriptIndex) {
-                    final script = words[scriptIndex];
+                      itemBuilder: (context, scriptIndex) {
+                        final word = words[scriptIndex];
 
-                    return Column(
-                      children: [
-                        if (scriptIndex > 0) const Divider(),
+                        Set<int> allowedScripts = scriptState
+                            .map((item) => item.ordinal)
+                            .toSet();
 
-                        ...script.contents.map((identifier) {
-                          return MenuContentWidget(
-                            identifier: identifier,
+                        Set<Identifier> filteredContents = word.contents
+                            .toSet();
 
-                            selected: selections.contains(script),
+                        if (scriptState.isNotEmpty) {
+                          for (Identifier identifier in word.contents) {
+                            if (!allowedScripts.contains(identifier.ordinal)) {
+                              filteredContents.remove(identifier);
+                            }
+                          }
+                        }
 
-                            onChanged: (value) {
-                              onSelect(word: script, select: value);
-                            },
-                          );
-                        }),
-                      ],
+                        // filter the scripts
+
+                        return Column(
+                          children: [
+                            if (scriptIndex > 0) const Divider(),
+
+                            ...word.contents.map((identifier) {
+                              return MenuContentWidget(
+                                identifier: identifier,
+
+                                selected: selections.contains(word),
+
+                                onChanged: (value) {
+                                  onSelect(word: word, select: value);
+                                },
+                              );
+                            }),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
