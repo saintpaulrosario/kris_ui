@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/response/page_result.dart';
+import 'package:kris/logic/base_state.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word.dart';
 import '../../../service_locator.dart';
-import '../../base_state.dart';
+import '../../../response/page_result.dart';
 import '../word_service.dart';
 
 part 'word_event.dart';
@@ -16,79 +17,93 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
   WordBloc() : super(WordState.initial()) {
     on<RetrieveWordsEvent>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add("all");
+      if (!state.fetching.contains("all")) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add("all")).build(),
+          ),
+        );
 
-      emit(state.copyWith(fetching: fetching));
+        final results = await _wordService.retrive(
+          page: event.page,
+          size: event.size,
+        );
 
-      final results = await _wordService.retrive(
-        page: event.page,
-        size: event.size,
-      );
+        results.fold(
+          (ErrorResponse error) {
+            emit(
+              state.copyWith(
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
 
-      results.fold(
-        (error) {
-          fetching.remove("all");
+                errors: (state.errors.toBuilder()..["all"] = error).build(),
+              ),
+            );
+          },
 
-          emit(
-            state.copyWith(
-              fetching: fetching,
-              errors: {...state.errors, "all": error},
-            ),
-          );
-        },
-        (result) {
-          final data = Map<String, Word>.from(state.data);
-          final content = result.content;
-          for (final word in content) {
-            data[word.sku] = word;
-          }
+          (PageResult<Word> result) {
+            final data = state.data.toBuilder();
 
-          fetching.remove("all");
+            for (final word in result.content) {
+              data[word.sku] = word;
+            }
 
-          emit(state.copyWith(data: data, fetching: fetching, page: result));
-        },
-      );
+            emit(
+              state.copyWith(
+                data: data.build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+
+                page: result,
+              ),
+            );
+          },
+        );
+      }
     });
 
     on<RetrieveWordBySkuEvent>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
+      if (!state.data.containsKey(event.sku) &&
+          !state.fetching.contains(event.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+          ),
+        );
 
-      fetching.add(event.sku);
+        final results = await _wordService.retrieveWordBySku(event.sku);
 
-      emit(state.copyWith(fetching: fetching));
+        results.fold(
+          (error) {
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
 
-      final results = await _wordService.retrieveWordBySku(event.sku);
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
+          },
 
-      results.fold(
-        (error) {
-          fetching.remove(event.sku);
+          (word) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[word.sku] = word).build(),
 
-          emit(
-            state.copyWith(
-              fetching: fetching,
-              errors: {...state.errors, event.sku: error},
-            ),
-          );
-        },
-        (word) {
-          final data = Map<String, Word>.from(state.data);
-
-          data[word.sku] = word;
-
-          fetching.remove(event.sku);
-
-          emit(state.copyWith(data: data, fetching: fetching));
-        },
-      );
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
+          },
+        );
+      }
     });
 
     on<WordEventAdd>((event, emit) {
-      final data = Map<String, Word>.from(state.data);
-
-      data[event.word.sku] = event.word;
-
-      emit(state.copyWith(data: data));
+      emit(
+        state.copyWith(
+          data: (state.data.toBuilder()..[event.word.sku] = event.word).build(),
+        ),
+      );
     });
   }
 }

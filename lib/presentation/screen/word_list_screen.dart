@@ -15,7 +15,7 @@ class WordListScreen extends StatefulWidget {
 class _WordListScreenState extends State<WordListScreen> {
   final ScrollController _scrollController = ScrollController();
 
-  int page = 0;
+  int page = 1;
   final int size = 10;
 
   @override
@@ -82,8 +82,8 @@ class _WordListScreenState extends State<WordListScreen> {
                 child: Center(child: CircularProgressIndicator()),
               );
             }
-
-            return WordItemScreen(word: state.words[index]);
+            return Text("hello");
+            //return WordItemScreen(word: state.words[index]);
           },
         );
       },

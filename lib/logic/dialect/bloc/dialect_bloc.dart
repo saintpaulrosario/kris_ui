@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/dialect/dialect.dart';
 import 'package:kris/logic/dialect/dialect_service.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
@@ -15,46 +16,83 @@ class DialectBloc extends Bloc<DialectEvent, DialectState> {
   final DialectService _dialectService = getIt<DialectService>();
 
   DialectBloc() : super(DialectState.initial()) {
-    on<DialectEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<DialectEventFetchBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _dialectService.retrieveBySku(event.sku).then((result) {
+      if (!state.data.containsKey(event.sku) &&
+          !state.fetching.contains(event.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+          ),
+        );
+
+        final result = await _dialectService.retrieveBySku(event.sku);
+
         result.fold(
           (error) {
-            fetching.remove(event.sku);
-            emit(state.copyWith(fetching: fetching));
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
-          (result) {
-            Map<String, Dialect> data = Map.from(state.data);
-            data[event.sku] = result;
-            fetching.remove(event.sku);
-            emit(state.copyWith(data: data, fetching: fetching));
+
+          (dialect) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[event.sku] = dialect).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
         );
-      });
+      }
     });
 
     on<DialectEventFetchAll>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      emit(state.copyWith(fetching: fetching));
-      await _dialectService.retrieveAll().then((result) {
-        result.fold((error) {}, (result) {
-          Map<String, Dialect> dialects = Map<String, Dialect>.from(state.data);
-          for (var dialect in result) {
-            dialects[dialect.sku] = dialect;
+      if (state.data.isEmpty) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add("all")).build(),
+          ),
+        );
 
-            _wordBloc.add(WordEventAdd(word: dialect));
-            // dispatch text event here
-          }
-          emit(state.copyWith(data: dialects));
-        });
-      });
-      emit(state.copyWith(fetching: fetching));
+        final result = await _dialectService.retrieveAll();
+
+        result.fold(
+          (error) {
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..["all"] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+
+          (dialects) {
+            final data = state.data.toBuilder();
+
+            for (final dialect in dialects) {
+              data[dialect.sku] = dialect;
+
+              _wordBloc.add(WordEventAdd(word: dialect));
+            }
+
+            emit(
+              state.copyWith(
+                data: data.build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+        );
+      }
     });
   }
 }

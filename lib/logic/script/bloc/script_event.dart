@@ -5,7 +5,7 @@ class ScriptEvent {}
 class RetrieveScriptsEvent extends ScriptEvent {}
 
 class ScriptsEventSelected extends ScriptEvent {
-  final Word selection;
+  final Script selection;
   final bool select;
 
   ScriptsEventSelected({required this.selection, required this.select});

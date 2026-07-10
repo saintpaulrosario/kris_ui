@@ -1,27 +1,34 @@
 part of 'payload_bloc.dart';
 
-@immutable
 class PayloadState extends BaseState<Payload> {
   PayloadState({
     required super.errors,
     required super.fetching,
     required super.data,
+    required super.selections,
   });
 
   factory PayloadState.initial() {
-    return PayloadState(errors: {}, fetching: {}, data: {});
+    return PayloadState(
+      errors: BuiltMap<String, ErrorResponse>(),
+      fetching: BuiltSet<String>(),
+      data: BuiltMap<String, Payload>(),
+      selections: BuiltSet<Payload>(),
+    );
   }
 
   @override
   PayloadState copyWith({
-    Map<String, ErrorResponse>? errors,
-    Set<String>? fetching,
-    Map<String, Payload>? data,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltSet<String>? fetching,
+    BuiltMap<String, Payload>? data,
+    BuiltSet<Payload>? selections,
   }) {
     return PayloadState(
-      errors: errors ?? Map.from(this.errors),
-      fetching: fetching ?? Set.from(this.fetching),
-      data: data ?? Map.from(this.data),
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
     );
   }
 }

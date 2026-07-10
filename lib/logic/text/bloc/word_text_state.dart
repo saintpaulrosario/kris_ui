@@ -5,22 +5,30 @@ class WordTextState extends BaseState<WordText> {
     required super.errors,
     required super.fetching,
     required super.data,
+    required super.selections,
   });
 
   factory WordTextState.initial() {
-    return WordTextState(errors: {}, fetching: {}, data: {});
+    return WordTextState(
+      errors: BuiltMap<String, ErrorResponse>(),
+      fetching: BuiltSet<String>(),
+      data: BuiltMap<String, WordText>(),
+      selections: BuiltSet<WordText>(),
+    );
   }
 
   @override
   WordTextState copyWith({
-    Map<String, ErrorResponse>? errors,
-    Set<String>? fetching,
-    Map<String, WordText>? data,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltSet<String>? fetching,
+    BuiltMap<String, WordText>? data,
+    BuiltSet<WordText>? selections,
   }) {
     return WordTextState(
-      errors: errors ?? Map.from(this.errors),
-      fetching: fetching ?? Set.from(this.fetching),
-      data: data ?? Map.from(this.data),
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
     );
   }
 }

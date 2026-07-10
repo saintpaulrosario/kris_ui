@@ -60,7 +60,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
 
       builder: (context, state) {
         if (state.fetching) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: Text("data"));
         }
 
         final wordText = state.wordText;

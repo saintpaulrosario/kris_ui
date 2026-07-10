@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/language/language.dart';
 import 'package:kris/logic/language/language_service.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/identifier.dart';
 import '../../../model/word.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
-import '../../text/bloc/word_text_bloc.dart';
 
 part 'language_event.dart';
 part 'language_state.dart';
@@ -18,60 +17,95 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   final LanguageService _languageService = getIt<LanguageService>();
 
   LanguageBloc() : super(LanguageState.initial()) {
-    on<LanguageEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<LanguageEventSelected>((event, emit) {
-      Set<Word> selections = Set.from(state.selections);
+      final selections = state.selections.toBuilder();
+
       if (event.select) {
         selections.add(event.selection);
       } else {
         selections.remove(event.selection);
       }
 
-      emit(state.copyWith(selections: selections));
+      emit(state.copyWith(selections: selections.build()));
     });
 
     on<LanguageEventFetchBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _languageService.retrieveBySku(event.sku).then((result) {
+      if (!state.data.containsKey(event.sku) &&
+          !state.fetching.contains(event.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+          ),
+        );
+
+        final result = await _languageService.retrieveBySku(event.sku);
+
         result.fold(
           (error) {
-            fetching.remove(event.sku);
-            emit(state.copyWith(fetching: fetching));
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
-          (result) {
-            Map<String, Language> data = Map.from(state.data);
-            data[event.sku] = result;
-            fetching.remove(event.sku);
-            emit(state.copyWith(data: data));
+
+          (language) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[event.sku] = language).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
         );
-      });
+      }
     });
 
     on<LanguageEventFetchAll>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      emit(state.copyWith(fetching: fetching));
-      await _languageService.retrieveAll().then((result) {
-        result.fold((error) {}, (result) {
-          Map<String, Language> languages = Map<String, Language>.from(
-            state.data,
-          );
-          for (var language in result) {
-            languages[language.sku] = language;
+      if (state.data.isEmpty) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add("all")).build(),
+          ),
+        );
 
-            _wordBloc.add(WordEventAdd(word: language));
+        final result = await _languageService.retrieveAll();
 
-            // dispatch text event here
-          }
-          emit(state.copyWith(data: languages));
-        });
-      });
-      emit(state.copyWith(fetching: fetching));
+        result.fold(
+          (error) {
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..["all"] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+
+          (languages) {
+            final data = state.data.toBuilder();
+
+            for (final language in languages) {
+              data[language.sku] = language;
+
+              _wordBloc.add(WordEventAdd(word: language));
+            }
+
+            emit(
+              state.copyWith(
+                data: data.build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+        );
+      }
     });
   }
 }

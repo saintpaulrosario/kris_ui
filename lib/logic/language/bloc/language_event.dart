@@ -12,7 +12,7 @@ class LanguageEventFetchBySku extends LanguageEvent {
 
 class LanguageEventSelected extends LanguageEvent {
   final bool select;
-  final Word selection;
+  final Language selection;
 
   LanguageEventSelected({required this.select, required this.selection});
 }

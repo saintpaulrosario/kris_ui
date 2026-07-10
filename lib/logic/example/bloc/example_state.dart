@@ -5,22 +5,30 @@ class ExampleState extends BaseState<Example> {
     required super.errors,
     required super.fetching,
     required super.data,
+    required super.selections,
   });
 
   factory ExampleState.initial() {
-    return ExampleState(errors: {}, fetching: {}, data: {});
+    return ExampleState(
+      errors: BuiltMap<String, ErrorResponse>(),
+      fetching: BuiltSet<String>(),
+      data: BuiltMap<String, Example>(),
+      selections: BuiltSet<Example>(),
+    );
   }
 
   @override
   ExampleState copyWith({
-    Map<String, ErrorResponse>? errors,
-    Set<String>? fetching,
-    Map<String, Example>? data,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltSet<String>? fetching,
+    BuiltMap<String, Example>? data,
+    BuiltSet<Example>? selections,
   }) {
     return ExampleState(
-      errors: errors ?? Map.from(this.errors),
-      fetching: fetching ?? Set.from(this.fetching),
-      data: data ?? Map.from(this.data),
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
     );
   }
 }

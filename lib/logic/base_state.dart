@@ -1,25 +1,40 @@
+import 'package:built_collection/built_collection.dart';
+
 import '../model/error_response.dart';
 
 class BaseState<T> {
-  final Map<String, ErrorResponse> errors;
-  final Map<String, T> data;
-  final Set<String> fetching;
+  final BuiltMap<String, ErrorResponse> errors;
+  final BuiltMap<String, T> data;
+  final BuiltSet<String> fetching;
+  final BuiltSet<T> selections;
 
-  BaseState({required this.errors, required this.fetching, required this.data});
+  BaseState({
+    required this.errors,
+    required this.fetching,
+    required this.data,
+    required this.selections,
+  });
 
   factory BaseState.initial() {
-    return BaseState(errors: {}, fetching: {}, data: {});
+    return BaseState(
+      errors: BuiltMap<String, ErrorResponse>(),
+      data: BuiltMap<String, T>(),
+      fetching: BuiltSet<String>(),
+      selections: BuiltSet<T>(),
+    );
   }
 
   BaseState<T> copyWith({
-    Map<String, ErrorResponse>? errors,
-    Map<String, T>? data,
-    Set<String>? fetching,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltMap<String, T>? data,
+    BuiltSet<String>? fetching,
+    BuiltSet<T>? selections,
   }) {
     return BaseState<T>(
-      errors: errors ?? Map.from(this.errors),
-      data: data ?? Map.from(this.data),
-      fetching: fetching ?? Set.from(this.fetching),
+      errors: errors ?? this.errors,
+      data: data ?? this.data,
+      fetching: fetching ?? this.fetching,
+      selections: selections ?? this.selections,
     );
   }
 }

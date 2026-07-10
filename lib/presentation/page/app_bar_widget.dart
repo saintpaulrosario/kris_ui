@@ -89,12 +89,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                     label: "Script",
                                     onSelect:
                                         ({required select, required word}) {
-                                          context.read<ScriptBloc>().add(
-                                            ScriptsEventSelected(
-                                              selection: word,
-                                              select: select,
-                                            ),
-                                          );
+                                          // context.read<ScriptBloc>().add(
+                                          //   ScriptsEventSelected(
+                                          //     selection: word,
+                                          //     select: select,
+                                          //   ),
+                                          // );
                                         },
                                     selections: state.selections,
                                   );
@@ -128,15 +128,15 @@ class _AppBarWidgetState extends State<AppBarWidget> {
 
                                     onSelect:
                                         ({
-                                          required word,
+                                          required Word word,
                                           required bool select,
                                         }) {
-                                          context.read<LanguageBloc>().add(
-                                            LanguageEventSelected(
-                                              select: select,
-                                              selection: word,
-                                            ),
-                                          );
+                                          // context.read<LanguageBloc>().add(
+                                          //   LanguageEventSelected(
+                                          //     select: select,
+                                          //     selection: null,
+                                          //   ),
+                                          // );
                                         },
                                   );
                                 },
@@ -169,7 +169,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                         ({required select, required word}) {
                                           //context.read<DialectBloc>().add(Dia)
                                         },
-                                    selections: {},
+                                    selections: state.selections,
                                   );
                                 },
                               ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/data/service/script_service.dart';
 
 import 'package:kris/model/script.dart';
@@ -14,8 +15,6 @@ import '../../content/bloc/content_bloc.dart';
 part 'script_event.dart';
 part 'script_state.dart';
 
-// TODO should load data from cache if first load
-
 class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
   final ContentBloc _contentBloc = getIt<ContentBloc>();
   final ScriptService _scriptService = getIt<ScriptService>();
@@ -25,55 +24,101 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
   ScriptBloc()
     : _scriptSubject = BehaviorSubject<Script>(),
       super(ScriptState.initial()) {
-    on<ScriptEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<ScriptEventRetrieveBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _scriptService.retriveBySku(event.sku).then((result) {
+      if (!state.data.containsKey(event.sku) &&
+          !state.fetching.contains(event.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+          ),
+        );
+
+        final result = await _scriptService.retriveBySku(event.sku);
+
         result.fold(
           (error) {
-            fetching.remove(event.sku);
-            emit(state.copyWith(fetching: fetching));
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
-          (result) {
-            Map<String, Script> data = Map.from(state.data);
-            data[event.sku] = result;
-            fetching.remove(event.sku);
-            emit(state.copyWith(data: data));
+
+          (script) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[event.sku] = script).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
         );
-      });
+      }
     });
 
     on<RetrieveScriptsEvent>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      emit(state.copyWith(fetching: fetching));
-      await _scriptService.retriveAll().then((result) {
-        result.fold((error) {}, (scriptsList) {
-          Map<String, Script> scripts = Map<String, Script>.from(state.data);
-          for (var script in scriptsList) {
-            scripts[script.sku] = script;
-            _contentBloc.add(ContentEventAdd(script.contents));
-            // dispatch text event here
-          }
-          emit(state.copyWith(data: scripts));
-        });
-      });
-      emit(state.copyWith(fetching: fetching));
+      if (state.data.isEmpty) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add("all")).build(),
+          ),
+        );
+
+        final result = await _scriptService.retriveAll();
+
+        result.fold(
+          (error) {
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..["all"] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+
+          (scriptsList) {
+            final scripts = state.data.toBuilder();
+
+            for (final script in scriptsList) {
+              scripts[script.sku] = script;
+
+              _contentBloc.add(ContentEventAdd(script.contents));
+            }
+
+            emit(
+              state.copyWith(
+                data: scripts.build(),
+
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+              ),
+            );
+          },
+        );
+      }
     });
 
-    on<ScriptsEventSelected>((event, emit) async {
-      Set<Word> selections = Set.from(state.selections);
+    on<ScriptsEventSelected>((event, emit) {
+      final selections = state.selections.toBuilder();
+
       if (event.select) {
         selections.add(event.selection);
       } else {
         selections.remove(event.selection);
       }
-      emit(state.copyWith(selections: selections));
+
+      emit(state.copyWith(selections: selections.build()));
     });
+  }
+
+  @override
+  Future<void> close() {
+    _scriptSubject.close();
+    return super.close();
   }
 }

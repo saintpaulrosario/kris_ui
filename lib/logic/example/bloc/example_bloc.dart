@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/example/example.dart';
 import 'package:kris/service_locator.dart';
 
@@ -13,28 +14,41 @@ class ExampleBloc extends Bloc<ExampleEvent, ExampleState> {
   final ExampleService _exampleService = getIt<ExampleService>();
 
   ExampleBloc() : super(ExampleState.initial()) {
-    on<ExampleEvent>((event, emit) {
-      // TODO: implement event handler
-    });
-
     on<ExampleEventFetchBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _exampleService.retrieveBySku(event.sku).then((result) {
+      if (!state.data.containsKey(event.sku) &&
+          !state.fetching.contains(event.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+          ),
+        );
+
+        final result = await _exampleService.retrieveBySku(event.sku);
+
         result.fold(
           (error) {
-            fetching.remove(event.sku);
-            emit(state.copyWith(fetching: fetching));
+            emit(
+              state.copyWith(
+                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
-          (result) {
-            Map<String, Example> data = Map.from(state.data);
-            data[event.sku] = result;
-            fetching.remove(event.sku);
-            emit(state.copyWith(data: data, fetching: fetching));
+
+          (example) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[event.sku] = example).build(),
+
+                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                    .build(),
+              ),
+            );
           },
         );
-      });
+      }
     });
   }
 }

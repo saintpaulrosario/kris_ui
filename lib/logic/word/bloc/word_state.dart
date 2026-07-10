@@ -1,35 +1,40 @@
 part of 'word_bloc.dart';
 
 class WordState extends BaseState<Word> {
-  final PageResult page;
+  final PageResult<Word> page;
+
   WordState({
     required super.errors,
     required super.fetching,
     required super.data,
     required this.page,
+    required super.selections,
   });
 
   factory WordState.initial() {
     return WordState(
-      errors: {},
-      fetching: {},
-      data: {},
+      errors: BuiltMap<String, ErrorResponse>(),
+      fetching: BuiltSet<String>(),
+      data: BuiltMap<String, Word>(),
       page: PageResult.initial(),
+      selections: BuiltSet<Word>(),
     );
   }
 
   @override
   WordState copyWith({
-    Map<String, ErrorResponse>? errors,
-    Set<String>? fetching,
-    Map<String, Word>? data,
-    PageResult? page,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltSet<String>? fetching,
+    BuiltMap<String, Word>? data,
+    BuiltSet<Word>? selections,
+    PageResult<Word>? page,
   }) {
     return WordState(
-      errors: errors ?? Map.from(this.errors),
-      fetching: fetching ?? Set.from(this.fetching),
-      data: data ?? Map.from(this.data),
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
       page: page ?? this.page,
+      selections: selections ?? this.selections,
     );
   }
 }

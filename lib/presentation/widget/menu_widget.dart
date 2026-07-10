@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:kris/presentation/widget/menu_content_widget.dart';
 
 class MenuWidget extends StatelessWidget {
   final List<Word> words;
-  final Set<Word> selections;
+  final BuiltSet<Word> selections;
   final ScrollController _scrollController = ScrollController();
   final String label;
   final Function({required Word word, required bool select}) onSelect;
@@ -43,7 +44,7 @@ class MenuWidget extends StatelessWidget {
 
                 thumbVisibility: true,
 
-                child: BlocSelector<ScriptBloc, ScriptState, Set<Word>>(
+                child: BlocSelector<ScriptBloc, ScriptState, BuiltSet<Word>>(
                   selector: (state) {
                     return state.selections;
                   },

@@ -5,22 +5,30 @@ class SoundState extends BaseState<Sound> {
     required super.errors,
     required super.fetching,
     required super.data,
+    required super.selections,
   });
 
   factory SoundState.initial() {
-    return SoundState(errors: {}, fetching: {}, data: {});
+    return SoundState(
+      errors: BuiltMap<String, ErrorResponse>(),
+      fetching: BuiltSet<String>(),
+      data: BuiltMap<String, Sound>(),
+      selections: BuiltSet<Sound>(),
+    );
   }
 
   @override
   SoundState copyWith({
-    Map<String, ErrorResponse>? errors,
-    Set<String>? fetching,
-    Map<String, Sound>? data,
+    BuiltMap<String, ErrorResponse>? errors,
+    BuiltSet<String>? fetching,
+    BuiltMap<String, Sound>? data,
+    BuiltSet<Sound>? selections,
   }) {
     return SoundState(
-      errors: errors ?? Map.from(this.errors),
-      fetching: fetching ?? Set.from(this.fetching),
-      data: data ?? Map.from(this.data),
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
     );
   }
 }
