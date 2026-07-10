@@ -40,11 +40,11 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       await _languageService.retrieveBySku(event.sku).then((result) {
         result.fold((error) {}, (language) {
           Map<String, Language> languages = Map<String, Language>.from(
-            state.languages,
+            state.data,
           );
           languages[event.sku] = language;
           _wordBloc.add(WordEventAdd(word: language));
-          emit(state.copyWith(scripts: languages));
+          emit(state.copyWith(data: languages));
         });
       });
       fetching.remove(event.sku);
@@ -57,7 +57,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       await _languageService.retrieveAll().then((result) {
         result.fold((error) {}, (result) {
           Map<String, Language> languages = Map<String, Language>.from(
-            state.languages,
+            state.data,
           );
           for (var language in result) {
             languages[language.sku] = language;
@@ -66,7 +66,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
 
             // dispatch text event here
           }
-          emit(state.copyWith(scripts: languages));
+          emit(state.copyWith(data: languages));
         });
       });
       emit(state.copyWith(fetching: fetching));

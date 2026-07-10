@@ -23,7 +23,7 @@ class Language extends Word {
     required super.texts,
     required super.contents,
     required super.images,
-    required super.roots,
+    required super.payloads,
   });
 
   factory Language.fromJson(Map<String, dynamic> json) =>

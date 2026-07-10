@@ -33,12 +33,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       builder: (context, state) {
         if (state.fetching.contains(widget.identifier.sku)) {
           return const Center(child: CircularProgressIndicator());
-        } else if (!state.payloads.containsKey(widget.identifier.sku)) {
+        } else if (!state.data.containsKey(widget.identifier.sku)) {
           return const Center(child: Text("Payload not found"));
         }
         return BlocSelector<PayloadBloc, PayloadState, Payload>(
           selector: (state) {
-            return state.payloads[widget.identifier.sku]!;
+            return state.data[widget.identifier.sku]!;
           },
           builder: (context, state) {
             return Padding(

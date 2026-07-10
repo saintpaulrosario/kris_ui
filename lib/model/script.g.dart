@@ -53,8 +53,8 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
               .toList() ??
           [],
     ),
-    roots: $checkedConvert(
-      'roots',
+    payloads: $checkedConvert(
+      'payloads',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -78,5 +78,5 @@ Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
   'texts': instance.texts.map((e) => e.toJson()).toList(),
   'contents': instance.contents.map((e) => e.toJson()).toList(),
   'images': instance.images.map((e) => e.toJson()).toList(),
-  'roots': instance.roots.map((e) => e.toJson()).toList(),
+  'payloads': instance.payloads.map((e) => e.toJson()).toList(),
 };

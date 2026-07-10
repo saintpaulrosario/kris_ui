@@ -28,7 +28,7 @@ class _MenuPayloadWidgetState extends State<MenuPayloadWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<PayloadBloc, PayloadState, Payload?>(
-      selector: (state) => state.payloads[widget.identifier.sku],
+      selector: (state) => state.data[widget.identifier.sku],
 
       builder: (context, payload) {
         if (payload == null) {

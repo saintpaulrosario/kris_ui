@@ -29,10 +29,10 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           .retriveBySku(event.sku);
 
       result.fold((error) {}, (content) {
-        final contents = Map<String, Content>.from(state.contents);
+        final contents = Map<String, Content>.from(state.data);
         contents[event.sku] = content;
         _payloadBloc.add(PayloadEventAdd(content.payloads));
-        emit(state.copyWith(contents: contents));
+        emit(state.copyWith(data: contents));
       });
       fetching.remove(event.sku);
       emit(state.copyWith(fetching: fetching));

@@ -37,7 +37,7 @@ class _MenuContentState extends State<MenuContentWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<ContentBloc, ContentState, Content?>(
-      selector: (state) => state.contents[widget.identifier.sku],
+      selector: (state) => state.data[widget.identifier.sku],
 
       builder: (context, content) {
         if (content == null) {

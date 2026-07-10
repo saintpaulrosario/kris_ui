@@ -1,20 +1,21 @@
 part of 'content_bloc.dart';
 
-class ContentState extends BaseState {
-  final Map<String, Content> contents;
-
-  ContentState({required this.contents}) : super(errors: {}, fetching: {});
-
+class ContentState extends BaseState<Content> {
+  ContentState({
+    required super.errors,
+    required super.fetching,
+    required super.data,
+  });
   factory ContentState.initial() {
-    return ContentState(contents: {});
+    return ContentState(errors: {}, fetching: {}, data: {});
   }
 
   @override
   ContentState copyWith({
     Map<String, ErrorResponse>? errors,
     Set<String>? fetching,
-    Map<String, Content>? contents,
+    Map<String, Content>? data,
   }) {
-    return ContentState(contents: contents ?? this.contents);
+    return ContentState(errors: {}, fetching: {}, data: {});
   }
 }

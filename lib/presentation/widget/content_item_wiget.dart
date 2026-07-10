@@ -36,7 +36,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         } else {
           return BlocSelector<ContentBloc, ContentState, Map<String, Content>>(
             selector: (state) {
-              return state.contents;
+              return state.data;
             },
             builder: (context, state) {
               if (state.isEmpty) {
@@ -46,7 +46,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
               } else {
                 return BlocSelector<ContentBloc, ContentState, Content>(
                   selector: (state) {
-                    return state.contents[widget.identifier.sku]!;
+                    return state.data[widget.identifier.sku]!;
                   },
                   builder: (context, state) {
                     return Padding(

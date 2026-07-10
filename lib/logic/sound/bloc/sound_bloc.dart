@@ -25,9 +25,9 @@ class SoundBloc extends Bloc<SoundEvent, SoundState> {
       fetching.remove(event.sku);
 
       results.fold((error) {}, (success) {
-        final sounds = Map<String, Sound>.from(state.sounds);
+        final sounds = Map<String, Sound>.from(state.data);
         sounds[event.sku] = success;
-        emit(state.copyWith(sounds: sounds));
+        emit(state.copyWith(data: sounds));
       });
       emit(state.copyWith(fetching: fetching));
     });

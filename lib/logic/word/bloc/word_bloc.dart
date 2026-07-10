@@ -1,10 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/content/bloc/content_bloc.dart';
-import 'package:kris/logic/text/bloc/word_text_bloc.dart';
-import 'package:kris/model/identifier.dart';
-import 'package:kris/model/word_text.dart';
-import 'package:rxdart/subjects.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word.dart';
@@ -28,12 +24,12 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       Either<ErrorResponse, List<Word>> results = await _wordService.retrive();
 
       results.fold((error) {}, (results) {
-        final words = state.words;
+        final words = state.data;
         for (var word in results) {
           words[word.sku] = word;
           _contentBloc.add(ContentEventAdd(word.contents));
         }
-        emit(state.copyWith(words: words));
+        emit(state.copyWith(data: words));
       });
     });
 
@@ -42,17 +38,17 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           .retrieveWordBySku(event.sku);
 
       results.fold((error) {}, (result) {
-        final words = state.words;
+        final words = state.data;
         words[result.sku] = result;
-        emit(state.copyWith(words: words));
+        emit(state.copyWith(data: words));
         _contentBloc.add(ContentEventAdd(result.contents));
       });
     });
 
     on<WordEventAdd>((event, emit) {
-      final words = Map<String, Word>.from(state.words);
+      final words = Map<String, Word>.from(state.data);
       words[event.word.sku] = event.word;
-      emit(state.copyWith(words: words));
+      emit(state.copyWith(data: words));
       //_contentBloc.add(ContentEventAdd(event.word.contents));
       //add(RetrieveWordBySkuEvent(sku: event.word.sku));
     });

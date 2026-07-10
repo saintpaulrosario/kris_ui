@@ -1,20 +1,21 @@
 part of 'sound_bloc.dart';
 
-class SoundState extends BaseState {
-  final Map<String, Sound> sounds;
-
-  SoundState({required this.sounds}) : super(errors: {}, fetching: {});
-
+class SoundState extends BaseState<Sound> {
+  SoundState({
+    required super.errors,
+    required super.fetching,
+    required super.data,
+  });
   factory SoundState.initial() {
-    return SoundState(sounds: {});
+    return SoundState(errors: {}, fetching: {}, data: {});
   }
 
   @override
   SoundState copyWith({
     Map<String, ErrorResponse>? errors,
     Set<String>? fetching,
-    Map<String, Sound>? sounds,
+    Map<String, Sound>? data,
   }) {
-    return SoundState(sounds: sounds ?? this.sounds);
+    return SoundState(errors: {}, fetching: {}, data: {});
   }
 }

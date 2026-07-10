@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/identifier.dart';
 import '../../model/word.dart';
 
-part 'dialect.g.dart';
+part 'example.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -11,8 +11,10 @@ part 'dialect.g.dart';
   anyMap: true,
   checked: true,
 )
-class Dialect extends Word {
-  const Dialect({
+class Example extends Word {
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> words;
+  const Example({
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -24,11 +26,12 @@ class Dialect extends Word {
     required super.contents,
     required super.images,
     required super.payloads,
+    required this.words,
   });
 
-  factory Dialect.fromJson(Map<String, dynamic> json) =>
-      _$DialectFromJson(json);
+  factory Example.fromJson(Map<String, dynamic> json) =>
+      _$ExampleFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$DialectToJson(this);
+  Map<String, dynamic> toJson() => _$ExampleToJson(this);
 }

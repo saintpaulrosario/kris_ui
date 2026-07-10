@@ -4,7 +4,6 @@ import 'package:kris/logic/dialect/dialect_service.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/word.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 
@@ -26,11 +25,9 @@ class DialectBloc extends Bloc<DialectEvent, DialectState> {
       emit(state.copyWith(fetching: fetching));
       await _dialectService.retrieveBySku(event.sku).then((result) {
         result.fold((error) {}, (script) {
-          Map<String, Dialect> dialects = Map<String, Dialect>.from(
-            state.dialects,
-          );
+          Map<String, Dialect> dialects = Map<String, Dialect>.from(state.data);
           dialects[event.sku] = script;
-          emit(state.copyWith(dialects: dialects));
+          emit(state.copyWith(data: dialects));
         });
       });
       fetching.remove(event.sku);
@@ -42,16 +39,14 @@ class DialectBloc extends Bloc<DialectEvent, DialectState> {
       emit(state.copyWith(fetching: fetching));
       await _dialectService.retrieveAll().then((result) {
         result.fold((error) {}, (result) {
-          Map<String, Dialect> dialects = Map<String, Dialect>.from(
-            state.dialects,
-          );
+          Map<String, Dialect> dialects = Map<String, Dialect>.from(state.data);
           for (var dialect in result) {
             dialects[dialect.sku] = dialect;
 
             _wordBloc.add(WordEventAdd(word: dialect));
             // dispatch text event here
           }
-          emit(state.copyWith(dialects: dialects));
+          emit(state.copyWith(data: dialects));
         });
       });
       emit(state.copyWith(fetching: fetching));

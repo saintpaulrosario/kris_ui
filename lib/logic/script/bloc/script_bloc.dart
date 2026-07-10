@@ -1,19 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/data/service/script_service.dart';
-import 'package:kris/logic/word/bloc/word_bloc.dart';
-import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/script.dart';
 import 'package:kris/model/word.dart';
 
-import '../../../model/content.dart';
 import '../../../model/error_response.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../content/bloc/content_bloc.dart';
-import '../../text/bloc/word_text_bloc.dart';
 
 part 'script_event.dart';
 part 'script_state.dart';
@@ -39,9 +35,9 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
       emit(state.copyWith(fetching: fetching));
       await _scriptService.retriveBySku(event.sku).then((result) {
         result.fold((error) {}, (script) {
-          Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
+          Map<String, Script> scripts = Map<String, Script>.from(state.data);
           scripts[event.sku] = script;
-          emit(state.copyWith(scripts: scripts));
+          emit(state.copyWith(data: scripts));
           //_contentBloc.add(ContentEventAdd(script.contents));
         });
         fetching.remove(event.sku);
@@ -54,13 +50,13 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
       emit(state.copyWith(fetching: fetching));
       await _scriptService.retriveAll().then((result) {
         result.fold((error) {}, (scriptsList) {
-          Map<String, Script> scripts = Map<String, Script>.from(state.scripts);
+          Map<String, Script> scripts = Map<String, Script>.from(state.data);
           for (var script in scriptsList) {
             scripts[script.sku] = script;
             _contentBloc.add(ContentEventAdd(script.contents));
             // dispatch text event here
           }
-          emit(state.copyWith(scripts: scripts));
+          emit(state.copyWith(data: scripts));
         });
       });
       emit(state.copyWith(fetching: fetching));

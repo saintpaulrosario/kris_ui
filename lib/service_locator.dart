@@ -4,6 +4,8 @@ import 'package:kris/data/api/script_api.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/dialect/dialect_api.dart';
 import 'package:kris/logic/dialect/dialect_service.dart';
+import 'package:kris/logic/example/bloc/example_bloc.dart';
+import 'package:kris/logic/example/example_service.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/language/language_api.dart';
 import 'package:kris/logic/language/language_service.dart';
@@ -97,6 +99,7 @@ void setupLocator() {
   getIt.registerLazySingleton<PayloadService>(() => PayloadService());
   getIt.registerLazySingleton<LanguageService>(() => LanguageService());
   getIt.registerLazySingleton<DialectService>(() => DialectService());
+  getIt.registerLazySingleton<ExampleService>(() => ExampleService());
 
   //
   getIt.registerLazySingleton<ScriptBloc>(() => ScriptBloc());
@@ -106,4 +109,5 @@ void setupLocator() {
   getIt.registerLazySingleton<WordTextBloc>(() => WordTextBloc());
   getIt.registerLazySingleton<WordBloc>(() => WordBloc());
   getIt.registerLazySingleton<PayloadBloc>(() => PayloadBloc());
+  getIt.registerLazySingleton<ExampleBloc>(() => ExampleBloc());
 }

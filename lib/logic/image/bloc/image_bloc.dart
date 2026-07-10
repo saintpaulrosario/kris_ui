@@ -29,9 +29,9 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
       emit(state.copyWith(fetching: fetching));
 
       result.fold((error) {}, (image) {
-        final images = Map<String, WordImage>.from(state.images);
+        final images = Map<String, WordImage>.from(state.data);
         images[event.sku] = image;
-        emit(state.copyWith(images: images));
+        emit(state.copyWith(data: images));
       });
     });
   }

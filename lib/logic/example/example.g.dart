@@ -1,18 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'word.dart';
+part of 'example.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
+Example _$ExampleFromJson(Map json) => $checkedCreate('Example', json, (
   $checkedConvert,
 ) {
-  final val = Word(
+  final val = Example(
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    createdDate: $checkedConvert(
+      'createdDate',
+      (v) => DateTime.parse(v as String),
+    ),
+    lastModifiedDate: $checkedConvert(
+      'lastModifiedDate',
+      (v) => DateTime.parse(v as String),
+    ),
+    createdBy: $checkedConvert('createdBy', (v) => v as String?),
+    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
     texts: $checkedConvert(
       'texts',
       (v) =>
@@ -53,21 +63,21 @@ Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
               .toList() ??
           [],
     ),
-    createdDate: $checkedConvert(
-      'createdDate',
-      (v) => DateTime.parse(v as String),
+    words: $checkedConvert(
+      'words',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
-    lastModifiedDate: $checkedConvert(
-      'lastModifiedDate',
-      (v) => DateTime.parse(v as String),
-    ),
-    createdBy: $checkedConvert('createdBy', (v) => v as String?),
-    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
   );
   return val;
 });
 
-Map<String, dynamic> _$WordToJson(Word instance) => <String, dynamic>{
+Map<String, dynamic> _$ExampleToJson(Example instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': instance.createdBy,
@@ -79,4 +89,5 @@ Map<String, dynamic> _$WordToJson(Word instance) => <String, dynamic>{
   'contents': instance.contents.map((e) => e.toJson()).toList(),
   'images': instance.images.map((e) => e.toJson()).toList(),
   'payloads': instance.payloads.map((e) => e.toJson()).toList(),
+  'words': instance.words.map((e) => e.toJson()).toList(),
 };

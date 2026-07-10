@@ -31,9 +31,9 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
           emit(state.copyWith(errors: {...state.errors, event.sku: error}));
         },
         (result) {
-          final texts = Map<String, Payload>.from(state.payloads);
+          final texts = Map<String, Payload>.from(state.data);
           texts[event.sku] = result;
-          emit(state.copyWith(payloads: texts));
+          emit(state.copyWith(data: texts));
         },
       );
       fetching.remove(event.sku);

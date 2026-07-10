@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -6,6 +8,7 @@ import 'identifier.dart';
 part 'payload.g.dart';
 
 @JsonSerializable(
+  disallowUnrecognizedKeys: false,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
@@ -13,11 +16,20 @@ part 'payload.g.dart';
   checked: true,
 )
 class Payload extends Identifier {
+  @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int row;
+
+  @JsonKey(disallowNullValue: false, defaultValue: '')
   final String value;
 
   @JsonKey(disallowNullValue: false)
   final Identifier script;
+
+  @JsonKey(disallowNullValue: false)
+  final Identifier language;
+
+  @JsonKey(disallowNullValue: false)
+  final Identifier dialect;
 
   @JsonKey(disallowNullValue: false)
   final Identifier text;
@@ -31,6 +43,12 @@ class Payload extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier word;
 
+  @JsonKey(disallowNullValue: false)
+  final Identifier? root;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> examples;
+
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
 
@@ -42,6 +60,10 @@ class Payload extends Identifier {
     required this.content,
     required this.word,
     required this.sounds,
+    required this.language,
+    required this.dialect,
+    required this.root,
+    required this.examples,
   }) : super(
          sku: '',
          version: 0,
@@ -61,6 +83,10 @@ class Payload extends Identifier {
       content: Identifier.initial(),
       word: Identifier.initial(),
       sounds: [],
+      language: Identifier.initial(),
+      dialect: Identifier.initial(),
+      root: Identifier.initial(),
+      examples: [],
     );
   }
 

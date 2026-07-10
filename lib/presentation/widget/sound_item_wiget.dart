@@ -36,14 +36,14 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
       builder: (context, state) {
         if (state.fetching.contains(widget.identifier.sku)) {
           return const Center(child: CircularProgressIndicator());
-        } else if (!state.sounds.containsKey(widget.identifier.sku)) {
+        } else if (!state.data.containsKey(widget.identifier.sku)) {
           return ElevatedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.play_circle_fill),
             label: const Text('no found'),
           );
         }
-        Sound sound = state.sounds[widget.identifier.sku]!;
+        Sound sound = state.data[widget.identifier.sku]!;
         Uint8List soundBytes = Uint8List.fromList(base64Decode(sound.payload));
         var source = BytesSource(soundBytes);
         return ElevatedButton.icon(

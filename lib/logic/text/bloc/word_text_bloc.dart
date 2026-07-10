@@ -35,9 +35,9 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           emit(state.copyWith(errors: {...state.errors, event.sku: error}));
         },
         (result) {
-          final texts = Map<String, WordText>.from(state.texts);
+          final texts = Map<String, WordText>.from(state.data);
           texts[event.sku] = result;
-          emit(state.copyWith(texts: texts));
+          emit(state.copyWith(data: texts));
           _contentBloc.add(ContentEventAdd(result.contents));
         },
       );

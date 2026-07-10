@@ -80,12 +80,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                   return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.scripts.isEmpty) {
+                                  if (state.data.isEmpty) {
                                     return Text("scripts not availbe");
                                   }
 
                                   return MenuWidget(
-                                    words: state.scripts.values.toList(),
+                                    words: state.data.values.toList(),
                                     label: "Script",
                                     onSelect:
                                         ({required select, required word}) {
@@ -117,12 +117,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                   return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.languages.isEmpty) {
+                                  if (state.data.isEmpty) {
                                     return Text("languages not availbe");
                                   }
 
                                   return MenuWidget(
-                                    words: state.languages.values.toList(),
+                                    words: state.data.values.toList(),
                                     label: "Language",
                                     selections: state.selections,
 
@@ -158,12 +158,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                   return state;
                                 },
                                 builder: (context, state) {
-                                  if (state.dialects.isEmpty) {
+                                  if (state.data.isEmpty) {
                                     return Text("dialects not availbe");
                                   }
 
                                   return MenuWidget(
-                                    words: state.dialects.values.toList(),
+                                    words: state.data.values.toList(),
                                     label: "Dialect",
                                     onSelect:
                                         ({required select, required word}) {

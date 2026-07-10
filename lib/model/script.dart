@@ -23,7 +23,7 @@ class Script extends Word {
     required super.texts,
     required super.contents,
     required super.images,
-    required super.roots,
+    required super.payloads,
   });
 
   factory Script.fromJson(Map<String, dynamic> json) => _$ScriptFromJson(json);

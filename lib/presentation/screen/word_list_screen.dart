@@ -22,7 +22,7 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<WordBloc, WordState, bool>(
-      selector: (state) => state.words.isEmpty,
+      selector: (state) => state.data.isEmpty,
       builder: (context, fetching) {
         if (fetching) {
           return const Card(
@@ -35,7 +35,7 @@ class _WordListScreenState extends State<WordListScreen> {
 
         return BlocSelector<WordBloc, WordState, Map<String, Word>>(
           selector: (state) {
-            return state.words;
+            return state.data;
           },
           builder: (context, state) {
             return ListView.builder(

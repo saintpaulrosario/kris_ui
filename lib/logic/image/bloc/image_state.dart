@@ -1,20 +1,21 @@
 part of 'image_bloc.dart';
 
-class ImageState extends BaseState {
-  final Map<String, WordImage> images;
-
-  ImageState({required this.images}) : super(errors: {}, fetching: {});
-
+class ImageState extends BaseState<WordImage> {
+  ImageState({
+    required super.errors,
+    required super.fetching,
+    required super.data,
+  });
   factory ImageState.initial() {
-    return ImageState(images: {});
+    return ImageState(errors: {}, fetching: {}, data: {});
   }
 
   @override
   ImageState copyWith({
     Map<String, ErrorResponse>? errors,
     Set<String>? fetching,
-    Map<String, WordImage>? images,
+    Map<String, WordImage>? data,
   }) {
-    return ImageState(images: images ?? this.images);
+    return ImageState(errors: {}, fetching: {}, data: {});
   }
 }

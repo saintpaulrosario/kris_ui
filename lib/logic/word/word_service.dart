@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
@@ -11,19 +12,24 @@ class WordService {
   final WordApi _wordApi = getIt<WordApi>();
 
   Future<Either<ErrorResponse, List<Word>>> retrive() async {
-    final HttpResponse<ApiResult<List<Word>>> httpResponse = await _wordApi
-        .retrieveAll();
+    try {
+      final HttpResponse<ApiResult<List<Word>>> httpResponse = await _wordApi
+          .retrieveAll();
 
-    ApiResult<List<Word>> apiResult = httpResponse.data;
-    if (httpResponse.response.statusCode == 200) {
-      final List<Word> payload = apiResult.payload;
-      return right(payload);
-    } else {
-      final ErrorResponse errorResponse = ErrorResponse.fromJson(
-        httpResponse.response.data,
-      );
-      //throw Exception('Failed to retrieve scripts');
-      return left(errorResponse);
+      ApiResult<List<Word>> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final List<Word> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
     }
   }
 

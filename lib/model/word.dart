@@ -23,7 +23,7 @@ class Word extends Identifier {
   final List<Identifier> images;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> roots;
+  final List<Identifier> payloads;
 
   const Word({
     required super.sku,
@@ -32,7 +32,7 @@ class Word extends Identifier {
     required this.texts,
     required this.contents,
     required this.images,
-    required this.roots,
+    required this.payloads,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
@@ -47,7 +47,7 @@ class Word extends Identifier {
       texts: [],
       contents: [],
       images: [],
-      roots: [],
+      payloads: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: '',

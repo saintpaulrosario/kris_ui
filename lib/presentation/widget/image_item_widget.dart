@@ -49,7 +49,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
 
         return BlocSelector<ImageBloc, ImageState, Map<String, WordImage>>(
           selector: (state) {
-            return state.images;
+            return state.data;
           },
           builder: (context, state) {
             if (state.isEmpty ||
@@ -60,7 +60,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
             } else {
               return BlocSelector<ImageBloc, ImageState, WordImage>(
                 selector: (state) {
-                  return state.images[widget.imageIdentifier.sku]!;
+                  return state.data[widget.imageIdentifier.sku]!;
                 },
                 builder: (context, state) {
                   final Uint8List imageBytes = Uint8List.fromList(

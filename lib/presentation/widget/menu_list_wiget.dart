@@ -39,7 +39,7 @@ class _ScriptItemWidgetState extends State<ScriptItemWidget> {
         }
 
         return BlocSelector<ScriptBloc, ScriptState, Script?>(
-          selector: (state) => state.scripts[widget.identifier.sku],
+          selector: (state) => state.data[widget.identifier.sku],
           builder: (context, script) {
             if (script == null) {
               return const Text("Script not found");
@@ -86,7 +86,7 @@ class _ContentPayloadsState extends State<_ContentPayloads> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<ContentBloc, ContentState, Content?>(
-      selector: (state) => state.contents[widget.identifier.sku],
+      selector: (state) => state.data[widget.identifier.sku],
       builder: (context, content) {
         if (content == null) {
           return const Text("Content not found");
@@ -129,7 +129,7 @@ class _PayloadItemState extends State<_PayloadItem> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<PayloadBloc, PayloadState, Payload?>(
-      selector: (state) => state.payloads[widget.identifier.sku],
+      selector: (state) => state.data[widget.identifier.sku],
       builder: (context, payload) {
         if (payload == null) {
           return const Text("Payload not found");

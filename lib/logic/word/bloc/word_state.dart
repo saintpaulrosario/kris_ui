@@ -1,20 +1,21 @@
 part of 'word_bloc.dart';
 
-class WordState extends BaseState {
-  final Map<String, Word> words;
-
-  WordState({required this.words}) : super(errors: {}, fetching: {});
-
+class WordState extends BaseState<Word> {
+  WordState({
+    required super.errors,
+    required super.fetching,
+    required super.data,
+  });
   factory WordState.initial() {
-    return WordState(words: {});
+    return WordState(errors: {}, fetching: {}, data: {});
   }
 
   @override
   WordState copyWith({
-    Map<String, Word>? words,
     Map<String, ErrorResponse>? errors,
     Set<String>? fetching,
+    Map<String, Word>? data,
   }) {
-    return WordState(words: words ?? this.words);
+    return WordState(errors: {}, fetching: {}, data: {});
   }
 }

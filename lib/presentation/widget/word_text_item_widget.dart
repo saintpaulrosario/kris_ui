@@ -40,7 +40,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
             Map<String, WordText>
           >(
             selector: (state) {
-              return state.texts;
+              return state.data;
             },
             builder: (context, state) {
               if (state.isEmpty) {
@@ -50,7 +50,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
               } else {
                 return BlocSelector<WordTextBloc, WordTextState, WordText>(
                   selector: (state) {
-                    return state.texts[widget.identifier.sku]!;
+                    return state.data[widget.identifier.sku]!;
                   },
                   builder: (context, state) {
                     return Column(

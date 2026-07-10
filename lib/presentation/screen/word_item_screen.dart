@@ -37,7 +37,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
         }
 
         return BlocSelector<WordBloc, WordState, Word?>(
-          selector: (state) => state.words[widget.word.sku],
+          selector: (state) => state.data[widget.word.sku],
           builder: (context, state) {
             if (state == null) {
               return const Card(
