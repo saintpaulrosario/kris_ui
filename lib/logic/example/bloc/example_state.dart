@@ -6,6 +6,7 @@ class ExampleState extends BaseState<Example> {
     required super.fetching,
     required super.data,
   });
+
   factory ExampleState.initial() {
     return ExampleState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class ExampleState extends BaseState<Example> {
     Map<String, Example>? data,
   }) {
     return ExampleState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

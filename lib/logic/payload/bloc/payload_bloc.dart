@@ -19,27 +19,25 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
     });
 
     on<PayloadEventRetrieveBySku>((event, emit) async {
-      if (!state.data.containsKey(event.sku)) {
-        final fetching = Set<String>.from(state.fetching);
-        fetching.add(event.sku);
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
 
-        emit(state.copyWith(fetching: fetching));
+      emit(state.copyWith(fetching: fetching));
 
-        final results = await _payloadService.retrieveBySku(event.sku);
+      final results = await _payloadService.retrieveBySku(event.sku);
 
-        results.fold(
-          (error) {
-            fetching.remove(event.sku);
-            emit(state.copyWith(fetching: fetching));
-          },
-          (result) {
-            final data = Map<String, Payload>.from(state.data);
-            data[event.sku] = result;
-            fetching.remove(event.sku);
-            emit(state.copyWith(data: data, fetching: fetching));
-          },
-        );
-      }
+      results.fold(
+        (error) {
+          fetching.remove(event.sku);
+          emit(state.copyWith(fetching: fetching));
+        },
+        (result) {
+          final data = Map<String, Payload>.from(state.data);
+          data[event.sku] = result;
+          fetching.remove(event.sku);
+          emit(state.copyWith(data: data, fetching: fetching));
+        },
+      );
     });
 
     on<PayloadEventAdd>((event, emit) {

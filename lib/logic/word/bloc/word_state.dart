@@ -6,6 +6,7 @@ class WordState extends BaseState<Word> {
     required super.fetching,
     required super.data,
   });
+
   factory WordState.initial() {
     return WordState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class WordState extends BaseState<Word> {
     Map<String, Word>? data,
   }) {
     return WordState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

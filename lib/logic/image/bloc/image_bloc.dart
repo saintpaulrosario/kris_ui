@@ -19,22 +19,20 @@ class ImageBloc extends Bloc<ImageEvent, ImageState> {
     });
 
     on<RetrieveImagesBySkuEvent>((event, emit) async {
-      if (!state.data.containsKey(event.sku)) {
-        final fetching = Set<String>.from(state.fetching);
-        fetching.add(event.sku);
-        emit(state.copyWith(fetching: fetching));
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
 
-        Either<ErrorResponse, WordImage> result = await _imageService
-            .retriveBySku(event.sku);
-        fetching.remove(event.sku);
-        emit(state.copyWith(fetching: fetching));
+      Either<ErrorResponse, WordImage> result = await _imageService
+          .retriveBySku(event.sku);
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
 
-        result.fold((error) {}, (image) {
-          final images = Map<String, WordImage>.from(state.data);
-          images[event.sku] = image;
-          emit(state.copyWith(data: images));
-        });
-      }
+      result.fold((error) {}, (image) {
+        final images = Map<String, WordImage>.from(state.data);
+        images[event.sku] = image;
+        emit(state.copyWith(data: images));
+      });
     });
   }
 }

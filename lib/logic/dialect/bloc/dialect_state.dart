@@ -6,6 +6,7 @@ class DialectState extends BaseState<Dialect> {
     required super.fetching,
     required super.data,
   });
+
   factory DialectState.initial() {
     return DialectState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class DialectState extends BaseState<Dialect> {
     Map<String, Dialect>? data,
   }) {
     return DialectState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

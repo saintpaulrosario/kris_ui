@@ -6,6 +6,7 @@ class ContentState extends BaseState<Content> {
     required super.fetching,
     required super.data,
   });
+
   factory ContentState.initial() {
     return ContentState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class ContentState extends BaseState<Content> {
     Map<String, Content>? data,
   }) {
     return ContentState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

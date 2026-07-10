@@ -16,25 +16,36 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   void initState() {
     super.initState();
+
     context.read<WordBloc>().add(RetrieveWordsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordBloc, WordState, Map<String, Word>>(
+    return BlocSelector<
+      WordBloc,
+      WordState,
+      ({bool loading, List<Word> words})
+    >(
       selector: (state) {
-        return state.data;
+        return (
+          loading: state.fetching.contains("all"),
+          words: state.data.values.toList(),
+        );
       },
       builder: (context, state) {
-        if (state.isEmpty) {
-          return Column(children: [CircularProgressIndicator()]);
+        if (state.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.words.isEmpty) {
+          return const Center(child: Text("No words found"));
         }
 
         return ListView.builder(
-          itemCount: state.values.length,
+          itemCount: state.words.length,
           itemBuilder: (context, index) {
-            final word = state.values.elementAt(index);
-            return WordItemScreen(word: word);
+            return WordItemScreen(word: state.words[index]);
           },
         );
       },

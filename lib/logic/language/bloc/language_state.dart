@@ -9,6 +9,7 @@ class LanguageState extends BaseState<Language> {
     required super.data,
     required this.selections,
   });
+
   factory LanguageState.initial() {
     return LanguageState(errors: {}, fetching: {}, data: {}, selections: {});
   }
@@ -21,10 +22,10 @@ class LanguageState extends BaseState<Language> {
     Map<String, Language>? data,
   }) {
     return LanguageState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
-      selections: selections ?? this.selections,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
+      selections: selections ?? Set.from(this.selections),
     );
   }
 }

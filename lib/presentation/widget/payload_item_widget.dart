@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/payload/bloc/payload_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/payload.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
   final Identifier identifier;
+
   const PayloadItemWidget({super.key, required this.identifier});
 
   @override
@@ -17,67 +17,77 @@ class PayloadItemWidget extends StatefulWidget {
 
 class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   @override
-  initState() {
-    context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier.sku),
-    );
+  void initState() {
     super.initState();
+
+    _retrievePayload();
+  }
+
+  @override
+  void didUpdateWidget(covariant PayloadItemWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.identifier.sku != widget.identifier.sku) {
+      _retrievePayload();
+    }
+  }
+
+  void _retrievePayload() {
+    final exists = context.read<PayloadBloc>().state.data.containsKey(
+      widget.identifier.sku,
+    );
+
+    if (!exists) {
+      context.read<PayloadBloc>().add(
+        PayloadEventRetrieveBySku(widget.identifier.sku),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<PayloadBloc, PayloadState, bool>(
+    return BlocSelector<
+      PayloadBloc,
+      PayloadState,
+      ({bool fetching, Payload? payload})
+    >(
       selector: (state) {
-        return state.fetching.contains(widget.identifier.sku);
+        return (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          payload: state.data[widget.identifier.sku],
+        );
       },
+
       builder: (context, state) {
-        if (state) {
+        if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
         }
-        return BlocSelector<PayloadBloc, PayloadState, Payload?>(
-          selector: (state) {
-            return state.data[widget.identifier.sku]!;
-          },
-          builder: (context, state) {
-            if (state == null) {
-              return Text("Payload was not fetched");
-            }
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("example")],
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text(state.value)],
-                  ),
-                ),
 
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [SoundListWidget(identifiers: state.sounds)],
-                  ),
-                ),
-              ],
-            );
-          },
+        final payload = state.payload;
+
+        if (payload == null) {
+          return const Text("Payload was not fetched");
+        }
+
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Expanded(
+              flex: 3,
+              child: Text("example", textAlign: TextAlign.end),
+            ),
+
+            Expanded(
+              flex: 3,
+              child: Text(payload.value, textAlign: TextAlign.end),
+            ),
+
+            Expanded(
+              flex: 1,
+              child: SoundListWidget(identifiers: payload.sounds),
+            ),
+          ],
         );
       },
     );

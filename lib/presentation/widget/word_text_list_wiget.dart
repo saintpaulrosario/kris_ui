@@ -10,16 +10,19 @@ class WordTextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: identifiers.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        Identifier identifier = identifiers[index];
+    if (identifiers.isEmpty) {
+      return const Text("No text found");
+    }
 
-        return WordTextItemWidget(identifier: identifier);
-      },
+    return Column(
+      children: identifiers.map((identifier) {
+        return Column(
+          children: [
+            WordTextItemWidget(identifier: identifier),
+            const Divider(height: 1),
+          ],
+        );
+      }).toList(),
     );
   }
 }

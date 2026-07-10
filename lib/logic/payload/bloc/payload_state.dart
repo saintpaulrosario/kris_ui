@@ -7,6 +7,7 @@ class PayloadState extends BaseState<Payload> {
     required super.fetching,
     required super.data,
   });
+
   factory PayloadState.initial() {
     return PayloadState(errors: {}, fetching: {}, data: {});
   }
@@ -18,9 +19,9 @@ class PayloadState extends BaseState<Payload> {
     Map<String, Payload>? data,
   }) {
     return PayloadState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/identifier.dart';
 
+import '../../model/identifier.dart';
 import 'sound_item_wiget.dart';
 
 class SoundListWidget extends StatelessWidget {
@@ -10,9 +10,18 @@ class SoundListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    if (identifiers.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.separated(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
       itemCount: identifiers.length,
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 4);
+      },
       itemBuilder: (context, index) {
         return SoundItemWidget(identifier: identifiers[index]);
       },

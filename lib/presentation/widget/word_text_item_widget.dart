@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/presentation/widget/content_list_widget.dart';
 
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/word_text.dart';
-import 'menu_list_wiget.dart';
-import 'menu_widget.dart';
+import 'content_list_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
@@ -20,35 +18,62 @@ class WordTextItemWidget extends StatefulWidget {
 class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
-    context.read<WordTextBloc>().add(
-      WordTextEventRetrieveBySku(sku: widget.identifier.sku),
-    );
     super.initState();
+
+    _retrieveWordText();
+  }
+
+  @override
+  void didUpdateWidget(covariant WordTextItemWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.identifier.sku != widget.identifier.sku) {
+      _retrieveWordText();
+    }
+  }
+
+  void _retrieveWordText() {
+    final exists = context.read<WordTextBloc>().state.data.containsKey(
+      widget.identifier.sku,
+    );
+
+    if (!exists) {
+      context.read<WordTextBloc>().add(
+        WordTextEventRetrieveBySku(sku: widget.identifier.sku),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordTextBloc, WordTextState, bool>(
-      selector: (state) => state.fetching.contains(widget.identifier.sku),
+    return BlocSelector<
+      WordTextBloc,
+      WordTextState,
+      ({bool fetching, WordText? wordText})
+    >(
+      selector: (state) {
+        return (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          wordText: state.data[widget.identifier.sku],
+        );
+      },
+
       builder: (context, state) {
-        if (state) {
+        if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
-        } else {
-          return BlocSelector<WordTextBloc, WordTextState, WordText?>(
-            selector: (state) {
-              return state.data[widget.identifier.sku];
-            },
-            builder: (context, state) {
-              if (state == null) {
-                context.read<WordTextBloc>().add(
-                  WordTextEventRetrieveBySku(sku: widget.identifier.sku),
-                );
-                return Text("Text not yet fetched");
-              }
-              return ContentListWidget(identifiers: state.contents);
-            },
-          );
         }
+
+        final wordText = state.wordText;
+
+        if (wordText == null) {
+          return const Text("Text not found");
+        }
+
+        if (wordText.contents.isEmpty) {
+          return const Text("No content found");
+        }
+
+        return ContentListWidget(identifiers: wordText.contents);
       },
     );
   }

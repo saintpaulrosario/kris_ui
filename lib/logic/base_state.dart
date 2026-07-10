@@ -11,15 +11,15 @@ class BaseState<T> {
     return BaseState(errors: {}, fetching: {}, data: {});
   }
 
-  BaseState copyWith({
+  BaseState<T> copyWith({
     Map<String, ErrorResponse>? errors,
     Map<String, T>? data,
     Set<String>? fetching,
   }) {
-    return BaseState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+    return BaseState<T>(
+      errors: errors ?? Map.from(this.errors),
+      data: data ?? Map.from(this.data),
+      fetching: fetching ?? Set.from(this.fetching),
     );
   }
 }

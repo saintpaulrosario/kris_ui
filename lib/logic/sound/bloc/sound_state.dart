@@ -6,6 +6,7 @@ class SoundState extends BaseState<Sound> {
     required super.fetching,
     required super.data,
   });
+
   factory SoundState.initial() {
     return SoundState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class SoundState extends BaseState<Sound> {
     Map<String, Sound>? data,
   }) {
     return SoundState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

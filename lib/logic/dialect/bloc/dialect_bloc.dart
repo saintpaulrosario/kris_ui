@@ -20,25 +20,23 @@ class DialectBloc extends Bloc<DialectEvent, DialectState> {
     });
 
     on<DialectEventFetchBySku>((event, emit) async {
-      if (!state.data.containsKey(event.sku)) {
-        final fetching = Set<String>.from(state.fetching);
-        fetching.add(event.sku);
-        emit(state.copyWith(fetching: fetching));
-        await _dialectService.retrieveBySku(event.sku).then((result) {
-          result.fold(
-            (error) {
-              fetching.remove(event.sku);
-              emit(state.copyWith(fetching: fetching));
-            },
-            (result) {
-              Map<String, Dialect> data = Map.from(state.data);
-              data[event.sku] = result;
-              fetching.remove(event.sku);
-              emit(state.copyWith(data: data, fetching: fetching));
-            },
-          );
-        });
-      }
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
+      await _dialectService.retrieveBySku(event.sku).then((result) {
+        result.fold(
+          (error) {
+            fetching.remove(event.sku);
+            emit(state.copyWith(fetching: fetching));
+          },
+          (result) {
+            Map<String, Dialect> data = Map.from(state.data);
+            data[event.sku] = result;
+            fetching.remove(event.sku);
+            emit(state.copyWith(data: data, fetching: fetching));
+          },
+        );
+      });
     });
 
     on<DialectEventFetchAll>((event, emit) async {

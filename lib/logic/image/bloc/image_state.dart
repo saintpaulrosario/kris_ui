@@ -6,6 +6,7 @@ class ImageState extends BaseState<WordImage> {
     required super.fetching,
     required super.data,
   });
+
   factory ImageState.initial() {
     return ImageState(errors: {}, fetching: {}, data: {});
   }
@@ -17,9 +18,9 @@ class ImageState extends BaseState<WordImage> {
     Map<String, WordImage>? data,
   }) {
     return ImageState(
-      errors: errors ?? this.errors,
-      fetching: fetching ?? this.fetching,
-      data: data ?? this.data,
+      errors: errors ?? Map.from(this.errors),
+      fetching: fetching ?? Set.from(this.fetching),
+      data: data ?? Map.from(this.data),
     );
   }
 }

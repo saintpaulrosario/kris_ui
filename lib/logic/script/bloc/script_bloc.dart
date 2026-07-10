@@ -30,25 +30,23 @@ class ScriptBloc extends Bloc<ScriptEvent, ScriptState> {
     });
 
     on<ScriptEventRetrieveBySku>((event, emit) async {
-      if (!state.data.containsKey(event.sku)) {
-        final fetching = Set<String>.from(state.fetching);
-        fetching.add(event.sku);
-        emit(state.copyWith(fetching: fetching));
-        await _scriptService.retriveBySku(event.sku).then((result) {
-          result.fold(
-            (error) {
-              fetching.remove(event.sku);
-              emit(state.copyWith(fetching: fetching));
-            },
-            (result) {
-              Map<String, Script> data = Map.from(state.data);
-              data[event.sku] = result;
-              fetching.remove(event.sku);
-              emit(state.copyWith(data: data));
-            },
-          );
-        });
-      }
+      final fetching = Set<String>.from(state.fetching);
+      fetching.add(event.sku);
+      emit(state.copyWith(fetching: fetching));
+      await _scriptService.retriveBySku(event.sku).then((result) {
+        result.fold(
+          (error) {
+            fetching.remove(event.sku);
+            emit(state.copyWith(fetching: fetching));
+          },
+          (result) {
+            Map<String, Script> data = Map.from(state.data);
+            data[event.sku] = result;
+            fetching.remove(event.sku);
+            emit(state.copyWith(data: data));
+          },
+        );
+      });
     });
 
     on<RetrieveScriptsEvent>((event, emit) async {
