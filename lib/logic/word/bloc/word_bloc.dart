@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/response/page_result.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word.dart';
@@ -20,7 +21,10 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
       emit(state.copyWith(fetching: fetching));
 
-      final results = await _wordService.retrive();
+      final results = await _wordService.retrive(
+        page: event.page,
+        size: event.size,
+      );
 
       results.fold(
         (error) {
@@ -33,16 +37,16 @@ class WordBloc extends Bloc<WordEvent, WordState> {
             ),
           );
         },
-        (words) {
+        (result) {
           final data = Map<String, Word>.from(state.data);
-
-          for (final word in words) {
+          final content = result.content;
+          for (final word in content) {
             data[word.sku] = word;
           }
 
           fetching.remove("all");
 
-          emit(state.copyWith(data: data, fetching: fetching));
+          emit(state.copyWith(data: data, fetching: fetching, page: result));
         },
       );
     });

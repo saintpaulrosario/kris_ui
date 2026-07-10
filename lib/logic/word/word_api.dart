@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../model/word.dart';
 import '../../response/api_result.dart';
@@ -10,7 +11,10 @@ abstract class WordApi {
   factory WordApi(Dio dio, {String baseUrl}) = _WordApi;
 
   @GET("/word")
-  Future<HttpResponse<ApiResult<List<Word>>>> retrieveAll();
+  Future<HttpResponse<ApiResult<PageResult<Word>>>> retrieveAll({
+    required int page,
+    required int size,
+  });
 
   @GET("/word/{identifier}")
   Future<HttpResponse<ApiResult<Word>>> retrieveBySku(

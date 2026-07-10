@@ -5,20 +5,24 @@ import 'package:retrofit/dio.dart';
 import '../../model/error_response.dart';
 import '../../model/word.dart';
 import '../../response/api_result.dart';
+import '../../response/page_result.dart';
 import '../../service_locator.dart';
 import 'word_api.dart';
 
 class WordService {
   final WordApi _wordApi = getIt<WordApi>();
 
-  Future<Either<ErrorResponse, List<Word>>> retrive() async {
+  Future<Either<ErrorResponse, PageResult<Word>>> retrive({
+    required int page,
+    required int size,
+  }) async {
     try {
-      final HttpResponse<ApiResult<List<Word>>> httpResponse = await _wordApi
-          .retrieveAll();
+      final HttpResponse<ApiResult<PageResult<Word>>> httpResponse =
+          await _wordApi.retrieveAll(page: page, size: size);
 
-      ApiResult<List<Word>> apiResult = httpResponse.data;
+      ApiResult<PageResult<Word>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final List<Word> payload = apiResult.payload;
+        final PageResult<Word> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

@@ -22,12 +22,15 @@ class _WordApi implements WordApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<List<Word>>>> retrieveAll() async {
+  Future<HttpResponse<ApiResult<PageResult<Word>>>> retrieveAll({
+    required int page,
+    required int size,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Word>>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<PageResult<Word>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -38,15 +41,14 @@ class _WordApi implements WordApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Word>> _value;
+    late ApiResult<PageResult<Word>> _value;
     try {
-      _value = ApiResult<List<Word>>.fromJson(
+      _value = ApiResult<PageResult<Word>>.fromJson(
         _result.data!,
-        (json) => json is List<dynamic>
-            ? json
-                  .map<Word>((i) => Word.fromJson(i as Map<String, dynamic>))
-                  .toList()
-            : List.empty(),
+        (json) => PageResult<Word>.fromJson(
+          json as Map<String, dynamic>,
+          (json) => Word.fromJson(json as Map<String, dynamic>),
+        ),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
