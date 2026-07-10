@@ -16,6 +16,10 @@ class WordTextState extends BaseState<WordText> {
     Set<String>? fetching,
     Map<String, WordText>? data,
   }) {
-    return WordTextState(errors: {}, fetching: {}, data: {});
+    return WordTextState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

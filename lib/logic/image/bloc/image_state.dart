@@ -16,6 +16,10 @@ class ImageState extends BaseState<WordImage> {
     Set<String>? fetching,
     Map<String, WordImage>? data,
   }) {
-    return ImageState(errors: {}, fetching: {}, data: {});
+    return ImageState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

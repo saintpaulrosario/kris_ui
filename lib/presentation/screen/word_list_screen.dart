@@ -22,13 +22,13 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<WordBloc, WordState, bool>(
-      selector: (state) => state.data.isEmpty,
+      selector: (state) => state.fetching.isNotEmpty,
       builder: (context, fetching) {
         if (fetching) {
           return const Card(
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: Text("No words available"),
+              child: CircularProgressIndicator(),
             ),
           );
         }
@@ -38,6 +38,9 @@ class _WordListScreenState extends State<WordListScreen> {
             return state.data;
           },
           builder: (context, state) {
+            if (state.isEmpty) {
+              return Text("not a word found");
+            }
             return ListView.builder(
               itemCount: state.values.length,
               itemBuilder: (context, index) {

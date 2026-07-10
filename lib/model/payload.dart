@@ -26,10 +26,10 @@ class Payload extends Identifier {
   final Identifier script;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier language;
+  final Identifier? language;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier dialect;
+  final Identifier? dialect;
 
   @JsonKey(disallowNullValue: false)
   final Identifier text;

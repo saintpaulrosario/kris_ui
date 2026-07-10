@@ -40,11 +40,15 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
     ),
     language: $checkedConvert(
       'language',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     dialect: $checkedConvert(
       'dialect',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     root: $checkedConvert(
       'root',
@@ -70,8 +74,8 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'row': instance.row,
   'value': instance.value,
   'script': instance.script.toJson(),
-  'language': instance.language.toJson(),
-  'dialect': instance.dialect.toJson(),
+  'language': instance.language?.toJson(),
+  'dialect': instance.dialect?.toJson(),
   'text': instance.text.toJson(),
   'content': instance.content.toJson(),
   'word': instance.word.toJson(),

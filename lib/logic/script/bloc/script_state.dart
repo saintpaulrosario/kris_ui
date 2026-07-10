@@ -22,6 +22,11 @@ class ScriptState extends BaseState<Script> {
     Map<String, Script>? data,
     final Set<Word>? selections,
   }) {
-    return ScriptState(errors: {}, fetching: {}, data: {}, selections: {});
+    return ScriptState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
+    );
   }
 }

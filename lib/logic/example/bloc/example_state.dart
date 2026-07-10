@@ -16,6 +16,10 @@ class ExampleState extends BaseState<Example> {
     Set<String>? fetching,
     Map<String, Example>? data,
   }) {
-    return ExampleState(errors: {}, fetching: {}, data: {});
+    return ExampleState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

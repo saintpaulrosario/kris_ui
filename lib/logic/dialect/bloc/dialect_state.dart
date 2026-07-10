@@ -16,6 +16,10 @@ class DialectState extends BaseState<Dialect> {
     Set<String>? fetching,
     Map<String, Dialect>? data,
   }) {
-    return DialectState(errors: {}, fetching: {}, data: {});
+    return DialectState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

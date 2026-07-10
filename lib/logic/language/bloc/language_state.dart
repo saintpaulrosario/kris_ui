@@ -20,6 +20,11 @@ class LanguageState extends BaseState<Language> {
     Set<Word>? selections,
     Map<String, Language>? data,
   }) {
-    return LanguageState(errors: {}, fetching: {}, data: {}, selections: {});
+    return LanguageState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+      selections: selections ?? this.selections,
+    );
   }
 }

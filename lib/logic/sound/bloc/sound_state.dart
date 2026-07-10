@@ -16,6 +16,10 @@ class SoundState extends BaseState<Sound> {
     Set<String>? fetching,
     Map<String, Sound>? data,
   }) {
-    return SoundState(errors: {}, fetching: {}, data: {});
+    return SoundState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

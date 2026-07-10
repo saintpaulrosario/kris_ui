@@ -24,12 +24,12 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       Either<ErrorResponse, List<Word>> results = await _wordService.retrive();
 
       results.fold((error) {}, (results) {
-        final words = state.data;
+        final Map<String, Word> data = Map.from(state.data);
         for (var word in results) {
-          words[word.sku] = word;
-          _contentBloc.add(ContentEventAdd(word.contents));
+          data[word.sku] = word;
+          //_contentBloc.add(ContentEventAdd(word.contents));
         }
-        emit(state.copyWith(data: words));
+        emit(state.copyWith(data: data));
       });
     });
 
@@ -52,22 +52,5 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       //_contentBloc.add(ContentEventAdd(event.word.contents));
       //add(RetrieveWordBySkuEvent(sku: event.word.sku));
     });
-
-    // on<RetrieveWordBySkuEvent>((event, emit) async {
-    //   emit(state.copyWith(fetching: true, success: false, failure: false));
-    //   Either<ErrorResponse, Word> result = await _wordService.retrieveWordBySku(
-    //     event.sku,
-    //   );
-
-    //   result.fold(
-    //     (error) => emit(
-    //       state.copyWith(fetching: false, success: false, failure: true),
-    //     ),
-    //     (word) {
-    //       //state.selection.add(word);
-    //       emit(state.copyWith(fetching: false, success: true, failure: false));
-    //     },
-    //   );
-    // });
   }
 }

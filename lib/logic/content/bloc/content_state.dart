@@ -16,6 +16,10 @@ class ContentState extends BaseState<Content> {
     Set<String>? fetching,
     Map<String, Content>? data,
   }) {
-    return ContentState(errors: {}, fetching: {}, data: {});
+    return ContentState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }

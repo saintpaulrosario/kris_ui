@@ -17,6 +17,10 @@ class PayloadState extends BaseState<Payload> {
     Set<String>? fetching,
     Map<String, Payload>? data,
   }) {
-    return PayloadState(errors: {}, fetching: {}, data: {});
+    return PayloadState(
+      errors: errors ?? this.errors,
+      fetching: fetching ?? this.fetching,
+      data: data ?? this.data,
+    );
   }
 }
