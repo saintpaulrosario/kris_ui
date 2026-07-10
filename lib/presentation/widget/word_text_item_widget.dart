@@ -31,37 +31,21 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
     return BlocSelector<WordTextBloc, WordTextState, bool>(
       selector: (state) => state.fetching.contains(widget.identifier.sku),
       builder: (context, state) {
-        if (!state) {
-          return const Center(child: Text("data"));
+        if (state) {
+          return const Center(child: CircularProgressIndicator());
         } else {
-          return BlocSelector<
-            WordTextBloc,
-            WordTextState,
-            Map<String, WordText>
-          >(
+          return BlocSelector<WordTextBloc, WordTextState, WordText?>(
             selector: (state) {
-              return state.data;
+              return state.data[widget.identifier.sku];
             },
             builder: (context, state) {
-              if (state.isEmpty) {
-                return Text('No text available');
-              } else if (!state.containsKey(widget.identifier.sku)) {
-                return Text('Text not available for this SKU');
-              } else {
-                return BlocSelector<WordTextBloc, WordTextState, WordText>(
-                  selector: (state) {
-                    return state.data[widget.identifier.sku]!;
-                  },
-                  builder: (context, state) {
-                    return Column(
-                      children: [
-                        //ScriptItemWidget(identifier: state.script!),
-                        ContentListWidget(identifiers: state.contents),
-                      ],
-                    );
-                  },
+              if (state == null) {
+                context.read<WordTextBloc>().add(
+                  WordTextEventRetrieveBySku(sku: widget.identifier.sku),
                 );
+                return Text("Text not yet fetched");
               }
+              return ContentListWidget(identifiers: state.contents);
             },
           );
         }

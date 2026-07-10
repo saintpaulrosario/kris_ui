@@ -15,63 +15,51 @@ class WordItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<WordBloc, WordState, bool>(
       selector: (state) => state.fetching.contains(word.sku),
-      builder: (context, fetching) {
-        if (fetching) {
-          return const Card(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: CircularProgressIndicator(),
-            ),
-          );
+      builder: (context, state) {
+        if (state) {
+          return CircularProgressIndicator();
         }
 
         return BlocSelector<WordBloc, WordState, Word?>(
           selector: (state) => state.data[word.sku],
           builder: (context, state) {
             if (state == null) {
-              return const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text("Word text not found"),
-                ),
+              context.read<WordBloc>().add(
+                RetrieveWordBySkuEvent(sku: word.sku),
               );
+              return Text("Word  was not fetch");
             }
 
-            return Padding(
-              padding: const EdgeInsets.all(16),
-              child: Card(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ImageListWidget(imagesIdentifiers: word.images),
-                        ],
-                      ),
+            return Card(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ImageListWidget(imagesIdentifiers: word.images),
+                      ],
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [Text("definition")],
-                      ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [Text("definition")],
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          WordTextListWidget(identifiers: state.texts),
-                        ],
-                      ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [WordTextListWidget(identifiers: state.texts)],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

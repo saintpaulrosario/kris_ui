@@ -35,20 +35,27 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     });
 
     on<RetrieveWordBySkuEvent>((event, emit) async {
-      Either<ErrorResponse, Word> results = await _wordService
-          .retrieveWordBySku(event.sku);
+      if (!state.data.containsKey(event.sku)) {
+        Either<ErrorResponse, Word> results = await _wordService
+            .retrieveWordBySku(event.sku);
 
-      Set<String> fetching = Set.from(state.fetching);
+        Set<String> fetching = Set.from(state.fetching);
+        fetching.add(event.sku);
 
-      fetching.add(event.sku);
-      results.fold((error) {}, (result) {
-        Map<String, Word> data = Map.from(state.data);
-        data[result.sku] = result;
-        emit(state.copyWith(data: data));
-      });
+        results.fold(
+          (error) {
+            fetching.remove(event.sku);
+            emit(state.copyWith(fetching: fetching));
+          },
+          (result) {
+            Map<String, Word> data = Map.from(state.data);
+            data[result.sku] = result;
 
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
+            fetching.remove(event.sku);
+            emit(state.copyWith(data: data, fetching: fetching));
+          },
+        );
+      }
     });
 
     on<WordEventAdd>((event, emit) {

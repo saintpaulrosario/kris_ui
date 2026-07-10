@@ -10,18 +10,16 @@ class WordTextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: identifiers.length,
-        separatorBuilder: (_, __) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          Identifier identifier = identifiers[index];
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: identifiers.length,
+      separatorBuilder: (_, __) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        Identifier identifier = identifiers[index];
 
-          return WordTextItemWidget(identifier: identifier);
-        },
-      ),
+        return WordTextItemWidget(identifier: identifier);
+      },
     );
   }
 }

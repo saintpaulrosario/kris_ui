@@ -18,18 +18,25 @@ class ExampleBloc extends Bloc<ExampleEvent, ExampleState> {
     });
 
     on<ExampleEventFetchBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _exampleService.retrieveBySku(event.sku).then((result) {
-        result.fold((error) {}, (script) {
-          Map<String, Example> data = Map<String, Example>.from(state.data);
-          data[event.sku] = script;
-          emit(state.copyWith(data: data));
+      if (!state.data.containsKey(event.sku)) {
+        final fetching = Set<String>.from(state.fetching);
+        fetching.add(event.sku);
+        emit(state.copyWith(fetching: fetching));
+        await _exampleService.retrieveBySku(event.sku).then((result) {
+          result.fold(
+            (error) {
+              fetching.remove(event.sku);
+              emit(state.copyWith(fetching: fetching));
+            },
+            (result) {
+              Map<String, Example> data = Map.from(state.data);
+              data[event.sku] = result;
+              fetching.remove(event.sku);
+              emit(state.copyWith(data: data, fetching: fetching));
+            },
+          );
         });
-      });
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
+      }
     });
   }
 }

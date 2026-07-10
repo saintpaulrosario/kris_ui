@@ -10,9 +10,6 @@ class SoundListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (identifiers.isEmpty) {
-      return Icon(Icons.audio_file);
-    }
     return ListView.builder(
       shrinkWrap: true,
       itemCount: identifiers.length,

@@ -29,29 +29,44 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<SoundBloc, SoundState, SoundState>(
+    return BlocSelector<SoundBloc, SoundState, bool>(
       selector: (state) {
-        return state;
+        return state.fetching.contains(widget.identifier.sku);
       },
       builder: (context, state) {
-        if (state.fetching.contains(widget.identifier.sku)) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (!state.data.containsKey(widget.identifier.sku)) {
+        if (state) {
           return ElevatedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.play_circle_fill),
             label: const Text('no found'),
           );
         }
-        Sound sound = state.data[widget.identifier.sku]!;
-        Uint8List soundBytes = Uint8List.fromList(base64Decode(sound.payload));
-        var source = BytesSource(soundBytes);
-        return ElevatedButton.icon(
-          onPressed: () async {
-            await player.play(source);
+
+        return BlocSelector<SoundBloc, SoundState, Sound?>(
+          selector: (state) {
+            return state.data[widget.identifier.sku];
           },
-          icon: const Icon(Icons.play_circle_fill),
-          label: const Text('Play'),
+          builder: (context, state) {
+            if (state == null) {
+              return ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.auto_delete_outlined),
+                label: const Text('no found'),
+              );
+            }
+            return ElevatedButton.icon(
+              onPressed: () async {
+                await player.play(
+                  BytesSource(
+                    Uint8List.fromList(base64Decode(state.payload)),
+                    mimeType: state.contentType,
+                  ),
+                );
+              },
+              icon: const Icon(Icons.play_circle_fill),
+              label: const Text('Play'),
+            );
+          },
         );
       },
     );

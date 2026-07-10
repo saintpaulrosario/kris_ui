@@ -14,17 +14,7 @@ class PayloadListWidget extends StatelessWidget {
       itemCount: identifiers.length,
       itemBuilder: (context, index) {
         final identifier = identifiers[index];
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [PayloadItemWidget(identifier: identifier)],
-            ),
-          ),
-        );
+        return Card(child: PayloadItemWidget(identifier: identifier));
       },
     );
   }

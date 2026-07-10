@@ -26,58 +26,56 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<PayloadBloc, PayloadState, PayloadState>(
+    return BlocSelector<PayloadBloc, PayloadState, bool>(
       selector: (state) {
-        return state;
+        return state.fetching.contains(widget.identifier.sku);
       },
       builder: (context, state) {
-        if (state.fetching.contains(widget.identifier.sku)) {
+        if (state) {
           return const Center(child: CircularProgressIndicator());
-        } else if (!state.data.containsKey(widget.identifier.sku)) {
-          return const Center(child: Text("Payload not found"));
         }
-        return BlocSelector<PayloadBloc, PayloadState, Payload>(
+        return BlocSelector<PayloadBloc, PayloadState, Payload?>(
           selector: (state) {
             return state.data[widget.identifier.sku]!;
           },
           builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("example")],
-                    ),
+            if (state == null) {
+              return Text("Payload was not fetched");
+            }
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Text("example")],
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text(state.value)],
-                    ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Text(state.value)],
                   ),
+                ),
 
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [SoundListWidget(identifiers: state.sounds)],
-                    ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [SoundListWidget(identifiers: state.sounds)],
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           },
         );

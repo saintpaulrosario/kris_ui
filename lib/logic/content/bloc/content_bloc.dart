@@ -21,25 +21,27 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
     });
 
     on<ContentEventRetriveBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
+      if (!state.data.containsKey(event.sku)) {
+        final fetching = Set<String>.from(state.fetching);
+        fetching.add(event.sku);
+        emit(state.copyWith(fetching: fetching));
 
-      final Either<ErrorResponse, Content> result = await _contentService
-          .retriveBySku(event.sku);
+        final Either<ErrorResponse, Content> result = await _contentService
+            .retriveBySku(event.sku);
 
-      result.fold(
-        (error) {
-          fetching.remove(event.sku);
-          emit(state.copyWith(fetching: fetching));
-        },
-        (content) {
-          final data = Map<String, Content>.from(state.data);
-          data[event.sku] = content;
-          fetching.remove(event.sku);
-          emit(state.copyWith(data: data, fetching: fetching));
-        },
-      );
+        result.fold(
+          (error) {
+            fetching.remove(event.sku);
+            emit(state.copyWith(fetching: fetching));
+          },
+          (result) {
+            final data = Map<String, Content>.from(state.data);
+            data[event.sku] = result;
+            fetching.remove(event.sku);
+            emit(state.copyWith(data: data, fetching: fetching));
+          },
+        );
+      }
     });
 
     on<ContentEventAdd>((event, emit) {

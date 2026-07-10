@@ -34,21 +34,25 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
     });
 
     on<LanguageEventFetchBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
-      emit(state.copyWith(fetching: fetching));
-      await _languageService.retrieveBySku(event.sku).then((result) {
-        result.fold((error) {}, (language) {
-          Map<String, Language> languages = Map<String, Language>.from(
-            state.data,
+      if (!state.data.containsKey(event.sku)) {
+        final fetching = Set<String>.from(state.fetching);
+        fetching.add(event.sku);
+        emit(state.copyWith(fetching: fetching));
+        await _languageService.retrieveBySku(event.sku).then((result) {
+          result.fold(
+            (error) {
+              fetching.remove(event.sku);
+              emit(state.copyWith(fetching: fetching));
+            },
+            (result) {
+              Map<String, Language> data = Map.from(state.data);
+              data[event.sku] = result;
+              fetching.remove(event.sku);
+              emit(state.copyWith(data: data));
+            },
           );
-          languages[event.sku] = language;
-          _wordBloc.add(WordEventAdd(word: language));
-          emit(state.copyWith(data: languages));
         });
-      });
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
+      }
     });
 
     on<LanguageEventFetchAll>((event, emit) async {

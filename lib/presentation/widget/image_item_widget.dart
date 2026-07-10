@@ -21,11 +21,10 @@ class ImageItemWidget extends StatefulWidget {
 class _ImageItemWidgetState extends State<ImageItemWidget> {
   @override
   void initState() {
-    super.initState();
-
     context.read<ImageBloc>().add(
       RetrieveImagesBySkuEvent(sku: widget.imageIdentifier.sku),
     );
+    super.initState();
   }
 
   @override
@@ -47,35 +46,28 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
           );
         }
 
-        return BlocSelector<ImageBloc, ImageState, Map<String, WordImage>>(
+        return BlocSelector<ImageBloc, ImageState, WordImage?>(
           selector: (state) {
-            return state.data;
+            return state.data[widget.imageIdentifier.sku];
           },
           builder: (context, state) {
-            if (state.isEmpty ||
-                !state.containsKey(widget.imageIdentifier.sku)) {
-              return const Center(
-                child: Icon(Icons.broken_image, size: 44, color: Colors.grey),
+            if (state == null) {
+              context.read<ImageBloc>().add(
+                RetrieveImagesBySkuEvent(sku: widget.imageIdentifier.sku),
               );
-            } else {
-              return BlocSelector<ImageBloc, ImageState, WordImage>(
-                selector: (state) {
-                  return state.data[widget.imageIdentifier.sku]!;
-                },
-                builder: (context, state) {
-                  final Uint8List imageBytes = Uint8List.fromList(
-                    base64Decode(state.payload),
-                  );
-                  return InteractiveViewer(
-                    clipBehavior: Clip.antiAlias,
-                    minScale: 0.5,
-                    maxScale: 5.0,
-                    panEnabled: true,
-                    child: Image.memory(imageBytes, fit: BoxFit.cover),
-                  );
-                },
-              );
+              return Text("Image wads not oun");
             }
+
+            return InteractiveViewer(
+              clipBehavior: Clip.antiAlias,
+              minScale: 0.5,
+              maxScale: 5.0,
+              panEnabled: true,
+              child: Image.memory(
+                Uint8List.fromList(base64Decode(state.payload)),
+                fit: BoxFit.cover,
+              ),
+            );
           },
         );
       },

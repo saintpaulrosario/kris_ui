@@ -23,30 +23,27 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
     });
 
     on<WordTextEventRetrieveBySku>((event, emit) async {
-      final fetching = Set<String>.from(state.fetching);
-      fetching.add(event.sku);
+      if (!state.data.containsKey(event.sku)) {
+        final fetching = Set<String>.from(state.fetching);
+        fetching.add(event.sku);
 
-      emit(state.copyWith(fetching: fetching));
+        emit(state.copyWith(fetching: fetching));
 
-      final results = await _wordTextService.retrieveBySku(event.sku);
+        final results = await _wordTextService.retrieveBySku(event.sku);
 
-      results.fold(
-        (error) {
-          fetching.remove(event.sku);
-          emit(
-            state.copyWith(
-              errors: {...state.errors, event.sku: error},
-              fetching: fetching,
-            ),
-          );
-        },
-        (result) {
-          final data = Map<String, WordText>.from(state.data);
-          data[event.sku] = result;
-          fetching.remove(event.sku);
-          emit(state.copyWith(data: data, fetching: fetching));
-        },
-      );
+        results.fold(
+          (error) {
+            fetching.remove(event.sku);
+            emit(state.copyWith(fetching: fetching));
+          },
+          (result) {
+            final data = Map<String, WordText>.from(state.data);
+            data[event.sku] = result;
+            fetching.remove(event.sku);
+            emit(state.copyWith(data: data, fetching: fetching));
+          },
+        );
+      }
     });
 
     on<WordTextEventAdd>((event, emit) {
