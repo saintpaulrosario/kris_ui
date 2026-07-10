@@ -18,7 +18,7 @@ class WordTextListWidget extends StatelessWidget {
         separatorBuilder: (_, __) => const Divider(height: 1),
         itemBuilder: (context, index) {
           Identifier identifier = identifiers[index];
-          //return Text("data");
+
           return WordTextItemWidget(identifier: identifier);
         },
       ),

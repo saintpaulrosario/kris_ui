@@ -32,17 +32,21 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
 
       results.fold(
         (error) {
-          emit(state.copyWith(errors: {...state.errors, event.sku: error}));
+          fetching.remove(event.sku);
+          emit(
+            state.copyWith(
+              errors: {...state.errors, event.sku: error},
+              fetching: fetching,
+            ),
+          );
         },
         (result) {
-          final texts = Map<String, WordText>.from(state.data);
-          texts[event.sku] = result;
-          emit(state.copyWith(data: texts));
-          _contentBloc.add(ContentEventAdd(result.contents));
+          final data = Map<String, WordText>.from(state.data);
+          data[event.sku] = result;
+          fetching.remove(event.sku);
+          emit(state.copyWith(data: data, fetching: fetching));
         },
       );
-      fetching.remove(event.sku);
-      emit(state.copyWith(fetching: fetching));
     });
 
     on<WordTextEventAdd>((event, emit) {

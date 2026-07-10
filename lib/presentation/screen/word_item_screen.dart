@@ -6,26 +6,15 @@ import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/word.dart';
 import '../widget/image_list_widget.dart';
 
-class WordItemScreen extends StatefulWidget {
+class WordItemScreen extends StatelessWidget {
   final Word word;
 
   const WordItemScreen({super.key, required this.word});
 
   @override
-  State<WordItemScreen> createState() => _WordItemScreenState();
-}
-
-class _WordItemScreenState extends State<WordItemScreen> {
-  @override
-  void initState() {
-    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocSelector<WordBloc, WordState, bool>(
-      selector: (state) => state.fetching.contains(widget.word.sku),
+      selector: (state) => state.fetching.contains(word.sku),
       builder: (context, fetching) {
         if (fetching) {
           return const Card(
@@ -37,7 +26,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
         }
 
         return BlocSelector<WordBloc, WordState, Word?>(
-          selector: (state) => state.data[widget.word.sku],
+          selector: (state) => state.data[word.sku],
           builder: (context, state) {
             if (state == null) {
               return const Card(
@@ -60,9 +49,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ImageListWidget(
-                            imagesIdentifiers: widget.word.images,
-                          ),
+                          ImageListWidget(imagesIdentifiers: word.images),
                         ],
                       ),
                     ),

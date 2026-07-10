@@ -31,7 +31,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         return state.fetching.contains(widget.identifier.sku);
       },
       builder: (context, state) {
-        if (state) {
+        if (!state) {
           return const Center(child: CircularProgressIndicator());
         } else {
           return BlocSelector<ContentBloc, ContentState, Map<String, Content>>(

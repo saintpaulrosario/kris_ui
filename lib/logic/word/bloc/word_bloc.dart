@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/content/bloc/content_bloc.dart';
@@ -27,9 +29,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         final Map<String, Word> data = Map.from(state.data);
         for (var word in results) {
           data[word.sku] = word;
-          //_contentBloc.add(ContentEventAdd(word.contents));
+          emit(state.copyWith(data: data));
         }
-        emit(state.copyWith(data: data));
       });
     });
 
@@ -37,12 +38,17 @@ class WordBloc extends Bloc<WordEvent, WordState> {
       Either<ErrorResponse, Word> results = await _wordService
           .retrieveWordBySku(event.sku);
 
+      Set<String> fetching = Set.from(state.fetching);
+
+      fetching.add(event.sku);
       results.fold((error) {}, (result) {
-        final words = state.data;
-        words[result.sku] = result;
-        emit(state.copyWith(data: words));
-        _contentBloc.add(ContentEventAdd(result.contents));
+        Map<String, Word> data = Map.from(state.data);
+        data[result.sku] = result;
+        emit(state.copyWith(data: data));
       });
+
+      fetching.remove(event.sku);
+      emit(state.copyWith(fetching: fetching));
     });
 
     on<WordEventAdd>((event, emit) {
