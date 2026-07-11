@@ -12,8 +12,8 @@ abstract class WordApi {
 
   @GET("/word")
   Future<HttpResponse<ApiResult<PageResult<Word>>>> retrieveAll({
-    required int page,
-    required int size,
+    @Query("page") required int page,
+    @Query("size") required int size,
   });
 
   @GET("/word/{identifier}")

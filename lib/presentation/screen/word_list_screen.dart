@@ -18,87 +18,75 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   void initState() {
     super.initState();
-
-    context.read<WordBloc>().add(
-      RetrieveWordsEvent(pageNumber: 0, pageSize: 10),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<
-      WordBloc,
-      WordState,
-      ({bool fetching, int pageSize, PageResult<Word>? page})
-    >(
+    return BlocSelector<WordBloc, WordState, WordState>(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains("all"),
-
-          pageSize: state.pageSize,
-
-          page: state.pages[state.pageNumber],
-        );
+        return state;
       },
 
       builder: (context, state) {
-        final page = state.page;
-
-        if (state.fetching && page == null) {
+        if (state.fetching.contains("all")) {
           return const Center(child: CircularProgressIndicator());
-        }
-
-        if (page == null) {
-          return const Center(child: Text("No page data"));
-        }
-
-        if (page.content.isEmpty) {
-          return const Center(child: Text("No words found"));
-        }
-
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: page.content.length,
-
-                itemBuilder: (context, index) {
-                  final word = page.content.elementAt(index);
-
-                  return WordItemScreen(word: word);
-                },
-              ),
+        } else if (state.pages.isEmpty ||
+            state.pages[state.pageNumber] == null) {
+          context.read<WordBloc>().add(
+            RetrieveWordsEvent(
+              pageNumber: state.pageNumber,
+              pageSize: state.pageSize,
             ),
+          );
+          return Text("pages not fetched");
+        } else {
+          return BlocSelector<WordBloc, WordState, PageResult<Word>>(
+            selector: (state) {
+              return state.pages[state.pageNumber]!;
+            },
+            builder: (context, state) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.content.length,
 
-            Pagination(
-              numOfPages: page.totalPages,
+                      itemBuilder: (context, index) {
+                        final word = state.content.elementAt(index);
 
-              // pagination_flutter starts at 1
-              selectedPage: page.number + 1,
-
-              pagesVisible: 5,
-
-              onPageChanged: (int selectedPage) {
-                context.read<WordBloc>().add(
-                  RetrieveWordsEvent(
-                    // Spring Data starts at 0
-                    pageNumber: selectedPage - 1,
-
-                    pageSize: state.pageSize,
+                        return WordItemScreen(
+                          key: ValueKey(word.sku),
+                          word: word,
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
 
-              activeTextStyle: const TextStyle(),
+                  Pagination(
+                    numOfPages: state.totalPages,
 
-              activeBtnStyle: ButtonStyle(),
+                    selectedPage: state.number + 1,
 
-              inactiveTextStyle: const TextStyle(),
+                    pagesVisible: state.totalPages > 5 ? 5 : state.totalPages,
 
-              inactiveBtnStyle: ButtonStyle(),
-            ),
-          ],
-        );
+                    onPageChanged: (int selectedPage) {
+                      context.read<WordBloc>().add(
+                        RetrieveWordsEvent(
+                          pageNumber: selectedPage - 1,
+                          pageSize: state.size,
+                        ),
+                      );
+                    },
+                    activeTextStyle: TextStyle(),
+                    activeBtnStyle: ButtonStyle(),
+                    inactiveTextStyle: TextStyle(),
+                    inactiveBtnStyle: ButtonStyle(),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       },
     );
   }

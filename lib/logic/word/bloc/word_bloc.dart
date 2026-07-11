@@ -25,8 +25,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         );
 
         final results = await _wordService.retrive(
-          page: state.pageNumber,
-          size: state.pageSize,
+          page: event.pageNumber,
+          size: event.pageSize,
         );
 
         results.fold(
@@ -55,7 +55,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
                 data: data.build(),
 
                 fetching: (state.fetching.toBuilder()..remove("all")).build(),
-
+                pageNumber: result.number,
+                pageSize: result.size,
                 pages: pages.build(),
               ),
             );
