@@ -48,6 +48,7 @@ dependencies:
   timeago: ^3.7.1
   bloc_concurrency: ^0.3.0
   built_collection: ^5.1.1
+  pagination_flutter: ^0.0.8
 
  
 

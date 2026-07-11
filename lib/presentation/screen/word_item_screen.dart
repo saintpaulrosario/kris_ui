@@ -18,30 +18,8 @@ class WordItemScreen extends StatefulWidget {
 class _WordItemScreenState extends State<WordItemScreen> {
   @override
   void initState() {
+    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
     super.initState();
-
-    _retrieveIfNeeded();
-  }
-
-  @override
-  void didUpdateWidget(covariant WordItemScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.word.sku != widget.word.sku) {
-      _retrieveIfNeeded();
-    }
-  }
-
-  void _retrieveIfNeeded() {
-    final exists = context.read<WordBloc>().state.data.containsKey(
-      widget.word.sku,
-    );
-
-    if (!exists) {
-      context.read<WordBloc>().add(
-        RetrieveWordBySkuEvent(sku: widget.word.sku),
-      );
-    }
   }
 
   @override
@@ -62,6 +40,9 @@ class _WordItemScreenState extends State<WordItemScreen> {
         final word = state.word;
 
         if (word == null) {
+          context.read<WordBloc>().add(
+            RetrieveWordBySkuEvent(sku: widget.word.sku),
+          );
           return const Center(child: Text("Word not found"));
         }
 

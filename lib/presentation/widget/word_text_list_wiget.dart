@@ -14,15 +14,17 @@ class WordTextListWidget extends StatelessWidget {
       return const Text("No text found");
     }
 
-    return Column(
-      children: identifiers.map((identifier) {
-        return Column(
-          children: [
-            WordTextItemWidget(identifier: identifier),
-            const Divider(height: 1),
-          ],
-        );
-      }).toList(),
+    return Card(
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: identifiers.length,
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider();
+        },
+        itemBuilder: (BuildContext context, int index) {
+          return WordTextItemWidget(identifier: identifiers.elementAt(index));
+        },
+      ),
     );
   }
 }

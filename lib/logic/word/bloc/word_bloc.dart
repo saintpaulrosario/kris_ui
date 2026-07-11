@@ -25,8 +25,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         );
 
         final results = await _wordService.retrive(
-          page: event.page,
-          size: event.size,
+          page: state.pageNumber,
+          size: state.pageSize,
         );
 
         results.fold(
@@ -42,10 +42,13 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
           (PageResult<Word> result) {
             final data = state.data.toBuilder();
+            final pages = state.pages.toBuilder();
 
             for (final word in result.content) {
               data[word.sku] = word;
             }
+
+            pages[result.number] = result;
 
             emit(
               state.copyWith(
@@ -53,7 +56,7 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
                 fetching: (state.fetching.toBuilder()..remove("all")).build(),
 
-                page: result,
+                pages: pages.build(),
               ),
             );
           },

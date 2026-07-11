@@ -3,10 +3,10 @@ part of 'word_bloc.dart';
 class WordEvent {}
 
 class RetrieveWordsEvent extends WordEvent {
-  final int page;
-  final int size;
+  final int pageNumber;
+  final int pageSize;
 
-  RetrieveWordsEvent({required this.page, required this.size});
+  RetrieveWordsEvent({required this.pageNumber, required this.pageSize});
 }
 
 class RetrieveWordBySkuEvent extends WordEvent {

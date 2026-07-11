@@ -18,30 +18,10 @@ class WordTextItemWidget extends StatefulWidget {
 class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
-    super.initState();
-
-    _retrieveWordText();
-  }
-
-  @override
-  void didUpdateWidget(covariant WordTextItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.identifier.sku != widget.identifier.sku) {
-      _retrieveWordText();
-    }
-  }
-
-  void _retrieveWordText() {
-    final exists = context.read<WordTextBloc>().state.data.containsKey(
-      widget.identifier.sku,
+    context.read<WordTextBloc>().add(
+      WordTextEventRetrieveBySku(sku: widget.identifier.sku),
     );
-
-    if (!exists) {
-      context.read<WordTextBloc>().add(
-        WordTextEventRetrieveBySku(sku: widget.identifier.sku),
-      );
-    }
+    super.initState();
   }
 
   @override
@@ -66,6 +46,9 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         final wordText = state.wordText;
 
         if (wordText == null) {
+          context.read<WordTextBloc>().add(
+            WordTextEventRetrieveBySku(sku: widget.identifier.sku),
+          );
           return const Text("Text not found");
         }
 

@@ -18,30 +18,10 @@ class ContentItemWidget extends StatefulWidget {
 class _ContentItemWidgetState extends State<ContentItemWidget> {
   @override
   void initState() {
-    super.initState();
-
-    _retrieveContent();
-  }
-
-  @override
-  void didUpdateWidget(covariant ContentItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.identifier.sku != widget.identifier.sku) {
-      _retrieveContent();
-    }
-  }
-
-  void _retrieveContent() {
-    final exists = context.read<ContentBloc>().state.data.containsKey(
-      widget.identifier.sku,
+    context.read<ContentBloc>().add(
+      ContentEventRetriveBySku(widget.identifier.sku),
     );
-
-    if (!exists) {
-      context.read<ContentBloc>().add(
-        ContentEventRetriveBySku(widget.identifier.sku),
-      );
-    }
+    super.initState();
   }
 
   @override
@@ -66,6 +46,9 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         final content = state.content;
 
         if (content == null) {
+          context.read<ContentBloc>().add(
+            ContentEventRetriveBySku(widget.identifier.sku),
+          );
           return const Center(child: Text("Content not found"));
         }
 

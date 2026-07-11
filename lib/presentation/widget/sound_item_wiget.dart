@@ -23,34 +23,9 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
 
   @override
   void initState() {
-    super.initState();
-
+    context.read<SoundBloc>().add(SoundEventFetchBySku(widget.identifier.sku));
     player = AudioPlayer(playerId: widget.identifier.sku);
-
-    _retrieveSound();
-  }
-
-  @override
-  void didUpdateWidget(covariant SoundItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.identifier.sku != widget.identifier.sku) {
-      player.stop();
-
-      _retrieveSound();
-    }
-  }
-
-  void _retrieveSound() {
-    final exists = context.read<SoundBloc>().state.data.containsKey(
-      widget.identifier.sku,
-    );
-
-    if (!exists) {
-      context.read<SoundBloc>().add(
-        SoundEventFetchBySku(widget.identifier.sku),
-      );
-    }
+    super.initState();
   }
 
   Future<void> _play(Sound sound) async {
@@ -92,6 +67,9 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
         final sound = state.sound;
 
         if (sound == null) {
+          context.read<SoundBloc>().add(
+            SoundEventFetchBySku(widget.identifier.sku),
+          );
           return ElevatedButton.icon(
             onPressed: null,
             icon: const Icon(Icons.volume_off),

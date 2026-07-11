@@ -10,10 +10,6 @@ class ContentListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (identifiers.isEmpty) {
-      return const Text("No content found");
-    }
-
     return Card(
       child: ListView.separated(
         shrinkWrap: true,
@@ -24,7 +20,7 @@ class ContentListWidget extends StatelessWidget {
           return const Divider(height: 1);
         },
         itemBuilder: (context, index) {
-          return ContentItemWidget(identifier: identifiers[index]);
+          return Card(child: ContentItemWidget(identifier: identifiers[index]));
         },
       ),
     );

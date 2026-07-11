@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
 import '../../model/word.dart';
+import '../../response/page_result.dart';
 import '../screen/word_item_screen.dart';
 
 class WordListScreen extends StatefulWidget {
@@ -13,37 +15,13 @@ class WordListScreen extends StatefulWidget {
 }
 
 class _WordListScreenState extends State<WordListScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  int page = 1;
-  final int size = 10;
-
   @override
   void initState() {
     super.initState();
 
-    context.read<WordBloc>().add(RetrieveWordsEvent(page: page, size: size));
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 300) {
-        final state = context.read<WordBloc>().state;
-
-        if (!state.fetching.contains("all") && !state.page.last) {
-          page++;
-
-          context.read<WordBloc>().add(
-            RetrieveWordsEvent(page: page, size: size),
-          );
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
+    context.read<WordBloc>().add(
+      RetrieveWordsEvent(pageNumber: 0, pageSize: 10),
+    );
   }
 
   @override
@@ -51,40 +29,75 @@ class _WordListScreenState extends State<WordListScreen> {
     return BlocSelector<
       WordBloc,
       WordState,
-      ({bool loading, List<Word> words, bool lastPage})
+      ({bool fetching, int pageSize, PageResult<Word>? page})
     >(
       selector: (state) {
         return (
-          loading: state.fetching.contains("all"),
-          words: state.data.values.toList(),
-          lastPage: state.page.last,
+          fetching: state.fetching.contains("all"),
+
+          pageSize: state.pageSize,
+
+          page: state.pages[state.pageNumber],
         );
       },
 
       builder: (context, state) {
-        if (state.words.isEmpty && state.loading) {
+        final page = state.page;
+
+        if (state.fetching && page == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.words.isEmpty) {
+        if (page == null) {
+          return const Center(child: Text("No page data"));
+        }
+
+        if (page.content.isEmpty) {
           return const Center(child: Text("No words found"));
         }
 
-        return ListView.builder(
-          controller: _scrollController,
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: page.content.length,
 
-          itemCount: state.words.length + (state.loading ? 1 : 0),
+                itemBuilder: (context, index) {
+                  final word = page.content.elementAt(index);
 
-          itemBuilder: (context, index) {
-            if (index == state.words.length) {
-              return const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-            return Text("hello");
-            //return WordItemScreen(word: state.words[index]);
-          },
+                  return WordItemScreen(word: word);
+                },
+              ),
+            ),
+
+            Pagination(
+              numOfPages: page.totalPages,
+
+              // pagination_flutter starts at 1
+              selectedPage: page.number + 1,
+
+              pagesVisible: 5,
+
+              onPageChanged: (int selectedPage) {
+                context.read<WordBloc>().add(
+                  RetrieveWordsEvent(
+                    // Spring Data starts at 0
+                    pageNumber: selectedPage - 1,
+
+                    pageSize: state.pageSize,
+                  ),
+                );
+              },
+
+              activeTextStyle: const TextStyle(),
+
+              activeBtnStyle: ButtonStyle(),
+
+              inactiveTextStyle: const TextStyle(),
+
+              inactiveBtnStyle: ButtonStyle(),
+            ),
+          ],
         );
       },
     );

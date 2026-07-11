@@ -18,30 +18,10 @@ class PayloadItemWidget extends StatefulWidget {
 class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   @override
   void initState() {
-    super.initState();
-
-    _retrievePayload();
-  }
-
-  @override
-  void didUpdateWidget(covariant PayloadItemWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.identifier.sku != widget.identifier.sku) {
-      _retrievePayload();
-    }
-  }
-
-  void _retrievePayload() {
-    final exists = context.read<PayloadBloc>().state.data.containsKey(
-      widget.identifier.sku,
+    context.read<PayloadBloc>().add(
+      PayloadEventRetrieveBySku(widget.identifier.sku),
     );
-
-    if (!exists) {
-      context.read<PayloadBloc>().add(
-        PayloadEventRetrieveBySku(widget.identifier.sku),
-      );
-    }
+    super.initState();
   }
 
   @override
@@ -66,6 +46,9 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
         final payload = state.payload;
 
         if (payload == null) {
+          context.read<PayloadBloc>().add(
+            PayloadEventRetrieveBySku(widget.identifier.sku),
+          );
           return const Text("Payload was not fetched");
         }
 
