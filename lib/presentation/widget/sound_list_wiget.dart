@@ -11,7 +11,11 @@ class SoundListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (identifiers.isEmpty) {
-      return const SizedBox.shrink();
+      return ElevatedButton.icon(
+        onPressed: null,
+        icon: const Icon(Icons.volume_off),
+        label: const Text(""),
+      );
     }
 
     return ListView.separated(
@@ -20,7 +24,7 @@ class SoundListWidget extends StatelessWidget {
       padding: EdgeInsets.zero,
       itemCount: identifiers.length,
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 4);
+        return Divider();
       },
       itemBuilder: (context, index) {
         return SoundItemWidget(identifier: identifiers[index]);

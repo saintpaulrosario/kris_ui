@@ -1,8 +1,8 @@
 part of 'example_bloc.dart';
 
-sealed class ExampleEvent {}
+class ExampleEvent {}
 
-sealed class ExampleEventFetchBySku extends ExampleEvent {
+class ExampleEventFetchBySku extends ExampleEvent {
   final String sku;
 
   ExampleEventFetchBySku({required this.sku});

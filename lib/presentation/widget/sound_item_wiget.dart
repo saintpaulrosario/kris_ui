@@ -32,7 +32,7 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
     try {
       final bytes = Uint8List.fromList(base64Decode(sound.payload));
 
-      await player.play(BytesSource(bytes, mimeType: sound.contentType));
+      await player.play(BytesSource(bytes));
     } catch (e) {
       debugPrint("Audio playback error: $e");
     }
@@ -41,7 +41,6 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
   @override
   void dispose() {
     player.dispose();
-
     super.dispose();
   }
 
@@ -64,12 +63,7 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
           );
         }
 
-        final sound = state.sound;
-
-        if (sound == null) {
-          context.read<SoundBloc>().add(
-            SoundEventFetchBySku(widget.identifier.sku),
-          );
+        if (state.sound == null) {
           return ElevatedButton.icon(
             onPressed: null,
             icon: const Icon(Icons.volume_off),
@@ -78,7 +72,7 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
         }
 
         return ElevatedButton.icon(
-          onPressed: () => _play(sound),
+          onPressed: () => _play(state.sound!),
           icon: const Icon(Icons.play_circle_fill),
           label: const Text("Play"),
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/example_list_widget.dart';
 
 import '../../logic/payload/bloc/payload_bloc.dart';
 import '../../model/identifier.dart';
@@ -18,9 +19,6 @@ class PayloadItemWidget extends StatefulWidget {
 class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   @override
   void initState() {
-    context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier.sku),
-    );
     super.initState();
   }
 
@@ -41,37 +39,31 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       builder: (context, state) {
         if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
-        }
-
-        final payload = state.payload;
-
-        if (payload == null) {
+        } else if (state.payload == null) {
           context.read<PayloadBloc>().add(
             PayloadEventRetrieveBySku(widget.identifier.sku),
           );
           return const Text("Payload was not fetched");
+        } else {
+          return Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(flex: 3, child: Text("example")),
+
+              Expanded(
+                flex: 3,
+                child: Text(state.payload!.value, textAlign: TextAlign.end),
+              ),
+
+              Expanded(
+                flex: 1,
+                child: SoundListWidget(identifiers: state.payload!.sounds),
+              ),
+            ],
+          );
         }
-
-        return Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Expanded(
-              flex: 3,
-              child: Text("example", textAlign: TextAlign.end),
-            ),
-
-            Expanded(
-              flex: 3,
-              child: Text(payload.value, textAlign: TextAlign.end),
-            ),
-
-            Expanded(
-              flex: 1,
-              child: SoundListWidget(identifiers: payload.sounds),
-            ),
-          ],
-        );
       },
     );
   }
