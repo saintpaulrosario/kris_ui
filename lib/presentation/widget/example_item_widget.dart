@@ -16,6 +16,14 @@ class ExampleItemWidget extends StatefulWidget {
 
 class _ExampleItemWidgetState extends State<ExampleItemWidget> {
   @override
+  void initState() {
+    context.read<ExampleBloc>().add(
+      ExampleEventFetchBySku(sku: widget.identifier.sku),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocSelector<
       ExampleBloc,
@@ -36,9 +44,6 @@ class _ExampleItemWidgetState extends State<ExampleItemWidget> {
         final example = state.example;
 
         if (example == null) {
-          context.read<ExampleBloc>().add(
-            ExampleEventFetchBySku(sku: widget.identifier.sku),
-          );
           return Text("Example not fetched yet");
         }
 

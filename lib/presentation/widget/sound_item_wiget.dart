@@ -58,7 +58,7 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
         if (state.fetching) {
           return ElevatedButton.icon(
             onPressed: null,
-            icon: const Icon(Icons.hourglass_empty),
+            icon: const Icon(Icons.sim_card_rounded),
             label: const Text("Loading"),
           );
         }
@@ -73,7 +73,7 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
 
         return ElevatedButton.icon(
           onPressed: () => _play(state.sound!),
-          icon: const Icon(Icons.play_circle_fill),
+          icon: const Icon(Icons.volume_up),
           label: const Text("Play"),
         );
       },

@@ -8,6 +8,9 @@ class ExampleListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (identifiers.isEmpty) {
+      return Text("no examples");
+    }
     return ListView.separated(
       shrinkWrap: true,
       itemCount: identifiers.length,
