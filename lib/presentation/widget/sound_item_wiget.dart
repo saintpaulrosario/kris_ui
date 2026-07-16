@@ -56,25 +56,19 @@ class _SoundItemWidgetState extends State<SoundItemWidget> {
 
       builder: (context, state) {
         if (state.fetching) {
-          return ElevatedButton.icon(
-            onPressed: null,
-            icon: const Icon(Icons.sim_card_rounded),
-            label: const Text("Loading"),
-          );
+          return CircularProgressIndicator();
         }
 
         if (state.sound == null) {
-          return ElevatedButton.icon(
+          return TextButton(
             onPressed: null,
-            icon: const Icon(Icons.volume_off),
-            label: const Text("Not found"),
+            child: const Icon(Icons.volume_off),
           );
         }
 
-        return ElevatedButton.icon(
+        return TextButton(
           onPressed: () => _play(state.sound!),
-          icon: const Icon(Icons.volume_up),
-          label: const Text("Play"),
+          child: const Icon(Icons.volume_up),
         );
       },
     );

@@ -11,11 +11,7 @@ class SoundListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (identifiers.isEmpty) {
-      return ElevatedButton.icon(
-        onPressed: null,
-        icon: const Icon(Icons.volume_off),
-        label: const Text(""),
-      );
+      return TextButton(onPressed: () => {}, child: Icon(Icons.volume_off));
     }
 
     return ListView.separated(
