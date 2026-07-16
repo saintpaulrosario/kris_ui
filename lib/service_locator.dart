@@ -1,18 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
-import 'package:kris/data/api/script_api.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
-import 'package:kris/logic/dialect/dialect_api.dart';
-import 'package:kris/logic/dialect/dialect_service.dart';
-import 'package:kris/logic/example/bloc/example_bloc.dart';
-import 'package:kris/logic/example/example_service.dart';
-import 'package:kris/logic/language/bloc/language_bloc.dart';
-import 'package:kris/logic/language/language_api.dart';
-import 'package:kris/logic/language/language_service.dart';
-import 'package:kris/logic/script/bloc/script_bloc.dart';
+
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
-import 'data/service/script_service.dart';
 import 'logic/content/bloc/content_bloc.dart';
 import 'logic/content/content_api.dart';
 import 'logic/content/content_service.dart';
@@ -53,10 +43,6 @@ void setupLocator() {
   getIt.registerLazySingleton<Dio>(() => Dio());
   final dio = getIt<Dio>();
 
-  getIt.registerLazySingleton<ScriptApi>(
-    () => ScriptApi(dio, baseUrl: baseUrlKris),
-  );
-
   getIt.registerLazySingleton<WordApi>(
     () => WordApi(dio, baseUrl: baseUrlKris),
   );
@@ -81,33 +67,17 @@ void setupLocator() {
     () => PayloadApi(dio, baseUrl: baseUrlKris),
   );
 
-  getIt.registerLazySingleton<DialectApi>(
-    () => DialectApi(dio, baseUrl: baseUrlKris),
-  );
-
-  getIt.registerLazySingleton<LanguageApi>(
-    () => LanguageApi(dio, baseUrl: baseUrlKris),
-  );
-
   // // Services
-  getIt.registerLazySingleton<ScriptService>(() => ScriptService());
   getIt.registerLazySingleton<WordService>(() => WordService());
   getIt.registerLazySingleton<ImageService>(() => ImageService());
   getIt.registerLazySingleton<SoundService>(() => SoundService());
   getIt.registerLazySingleton<ContentService>(() => ContentService());
   getIt.registerLazySingleton<WordTextService>(() => WordTextService());
   getIt.registerLazySingleton<PayloadService>(() => PayloadService());
-  getIt.registerLazySingleton<LanguageService>(() => LanguageService());
-  getIt.registerLazySingleton<DialectService>(() => DialectService());
-  getIt.registerLazySingleton<ExampleService>(() => ExampleService());
 
   //
-  getIt.registerLazySingleton<ScriptBloc>(() => ScriptBloc());
-  getIt.registerLazySingleton<DialectBloc>(() => DialectBloc());
-  getIt.registerLazySingleton<LanguageBloc>(() => LanguageBloc());
   getIt.registerLazySingleton<ContentBloc>(() => ContentBloc());
   getIt.registerLazySingleton<WordTextBloc>(() => WordTextBloc());
   getIt.registerLazySingleton<WordBloc>(() => WordBloc());
   getIt.registerLazySingleton<PayloadBloc>(() => PayloadBloc());
-  getIt.registerLazySingleton<ExampleBloc>(() => ExampleBloc());
 }

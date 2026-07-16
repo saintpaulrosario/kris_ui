@@ -1,7 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 
@@ -44,7 +44,7 @@ class MenuWidget extends StatelessWidget {
 
                 thumbVisibility: true,
 
-                child: BlocSelector<ScriptBloc, ScriptState, BuiltSet<Word>>(
+                child: BlocSelector<WordBloc, WordState, BuiltSet<Word>>(
                   selector: (state) {
                     return state.selections;
                   },

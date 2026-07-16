@@ -22,6 +22,9 @@ class Identifier extends Audit {
   @JsonKey(disallowNullValue: false, defaultValue: 0)
   final int ordinal;
 
+  @JsonKey(disallowNullValue: false, defaultValue: '')
+  final String type;
+
   const Identifier({
     required this.sku,
     required this.version,
@@ -30,6 +33,7 @@ class Identifier extends Audit {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.type,
   });
 
   factory Identifier.initial() {
@@ -41,6 +45,7 @@ class Identifier extends Audit {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      type: '',
     );
   }
 

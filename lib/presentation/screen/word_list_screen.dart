@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
@@ -17,6 +18,9 @@ class WordListScreen extends StatefulWidget {
 class _WordListScreenState extends State<WordListScreen> {
   @override
   void initState() {
+    context.read<WordBloc>().add(
+      RetrieveWordsEvent(pageNumber: 0, pageSize: 120, type: 'WORD'),
+    );
     super.initState();
   }
 
@@ -32,12 +36,6 @@ class _WordListScreenState extends State<WordListScreen> {
           return const Center(child: CircularProgressIndicator());
         } else if (state.pages.isEmpty ||
             state.pages[state.pageNumber] == null) {
-          context.read<WordBloc>().add(
-            RetrieveWordsEvent(
-              pageNumber: state.pageNumber,
-              pageSize: state.pageSize,
-            ),
-          );
           return Text("pages not fetched");
         } else {
           return BlocSelector<WordBloc, WordState, PageResult<Word>>(
@@ -56,7 +54,16 @@ class _WordListScreenState extends State<WordListScreen> {
 
                         return WordItemScreen(
                           key: ValueKey(word.sku),
-                          word: word,
+                          identifier: Identifier(
+                            sku: word.sku,
+                            version: word.version,
+                            ordinal: word.ordinal,
+                            createdDate: word.createdDate,
+                            lastModifiedDate: word.lastModifiedDate,
+                            createdBy: word.createdBy,
+                            lastModifiedBy: word.lastModifiedBy,
+                            type: word.type,
+                          ),
                         );
                       },
                     ),
@@ -74,6 +81,8 @@ class _WordListScreenState extends State<WordListScreen> {
                         RetrieveWordsEvent(
                           pageNumber: selectedPage - 1,
                           pageSize: state.size,
+                          type: '',
+                          maya: '',
                         ),
                       );
                     },

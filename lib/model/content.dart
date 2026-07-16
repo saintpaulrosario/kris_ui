@@ -33,6 +33,7 @@ class Content extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.type,
   });
 
   factory Content.initial() {
@@ -49,6 +50,7 @@ class Content extends Identifier {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      type: '',
     );
   }
 

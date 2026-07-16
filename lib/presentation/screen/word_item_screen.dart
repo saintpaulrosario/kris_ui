@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:kris/presentation/widget/word_text_list_wiget.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
@@ -7,9 +8,9 @@ import '../../model/word.dart';
 import '../widget/image_list_widget.dart';
 
 class WordItemScreen extends StatefulWidget {
-  final Word word;
+  final Identifier identifier;
 
-  const WordItemScreen({super.key, required this.word});
+  const WordItemScreen({super.key, required this.identifier});
 
   @override
   State<WordItemScreen> createState() => _WordItemScreenState();
@@ -18,7 +19,9 @@ class WordItemScreen extends StatefulWidget {
 class _WordItemScreenState extends State<WordItemScreen> {
   @override
   void initState() {
-    context.read<WordBloc>().add(RetrieveWordBySkuEvent(sku: widget.word.sku));
+    context.read<WordBloc>().add(
+      RetrieveWordBySkuEvent(identifier: widget.identifier),
+    );
     super.initState();
   }
 
@@ -27,8 +30,8 @@ class _WordItemScreenState extends State<WordItemScreen> {
     return BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
       selector: (state) {
         return (
-          fetching: state.fetching.contains(widget.word.sku),
-          word: state.data[widget.word.sku],
+          fetching: state.fetching.contains(widget.identifier.sku),
+          word: state.data[widget.identifier.sku],
         );
       },
 
@@ -40,9 +43,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
         final word = state.word;
 
         if (word == null) {
-          context.read<WordBloc>().add(
-            RetrieveWordBySkuEvent(sku: widget.word.sku),
-          );
           return const Center(child: Text("Word not found"));
         }
 

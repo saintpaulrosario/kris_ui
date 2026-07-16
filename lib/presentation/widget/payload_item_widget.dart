@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/word_text_list_wiget.dart';
 
 import '../../logic/payload/bloc/payload_bloc.dart';
 import '../../model/payload.dart';
 import '../../model/identifier.dart';
-import 'example_list_widget.dart';
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
@@ -22,7 +22,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
     super.initState();
 
     context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier.sku),
+      PayloadEventRetrieveBySku(widget.identifier),
     );
   }
 
@@ -57,7 +57,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           children: [
             Expanded(
               flex: 3,
-              child: ExampleListWidget(identifiers: payload.examples),
+              child: WordTextListWidget(identifiers: payload.examples),
             ),
 
             Expanded(

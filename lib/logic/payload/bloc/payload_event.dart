@@ -4,8 +4,8 @@ part of 'payload_bloc.dart';
 class PayloadEvent {}
 
 class PayloadEventRetrieveBySku extends PayloadEvent {
-  final String sku;
-  PayloadEventRetrieveBySku(this.sku);
+  final Identifier identifier;
+  PayloadEventRetrieveBySku(this.identifier);
 }
 
 class PayloadEventAdd extends PayloadEvent {

@@ -18,6 +18,7 @@ Sound _$SoundFromJson(Map json) =>
           'sku',
           'version',
           'ordinal',
+          'type',
           'payload',
           'contentType',
           'size',
@@ -47,6 +48,7 @@ Sound _$SoundFromJson(Map json) =>
         ),
         createdBy: $checkedConvert('createdBy', (v) => v as String?),
         lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+        type: $checkedConvert('type', (v) => v as String? ?? ''),
       );
       return val;
     });
@@ -59,6 +61,7 @@ Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'ordinal': instance.ordinal,
+  'type': instance.type,
   'payload': instance.payload,
   'contentType': instance.contentType,
   'size': instance.size,

@@ -32,6 +32,7 @@ class Sound extends Instrument {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.type,
   });
 
   factory Sound.initial() {
@@ -49,6 +50,7 @@ class Sound extends Instrument {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      type: '',
     );
   }
 

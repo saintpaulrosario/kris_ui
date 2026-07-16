@@ -13,6 +13,7 @@ Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    type: $checkedConvert('type', (v) => v as String? ?? ''),
     texts: $checkedConvert(
       'texts',
       (v) =>
@@ -63,6 +64,10 @@ Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    maya: $checkedConvert(
+      'maya',
+      (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+    ),
   );
   return val;
 });
@@ -75,8 +80,10 @@ Map<String, dynamic> _$WordToJson(Word instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'ordinal': instance.ordinal,
+  'type': instance.type,
   'texts': instance.texts.map((e) => e.toJson()).toList(),
   'contents': instance.contents.map((e) => e.toJson()).toList(),
   'images': instance.images.map((e) => e.toJson()).toList(),
   'payloads': instance.payloads.map((e) => e.toJson()).toList(),
+  'maya': instance.maya,
 };

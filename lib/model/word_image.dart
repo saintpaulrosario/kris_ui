@@ -35,6 +35,7 @@ class WordImage extends Instrument {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.type,
   });
 
   factory WordImage.initial() {
@@ -53,6 +54,7 @@ class WordImage extends Instrument {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      type: '',
     );
   }
 

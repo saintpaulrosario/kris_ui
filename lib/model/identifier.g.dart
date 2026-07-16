@@ -22,6 +22,7 @@ Identifier _$IdentifierFromJson(Map json) =>
         ),
         createdBy: $checkedConvert('createdBy', (v) => v as String?),
         lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+        type: $checkedConvert('type', (v) => v as String? ?? ''),
       );
       return val;
     });
@@ -35,4 +36,5 @@ Map<String, dynamic> _$IdentifierToJson(Identifier instance) =>
       'sku': instance.sku,
       'version': instance.version,
       'ordinal': instance.ordinal,
+      'type': instance.type,
     };

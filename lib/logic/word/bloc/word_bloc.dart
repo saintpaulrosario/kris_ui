@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/model/identifier.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/word.dart';
@@ -27,6 +28,8 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         final results = await _wordService.retrive(
           page: event.pageNumber,
           size: event.pageSize,
+          type: event.type,
+          maya: event.maya,
         );
 
         results.fold(
@@ -43,9 +46,20 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           (PageResult<Word> result) {
             final data = state.data.toBuilder();
             final pages = state.pages.toBuilder();
-
+            final scripts = state.scripts;
+            final dialects = state.dialects;
+            final languages = state.languages;
             for (final word in result.content) {
               data[word.sku] = word;
+              if (word.maya.contains("script")) {
+                scripts.append(word);
+              }
+              if (word.maya.contains("language")) {
+                languages.append(word);
+              }
+              if (word.maya.contains("dialect")) {
+                dialects.append(word);
+              }
             }
 
             pages[result.number] = result;
@@ -53,7 +67,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
             emit(
               state.copyWith(
                 data: data.build(),
-
+                scripts: scripts,
+                dialects: dialects,
+                languages: languages,
                 fetching: (state.fetching.toBuilder()..remove("all")).build(),
                 pageNumber: result.number,
                 pageSize: result.size,
@@ -66,24 +82,30 @@ class WordBloc extends Bloc<WordEvent, WordState> {
     });
 
     on<RetrieveWordBySkuEvent>((event, emit) async {
-      if (!state.data.containsKey(event.sku) &&
-          !state.fetching.contains(event.sku)) {
+      if (!state.data.containsKey(event.identifier.sku) &&
+          !state.fetching.contains(event.identifier.sku)) {
         emit(
           state.copyWith(
-            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+            fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+                .build(),
           ),
         );
 
-        final results = await _wordService.retrieveWordBySku(event.sku);
+        final results = await _wordService.retrieveWordBySku(
+          event.identifier.sku,
+        );
 
         results.fold(
           (error) {
             emit(
               state.copyWith(
-                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+                errors:
+                    (state.errors.toBuilder()..[event.identifier.sku] = error)
+                        .build(),
 
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
-                    .build(),
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },
@@ -93,8 +115,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
               state.copyWith(
                 data: (state.data.toBuilder()..[word.sku] = word).build(),
 
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
-                    .build(),
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },

@@ -79,6 +79,7 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    type: $checkedConvert('type', (v) => v as String? ?? ''),
   );
   return val;
 });
@@ -91,6 +92,7 @@ Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'ordinal': instance.ordinal,
+  'type': instance.type,
   'words': instance.words.map((e) => e.toJson()).toList(),
   'script': instance.script?.toJson(),
   'languages': instance.languages.map((e) => e.toJson()).toList(),

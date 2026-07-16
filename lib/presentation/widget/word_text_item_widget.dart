@@ -19,7 +19,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
     context.read<WordTextBloc>().add(
-      WordTextEventRetrieveBySku(sku: widget.identifier.sku),
+      WordTextEventRetrieveBySku(sku: widget.identifier.sku, type: ''),
     );
     super.initState();
   }
@@ -46,9 +46,6 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         final wordText = state.wordText;
 
         if (wordText == null) {
-          context.read<WordTextBloc>().add(
-            WordTextEventRetrieveBySku(sku: widget.identifier.sku),
-          );
           return const Text("Text not found");
         }
 

@@ -51,6 +51,7 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    type: $checkedConvert('type', (v) => v as String? ?? ''),
   );
   return val;
 });
@@ -63,6 +64,7 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'sku': instance.sku,
   'version': instance.version,
   'ordinal': instance.ordinal,
+  'type': instance.type,
   'payloads': instance.payloads.map((e) => e.toJson()).toList(),
   'text': instance.text.toJson(),
   'script': instance.script.toJson(),

@@ -21,7 +21,7 @@ class _MenuPayloadWidgetState extends State<MenuPayloadWidget> {
     super.initState();
 
     context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier.sku),
+      PayloadEventRetrieveBySku(widget.identifier),
     );
   }
 

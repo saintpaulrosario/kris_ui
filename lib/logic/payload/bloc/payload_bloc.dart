@@ -17,24 +17,30 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
 
   PayloadBloc() : super(PayloadState.initial()) {
     on<PayloadEventRetrieveBySku>((event, emit) async {
-      if (!state.data.containsKey(event.sku) &&
-          !state.fetching.contains(event.sku)) {
+      if (!state.data.containsKey(event.identifier.sku) &&
+          !state.fetching.contains(event.identifier.sku)) {
         emit(
           state.copyWith(
-            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+            fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+                .build(),
           ),
         );
 
-        final result = await _payloadService.retrieveBySku(event.sku);
+        final result = await _payloadService.retrieveBySku(
+          event.identifier.sku,
+        );
 
         result.fold(
           (error) {
             emit(
               state.copyWith(
-                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+                errors:
+                    (state.errors.toBuilder()..[event.identifier.sku] = error)
+                        .build(),
 
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
-                    .build(),
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },
@@ -42,10 +48,12 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
           (payload) {
             emit(
               state.copyWith(
-                data: (state.data.toBuilder()..[event.sku] = payload).build(),
-
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                data: (state.data.toBuilder()..[event.identifier.sku] = payload)
                     .build(),
+
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },
@@ -55,7 +63,7 @@ class PayloadBloc extends Bloc<PayloadEvent, PayloadState> {
 
     on<PayloadEventAdd>((event, emit) {
       for (final identifier in event.identifiers) {
-        add(PayloadEventRetrieveBySku(identifier.sku));
+        add(PayloadEventRetrieveBySku(identifier));
       }
     });
   }

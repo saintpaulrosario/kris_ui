@@ -44,6 +44,7 @@ class WordText extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.type,
   });
 
   factory WordText.initial() {
@@ -61,6 +62,7 @@ class WordText extends Identifier {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      type: '',
     );
   }
 

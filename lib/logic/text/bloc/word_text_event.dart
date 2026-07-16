@@ -4,8 +4,9 @@ class WordTextEvent {}
 
 class WordTextEventRetrieveBySku extends WordTextEvent {
   final String sku;
+  final String type;
 
-  WordTextEventRetrieveBySku({required this.sku});
+  WordTextEventRetrieveBySku({required this.type, required this.sku});
 }
 
 class WordTextEventRetrieveByTextAndWordSku extends WordTextEvent {

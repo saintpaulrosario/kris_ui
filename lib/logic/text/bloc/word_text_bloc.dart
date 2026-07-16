@@ -57,7 +57,7 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
     });
 
     on<WordTextEventAdd>((event, emit) {
-      add(WordTextEventRetrieveBySku(sku: event.identifier.sku));
+      //add(RetrieveWordBySkuEvent(sku: event.identifier.sku));
     });
   }
 }

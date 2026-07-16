@@ -2,6 +2,12 @@ part of 'word_bloc.dart';
 
 class WordState extends BaseState<Word> {
   final BuiltMap<int, PageResult<Word>> pages;
+  final BuiltSet<String> maya;
+  final BuiltSet<Word> scripts;
+  final BuiltSet<Word> dialects;
+  final BuiltSet<Word> languages;
+  BuiltMap<String, BuiltSet<Word>> mayaSelections;
+  final String type;
   final int pageNumber;
   final int pageSize;
 
@@ -13,6 +19,12 @@ class WordState extends BaseState<Word> {
     required super.selections,
     required this.pageNumber,
     required this.pageSize,
+    required this.maya,
+    required this.type,
+    required this.scripts,
+    required this.dialects,
+    required this.languages,
+    required this.mayaSelections,
   });
 
   factory WordState.initial() {
@@ -24,6 +36,12 @@ class WordState extends BaseState<Word> {
       selections: BuiltSet<Word>(),
       pageNumber: 0,
       pageSize: 10,
+      maya: BuiltSet<String>(),
+      type: '',
+      scripts: BuiltSet<Word>(),
+      dialects: BuiltSet<Word>(),
+      languages: BuiltSet<Word>(),
+      mayaSelections: BuiltMap<String, BuiltSet<Word>>(),
     );
   }
 
@@ -36,6 +54,12 @@ class WordState extends BaseState<Word> {
     BuiltMap<int, PageResult<Word>>? pages,
     int? pageNumber,
     int? pageSize,
+    String? type,
+    BuiltSet<String>? maya,
+    BuiltSet<Word>? scripts,
+    BuiltSet<Word>? languages,
+    BuiltSet<Word>? dialects,
+    BuiltMap<String, BuiltSet<Word>>? mayaSelections,
   }) {
     return WordState(
       errors: errors ?? this.errors,
@@ -45,6 +69,12 @@ class WordState extends BaseState<Word> {
       selections: selections ?? this.selections,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
+      maya: maya ?? this.maya,
+      type: type ?? this.type,
+      scripts: scripts ?? this.scripts,
+      dialects: dialects ?? this.dialects,
+      languages: languages ?? this.languages,
+      mayaSelections: mayaSelections ?? this.mayaSelections,
     );
   }
 }

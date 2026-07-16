@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
-import 'package:kris/logic/example/bloc/example_bloc.dart';
-import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/payload/bloc/payload_bloc.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
 import '../../logic/image/bloc/image_bloc.dart';
-import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/sound/bloc/sound_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
 import '../../logic/word/bloc/word_bloc.dart';
@@ -30,13 +26,9 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => WordBloc()),
         BlocProvider(create: (context) => ImageBloc()),
         BlocProvider(create: (context) => SoundBloc()),
-        BlocProvider(create: (context) => ScriptBloc()),
-        BlocProvider(create: (context) => LanguageBloc()),
-        BlocProvider(create: (context) => DialectBloc()),
         BlocProvider(create: (context) => WordTextBloc()),
         BlocProvider(create: (context) => ContentBloc()),
         BlocProvider(create: (context) => PayloadBloc()),
-        BlocProvider(create: (context) => ExampleBloc()),
       ],
       child: Scaffold(
         appBar: AppBarWidget(),

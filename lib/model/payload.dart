@@ -72,6 +72,7 @@ class Payload extends Identifier {
          lastModifiedDate: DateTime.now(),
          createdBy: '',
          lastModifiedBy: '',
+         type: '',
        );
 
   factory Payload.initial() {

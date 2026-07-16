@@ -25,10 +25,14 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> payloads;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<String> maya;
+
   const Word({
     required super.sku,
     required super.version,
     required super.ordinal,
+    required super.type,
     required this.texts,
     required this.contents,
     required this.images,
@@ -37,6 +41,7 @@ class Word extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.maya,
   });
 
   factory Word.initial() {
@@ -52,6 +57,8 @@ class Word extends Identifier {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
+      maya: [],
+      type: '',
     );
   }
 

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/content/bloc/content_bloc.dart';
-import 'package:kris/logic/payload/bloc/payload_bloc.dart';
-import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/script.dart';
+import 'package:kris/model/word.dart';
+
+import '../../logic/payload/bloc/payload_bloc.dart';
 
 class ScriptItemWidget extends StatefulWidget {
   final Identifier identifier;
@@ -24,21 +25,21 @@ class _ScriptItemWidgetState extends State<ScriptItemWidget> {
   void initState() {
     super.initState();
 
-    context.read<ScriptBloc>().add(
-      ScriptEventRetrieveBySku(sku: widget.identifier.sku),
+    context.read<WordBloc>().add(
+      RetrieveWordBySkuEvent(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ScriptBloc, ScriptState, bool>(
+    return BlocSelector<WordBloc, WordState, bool>(
       selector: (state) => state.fetching.contains(widget.identifier.sku),
       builder: (context, fetching) {
         if (fetching) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return BlocSelector<ScriptBloc, ScriptState, Script?>(
+        return BlocSelector<WordBloc, WordState, Word?>(
           selector: (state) => state.data[widget.identifier.sku],
           builder: (context, script) {
             if (script == null) {
@@ -122,7 +123,7 @@ class _PayloadItemState extends State<_PayloadItem> {
     super.initState();
 
     context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier.sku),
+      PayloadEventRetrieveBySku(widget.identifier),
     );
   }
 
