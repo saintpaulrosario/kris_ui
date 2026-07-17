@@ -15,17 +15,11 @@ class WordService {
   Future<Either<ErrorResponse, PageResult<Word>>> retrive({
     required int page,
     required int size,
-    required String type,
     String? maya,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Word>>> httpResponse =
-          await _wordApi.retrieveAll(
-            page: page,
-            size: size,
-            maya: maya,
-            type: type,
-          );
+          await _wordApi.retrieveAll(page: page, size: size, maya: maya);
 
       ApiResult<PageResult<Word>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {

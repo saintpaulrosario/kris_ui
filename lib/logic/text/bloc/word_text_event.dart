@@ -2,11 +2,10 @@ part of 'word_text_bloc.dart';
 
 class WordTextEvent {}
 
-class WordTextEventRetrieveBySku extends WordTextEvent {
-  final String sku;
-  final String type;
+class WordTextEventRetrieveByIdentifier extends WordTextEvent {
+  final Identifier identifier;
 
-  WordTextEventRetrieveBySku({required this.type, required this.sku});
+  WordTextEventRetrieveByIdentifier({required this.identifier});
 }
 
 class WordTextEventRetrieveByTextAndWordSku extends WordTextEvent {

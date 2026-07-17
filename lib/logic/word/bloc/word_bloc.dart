@@ -28,7 +28,6 @@ class WordBloc extends Bloc<WordEvent, WordState> {
         final results = await _wordService.retrive(
           page: event.pageNumber,
           size: event.pageSize,
-          type: event.type,
           maya: event.maya,
         );
 

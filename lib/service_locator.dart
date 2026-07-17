@@ -1,11 +1,18 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:kris/logic/example/example_api.dart';
+import 'package:kris/logic/example/example_service.dart';
+import 'package:kris/logic/example_content/example_content_api.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
 import 'logic/content/bloc/content_bloc.dart';
 import 'logic/content/content_api.dart';
 import 'logic/content/content_service.dart';
+import 'logic/example_content/example_content_service.dart';
+import 'logic/example_payload/example_payload_api.dart';
+import 'logic/example_text/example_text_api.dart';
+import 'logic/example_text/example_text_service.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
 import 'logic/payload/bloc/payload_bloc.dart';
@@ -67,6 +74,22 @@ void setupLocator() {
     () => PayloadApi(dio, baseUrl: baseUrlKris),
   );
 
+  getIt.registerLazySingleton<ExampleApi>(
+    () => ExampleApi(dio, baseUrl: baseUrlKris),
+  );
+
+  getIt.registerLazySingleton<ExampleContentApi>(
+    () => ExampleContentApi(dio, baseUrl: baseUrlKris),
+  );
+
+  getIt.registerLazySingleton<ExampleTextApi>(
+    () => ExampleTextApi(dio, baseUrl: baseUrlKris),
+  );
+
+  getIt.registerLazySingleton<ExamplePayloadApi>(
+    () => ExamplePayloadApi(dio, baseUrl: baseUrlKris),
+  );
+
   // // Services
   getIt.registerLazySingleton<WordService>(() => WordService());
   getIt.registerLazySingleton<ImageService>(() => ImageService());
@@ -74,6 +97,14 @@ void setupLocator() {
   getIt.registerLazySingleton<ContentService>(() => ContentService());
   getIt.registerLazySingleton<WordTextService>(() => WordTextService());
   getIt.registerLazySingleton<PayloadService>(() => PayloadService());
+  getIt.registerLazySingleton<ExampleService>(() => ExampleService());
+  getIt.registerLazySingleton<ExampleContentService>(
+    () => ExampleContentService(),
+  );
+
+  getIt.registerLazySingleton<ExampleTextService>(() => ExampleTextService());
+
+  getIt.registerLazySingleton<ExampleTextService>(() => ExampleTextService());
 
   //
   getIt.registerLazySingleton<ContentBloc>(() => ContentBloc());

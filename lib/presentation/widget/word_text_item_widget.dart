@@ -19,7 +19,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
     context.read<WordTextBloc>().add(
-      WordTextEventRetrieveBySku(sku: widget.identifier.sku, type: ''),
+      WordTextEventRetrieveByIdentifier(identifier: widget.identifier),
     );
     super.initState();
   }

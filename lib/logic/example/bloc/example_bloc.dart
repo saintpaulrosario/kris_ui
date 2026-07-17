@@ -1,25 +1,26 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:uuid/uuid.dart';
+import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/example/example.dart';
+import 'package:kris/model/identifier.dart';
+import 'package:meta/meta.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/identifier.dart';
-import '../../../model/word_text.dart';
 import '../../../service_locator.dart';
-import '../../base_state.dart';
-import '../../content/bloc/content_bloc.dart';
-import '../word_text_service.dart';
+import '../example_service.dart';
 
-part 'word_text_event.dart';
-part 'word_text_state.dart';
+part 'example_event.dart';
+part 'example_state.dart';
 
-class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
-  final ContentBloc _contentBloc = getIt<ContentBloc>();
-  final WordTextService _wordTextService = getIt<WordTextService>();
+class ExampleBloc extends Bloc<ExampleEvent, ExampleState> {
+  ExampleService _service = getIt<ExampleService>();
 
-  WordTextBloc() : super(WordTextState.initial()) {
-    on<WordTextEventRetrieveByIdentifier>((event, emit) async {
+  ExampleBloc() : super(ExampleState.initial()) {
+    on<ExampleEvent>((event, emit) {
+      // TODO: implement event handler
+    });
+
+    on<ExampleEventFetch>((event, emit) async {
       if (!state.data.containsKey(event.identifier.sku) &&
           !state.fetching.contains(event.identifier.sku)) {
         emit(
@@ -29,11 +30,9 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           ),
         );
 
-        final result = await _wordTextService.retrieveByIdentifier(
-          event.identifier,
-        );
+        final results = await _service.retrieveByIdentifier(event.identifier);
 
-        result.fold(
+        results.fold(
           (error) {
             emit(
               state.copyWith(
@@ -48,12 +47,10 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
             );
           },
 
-          (wordText) {
+          (word) {
             emit(
               state.copyWith(
-                data:
-                    (state.data.toBuilder()..[event.identifier.sku] = wordText)
-                        .build(),
+                data: (state.data.toBuilder()..[word.sku] = word).build(),
 
                 fetching:
                     (state.fetching.toBuilder()..remove(event.identifier.sku))
@@ -63,10 +60,6 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
           },
         );
       }
-    });
-
-    on<WordTextEventAdd>((event, emit) {
-      //add(RetrieveWordBySkuEvent(sku: event.identifier.sku));
     });
   }
 }

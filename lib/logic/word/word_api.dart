@@ -15,7 +15,6 @@ abstract class WordApi {
     @Query("page") required int page,
     @Query("size") required int size,
     @Query("maya") String? maya,
-    @Query("type") required String type,
   });
 
   @GET("/word/{identifier}")

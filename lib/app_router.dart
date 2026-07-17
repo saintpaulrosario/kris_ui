@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
 import 'presentation/page/home_page.dart';
+import 'presentation/page/word_page.dart';
 
 // ---------------------
 // Route constants
@@ -38,11 +39,7 @@ final GoRouter appRouter = GoRouter(
       navigatorKey: _shellNav,
       builder: (context, state, child) => HomePage(child: child),
       routes: [
-        GoRoute(
-          path: routeHome,
-          name: "home",
-          builder: (_, __) => WordListScreen(),
-        ),
+        GoRoute(path: routeHome, name: "home", builder: (_, __) => WordPage()),
       ],
     ),
   ],

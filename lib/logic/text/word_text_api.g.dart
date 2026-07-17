@@ -22,11 +22,12 @@ class _WordTextApi implements WordTextApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
-    String identifier,
-  ) async {
+  Future<HttpResponse<ApiResult<WordText>>> retrieveByIdentifier({
+    required String identifier,
+    required String type,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'type': type};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<WordText>>>(

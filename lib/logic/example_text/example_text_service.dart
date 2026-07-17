@@ -2,30 +2,30 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../model/error_response.dart';
 import '../../model/word_text.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
-import 'word_text_api.dart';
+import 'example_text.dart';
+import 'example_text_api.dart';
 
-class WordTextService {
-  final WordTextApi _wordTextApi = getIt<WordTextApi>();
+class ExampleTextService {
+  final ExampleTextApi _wordTextApi = getIt<ExampleTextApi>();
 
-  Future<Either<ErrorResponse, WordText>> retrieveByIdentifier(
+  Future<Either<ErrorResponse, ExampleText>> retrieveByIdentifier(
     Identifier identifer,
   ) async {
     try {
-      final HttpResponse<ApiResult<WordText>> httpResponse = await _wordTextApi
-          .retrieveByIdentifier(
+      final HttpResponse<ApiResult<ExampleText>> httpResponse =
+          await _wordTextApi.retrieveByIdentifier(
             identifier: identifer.sku,
             type: identifer.type,
           );
 
-      ApiResult<WordText> apiResult = httpResponse.data;
+      ApiResult<ExampleText> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final WordText payload = apiResult.payload;
+        final ExampleText payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

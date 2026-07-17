@@ -12,9 +12,10 @@ abstract class WordTextApi {
   factory WordTextApi(Dio dio, {String baseUrl}) = _WordTextApi;
 
   @GET("/text/{identifier}")
-  Future<HttpResponse<ApiResult<WordText>>> retrieveBySku(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<WordText>>> retrieveByIdentifier({
+    @Path("identifier") required String identifier,
+    @Query("type", encoded: true) required String type,
+  });
 
   @GET("/text/word/{identifier}")
   Future<HttpResponse<ApiResult<List<WordText>>>> retriveByWordIdentifier(

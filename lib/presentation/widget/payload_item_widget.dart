@@ -5,6 +5,7 @@ import 'package:kris/presentation/widget/word_text_list_wiget.dart';
 import '../../logic/payload/bloc/payload_bloc.dart';
 import '../../model/payload.dart';
 import '../../model/identifier.dart';
+import '../screen/word_list_screen.dart';
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
@@ -57,7 +58,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           children: [
             Expanded(
               flex: 3,
-              child: WordTextListWidget(identifiers: payload.examples),
+              child: WordListScreen(identifiers: payload.examples),
             ),
 
             Expanded(

@@ -1,36 +1,34 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/logic/example/example.dart';
+import 'package:kris/logic/example/example_api.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../model/error_response.dart';
-import '../../model/word_text.dart';
+import '../../model/word.dart';
 import '../../response/api_result.dart';
+import '../../response/page_result.dart';
 import '../../service_locator.dart';
-import 'word_text_api.dart';
 
-class WordTextService {
-  final WordTextApi _wordTextApi = getIt<WordTextApi>();
+class ExampleService {
+  final ExampleApi _exampleApi = getIt<ExampleApi>();
 
-  Future<Either<ErrorResponse, WordText>> retrieveByIdentifier(
-    Identifier identifer,
+  Future<Either<ErrorResponse, Example>> retrieveByIdentifier(
+    Identifier identifier,
   ) async {
+    final HttpResponse<ApiResult<Example>> httpResponse = await _exampleApi
+        .retrieveByIdentifier(identifier.sku, sku: true, ordinal: false);
     try {
-      final HttpResponse<ApiResult<WordText>> httpResponse = await _wordTextApi
-          .retrieveByIdentifier(
-            identifier: identifer.sku,
-            type: identifer.type,
-          );
-
-      ApiResult<WordText> apiResult = httpResponse.data;
+      ApiResult<Example> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final WordText payload = apiResult.payload;
+        final Example payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
           httpResponse.response.data,
         );
+        //throw Exception('Failed to retrieve scripts');
         return left(errorResponse);
       }
     } on DioException catch (e) {
