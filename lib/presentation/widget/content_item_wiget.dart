@@ -87,7 +87,10 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
 
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: PayloadListWidget(identifiers: content.payloads),
+      child: PayloadListWidget(
+        identifiers: content.payloads,
+        key: Key(content.sku),
+      ),
     );
   }
 }

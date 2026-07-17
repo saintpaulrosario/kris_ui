@@ -10,18 +10,15 @@ class WordListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: identifiers.length,
+    if (identifiers.isEmpty) {
+      return const Text("No words found");
+    }
 
-      itemBuilder: (context, index) {
-        final identifier = identifiers.elementAt(index);
-
-        return WordItemScreen(
-          key: ValueKey(identifier.sku),
-          identifier: identifier,
-        );
-      },
+    return Column(
+      children: [
+        for (final identifier in identifiers)
+          WordItemScreen(key: ValueKey(identifier.sku), identifier: identifier),
+      ],
     );
   }
 }

@@ -45,7 +45,10 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
       return const Text("No content found");
     }
 
-    return ContentListWidget(identifiers: wordText.contents);
+    return ContentListWidget(
+      identifiers: wordText.contents,
+      key: Key(wordText.sku),
+    );
   }
 
   @override

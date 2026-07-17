@@ -22,7 +22,11 @@ class WordTextListWidget extends StatelessWidget {
           return Divider();
         },
         itemBuilder: (BuildContext context, int index) {
-          return WordTextItemWidget(identifier: identifiers.elementAt(index));
+          Identifier identifier = identifiers.elementAt(index);
+          return WordTextItemWidget(
+            identifier: identifier,
+            key: Key(identifier.sku),
+          );
         },
       ),
     );

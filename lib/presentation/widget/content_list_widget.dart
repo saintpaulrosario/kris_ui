@@ -20,7 +20,11 @@ class ContentListWidget extends StatelessWidget {
           return const Divider(height: 1);
         },
         itemBuilder: (context, index) {
-          return ContentItemWidget(identifier: identifiers[index]);
+          final Identifier identifier = identifiers[index];
+          return ContentItemWidget(
+            identifier: identifier,
+            key: Key(identifier.sku),
+          );
         },
       ),
     );

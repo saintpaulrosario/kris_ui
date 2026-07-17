@@ -49,7 +49,10 @@ class _WordItemScreenState extends State<WordItemScreen> {
         children: [
           Expanded(
             flex: 2,
-            child: ImageListWidget(imagesIdentifiers: word.images),
+            child: ImageListWidget(
+              key: Key(word.sku),
+              imagesIdentifiers: word.images,
+            ),
           ),
 
           const Expanded(
@@ -57,7 +60,13 @@ class _WordItemScreenState extends State<WordItemScreen> {
             child: Column(children: [Text("definition")]),
           ),
 
-          Expanded(flex: 5, child: WordTextListWidget(identifiers: word.texts)),
+          Expanded(
+            flex: 5,
+            child: WordTextListWidget(
+              identifiers: word.texts,
+              key: Key(word.sku),
+            ),
+          ),
         ],
       ),
     );

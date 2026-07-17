@@ -14,17 +14,12 @@ class PayloadListWidget extends StatelessWidget {
       return const Text("No payload found");
     }
 
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      itemCount: identifiers.length,
-      separatorBuilder: (context, index) {
-        return const Divider(height: 1);
-      },
-      itemBuilder: (context, index) {
-        return PayloadItemWidget(identifier: identifiers[index]);
-      },
+    return Column(
+      children: [
+        for (final identifier in identifiers) ...[
+          PayloadItemWidget(identifier: identifier, key: Key(identifier.sku)),
+        ],
+      ],
     );
   }
 }
