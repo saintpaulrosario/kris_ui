@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:kris/logic/example/example_api.dart';
 import 'package:kris/logic/example/example_service.dart';
 import 'package:kris/logic/example_content/example_content_api.dart';
+import 'package:kris/logic/example_payload/example_payload_service.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
@@ -104,7 +105,9 @@ void setupLocator() {
 
   getIt.registerLazySingleton<ExampleTextService>(() => ExampleTextService());
 
-  getIt.registerLazySingleton<ExampleTextService>(() => ExampleTextService());
+  getIt.registerLazySingleton<ExamplePayloadService>(
+    () => ExamplePayloadService(),
+  );
 
   //
   getIt.registerLazySingleton<ContentBloc>(() => ContentBloc());
