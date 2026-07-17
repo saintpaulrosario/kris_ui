@@ -17,13 +17,13 @@ class ImageListWidget extends StatelessWidget {
     return Card(
       child: GridView.builder(
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(4),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 1,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
+          mainAxisSpacing: 2,
+          crossAxisSpacing: 2,
         ),
         itemCount: imagesIdentifiers.length,
         itemBuilder: (context, index) {
