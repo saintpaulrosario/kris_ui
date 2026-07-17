@@ -17,6 +17,25 @@ class WordBloc extends Bloc<WordEvent, WordState> {
   final WordService _wordService = getIt<WordService>();
 
   WordBloc() : super(WordState.initial()) {
+    on<WordEvent>(((event, emit) {
+      final selections = state.mayaSelections.toBuilder();
+
+      if (!state.mayaSelections.containsKey('script')) {
+        selections['script'] = BuiltMap<String, Word>();
+      }
+
+      if (!state.mayaSelections.containsKey('language')) {
+        selections['language'] = BuiltMap<String, Word>();
+      }
+
+      if (!state.mayaSelections.containsKey('dialect')) {
+        selections['dialect'] = BuiltMap<String, Word>();
+      }
+
+      final updatedSelections = selections.build();
+      emit(state.copyWith(mayaSelections: updatedSelections));
+    }));
+
     on<RetrieveWordsEvent>((event, emit) async {
       if (!state.fetching.contains("all")) {
         emit(

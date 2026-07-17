@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/identifier.dart';

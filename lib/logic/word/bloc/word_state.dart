@@ -6,7 +6,7 @@ class WordState extends BaseState<Word> {
   final BuiltSet<Word> scripts;
   final BuiltSet<Word> dialects;
   final BuiltSet<Word> languages;
-  BuiltMap<String, BuiltSet<Word>> mayaSelections;
+  final BuiltMap<String, BuiltMap<String, Word>> mayaSelections;
   final String type;
   final int pageNumber;
   final int pageSize;
@@ -41,7 +41,7 @@ class WordState extends BaseState<Word> {
       scripts: BuiltSet<Word>(),
       dialects: BuiltSet<Word>(),
       languages: BuiltSet<Word>(),
-      mayaSelections: BuiltMap<String, BuiltSet<Word>>(),
+      mayaSelections: BuiltMap<String, BuiltMap<String, Word>>(),
     );
   }
 
@@ -59,7 +59,7 @@ class WordState extends BaseState<Word> {
     BuiltSet<Word>? scripts,
     BuiltSet<Word>? languages,
     BuiltSet<Word>? dialects,
-    BuiltMap<String, BuiltSet<Word>>? mayaSelections,
+    BuiltMap<String, BuiltMap<String, Word>>? mayaSelections,
   }) {
     return WordState(
       errors: errors ?? this.errors,

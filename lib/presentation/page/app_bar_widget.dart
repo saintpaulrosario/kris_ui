@@ -1,7 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/text/bloc/word_text_bloc.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/word.dart';
 
@@ -20,6 +19,8 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   void initState() {
+    super.initState();
+
     context.read<WordBloc>().add(
       RetrieveWordsEvent(
         pageNumber: 0,
@@ -28,6 +29,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         maya: 'SCRIPT',
       ),
     );
+
     context.read<WordBloc>().add(
       RetrieveWordsEvent(
         pageNumber: 0,
@@ -36,6 +38,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         maya: 'LANGUAGE',
       ),
     );
+
     context.read<WordBloc>().add(
       RetrieveWordsEvent(
         pageNumber: 0,
@@ -44,7 +47,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         maya: 'DIALECT',
       ),
     );
-    super.initState();
   }
 
   @override
@@ -54,6 +56,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
 
       flexibleSpace: Stack(
         fit: StackFit.expand,
+
         children: [
           Image.network("https://picsum.photos/800/400", fit: BoxFit.cover),
 
@@ -82,71 +85,49 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     scrollDirection: Axis.horizontal,
 
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-
                       children: [
+                        // ================= SCRIPT =================
                         SizedBox(
                           width: 150,
                           height: 50,
-                          child:
-                              BlocSelector<WordBloc, WordState, BuiltSet<Word>>(
-                                selector: (state) {
-                                  return state.scripts;
-                                },
-                                builder: (context, state) {
-                                  if (state.isEmpty) {
-                                    return Text("scripts not availbe");
-                                  }
 
-                                  return MenuWidget(
-                                    words: state.toList(),
-                                    label: "Script",
-                                    onSelect:
-                                        ({required select, required word}) {
-                                          // context.read<ScriptBloc>().add(
-                                          //   ScriptsEventSelected(
-                                          //     selection: word,
-                                          //     select: select,
-                                          //   ),
-                                          // );
-                                        },
-                                    selections: BuiltSet(),
+                          child:
+                              BlocSelector<
+                                WordBloc,
+                                WordState,
+                                (BuiltSet<Word>, BuiltMap<String, Word>)
+                              >(
+                                selector: (state) {
+                                  return (
+                                    state.scripts,
+                                    state.mayaSelections['script'] ??
+                                        BuiltMap<String, Word>(),
                                   );
                                 },
-                              ),
-                        ),
 
-                        const SizedBox(width: 12),
-
-                        SizedBox(
-                          width: 150,
-                          height: 50,
-                          child:
-                              BlocSelector<WordBloc, WordState, BuiltSet<Word>>(
-                                selector: (state) {
-                                  return state.languages;
-                                },
                                 builder: (context, state) {
-                                  if (state.isEmpty) {
-                                    return Text("languages not availbe");
+                                  final scripts = state.$1;
+                                  final selections = state.$2;
+
+                                  if (scripts.isEmpty) {
+                                    return const Text(
+                                      "scripts not available",
+                                      style: TextStyle(color: Colors.white),
+                                    );
                                   }
 
                                   return MenuWidget(
-                                    words: state.toList(),
-                                    label: "Language",
-                                    selections: BuiltSet(),
+                                    words: scripts.toList(),
+                                    label: "Script",
+
+                                    selections: selections.values.toBuiltSet(),
 
                                     onSelect:
                                         ({
                                           required Word word,
                                           required bool select,
                                         }) {
-                                          // context.read<LanguageBloc>().add(
-                                          //   LanguageEventSelected(
-                                          //     select: select,
-                                          //     selection: null,
-                                          //   ),
-                                          // );
+                                          // Script selection event
                                         },
                                   );
                                 },
@@ -155,27 +136,103 @@ class _AppBarWidgetState extends State<AppBarWidget> {
 
                         const SizedBox(width: 12),
 
+                        // ================= LANGUAGE =================
                         SizedBox(
                           width: 150,
                           height: 50,
+
                           child:
-                              BlocSelector<WordBloc, WordState, BuiltSet<Word>>(
+                              BlocSelector<
+                                WordBloc,
+                                WordState,
+                                (BuiltSet<Word>, BuiltMap<String, Word>)
+                              >(
                                 selector: (state) {
-                                  return state.dialects;
+                                  return (
+                                    state.languages,
+
+                                    state.mayaSelections['language'] ??
+                                        BuiltMap<String, Word>(),
+                                  );
                                 },
+
                                 builder: (context, state) {
-                                  if (state.isEmpty) {
-                                    return Text("dialects not availbe");
+                                  final languages = state.$1;
+                                  final selections = state.$2;
+
+                                  if (languages.isEmpty) {
+                                    return const Text(
+                                      "languages not available",
+                                      style: TextStyle(color: Colors.white),
+                                    );
                                   }
 
                                   return MenuWidget(
-                                    words: state.toList(),
-                                    label: "Dialect",
+                                    words: languages.toList(),
+
+                                    label: "Language",
+
+                                    selections: selections.values.toBuiltSet(),
+
                                     onSelect:
-                                        ({required select, required word}) {
-                                          //context.read<DialectBloc>().add(Dia)
+                                        ({
+                                          required Word word,
+                                          required bool select,
+                                        }) {
+                                          // Language selection event
                                         },
-                                    selections: BuiltSet(),
+                                  );
+                                },
+                              ),
+                        ),
+
+                        const SizedBox(width: 12),
+
+                        // ================= DIALECT =================
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+
+                          child:
+                              BlocSelector<
+                                WordBloc,
+                                WordState,
+                                (BuiltSet<Word>, BuiltMap<String, Word>)
+                              >(
+                                selector: (state) {
+                                  return (
+                                    state.dialects,
+
+                                    state.mayaSelections['dialect'] ??
+                                        BuiltMap<String, Word>(),
+                                  );
+                                },
+
+                                builder: (context, state) {
+                                  final dialects = state.$1;
+                                  final selections = state.$2;
+
+                                  if (dialects.isEmpty) {
+                                    return const Text(
+                                      "dialects not available",
+                                      style: TextStyle(color: Colors.white),
+                                    );
+                                  }
+
+                                  return MenuWidget(
+                                    words: dialects.toList(),
+
+                                    label: "Dialect",
+
+                                    selections: selections.values.toBuiltSet(),
+
+                                    onSelect:
+                                        ({
+                                          required Word word,
+                                          required bool select,
+                                        }) {
+                                          // Dialect selection event
+                                        },
                                   );
                                 },
                               ),
@@ -191,7 +248,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       ),
 
       backgroundColor: Colors.transparent,
+
       elevation: 4,
+
       foregroundColor: Colors.white,
     );
   }
