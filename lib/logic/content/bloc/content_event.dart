@@ -8,10 +8,10 @@ class ContentEventRetriveByTextSku extends ContentEvent {
   ContentEventRetriveByTextSku(this.textSku);
 }
 
-class ContentEventRetriveBySku extends ContentEvent {
-  final String sku;
+class ContentEventRetriveByIdentifier extends ContentEvent {
+  final Identifier identifier;
 
-  ContentEventRetriveBySku(this.sku);
+  ContentEventRetriveByIdentifier({required this.identifier});
 }
 
 class ContentEventAdd extends ContentEvent {

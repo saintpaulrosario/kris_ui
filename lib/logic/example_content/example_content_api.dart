@@ -12,7 +12,7 @@ part 'example_content_api.g.dart';
 abstract class ExampleContentApi {
   factory ExampleContentApi(Dio dio, {String baseUrl}) = _ExampleContentApi;
 
-  @GET("/example/content/{identifier}")
+  @GET("/content/example/{identifier}")
   Future<HttpResponse<ApiResult<ExampleContent>>> fetchByIdentifier(
     @Path("identifier") String identifier,
   );

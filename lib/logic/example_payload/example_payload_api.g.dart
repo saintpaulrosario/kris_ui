@@ -35,7 +35,7 @@ class _ExamplePayloadApi implements ExamplePayloadApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/example/payload/${identifier}',
+            '/payload/example/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

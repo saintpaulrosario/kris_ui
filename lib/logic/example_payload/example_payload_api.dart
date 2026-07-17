@@ -13,7 +13,7 @@ part 'example_payload_api.g.dart';
 abstract class ExamplePayloadApi {
   factory ExamplePayloadApi(Dio dio, {String baseUrl}) = _ExamplePayloadApi;
 
-  @GET("/example/payload/{identifier}")
+  @GET("/payload/example/{identifier}")
   Future<HttpResponse<ApiResult<ExamplePayload>>> retrieveByIdentifier(
     @Path("identifier") String identifier, {
     @Query("sku", encoded: true) required bool sku,

@@ -34,7 +34,7 @@ class _ExampleTextApi implements ExampleTextApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/example/text/${identifier}',
+            '/text/payload/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

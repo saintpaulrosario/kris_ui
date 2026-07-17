@@ -30,7 +30,7 @@ class _MenuContentState extends State<MenuContentWidget> {
     super.initState();
 
     context.read<ContentBloc>().add(
-      ContentEventRetriveBySku(widget.identifier.sku),
+      ContentEventRetriveByIdentifier(identifier: widget.identifierx),
     );
   }
 

@@ -33,7 +33,7 @@ class _ExampleContentApi implements ExampleContentApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/example/content/${identifier}',
+            '/content/example/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

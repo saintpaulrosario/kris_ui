@@ -16,26 +16,30 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
   final ContentService _contentService = getIt<ContentService>();
 
   ContentBloc() : super(ContentState.initial()) {
-    on<ContentEventRetriveBySku>((event, emit) async {
-      if (!state.data.containsKey(event.sku) &&
-          !state.fetching.contains(event.sku)) {
+    on<ContentEventRetriveByIdentifier>((event, emit) async {
+      if (!state.data.containsKey(event.identifier.sku) &&
+          !state.fetching.contains(event.identifier.sku)) {
         emit(
           state.copyWith(
-            fetching: (state.fetching.toBuilder()..add(event.sku)).build(),
+            fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+                .build(),
           ),
         );
 
         final Either<ErrorResponse, Content> result = await _contentService
-            .retriveBySku(event.sku);
+            .retriveBySku(event.identifier.sku);
 
         result.fold(
           (error) {
             emit(
               state.copyWith(
-                errors: (state.errors.toBuilder()..[event.sku] = error).build(),
+                errors:
+                    (state.errors.toBuilder()..[event.identifier.sku] = error)
+                        .build(),
 
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
-                    .build(),
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },
@@ -43,20 +47,16 @@ class ContentBloc extends Bloc<ContentEvent, ContentState> {
           (content) {
             emit(
               state.copyWith(
-                data: (state.data.toBuilder()..[event.sku] = content).build(),
-
-                fetching: (state.fetching.toBuilder()..remove(event.sku))
+                data: (state.data.toBuilder()..[event.identifier.sku] = content)
                     .build(),
+
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
               ),
             );
           },
         );
-      }
-    });
-
-    on<ContentEventAdd>((event, emit) {
-      for (final identifier in event.identifiers) {
-        add(ContentEventRetriveBySku(identifier.sku));
       }
     });
   }

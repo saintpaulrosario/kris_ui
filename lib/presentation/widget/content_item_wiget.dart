@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/example_content/bloc/example_content_bloc.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
 import '../../model/content.dart';
@@ -18,9 +19,15 @@ class ContentItemWidget extends StatefulWidget {
 class _ContentItemWidgetState extends State<ContentItemWidget> {
   @override
   void initState() {
-    context.read<ContentBloc>().add(
-      ContentEventRetriveBySku(widget.identifier.sku),
-    );
+    if (widget.identifier.type == 'EXAMPLE') {
+      context.read<ExampleContentBloc>().add(
+        ExampleContentEventFetchByIdentifier(identifier: widget.identifier),
+      );
+    } else {
+      context.read<ContentBloc>().add(
+        ContentEventRetriveByIdentifier(identifier: widget.identifier),
+      );
+    }
     super.initState();
   }
 
@@ -46,9 +53,6 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         final content = state.content;
 
         if (content == null) {
-          context.read<ContentBloc>().add(
-            ContentEventRetriveBySku(widget.identifier.sku),
-          );
           return const Center(child: Text("Content not found"));
         }
 

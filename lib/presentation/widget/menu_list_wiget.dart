@@ -80,7 +80,7 @@ class _ContentPayloadsState extends State<_ContentPayloads> {
     super.initState();
 
     context.read<ContentBloc>().add(
-      ContentEventRetriveBySku(widget.identifier.sku),
+      ContentEventRetriveByIdentifier(identifier: widget.identifier),
     );
   }
 

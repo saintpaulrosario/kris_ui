@@ -36,7 +36,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/example/${identifier}',
+            '/word/example/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
