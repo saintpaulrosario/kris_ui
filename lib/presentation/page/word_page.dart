@@ -20,7 +20,7 @@ class _WordPageState extends State<WordPage> {
   @override
   void initState() {
     context.read<WordBloc>().add(
-      RetrieveWordsEvent(pageNumber: 0, pageSize: 120, type: 'WORD'),
+      RetrieveWordsEvent(pageNumber: 0, pageSize: 15, type: 'WORD'),
     );
     super.initState();
   }

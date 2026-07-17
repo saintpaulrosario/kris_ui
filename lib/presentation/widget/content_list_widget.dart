@@ -20,7 +20,7 @@ class ContentListWidget extends StatelessWidget {
           return const Divider(height: 1);
         },
         itemBuilder: (context, index) {
-          return Card(child: ContentItemWidget(identifier: identifiers[index]));
+          return ContentItemWidget(identifier: identifiers[index]);
         },
       ),
     );
