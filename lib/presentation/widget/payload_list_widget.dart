@@ -23,9 +23,7 @@ class PayloadListWidget extends StatelessWidget {
         return const Divider(height: 1);
       },
       itemBuilder: (context, index) {
-        return Expanded(
-          child: PayloadItemWidget(identifier: identifiers[index]),
-        );
+        return PayloadItemWidget(identifier: identifiers[index]);
       },
     );
   }

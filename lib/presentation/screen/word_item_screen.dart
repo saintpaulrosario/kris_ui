@@ -47,14 +47,15 @@ class _WordItemScreenState extends State<WordItemScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(child: ImageListWidget(imagesIdentifiers: word.images)),
+          Expanded(
+            flex: 2,
+            child: ImageListWidget(imagesIdentifiers: word.images),
+          ),
 
-          // Only create definition for non-example types
-          if (widget.identifier.type != 'EXAMPLE')
-            const Expanded(
-              flex: 1,
-              child: Column(children: [Text("definition")]),
-            ),
+          const Expanded(
+            flex: 5,
+            child: Column(children: [Text("definition")]),
+          ),
 
           Expanded(flex: 5, child: WordTextListWidget(identifiers: word.texts)),
         ],

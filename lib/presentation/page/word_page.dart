@@ -46,7 +46,7 @@ class _WordPageState extends State<WordPage> {
             builder: (context, state) {
               return Column(
                 children: [
-                  WordListScreen(identifiers: state.content),
+                  Expanded(child: WordListScreen(identifiers: state.content)),
 
                   Pagination(
                     numOfPages: state.totalPages,

@@ -10,21 +10,18 @@ class WordListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: identifiers.length,
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: identifiers.length,
 
-        itemBuilder: (context, index) {
-          final identifier = identifiers.elementAt(index);
+      itemBuilder: (context, index) {
+        final identifier = identifiers.elementAt(index);
 
-          return WordItemScreen(
-            key: ValueKey(identifier.sku),
-            identifier: identifier,
-          );
-        },
-      ),
+        return WordItemScreen(
+          key: ValueKey(identifier.sku),
+          identifier: identifier,
+        );
+      },
     );
   }
 }
