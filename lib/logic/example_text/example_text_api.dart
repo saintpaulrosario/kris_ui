@@ -11,7 +11,7 @@ part 'example_text_api.g.dart';
 abstract class ExampleTextApi {
   factory ExampleTextApi(Dio dio, {String baseUrl}) = _ExampleTextApi;
 
-  @GET("/text/payload/{identifier}")
+  @GET("/text/example/{identifier}")
   Future<HttpResponse<ApiResult<ExampleText>>> retrieveByIdentifier({
     @Path("identifier") required String identifier,
     @Query("type", encoded: true) required String type,

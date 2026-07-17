@@ -19,6 +19,8 @@ class ContentItemWidget extends StatefulWidget {
 class _ContentItemWidgetState extends State<ContentItemWidget> {
   @override
   void initState() {
+    super.initState();
+
     if (widget.identifier.type == 'EXAMPLE') {
       context.read<ExampleContentBloc>().add(
         ExampleContentEventFetchByIdentifier(identifier: widget.identifier),
@@ -28,11 +30,31 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         ContentEventRetriveByIdentifier(identifier: widget.identifier),
       );
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.identifier.type == 'EXAMPLE') {
+      return BlocSelector<
+        ExampleContentBloc,
+        ExampleContentState,
+        ({bool fetching, Content? content})
+      >(
+        selector: (state) {
+          return (
+            fetching: state.fetching.contains(widget.identifier.sku),
+            content: state.data[widget.identifier.sku],
+          );
+        },
+        builder: (context, state) {
+          return _buildContent(
+            content: state.content,
+            fetching: state.fetching,
+          );
+        },
+      );
+    }
+
     return BlocSelector<
       ContentBloc,
       ContentState,
@@ -44,27 +66,28 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
           content: state.data[widget.identifier.sku],
         );
       },
-
       builder: (context, state) {
-        if (state.fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final content = state.content;
-
-        if (content == null) {
-          return const Center(child: Text("Content not found"));
-        }
-
-        if (content.payloads.isEmpty) {
-          return const Text("No payload found");
-        }
-
-        return Padding(
-          padding: const EdgeInsets.all(8),
-          child: PayloadListWidget(identifiers: content.payloads),
-        );
+        return _buildContent(content: state.content, fetching: state.fetching);
       },
+    );
+  }
+
+  Widget _buildContent({required bool fetching, required Content? content}) {
+    if (fetching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (content == null) {
+      return const Center(child: Text("Content not found"));
+    }
+
+    if (content.payloads.isEmpty) {
+      return const Center(child: Text("No payload found"));
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: PayloadListWidget(identifiers: content.payloads),
     );
   }
 }

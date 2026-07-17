@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/presentation/widget/word_text_list_wiget.dart';
+import 'package:kris/logic/example_payload/bloc/example_payload_bloc.dart';
 
 import '../../logic/payload/bloc/payload_bloc.dart';
 import '../../model/payload.dart';
@@ -22,56 +22,74 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   void initState() {
     super.initState();
 
-    context.read<PayloadBloc>().add(
-      PayloadEventRetrieveBySku(widget.identifier),
+    if ('EXAMPLE' == widget.identifier.type) {
+      context.read<ExamplePayloadBloc>().add(
+        ExamplePayloadEventRetriveByIdentifier(identifier: widget.identifier),
+      );
+    } else {
+      context.read<PayloadBloc>().add(
+        PayloadEventRetrieveBySku(widget.identifier),
+      );
+    }
+  }
+
+  Widget _buildPayload(Payload? payload, bool fetching) {
+    if (fetching) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (payload == null) {
+      return const Text("Payload was not fetched");
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(flex: 3, child: WordListScreen(identifiers: payload.examples)),
+
+        Expanded(
+          flex: 3,
+          child: Text(payload.value, textAlign: TextAlign.center),
+        ),
+
+        Expanded(flex: 1, child: SoundListWidget(identifiers: payload.sounds)),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.identifier.type == "EXAMPLE") {
+      return BlocSelector<
+        ExamplePayloadBloc,
+        ExamplePayloadState,
+        ({bool fetching, Payload? payload})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          payload: state.data[widget.identifier.sku],
+        ),
+
+        builder: (context, state) {
+          return _buildPayload(state.payload, state.fetching);
+        },
+      );
+    }
+
     return BlocSelector<
       PayloadBloc,
       PayloadState,
       ({bool fetching, Payload? payload})
     >(
-      selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          payload: state.data[widget.identifier.sku],
-        );
-      },
+      selector: (state) => (
+        fetching: state.fetching.contains(widget.identifier.sku),
+        payload: state.data[widget.identifier.sku],
+      ),
+
       builder: (context, state) {
-        if (state.fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        final payload = state.payload;
-
-        if (payload == null) {
-          return const Text("Payload was not fetched");
-        }
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              flex: 3,
-              child: WordListScreen(identifiers: payload.examples),
-            ),
-
-            Expanded(
-              flex: 3,
-              child: Text(payload.value, textAlign: TextAlign.center),
-            ),
-
-            Expanded(
-              flex: 1,
-              child: SoundListWidget(identifiers: payload.sounds),
-            ),
-          ],
-        );
+        return _buildPayload(state.payload, state.fetching);
       },
     );
   }
