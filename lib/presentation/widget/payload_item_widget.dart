@@ -47,17 +47,22 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
-          flex: 7,
-          child: WordListScreen(
-            identifiers: payload.examples,
-            key: Key(payload.sku),
+        if (widget.identifier.type != 'EXAMPLE')
+          Expanded(
+            flex: 7,
+            child: WordListScreen(
+              identifiers: payload.examples,
+              key: Key(payload.sku),
+            ),
           ),
-        ),
 
         Expanded(
           flex: 3,
-          child: Text(payload.value, textAlign: TextAlign.center),
+          child: Text(
+            payload.value,
+            textAlign: TextAlign.center,
+            key: Key(payload.sku),
+          ),
         ),
 
         Expanded(

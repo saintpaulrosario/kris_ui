@@ -11,23 +11,21 @@ class SoundListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (identifiers.isEmpty) {
-      return const Center(child: Icon(Icons.volume_off));
+      return const Icon(Icons.volume_off);
     }
 
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      itemCount: identifiers.length,
-      separatorBuilder: (context, index) {
-        return const Divider(height: 1);
-      },
-      itemBuilder: (context, index) {
-        final identifier = identifiers[index];
-
-        return SoundItemWidget(
-          key: ValueKey(identifier.sku),
-          identifier: identifier,
-        );
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final identifier in identifiers)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: SoundItemWidget(
+              key: ValueKey(identifier.sku),
+              identifier: identifier,
+            ),
+          ),
+      ],
     );
   }
 }

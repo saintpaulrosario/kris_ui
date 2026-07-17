@@ -44,6 +44,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
     }
 
     return Card(
+      key: Key(widget.identifier.sku),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

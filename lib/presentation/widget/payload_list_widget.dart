@@ -15,11 +15,21 @@ class PayloadListWidget extends StatelessWidget {
     }
 
     return Column(
-      children: [
-        for (final identifier in identifiers) ...[
-          PayloadItemWidget(identifier: identifier, key: Key(identifier.sku)),
-        ],
-      ],
+      children: identifiers.asMap().entries.map((entry) {
+        final index = entry.key;
+        final identifier = entry.value;
+
+        return Column(
+          children: [
+            PayloadItemWidget(
+              key: ValueKey(identifier.sku),
+              identifier: identifier,
+            ),
+
+            if (index != identifiers.length - 1) const Divider(height: 1),
+          ],
+        );
+      }).toList(),
     );
   }
 }

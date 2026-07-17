@@ -15,6 +15,7 @@ class WordListScreen extends StatelessWidget {
     }
 
     return Column(
+      key: Key(identifiers[0].type),
       children: [
         for (final identifier in identifiers)
           WordItemScreen(key: ValueKey(identifier.sku), identifier: identifier),
