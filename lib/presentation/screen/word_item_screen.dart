@@ -51,9 +51,12 @@ class _WordItemScreenState extends State<WordItemScreen> {
 
           // Only create definition for non-example types
           if (widget.identifier.type != 'EXAMPLE')
-            const Expanded(child: Column(children: [Text("definition")])),
+            const Expanded(
+              flex: 1,
+              child: Column(children: [Text("definition")]),
+            ),
 
-          Expanded(flex: 3, child: WordTextListWidget(identifiers: word.texts)),
+          Expanded(flex: 5, child: WordTextListWidget(identifiers: word.texts)),
         ],
       ),
     );

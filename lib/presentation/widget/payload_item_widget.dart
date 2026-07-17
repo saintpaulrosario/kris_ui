@@ -47,7 +47,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(flex: 3, child: WordListScreen(identifiers: payload.examples)),
+        Expanded(flex: 7, child: WordListScreen(identifiers: payload.examples)),
 
         Expanded(
           flex: 3,
