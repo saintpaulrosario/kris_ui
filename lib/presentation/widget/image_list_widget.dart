@@ -73,43 +73,56 @@ class _ImageListWidgetState extends State<ImageListWidget> {
   Widget _buildIndicators(BuildContext context) {
     final total = widget.imagesIdentifiers.length;
 
-    if (total <= _maxIndicators) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(total, (index) => _buildDot(context, index)),
-      );
-    }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Not enough room to display indicators.
+        if (constraints.maxWidth < 40) {
+          return const SizedBox.shrink();
+        }
 
-    int start = _currentIndex - (_maxIndicators ~/ 2);
+        final List<Widget> dots;
 
-    if (start < 0) {
-      start = 0;
-    }
+        if (total <= _maxIndicators) {
+          dots = List.generate(total, (index) => _buildDot(context, index));
+        } else {
+          int start = _currentIndex - (_maxIndicators ~/ 2);
 
-    if (start > total - _maxIndicators) {
-      start = total - _maxIndicators;
-    }
+          if (start < 0) {
+            start = 0;
+          }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        _maxIndicators,
-        (i) => _buildDot(context, start + i),
-      ),
+          if (start > total - _maxIndicators) {
+            start = total - _maxIndicators;
+          }
+
+          dots = List.generate(
+            _maxIndicators,
+            (i) => _buildDot(context, start + i),
+          );
+        }
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: Row(mainAxisSize: MainAxisSize.min, children: dots),
+        );
+      },
     );
   }
 
   Widget _buildDot(BuildContext context, int index) {
     final selected = index == _currentIndex;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      margin: const EdgeInsets.symmetric(horizontal: 3),
-      width: selected ? 12 : 8,
-      height: selected ? 12 : 8,
-      decoration: BoxDecoration(
-        color: selected ? Theme.of(context).colorScheme.primary : Colors.grey,
-        shape: BoxShape.circle,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        width: selected ? 10 : 6,
+        height: selected ? 10 : 6,
+        decoration: BoxDecoration(
+          color: selected ? Theme.of(context).colorScheme.primary : Colors.grey,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
