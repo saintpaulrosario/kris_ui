@@ -72,9 +72,17 @@ class _WordItemScreenState extends State<WordItemScreen> {
 
             Expanded(
               flex: 6,
-              child: WordTextListWidget(
-                identifiers: word.texts,
-                key: Key(word.sku),
+              child: InkWell(
+                onTap: () {
+                  context.pushReplacementNamed(
+                    routePayloadDetail,
+                    pathParameters: {'sku': widget.identifier.sku},
+                  );
+                },
+                child: WordTextListWidget(
+                  identifiers: word.texts,
+                  key: Key(word.sku),
+                ),
               ),
             ),
           ],
