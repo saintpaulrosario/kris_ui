@@ -57,12 +57,12 @@ class _WordItemScreenState extends State<WordItemScreen> {
           ),
 
           const Expanded(
-            flex: 5,
+            flex: 2,
             child: Column(children: [Text("definition")]),
           ),
 
           Expanded(
-            flex: 5,
+            flex: 6,
             child: WordTextListWidget(
               identifiers: word.texts,
               key: Key(word.sku),
