@@ -34,6 +34,11 @@ class _WordDetailPageState extends State<WordDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [WordItemScreen(identifier: widget.identifier)]);
+    return Column(
+      children: [
+        WordItemScreen(identifier: widget.identifier),
+        Text("Example"),
+      ],
+    );
   }
 }
