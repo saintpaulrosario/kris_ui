@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/identifier.dart';
 
+import '../../model/identifier.dart';
 import '../screen/word_item_screen.dart';
 
 class WordListScreen extends StatelessWidget {
@@ -15,11 +15,14 @@ class WordListScreen extends StatelessWidget {
     }
 
     return Column(
-      key: Key(identifiers[0].type),
-      children: [
-        for (final identifier in identifiers)
-          WordItemScreen(key: ValueKey(identifier.sku), identifier: identifier),
-      ],
+      children: List.generate(identifiers.length, (index) {
+        final identifier = identifiers[index];
+
+        return WordItemScreen(
+          key: ValueKey('${identifier.sku}-$index'),
+          identifier: identifier,
+        );
+      }),
     );
   }
 }

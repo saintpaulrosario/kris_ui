@@ -50,6 +50,7 @@ dependencies:
   built_collection: ^5.1.1
   pagination_flutter: ^0.0.8
   carousel_slider: ^5.1.2
+  uuid: ^4.6.0
 
  
 

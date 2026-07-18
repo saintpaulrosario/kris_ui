@@ -47,14 +47,13 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.identifier.type != 'EXAMPLE')
-          Expanded(
-            flex: 7,
-            child: WordListScreen(
-              identifiers: payload.examples,
-              key: Key(payload.sku),
-            ),
+        Expanded(
+          flex: 7,
+          child: WordListScreen(
+            identifiers: payload.examples,
+            key: Key(payload.sku + 'EXAMPLE'),
           ),
+        ),
 
         Expanded(
           flex: 3,
@@ -69,7 +68,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           flex: 1,
           child: SoundListWidget(
             identifiers: payload.sounds,
-            key: Key(payload.sku),
+            key: Key(payload.sku + 'SOUND'),
           ),
         ),
       ],
