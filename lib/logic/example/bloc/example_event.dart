@@ -7,3 +7,9 @@ class ExampleEventFetch extends ExampleEvent {
 
   ExampleEventFetch({required this.identifier});
 }
+
+class ExampleEventFetchByWord extends ExampleEvent {
+  final Identifier identifier;
+
+  ExampleEventFetchByWord({required this.identifier});
+}

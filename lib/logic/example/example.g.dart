@@ -68,6 +68,22 @@ Example _$ExampleFromJson(Map json) => $checkedCreate('Example', json, (
       'maya',
       (v) => (v as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
     ),
+    words: $checkedConvert(
+      'words',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
+    examples: $checkedConvert(
+      'examples',
+      (v) => (v as List<dynamic>)
+          .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
+          .toList(),
+    ),
   );
   return val;
 });
@@ -85,5 +101,7 @@ Map<String, dynamic> _$ExampleToJson(Example instance) => <String, dynamic>{
   'contents': instance.contents.map((e) => e.toJson()).toList(),
   'images': instance.images.map((e) => e.toJson()).toList(),
   'payloads': instance.payloads.map((e) => e.toJson()).toList(),
+  'examples': instance.examples.map((e) => e.toJson()).toList(),
   'maya': instance.maya,
+  'words': instance.words.map((e) => e.toJson()).toList(),
 };

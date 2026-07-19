@@ -25,6 +25,8 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> payloads;
 
+  final List<Identifier> examples;
+
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<String> maya;
 
@@ -42,6 +44,7 @@ class Word extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.maya,
+    required this.examples,
   });
 
   factory Word.initial() {
@@ -59,6 +62,7 @@ class Word extends Identifier {
       lastModifiedBy: '',
       maya: [],
       type: '',
+      examples: [],
     );
   }
 

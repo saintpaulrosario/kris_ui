@@ -13,6 +13,8 @@ part 'example.g.dart';
   checked: true,
 )
 class Example extends Word {
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> words;
   Example({
     required super.sku,
     required super.version,
@@ -27,6 +29,8 @@ class Example extends Word {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.maya,
+    required this.words,
+    required super.examples,
   });
 
   factory Example.initial() {
@@ -44,6 +48,8 @@ class Example extends Word {
       lastModifiedBy: '',
       maya: [],
       type: '',
+      words: [],
+      examples: [],
     );
   }
 

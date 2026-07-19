@@ -48,14 +48,6 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          flex: 7,
-          child: WordListScreen(
-            identifiers: payload.examples,
-            key: Key(payload.sku + 'EXAMPLE'),
-          ),
-        ),
-
-        Expanded(
           flex: 3,
           child: Text(
             payload.value,

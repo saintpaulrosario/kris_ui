@@ -9,10 +9,15 @@ part 'example_api.g.dart';
 abstract class ExampleApi {
   factory ExampleApi(Dio dio, {String baseUrl}) = _ExampleApi;
 
-  @GET("/word/example/{identifier}")
+  @GET("/example/{identifier}")
   Future<HttpResponse<ApiResult<Example>>> retrieveByIdentifier(
     @Path("identifier") String identifier, {
     @Query("sku") bool? sku,
     @Query("ordinal") bool? ordinal,
   });
+
+  @GET("/example/{identifier}/word")
+  Future<HttpResponse<ApiResult<Example>>> retrieveByWordIdentifier(
+    @Path("identifier") String identifier,
+  );
 }

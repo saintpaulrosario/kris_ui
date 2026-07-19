@@ -61,5 +61,49 @@ class ExampleBloc extends Bloc<ExampleEvent, ExampleState> {
         );
       }
     });
+
+    on<ExampleEventFetchByWord>((event, emit) async {
+      if (!state.data.containsKey(event.identifier.sku) &&
+          !state.fetching.contains(event.identifier.sku)) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+                .build(),
+          ),
+        );
+
+        final results = await _service.retrieveByWordIdentifier(
+          event.identifier,
+        );
+
+        results.fold(
+          (error) {
+            emit(
+              state.copyWith(
+                errors:
+                    (state.errors.toBuilder()..[event.identifier.sku] = error)
+                        .build(),
+
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
+              ),
+            );
+          },
+
+          (word) {
+            emit(
+              state.copyWith(
+                data: (state.data.toBuilder()..[word.sku] = word).build(),
+
+                fetching:
+                    (state.fetching.toBuilder()..remove(event.identifier.sku))
+                        .build(),
+              ),
+            );
+          },
+        );
+      }
+    });
   }
 }
