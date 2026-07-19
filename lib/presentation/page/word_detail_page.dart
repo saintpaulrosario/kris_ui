@@ -18,6 +18,7 @@ class WordDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        WordItemScreen(identifier: identifier),
         BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
           selector: (state) {
             return (
