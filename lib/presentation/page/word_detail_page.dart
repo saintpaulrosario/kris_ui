@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
-
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
-
-import '../widget/example_item_widget.dart';
 
 class WordDetailPage extends StatelessWidget {
   final Identifier identifier;
@@ -16,39 +13,55 @@ class WordDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        WordItemScreen(identifier: identifier),
-        BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
-          selector: (state) {
-            return (
-              fetching: state.fetching.contains(identifier.sku),
-              word: state.data[identifier.sku],
-            );
-          },
-          builder: (context, state) {
-            if (state.fetching) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    return BlocBuilder<WordBloc, WordState>(
+      builder: (context, state) {
+        final fetching = state.fetching.contains(identifier.sku);
+        final word = state.data[identifier.sku];
 
-            if (state.word == null) {
-              return const Center(child: Text("Word not found"));
-            }
-            return ListView.separated(
-              shrinkWrap: true,
-              itemCount: state.word!.examples.length,
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider();
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return WordItemScreen(
-                  identifier: state.word!.examples.elementAt(index),
-                );
-              },
-            );
-          },
-        ),
-      ],
+        if (fetching) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (word == null) {
+          return const Center(child: Text("Word not found"));
+        }
+
+        return ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            WordItemScreen(identifier: identifier),
+
+            const SizedBox(height: 16),
+
+            Card.filled(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Examples",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    if (word.examples.isEmpty)
+                      const Text("No examples")
+                    else
+                      ...word.examples.map(
+                        (example) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: WordItemScreen(identifier: example),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
