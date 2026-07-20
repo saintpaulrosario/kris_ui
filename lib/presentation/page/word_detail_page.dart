@@ -5,58 +5,59 @@ import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
+import 'package:kris/presentation/widget/example_item_widget.dart';
 
-class WordDetailPage extends StatelessWidget {
+class WordDetailPage extends StatefulWidget {
   final Identifier identifier;
 
   const WordDetailPage({super.key, required this.identifier});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<WordBloc, WordState>(
-      builder: (context, state) {
-        final fetching = state.fetching.contains(identifier.sku);
-        final word = state.data[identifier.sku];
+  State<WordDetailPage> createState() => _WordDetailPageState();
+}
 
-        if (fetching) {
+class _WordDetailPageState extends State<WordDetailPage> {
+  @override
+  void initState() {
+    context.read<WordBloc>().add(
+      RetrieveWordBySkuEvent(identifier: widget.identifier),
+    );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
+      selector: (state) {
+        return (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          word: state.data[widget.identifier.sku],
+        );
+      },
+      builder: (context, state) {
+        if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (word == null) {
+        if (state.word == null) {
           return const Center(child: Text("Word not found"));
         }
-
-        return ListView(
-          padding: const EdgeInsets.all(16),
+        final examples = state.word!.examples;
+        return Column(
           children: [
-            WordItemScreen(identifier: identifier),
+            WordItemScreen(identifier: widget.identifier),
 
-            const SizedBox(height: 16),
+            Expanded(
+              child: ListView.builder(
+                itemCount: examples.length,
+                itemBuilder: (context, index) {
+                  final identifier = examples[index];
 
-            Card.filled(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Examples",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    if (word.examples.isEmpty)
-                      const Text("No examples")
-                    else
-                      ...word.examples.map(
-                        (example) => Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: WordItemScreen(identifier: example),
-                        ),
-                      ),
-                  ],
-                ),
+                  return WordItemScreen(
+                    key: ValueKey('${identifier.sku}-$index'),
+                    identifier: identifier,
+                  );
+                },
               ),
             ),
           ],
