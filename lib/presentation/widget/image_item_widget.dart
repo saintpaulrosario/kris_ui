@@ -89,7 +89,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
             aspectRatio: 1,
             child: Image.memory(
               Uint8List.fromList(base64Decode(image.payload)),
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(Icons.broken_image);
               },

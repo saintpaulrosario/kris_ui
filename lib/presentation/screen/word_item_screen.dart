@@ -56,15 +56,20 @@ class _WordItemScreenState extends State<WordItemScreen> {
         key: Key(widget.identifier.sku),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               flex: 2,
-              child: ImageListWidget(
-                key: Key(word.sku),
-                imagesIdentifiers: word.images,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ImageListWidget(
+                    key: Key(word.sku),
+                    imagesIdentifiers: word.images,
+                  ),
+                ],
               ),
             ),
-
             const Expanded(
               flex: 2,
               child: Column(children: [Text("definition")]),
