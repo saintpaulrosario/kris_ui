@@ -31,10 +31,9 @@ RUN dart run build_runner build --delete-conflicting-outputs
 ARG ACTIVE_PROFILE=develop
 ARG ENVIRONMENT=web
 
-RUN flutter build web \
-    --release \
-    --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE} \
-    --dart-define=ENVIRONMENT=${ENVIRONMENT}
+
+ARG ACTIVE_PROFILE=develop
+RUN flutter build web --dart-define=ACTIVE_PROFILE=$ACTIVE_PROFILE -ENVIRONMENT=$ENVIRONMENT
 
 
 
