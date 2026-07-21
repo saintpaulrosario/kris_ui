@@ -6,6 +6,7 @@ import 'package:kris/logic/example_content/example_content_api.dart';
 import 'package:kris/logic/example_payload/example_payload_service.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
+import 'package:kris/main.dart';
 
 import 'logic/content/bloc/content_bloc.dart';
 import 'logic/content/content_api.dart';
@@ -29,12 +30,10 @@ import 'logic/sound/sound_service.dart';
 
 final getIt = GetIt.instance;
 void setupLocator() {
-  // final tenin_baseUrl = appProperties['TENIN_BASE_URL'];
-  // final wulu_baseUrl = appProperties['WULU_BASE_URL'];
-  // final senba_baseUrl = appProperties['SENBA_BASE_URL'];
-  // if (tenin_baseUrl == null || tenin_baseUrl.isEmpty) {
-  //   throw Exception('TENIN_BASE_URL is not set in appProperties');
-  // }
+  final baseUrlKris = appProperties['KRIS_BASE_URL'];
+  if (baseUrlKris == null || baseUrlKris.isEmpty) {
+    throw Exception('TENIN_BASE_URL is not set in appProperties');
+  }
 
   // Core dependencies
   // getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
@@ -45,7 +44,7 @@ void setupLocator() {
   //   () => DioClient(getIt<AuthInterceptor>()),
   // );
 
-  final baseUrlKris = 'http://192.168.12.59:8080';
+  //final baseUrlKris = 'http://192.168.12.59:8080';
   // APIs
 
   getIt.registerLazySingleton<Dio>(() => Dio());
