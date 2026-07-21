@@ -50,17 +50,17 @@ void loadProfiles() async {
       'ENVIRONMENT',
       defaultValue: 'web',
     );
-    await _loadProperties(activeProfile, environment);
+    await _loadProperties(activeProfile: activeProfile,environment: environment);
   }
 }
 
 Future<Map<String, dynamic>> _loadProperties(
-  String activeProfile,
-  String environment,
+  {required String activeProfile,
+  required String environment},
 ) async {
   final log = getIt<Logger>();
   log.i("the active profile is : $activeProfile");
-  String configFile = 'profiles/$activeProfile/application_$environment.yaml';
+  String configFile = 'profiles/$environment/application_$activeProfile.yaml';
   String yamlString = await rootBundle.loadString(configFile);
   var yaml = loadYaml(yamlString);
   var res = Map<String, dynamic>.from(yaml);
