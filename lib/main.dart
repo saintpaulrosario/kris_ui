@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kris/service_locator.dart';
 import 'package:yaml/yaml.dart';
-import 'package:logger/logger.dart';
 
 import 'app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String baseUrl = String.fromEnvironment('KRIS_BASE_URL', defaultValue: '');
+  const String baseUrl = String.fromEnvironment(
+    'KRIS_BASE_URL',
+    defaultValue: '',
+  );
   if (baseUrl.isNotEmpty) {
     appProperties["KRIS_BASE_URL"] = baseUrl;
   } else {
@@ -17,7 +19,7 @@ void main() async {
       defaultValue: 'local',
     );
     const String environment = String.fromEnvironment(
-      'ACTIVE_PROFILE',
+      'ENVIRONMENT',
       defaultValue: 'web',
     );
     await AppProfileConfig.load(activeProfile, environment);
