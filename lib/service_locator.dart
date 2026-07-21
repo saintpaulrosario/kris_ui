@@ -81,7 +81,7 @@ Future<void> loadProfiles() async {
 
   const environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: 'local',
+    defaultValue: 'develop',
   );
 
   appConfig = await _loadProperties(
