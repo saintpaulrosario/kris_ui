@@ -7,6 +7,8 @@ import 'app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupLogger();
+  await loadProfiles();
   setupLocator();
   runApp(const MyApp());
 }
