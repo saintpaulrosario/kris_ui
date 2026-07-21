@@ -29,7 +29,7 @@ COPY . .
 RUN dart run build_runner build --delete-conflicting-outputs
 
 ARG ACTIVE_PROFILE=local
-ARG KRIS_BASE_URL=https://dev-kris.onrender.com
+ARG KRIS_BASE_URL="https://dev-kris.onrender.com"
 ARG API_TIMEOUT=30000
 ARG APP_NAME=Kris
 ARG ENABLE_ANALYTICS=false
