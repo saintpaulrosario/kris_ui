@@ -1,6 +1,5 @@
 FROM ubuntu:24.04 AS build
 
-# Install dependencies
 RUN apt update && apt install -y \
     git \
     curl \
@@ -10,7 +9,6 @@ RUN apt update && apt install -y \
     libglu1-mesa \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Flutter
 RUN git clone https://github.com/flutter/flutter.git \
     -b 3.44.2 \
     --depth 1 \
@@ -18,35 +16,32 @@ RUN git clone https://github.com/flutter/flutter.git \
 
 ENV PATH="/flutter/bin:/flutter/bin/cache/dart-sdk/bin:$PATH"
 
-# Enable web support
-RUN flutter config --enable-web
-RUN flutter precache --web
-
 RUN flutter --version
 
 WORKDIR /app
 
-# Copy application
-COPY . .
+COPY pubspec.* ./
 
-# Install packages
 RUN flutter pub get
 
-# Generate code (json_serializable, retrofit, etc.)
+COPY . .
+
 RUN dart run build_runner build --delete-conflicting-outputs
 
-# Build arguments
 ARG ACTIVE_PROFILE=local
 ARG KRIS_BASE_URL=https://dev-kris.onrender.com
+ARG API_TIMEOUT=30000
+ARG APP_NAME=Kris
+ARG ENABLE_ANALYTICS=false
 
-# Build Flutter web
 RUN flutter build web \
     --release \
     --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE} \
-    --dart-define=KRIS_BASE_URL=${KRIS_BASE_URL}
+    --dart-define=KRIS_BASE_URL=${KRIS_BASE_URL} \
+    --dart-define=API_TIMEOUT=${API_TIMEOUT} \
+    --dart-define=APP_NAME=${APP_NAME} \
+    --dart-define=ENABLE_ANALYTICS=${ENABLE_ANALYTICS}
 
-
-# Production nginx image
 FROM nginx:alpine
 
 COPY --from=build /app/build/web /usr/share/nginx/html
