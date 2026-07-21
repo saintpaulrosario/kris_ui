@@ -1,5 +1,5 @@
 # Stage 1: Build the Flutter web app
-FROM ghcr.io/cirruslabs/flutter:3.44.0 AS build
+FROM ghcr.io/cirruslabs/flutter:3.44.7 AS build
 
 WORKDIR /app
 
@@ -9,9 +9,9 @@ RUN flutter --version
 
 RUN flutter pub get
 
-RUN flutter pub run build_runner build --delete-conflicting-outputs
+RUN dart run build_runner build --delete-conflicting-outputs
 
-RUN flutter build web
+RUN flutter build web --release
 
 # Stage 2: Serve with nginx
 FROM nginx:alpine
