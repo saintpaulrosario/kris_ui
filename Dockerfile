@@ -18,6 +18,8 @@ RUN flutter pub get
 RUN dart run build_runner build --delete-conflicting-outputs
 RUN flutter build web --release
 
+ARG ACTIVE_PROFILE=local
+RUN flutter build web --dart-define=ACTIVE_PROFILE=$ACTIVE_PROFILE
 
 FROM nginx:alpine
 
