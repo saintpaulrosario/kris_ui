@@ -20,7 +20,8 @@ RUN flutter --version
 
 WORKDIR /app
 
-COPY pubspec.* ./
+# Copy the Flutter project files into the container
+COPY . /app
 
 RUN flutter pub get
 

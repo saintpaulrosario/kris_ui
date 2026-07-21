@@ -67,12 +67,12 @@ void setupLogger() {
 ///------------------------------------------------------------
 
 Future<void> loadProfiles() async {
-  // const baseUrl = String.fromEnvironment('KRIS_BASE_URL', defaultValue: '');
+  const baseUrl = String.fromEnvironment('KRIS_BASE_URL', defaultValue: '');
 
-  // if (baseUrl.isNotEmpty) {
-  //   appConfig = AppConfig(baseUrl: baseUrl);
-  //   return;
-  // }
+  if (baseUrl.isNotEmpty) {
+    appConfig = AppConfig(baseUrl: baseUrl);
+    return;
+  }
 
   const activeProfile = String.fromEnvironment(
     'ACTIVE_PROFILE',
