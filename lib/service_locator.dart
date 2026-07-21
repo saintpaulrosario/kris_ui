@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:kris/logic/example/example_api.dart';
@@ -7,6 +8,8 @@ import 'package:kris/logic/example_payload/example_payload_service.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/main.dart';
+import 'package:logger/logger.dart';
+import 'package:yaml/yaml.dart';
 
 import 'logic/content/bloc/content_bloc.dart';
 import 'logic/content/content_api.dart';
@@ -29,6 +32,47 @@ import 'logic/sound/sound_api.dart';
 import 'logic/sound/sound_service.dart';
 
 final getIt = GetIt.instance;
+
+Map<String, dynamic> appProperties = {};
+void loadProfiles() async {
+  const String baseUrl = String.fromEnvironment(
+    'KRIS_BASE_URL',
+    defaultValue: '',
+  );
+  if (baseUrl.isNotEmpty) {
+    appProperties["KRIS_BASE_URL"] = baseUrl;
+  } else {
+    const String activeProfile = String.fromEnvironment(
+      'ACTIVE_PROFILE',
+      defaultValue: 'local',
+    );
+    const String environment = String.fromEnvironment(
+      'ENVIRONMENT',
+      defaultValue: 'web',
+    );
+    await _loadProperties(activeProfile, environment);
+  }
+}
+
+Future<Map<String, dynamic>> _loadProperties(
+  String activeProfile,
+  String environment,
+) async {
+  final log = getIt<Logger>();
+  log.i("the active profile is : $activeProfile");
+  String configFile = 'profiles/$activeProfile/application_$environment.yaml';
+  String yamlString = await rootBundle.loadString(configFile);
+  var yaml = loadYaml(yamlString);
+  var res = Map<String, dynamic>.from(yaml);
+  log.i("profile properties are $res");
+  appProperties = res;
+  return res;
+}
+
+void setupLogger() {
+  getIt.registerLazySingleton<Logger>(() => Logger(printer: PrettyPrinter()));
+}
+
 void setupLocator() {
   final baseUrlKris = appProperties['KRIS_BASE_URL'];
   if (baseUrlKris == null || baseUrlKris.isEmpty) {

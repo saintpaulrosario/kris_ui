@@ -29,18 +29,11 @@ COPY . .
 RUN dart run build_runner build --delete-conflicting-outputs
 
 ARG ACTIVE_PROFILE=local
-ARG KRIS_BASE_URL="https://dev-kris.onrender.com"
-ARG API_TIMEOUT=30000
-ARG APP_NAME=Kris
-ARG ENABLE_ANALYTICS=false
 
 RUN flutter build web \
     --release \
-    --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE} \
-    --dart-define=KRIS_BASE_URL=${KRIS_BASE_URL} \
-    --dart-define=API_TIMEOUT=${API_TIMEOUT} \
-    --dart-define=APP_NAME=${APP_NAME} \
-    --dart-define=ENABLE_ANALYTICS=${ENABLE_ANALYTICS}
+    --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE}
+
 
 FROM nginx:alpine
 
