@@ -30,11 +30,9 @@ RUN dart run build_runner build --delete-conflicting-outputs
 
 ARG ACTIVE_PROFILE=develop
 ARG ENVIRONMENT=web
+ARG KRIS_BASE_URL=https://dev-kris.onrender.com
 
-
-ARG ACTIVE_PROFILE=develop
-RUN flutter build web --dart-define=ACTIVE_PROFILE=$ACTIVE_PROFILE -ENVIRONMENT=$ENVIRONMENT
-
+RUN flutter build web --dart-define=ACTIVE_PROFILE=$ACTIVE_PROFILE -ENVIRONMENT=$ENVIRONMENT -KRIS_BASE_URL=$KRIS_BASE_URL
 
 
 FROM nginx:alpine
