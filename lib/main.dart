@@ -1,9 +1,8 @@
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kris/service_locator.dart';
 import 'package:yaml/yaml.dart';
+import 'package:logger/logger.dart';
 
 import 'app_router.dart';
 
@@ -48,12 +47,13 @@ class AppProfileConfig {
     String activeProfile,
     String environment,
   ) async {
-    log("the active profile is : $activeProfile");
+    //logger.d('Log message with 2 methods');
+    //log("the active profile is : $activeProfile");
     String configFile = 'profiles/$activeProfile/application_$environment.yaml';
     String yamlString = await rootBundle.loadString(configFile);
     var yaml = loadYaml(yamlString);
     var res = Map<String, dynamic>.from(yaml);
-    log("profile properties are $res");
+    //log("profile properties are $res");
     appProperties = res;
     return res;
   }
