@@ -34,6 +34,7 @@ ARG KRIS_BASE_URL=https://dev-kris.onrender.com
 RUN flutter build web \
     --release \
     --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE}
+     --dart-define=KRIS_BASE_URL=${KRIS_BASE_URL}
 
 
 FROM nginx:alpine
