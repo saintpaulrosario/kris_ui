@@ -32,8 +32,10 @@ ARG ACTIVE_PROFILE=develop
 ARG ENVIRONMENT=web
 ARG KRIS_BASE_URL=https://dev-kris.onrender.com
 
-RUN flutter build web --dart-define=ACTIVE_PROFILE=$ACTIVE_PROFILE -ENVIRONMENT=$ENVIRONMENT -KRIS_BASE_URL=$KRIS_BASE_URL
-
+RUN flutter build web \
+    --dart-define=ACTIVE_PROFILE=${ACTIVE_PROFILE} \
+    --dart-define=ENVIRONMENT=${ENVIRONMENT} \
+    --dart-define=KRIS_BASE_URL=${KRIS_BASE_URL}
 
 FROM nginx:alpine
 
