@@ -71,12 +71,12 @@ class _WordItemScreenState extends State<WordItemScreen> {
               ),
             ),
             const Expanded(
-              flex: 2,
+              flex: 8,
               child: Column(children: [Text("definition")]),
             ),
 
             Expanded(
-              flex: 6,
+              flex: 4,
               child: InkWell(
                 onTap: () {
                   context.pushReplacementNamed(
@@ -90,6 +90,8 @@ class _WordItemScreenState extends State<WordItemScreen> {
                 ),
               ),
             ),
+
+            Expanded(flex: 1, child: Text(word.ordinal.toString())),
           ],
         ),
       ),

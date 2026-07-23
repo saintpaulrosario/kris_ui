@@ -44,13 +44,7 @@ final GetIt getIt = GetIt.instance;
 /// Application Configuration
 ///------------------------------------------------------------
 
-class AppConfig {
-  final String baseUrl;
-
-  const AppConfig({required this.baseUrl});
-}
-
-late final AppConfig appConfig;
+Map<String, String> properties = {};
 
 ///------------------------------------------------------------
 /// Logger
@@ -67,12 +61,7 @@ void setupLogger() {
 ///------------------------------------------------------------
 
 Future<void> loadProfiles() async {
-  const baseUrl = String.fromEnvironment('KRIS_BASE_URL', defaultValue: '');
-
-  if (baseUrl.isNotEmpty) {
-    appConfig = AppConfig(baseUrl: baseUrl);
-    return;
-  }
+  //const baseUrl = String.fromEnvironment('KRIS_BASE_URL', defaultValue: '');
 
   const activeProfile = String.fromEnvironment(
     'ACTIVE_PROFILE',
@@ -81,23 +70,20 @@ Future<void> loadProfiles() async {
 
   const environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: 'develop',
+    defaultValue: 'local',
   );
 
-  appConfig = await _loadProperties(
-    activeProfile: activeProfile,
-    environment: environment,
-  );
+  await loadProperties(activeProfile: activeProfile, environment: environment);
 }
 
-Future<AppConfig> _loadProperties({
+Future<Map<String, String>> loadProperties({
   required String activeProfile,
   required String environment,
 }) async {
   final logger = getIt<Logger>();
 
-  logger.i("Active profile: $activeProfile");
-  logger.i("Environment: $environment");
+  logger.i('Active profile: $activeProfile');
+  logger.i('Environment: $environment');
 
   final configFile = 'profiles/$environment/application_$activeProfile.yaml';
 
@@ -105,17 +91,17 @@ Future<AppConfig> _loadProperties({
 
   final yaml = loadYaml(yamlString);
 
-  final properties = Map<String, dynamic>.from(yaml);
+  final props = Map<String, String>.from(yaml);
 
-  logger.i("Loaded properties: $properties");
+  logger.i('Loaded properties: $props');
 
-  final baseUrl = properties['KRIS_BASE_URL'];
+  final baseUrl = props['KRIS_BASE_URL'];
 
   if (baseUrl == null || baseUrl.toString().isEmpty) {
-    throw Exception('KRIS_BASE_URL is missing from $configFile');
+    throw Exception('KRIS_BASE_URL missing from $configFile');
   }
-
-  return AppConfig(baseUrl: baseUrl.toString());
+  properties = props;
+  return properties;
 }
 
 ///------------------------------------------------------------
@@ -123,15 +109,7 @@ Future<AppConfig> _loadProperties({
 ///------------------------------------------------------------
 
 void setupLocator() {
-  if (!getIt.isRegistered<AppConfig>()) {
-    getIt.registerSingleton<AppConfig>(appConfig);
-  }
-
-  _registerCore();
-
-  final dio = getIt<Dio>();
-
-  _registerApis(dio: dio, baseUrl: appConfig.baseUrl);
+  _registerApis();
 
   _registerServices();
 
@@ -142,27 +120,16 @@ void setupLocator() {
 /// Core
 ///------------------------------------------------------------
 
-void _registerCore() {
-  if (!getIt.isRegistered<Dio>()) {
-    getIt.registerLazySingleton<Dio>(
-      () => Dio(
-        BaseOptions(
-          baseUrl: appConfig.baseUrl,
-          connectTimeout: const Duration(seconds: 10),
-          receiveTimeout: const Duration(seconds: 30),
-          sendTimeout: const Duration(seconds: 30),
-          headers: {'Accept': 'application/json'},
-        ),
-      ),
-    );
-  }
-}
-
 ///------------------------------------------------------------
 /// APIs
 ///------------------------------------------------------------
 
-void _registerApis({required Dio dio, required String baseUrl}) {
+void _registerApis() {
+  getIt.registerLazySingleton<Dio>(() => Dio());
+  final dio = getIt<Dio>();
+  //String baseUrl = "http://192.168.12.59:8080";
+  final baseUrl = properties['KRIS_BASE_URL']!;
+
   getIt.registerLazySingleton<WordApi>(() => WordApi(dio, baseUrl: baseUrl));
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));

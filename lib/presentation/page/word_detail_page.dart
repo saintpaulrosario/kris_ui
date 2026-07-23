@@ -5,7 +5,7 @@ import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
-import 'package:kris/presentation/widget/example_item_widget.dart';
+import 'package:kris/presentation/widget/section_widget.dart';
 
 class WordDetailPage extends StatefulWidget {
   final Identifier identifier;
@@ -19,47 +19,61 @@ class WordDetailPage extends StatefulWidget {
 class _WordDetailPageState extends State<WordDetailPage> {
   @override
   void initState() {
+    super.initState();
+
     context.read<WordBloc>().add(
       RetrieveWordBySkuEvent(identifier: widget.identifier),
     );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
-      selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          word: state.data[widget.identifier.sku],
-        );
-      },
+      selector: (state) => (
+        fetching: state.fetching.contains(widget.identifier.sku),
+        word: state.data[widget.identifier.sku],
+      ),
       builder: (context, state) {
         if (state.fetching) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.word == null) {
+        final word = state.word;
+
+        if (word == null) {
           return const Center(child: Text("Word not found"));
         }
-        final examples = state.word!.examples;
-        return Column(
+
+        final examples = word.examples;
+
+        return ListView(
+          padding: const EdgeInsets.all(16),
           children: [
             WordItemScreen(identifier: widget.identifier),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: examples.length,
-                itemBuilder: (context, index) {
-                  final identifier = examples[index];
+            if (examples.isNotEmpty) ...[
+              const SizedBox(height: 16),
 
-                  return WordItemScreen(
-                    key: ValueKey('${identifier.sku}-$index'),
-                    identifier: identifier,
-                  );
-                },
+              SectionWidget(
+                title: "EXAMPLES",
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: examples.length,
+                  itemBuilder: (context, index) {
+                    final identifier = examples[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: WordItemScreen(
+                        key: ValueKey(identifier.sku),
+                        identifier: identifier,
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
+            ],
           ],
         );
       },

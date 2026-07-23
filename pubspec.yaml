@@ -82,7 +82,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - profiles/local/application_local.yaml
+    - profiles/local/application_web.yaml
     - profiles/develop/application_web.yaml
 
   # To add assets to your application, add an assets section, like this:
