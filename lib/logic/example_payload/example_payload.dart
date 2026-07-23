@@ -26,6 +26,14 @@ class ExamplePayload extends Payload {
     required super.dialect,
     required super.root,
     required super.examples,
+    required super.ordinal,
+    required super.sku,
+    required super.version,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
+    required super.type,
   });
 
   factory ExamplePayload.initial() {
@@ -41,6 +49,14 @@ class ExamplePayload extends Payload {
       dialect: Identifier.initial(),
       root: Identifier.initial(),
       examples: [],
+      ordinal: 0,
+      sku: '',
+      version: 0,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
+      createdBy: '',
+      lastModifiedBy: '',
+      type: '',
     );
   }
 

@@ -48,7 +48,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          flex: 3,
+          flex: 6,
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
@@ -57,12 +57,14 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
         ),
 
         Expanded(
-          flex: 1,
+          flex: 2,
           child: SoundListWidget(
             identifiers: payload.sounds,
-            key: Key(payload.sku + 'SOUND'),
+            key: Key(payload.sku),
           ),
         ),
+
+        Expanded(flex: 1, child: Text(payload.ordinal.toString())),
       ],
     );
   }

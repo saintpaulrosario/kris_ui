@@ -64,16 +64,15 @@ class Payload extends Identifier {
     required this.dialect,
     required this.root,
     required this.examples,
-  }) : super(
-         sku: '',
-         version: 0,
-         ordinal: 0,
-         createdDate: DateTime.now(),
-         lastModifiedDate: DateTime.now(),
-         createdBy: '',
-         lastModifiedBy: '',
-         type: '',
-       );
+    required super.ordinal,
+    required super.sku,
+    required super.version,
+    required super.createdDate,
+    required super.lastModifiedDate,
+    required super.createdBy,
+    required super.lastModifiedBy,
+    required super.type,
+  });
 
   factory Payload.initial() {
     return Payload(
@@ -88,6 +87,14 @@ class Payload extends Identifier {
       dialect: Identifier.initial(),
       root: Identifier.initial(),
       examples: [],
+      ordinal: -1,
+      sku: '',
+      version: 0,
+      createdDate: DateTime.now(),
+      lastModifiedDate: DateTime.now(),
+      createdBy: '',
+      lastModifiedBy: '',
+      type: '',
     );
   }
 
