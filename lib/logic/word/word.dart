@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-import 'identifier.dart';
+import '../../model/identifier.dart';
 
 part 'word.g.dart';
 

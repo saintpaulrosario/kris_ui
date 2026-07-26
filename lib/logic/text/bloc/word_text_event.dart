@@ -2,6 +2,13 @@ part of 'word_text_bloc.dart';
 
 class WordTextEvent {}
 
+class WordTextEventFetchAll extends WordTextEvent {
+  final int pageSize;
+  final int pageNumber;
+
+  WordTextEventFetchAll({required this.pageSize, required this.pageNumber});
+}
+
 class WordTextEventRetrieveByIdentifier extends WordTextEvent {
   final Identifier identifier;
 

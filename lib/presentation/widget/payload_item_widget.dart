@@ -64,7 +64,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           ),
         ),
 
-        Expanded(flex: 1, child: Text(payload.ordinal.toString())),
+        Expanded(flex: 1, child: Text("${payload.rank}")),
       ],
     );
   }

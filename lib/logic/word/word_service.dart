@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../model/error_response.dart';
-import '../../model/word.dart';
+import 'word.dart';
 import '../../response/api_result.dart';
 import '../../response/page_result.dart';
 import '../../service_locator.dart';

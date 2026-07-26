@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/content.dart';
+import '../../response/page_result.dart';
+import 'content.dart';
 import '../../model/error_response.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
@@ -47,6 +48,31 @@ class ContentService {
       ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
         final Content payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
+
+  Future<Either<ErrorResponse, PageResult<Content>>> retrive({
+    required int page,
+    required int size,
+  }) async {
+    try {
+      final HttpResponse<ApiResult<PageResult<Content>>> httpResponse =
+          await _contentApi.retrieveAll(page: page, size: size);
+
+      ApiResult<PageResult<Content>> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final PageResult<Content> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

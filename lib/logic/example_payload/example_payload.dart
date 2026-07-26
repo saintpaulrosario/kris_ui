@@ -34,6 +34,7 @@ class ExamplePayload extends Payload {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.type,
+    required super.rank,
   });
 
   factory ExamplePayload.initial() {
@@ -57,6 +58,7 @@ class ExamplePayload extends Payload {
       createdBy: '',
       lastModifiedBy: '',
       type: '',
+      rank: 0,
     );
   }
 

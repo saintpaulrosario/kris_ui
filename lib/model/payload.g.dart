@@ -80,6 +80,7 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
     type: $checkedConvert('type', (v) => v as String? ?? ''),
+    rank: $checkedConvert('rank', (v) => (v as num?)?.toInt() ?? -1),
   );
   return val;
 });
@@ -94,6 +95,7 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'type': instance.type,
   'row': instance.row,
+  'rank': instance.rank,
   'value': instance.value,
   'script': instance.script.toJson(),
   'language': instance.language?.toJson(),

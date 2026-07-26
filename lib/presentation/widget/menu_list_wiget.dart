@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/content/bloc/content_bloc.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 
-import 'package:kris/model/content.dart';
+import 'package:kris/logic/content/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/logic/word/word.dart';
 
 import '../../logic/payload/bloc/payload_bloc.dart';
 

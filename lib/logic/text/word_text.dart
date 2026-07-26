@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'identifier.dart';
+import '../../model/identifier.dart';
 
 part 'word_text.g.dart';
 
@@ -30,6 +30,9 @@ class WordText extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
 
+  @JsonKey(disallowNullValue: false, defaultValue: '')
+  final String text;
+
   const WordText({
     required super.sku,
     required super.version,
@@ -45,6 +48,7 @@ class WordText extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.type,
+    required this.text,
   });
 
   factory WordText.initial() {
@@ -63,6 +67,7 @@ class WordText extends Identifier {
       createdBy: '',
       lastModifiedBy: '',
       type: '',
+      text: '',
     );
   }
 

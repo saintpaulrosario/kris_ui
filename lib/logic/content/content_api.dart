@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:kris/model/content.dart';
+import 'package:kris/logic/content/content.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../response/api_result.dart';
+import '../../response/page_result.dart';
 
 part 'content_api.g.dart';
 
@@ -9,8 +10,8 @@ part 'content_api.g.dart';
 abstract class ContentApi {
   factory ContentApi(Dio dio, {String baseUrl}) = _ContentApi;
 
-  @GET("/content")
-  Future<HttpResponse<ApiResult<List<Content>>>> retrieveAll();
+  // @GET("/content")
+  // Future<HttpResponse<ApiResult<List<Content>>>> retrieveAll();
 
   @GET("/content/text/{identifier}")
   Future<HttpResponse<ApiResult<List<Content>>>> retrieveTextBySku(
@@ -23,4 +24,10 @@ abstract class ContentApi {
   Future<HttpResponse<ApiResult<Content>>> retrieveByIdentifier(
     @Path("identifier") String identifier,
   );
+
+  @GET("/content")
+  Future<HttpResponse<ApiResult<PageResult<Content>>>> retrieveAll({
+    @Query("page") required int page,
+    @Query("size") required int size,
+  });
 }

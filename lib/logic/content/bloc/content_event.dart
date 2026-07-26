@@ -2,6 +2,13 @@ part of 'content_bloc.dart';
 
 class ContentEvent {}
 
+class ContentEventFetchAll extends ContentEvent {
+  final int pageSize;
+  final int pageNumber;
+
+  ContentEventFetchAll({required this.pageSize, required this.pageNumber});
+}
+
 class ContentEventRetriveByTextSku extends ContentEvent {
   final String textSku;
 

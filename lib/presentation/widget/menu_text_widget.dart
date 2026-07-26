@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/text/bloc/word_text_bloc.dart';
+import 'package:kris/logic/text/word_text.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
-import '../../model/content.dart';
+import '../../logic/content/content.dart';
 import '../../model/identifier.dart';
 import 'menu_payload_widget.dart';
 
-class MenuContentWidget extends StatefulWidget {
+class MenuTextWidget extends StatefulWidget {
   final Identifier identifier;
 
   final bool selected;
 
   final Function(bool) onChanged;
 
-  const MenuContentWidget({
+  const MenuTextWidget({
     super.key,
     required this.identifier,
     required this.selected,
@@ -21,26 +23,25 @@ class MenuContentWidget extends StatefulWidget {
   });
 
   @override
-  State<MenuContentWidget> createState() => _MenuContentState();
+  State<MenuTextWidget> createState() => _MenuContentState();
 }
 
-class _MenuContentState extends State<MenuContentWidget> {
+class _MenuContentState extends State<MenuTextWidget> {
   @override
   void initState() {
-    super.initState();
-
-    context.read<ContentBloc>().add(
-      ContentEventRetriveByIdentifier(identifier: widget.identifier),
+    context.read<WordTextBloc>().add(
+      WordTextEventRetrieveByIdentifier(identifier: widget.identifier),
     );
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ContentBloc, ContentState, Content?>(
+    return BlocSelector<WordTextBloc, WordTextState, WordText?>(
       selector: (state) => state.data[widget.identifier.sku],
 
-      builder: (context, content) {
-        if (content == null) {
+      builder: (context, state) {
+        if (state == null) {
           return const SizedBox();
         }
 
@@ -77,9 +78,7 @@ class _MenuContentState extends State<MenuContentWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
 
-                      children: content.payloads.map((payload) {
-                        return MenuPayloadWidget(identifier: payload);
-                      }).toList(),
+                      children: [Text(state.text)],
                     ),
                   ),
                 ),

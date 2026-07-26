@@ -19,6 +19,9 @@ class Payload extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: -1)
   final int row;
 
+  @JsonKey(disallowNullValue: false, defaultValue: -1)
+  final int rank;
+
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String value;
 
@@ -72,6 +75,7 @@ class Payload extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.type,
+    required this.rank,
   });
 
   factory Payload.initial() {
@@ -95,6 +99,7 @@ class Payload extends Identifier {
       createdBy: '',
       lastModifiedBy: '',
       type: '',
+      rank: -1,
     );
   }
 

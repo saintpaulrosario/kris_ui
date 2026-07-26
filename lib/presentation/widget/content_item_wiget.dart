@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/example_content/bloc/example_content_bloc.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
-import '../../model/content.dart';
+import '../../logic/content/content.dart';
 import '../../model/identifier.dart';
 import 'payload_list_widget.dart';
 

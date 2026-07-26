@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/logic/word/word.dart';
 
 import '../../model/identifier.dart';
 

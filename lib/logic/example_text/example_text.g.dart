@@ -86,6 +86,7 @@ ExampleText _$ExampleTextFromJson(Map json) => $checkedCreate(
       createdBy: $checkedConvert('createdBy', (v) => v as String?),
       lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
       type: $checkedConvert('type', (v) => v as String? ?? ''),
+      text: $checkedConvert('text', (v) => v as String? ?? ''),
     );
     return val;
   },
@@ -107,4 +108,5 @@ Map<String, dynamic> _$ExampleTextToJson(ExampleText instance) =>
       'dialects': instance.dialects.map((e) => e.toJson()).toList(),
       'elements': instance.elements.map((e) => e.toJson()).toList(),
       'contents': instance.contents.map((e) => e.toJson()).toList(),
+      'text': instance.text,
     };

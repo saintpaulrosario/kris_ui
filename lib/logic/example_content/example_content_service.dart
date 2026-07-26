@@ -4,7 +4,7 @@ import 'package:kris/logic/example/example.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/content.dart';
+import '../content/content.dart';
 import '../../model/error_response.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';

@@ -4,7 +4,9 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../model/error_response.dart';
 import '../../../model/identifier.dart';
-import '../../../model/word_text.dart';
+import '../../../response/page_result.dart';
+import '../../content/content.dart';
+import '../word_text.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import '../../content/bloc/content_bloc.dart';
@@ -14,7 +16,6 @@ part 'word_text_event.dart';
 part 'word_text_state.dart';
 
 class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
-  final ContentBloc _contentBloc = getIt<ContentBloc>();
   final WordTextService _wordTextService = getIt<WordTextService>();
 
   WordTextBloc() : super(WordTextState.initial()) {
@@ -57,6 +58,52 @@ class WordTextBloc extends Bloc<WordTextEvent, WordTextState> {
                 fetching:
                     (state.fetching.toBuilder()..remove(event.identifier.sku))
                         .build(),
+              ),
+            );
+          },
+        );
+      }
+    });
+
+    on<WordTextEventFetchAll>((event, emit) async {
+      if (!state.fetching.contains("all")) {
+        emit(
+          state.copyWith(
+            fetching: (state.fetching.toBuilder()..add("all")).build(),
+          ),
+        );
+
+        final results = await _wordTextService.retrive(
+          page: event.pageNumber,
+          size: event.pageSize,
+        );
+
+        results.fold(
+          (ErrorResponse error) {
+            emit(
+              state.copyWith(
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+                errors: (state.errors.toBuilder()..["all"] = error).build(),
+              ),
+            );
+          },
+          (PageResult<WordText> result) {
+            final data = state.data.toBuilder();
+            final pages = state.pages.toBuilder();
+
+            for (final content in result.content) {
+              data[content.sku] = content;
+            }
+
+            pages[result.number] = result;
+
+            emit(
+              state.copyWith(
+                data: data.build(),
+                fetching: (state.fetching.toBuilder()..remove("all")).build(),
+                pageNumber: result.number,
+                pageSize: result.size,
+                pages: pages.build(),
               ),
             );
           },

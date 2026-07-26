@@ -5,7 +5,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/service_locator.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/content.dart';
+import '../../content/content.dart';
 import '../../../model/error_response.dart';
 import '../../base_state.dart';
 import '../example_content.dart';

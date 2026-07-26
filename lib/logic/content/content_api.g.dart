@@ -22,43 +22,6 @@ class _ContentApi implements ContentApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<List<Content>>>> retrieveAll() async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/content',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Content>> _value;
-    try {
-      _value = ApiResult<List<Content>>.fromJson(
-        _result.data!,
-        (json) => json is List<dynamic>
-            ? json
-                  .map<Content>(
-                    (i) => Content.fromJson(i as Map<String, dynamic>),
-                  )
-                  .toList()
-            : List.empty(),
-      );
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    final httpResponse = HttpResponse(_value, _result);
-    return httpResponse;
-  }
-
-  @override
   Future<HttpResponse<ApiResult<List<Content>>>> retrieveTextBySku(
     String identifier, {
     bool? sku,
@@ -124,6 +87,46 @@ class _ContentApi implements ContentApi {
       _value = ApiResult<Content>.fromJson(
         _result.data!,
         (json) => Content.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<PageResult<Content>>>> retrieveAll({
+    required int page,
+    required int size,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page, r'size': size};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<PageResult<Content>>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/content',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<PageResult<Content>> _value;
+    try {
+      _value = ApiResult<PageResult<Content>>.fromJson(
+        _result.data!,
+        (json) => PageResult<Content>.fromJson(
+          json as Map<String, dynamic>,
+          (json) => Content.fromJson(json as Map<String, dynamic>),
+        ),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

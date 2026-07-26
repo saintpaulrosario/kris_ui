@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/logic/word/word.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
 import 'package:kris/presentation/widget/section_widget.dart';
 

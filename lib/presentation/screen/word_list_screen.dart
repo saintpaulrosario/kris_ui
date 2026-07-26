@@ -15,14 +15,18 @@ class WordListScreen extends StatelessWidget {
     }
 
     return Column(
-      children: List.generate(identifiers.length, (index) {
-        final identifier = identifiers[index];
+      children: [
+        Column(
+          children: List.generate(identifiers.length, (index) {
+            final identifier = identifiers[index];
 
-        return WordItemScreen(
-          key: ValueKey('${identifier.sku}-$index'),
-          identifier: identifier,
-        );
-      }),
+            return WordItemScreen(
+              key: ValueKey('${identifier.sku}-$index'),
+              identifier: identifier,
+            );
+          }),
+        ),
+      ],
     );
   }
 }

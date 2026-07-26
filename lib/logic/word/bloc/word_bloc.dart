@@ -5,7 +5,7 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/model/identifier.dart';
 
 import '../../../model/error_response.dart';
-import '../../../model/word.dart';
+import '../word.dart';
 import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
 import '../word_service.dart';
@@ -18,22 +18,22 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
   WordBloc() : super(WordState.initial()) {
     on<WordEvent>(((event, emit) {
-      final selections = state.mayaSelections.toBuilder();
+      // final selections = state.mayaSelections.toBuilder();
 
-      if (!state.mayaSelections.containsKey('script')) {
-        selections['script'] = BuiltMap<String, Word>();
-      }
+      // if (!state.mayaSelections.containsKey('script')) {
+      //   selections['script'] = BuiltMap<String, Word>();
+      // }
 
-      if (!state.mayaSelections.containsKey('language')) {
-        selections['language'] = BuiltMap<String, Word>();
-      }
+      // if (!state.mayaSelections.containsKey('language')) {
+      //   selections['language'] = BuiltMap<String, Word>();
+      // }
 
-      if (!state.mayaSelections.containsKey('dialect')) {
-        selections['dialect'] = BuiltMap<String, Word>();
-      }
+      // if (!state.mayaSelections.containsKey('dialect')) {
+      //   selections['dialect'] = BuiltMap<String, Word>();
+      // }
 
-      final updatedSelections = selections.build();
-      emit(state.copyWith(mayaSelections: updatedSelections));
+      // final updatedSelections = selections.build();
+      // emit(state.copyWith(mayaSelections: updatedSelections));
     }));
 
     on<RetrieveWordsEvent>((event, emit) async {
@@ -64,19 +64,19 @@ class WordBloc extends Bloc<WordEvent, WordState> {
           (PageResult<Word> result) {
             final data = state.data.toBuilder();
             final pages = state.pages.toBuilder();
-            final scripts = state.scripts;
-            final dialects = state.dialects;
-            final languages = state.languages;
+            final scripts = state.scripts.toBuilder();
+            final dialects = state.dialects.toBuilder();
+            final languages = state.languages.toBuilder();
             for (final word in result.content) {
               data[word.sku] = word;
               if (word.maya.contains("script")) {
-                scripts.append(word);
+                scripts.add(word);
               }
               if (word.maya.contains("language")) {
-                languages.append(word);
+                languages.add(word);
               }
               if (word.maya.contains("dialect")) {
-                dialects.append(word);
+                dialects.add(word);
               }
             }
 
@@ -85,9 +85,9 @@ class WordBloc extends Bloc<WordEvent, WordState> {
             emit(
               state.copyWith(
                 data: data.build(),
-                scripts: scripts,
-                dialects: dialects,
-                languages: languages,
+                scripts: scripts.build(),
+                dialects: dialects.build(),
+                languages: languages.build(),
                 fetching: (state.fetching.toBuilder()..remove("all")).build(),
                 pageNumber: result.number,
                 pageSize: result.size,

@@ -4,7 +4,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../model/error_response.dart';
-import '../../model/word_text.dart';
+import '../text/word_text.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'example_text.dart';

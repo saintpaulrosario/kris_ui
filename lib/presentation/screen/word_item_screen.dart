@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kris/logic/example/bloc/example_bloc.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/logic/word/word.dart';
 import 'package:kris/presentation/widget/word_text_list_wiget.dart';
 
 import '../../app_router.dart';
@@ -69,10 +69,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
                   ),
                 ],
               ),
-            ),
-            const Expanded(
-              flex: 8,
-              child: Column(children: [Text("definition")]),
             ),
 
             Expanded(
