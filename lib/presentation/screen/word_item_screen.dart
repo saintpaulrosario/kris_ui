@@ -45,51 +45,40 @@ class _WordItemScreenState extends State<WordItemScreen> {
       return const Center(child: Text("Word not found"));
     }
 
-    return InkWell(
-      onTap: () {
-        context.pushReplacementNamed(
-          routeWordDetail,
-          pathParameters: {'sku': widget.identifier.sku},
-        );
-      },
-      child: Card(
-        key: Key(widget.identifier.sku),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ImageListWidget(
-                    key: Key(word.sku),
-                    imagesIdentifiers: word.images,
-                  ),
-                ],
+    return Card(
+      key: Key(widget.identifier.sku),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 2,
+            child: ImageListWidget(
+              key: Key('${word.sku}_image'),
+              imagesIdentifiers: word.images,
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: InkWell(
+              onTap: () {
+                context.pushReplacementNamed(
+                  routePayloadDetail,
+                  pathParameters: {'sku': widget.identifier.sku},
+                );
+              },
+              child: WordTextListWidget(
+                key: Key('${word.sku}_text'),
+                identifiers: word.texts,
               ),
             ),
+          ),
 
-            Expanded(
-              flex: 4,
-              child: InkWell(
-                onTap: () {
-                  context.pushReplacementNamed(
-                    routePayloadDetail,
-                    pathParameters: {'sku': widget.identifier.sku},
-                  );
-                },
-                child: WordTextListWidget(
-                  identifiers: word.texts,
-                  key: Key(word.sku),
-                ),
-              ),
-            ),
-
-            Expanded(flex: 1, child: Text(word.ordinal.toString())),
-          ],
-        ),
+          // ORDINAL
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(word.ordinal.toString()),
+          ),
+        ],
       ),
     );
   }
@@ -106,7 +95,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
           fetching: state.fetching.contains(widget.identifier.sku),
           word: state.data[widget.identifier.sku],
         ),
-
         builder: (context, state) {
           return _buildWord(state.word, state.fetching);
         },
@@ -118,7 +106,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
         fetching: state.fetching.contains(widget.identifier.sku),
         word: state.data[widget.identifier.sku],
       ),
-
       builder: (context, state) {
         return _buildWord(state.word, state.fetching);
       },

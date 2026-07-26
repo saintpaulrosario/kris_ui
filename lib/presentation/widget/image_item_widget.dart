@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/image_viewer_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../logic/image/bloc/image_bloc.dart';
@@ -22,7 +23,6 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   @override
   void initState() {
     super.initState();
-
     _retrieveImage();
   }
 
@@ -47,6 +47,23 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
     }
   }
 
+  Uint8List _decodeImage(String payload) {
+    return Uint8List.fromList(base64Decode(payload));
+  }
+
+  void _openViewer(WordImage image) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ImageViewerWidget(
+          identifier: widget.imageIdentifier,
+          payload: image.payload,
+          descriptions: ['this is a descripont', 'thisis second'],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
@@ -54,12 +71,10 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
       ImageState,
       ({bool fetching, WordImage? image})
     >(
-      selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.imageIdentifier.sku),
-          image: state.data[widget.imageIdentifier.sku],
-        );
-      },
+      selector: (state) => (
+        fetching: state.fetching.contains(widget.imageIdentifier.sku),
+        image: state.data[widget.imageIdentifier.sku],
+      ),
 
       builder: (context, state) {
         if (state.fetching) {
@@ -81,15 +96,13 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
           return const Center(child: Text("Image was not found"));
         }
 
-        return InteractiveViewer(
-          minScale: 0.5,
-          maxScale: 5.0,
-          panEnabled: true,
-          child: AspectRatio(
-            aspectRatio: 1,
+        return AspectRatio(
+          aspectRatio: 1,
+          child: InkWell(
+            onTap: () => _openViewer(image),
             child: Image.memory(
-              Uint8List.fromList(base64Decode(image.payload)),
-              fit: BoxFit.fill,
+              _decodeImage(image.payload),
+              fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(Icons.broken_image);
               },
