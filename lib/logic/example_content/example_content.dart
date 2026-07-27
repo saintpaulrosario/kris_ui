@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/content.dart';
+import 'package:kris/logic/content/content.dart';
 
-import '../../model/identifier.dart';
+import '../identifier.dart';
 
 part 'example_content.g.dart';
 

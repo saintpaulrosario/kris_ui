@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:kris/model/word_text.dart';
+import 'package:kris/logic/text/word_text.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:uuid/uuid.dart';
-import '../../model/sound.dart';
+import '../sound/sound.dart';
 import '../../response/api_result.dart';
 
 part 'word_text_api.g.dart';

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:retrofit/dio.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../model/error_response.dart';
-import '../../model/word_text.dart';
+import '../error_response.dart';
+import 'word_text.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'word_text_api.dart';

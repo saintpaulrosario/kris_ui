@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 
 class PayloadPage extends StatefulWidget {
   final Identifier identifier;

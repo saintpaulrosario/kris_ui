@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'identifier.dart';
+import '../identifier.dart';
 
 part 'word_text.g.dart';
 

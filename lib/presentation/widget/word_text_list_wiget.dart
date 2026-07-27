@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/identifier.dart';
+import '../../logic/identifier.dart';
 import 'word_text_item_widget.dart';
 
 class WordTextListWidget extends StatelessWidget {

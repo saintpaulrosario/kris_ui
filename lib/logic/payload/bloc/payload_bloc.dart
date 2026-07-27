@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/error_response.dart';
-import '../../../model/identifier.dart';
-import '../../../model/payload.dart';
+import '../../error_response.dart';
+import '../../identifier.dart';
+import '../payload.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import '../payload_service.dart';

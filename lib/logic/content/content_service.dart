@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/content.dart';
-import '../../model/error_response.dart';
+import 'content.dart';
+import '../error_response.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'content_api.dart';

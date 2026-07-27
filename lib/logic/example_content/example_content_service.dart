@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/example/example.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/content.dart';
-import '../../model/error_response.dart';
+import '../content/content.dart';
+import '../error_response.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'example_content.dart';

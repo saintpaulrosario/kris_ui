@@ -10,7 +10,7 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
   $checkedConvert,
 ) {
   final val = Payload(
-    row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
+    rank: $checkedConvert('rank', (v) => (v as num?)?.toInt() ?? 1),
     value: $checkedConvert('value', (v) => v as String? ?? ''),
     script: $checkedConvert(
       'script',
@@ -38,17 +38,25 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
               .toList() ??
           [],
     ),
-    language: $checkedConvert(
-      'language',
-      (v) => v == null
-          ? null
-          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+    languages: $checkedConvert(
+      'languages',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
-    dialect: $checkedConvert(
-      'dialect',
-      (v) => v == null
-          ? null
-          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+    dialects: $checkedConvert(
+      'dialects',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
     root: $checkedConvert(
       'root',
@@ -93,11 +101,11 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'version': instance.version,
   'ordinal': instance.ordinal,
   'type': instance.type,
-  'row': instance.row,
+  'rank': instance.rank,
   'value': instance.value,
   'script': instance.script.toJson(),
-  'language': instance.language?.toJson(),
-  'dialect': instance.dialect?.toJson(),
+  'languages': instance.languages.map((e) => e.toJson()).toList(),
+  'dialects': instance.dialects.map((e) => e.toJson()).toList(),
   'text': instance.text.toJson(),
   'content': instance.content.toJson(),
   'word': instance.word.toJson(),

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/identifier.dart';
-import 'package:kris/model/word_text.dart';
+import 'package:kris/logic/identifier.dart';
+import 'package:kris/logic/text/word_text.dart';
 
 part 'example_text.g.dart';
 

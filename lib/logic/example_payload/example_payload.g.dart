@@ -11,7 +11,6 @@ ExamplePayload _$ExamplePayloadFromJson(Map json) => $checkedCreate(
   json,
   ($checkedConvert) {
     final val = ExamplePayload(
-      row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? -1),
       value: $checkedConvert('value', (v) => v as String? ?? ''),
       script: $checkedConvert(
         'script',
@@ -40,17 +39,27 @@ ExamplePayload _$ExamplePayloadFromJson(Map json) => $checkedCreate(
                 .toList() ??
             [],
       ),
-      language: $checkedConvert(
-        'language',
-        (v) => v == null
-            ? null
-            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      languages: $checkedConvert(
+        'languages',
+        (v) =>
+            (v as List<dynamic>?)
+                ?.map(
+                  (e) =>
+                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList() ??
+            [],
       ),
-      dialect: $checkedConvert(
-        'dialect',
-        (v) => v == null
-            ? null
-            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      dialects: $checkedConvert(
+        'dialects',
+        (v) =>
+            (v as List<dynamic>?)
+                ?.map(
+                  (e) =>
+                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList() ??
+            [],
       ),
       root: $checkedConvert(
         'root',
@@ -83,6 +92,7 @@ ExamplePayload _$ExamplePayloadFromJson(Map json) => $checkedCreate(
       createdBy: $checkedConvert('createdBy', (v) => v as String?),
       lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
       type: $checkedConvert('type', (v) => v as String? ?? ''),
+      rank: $checkedConvert('rank', (v) => (v as num?)?.toInt() ?? 1),
     );
     return val;
   },
@@ -98,11 +108,11 @@ Map<String, dynamic> _$ExamplePayloadToJson(ExamplePayload instance) =>
       'version': instance.version,
       'ordinal': instance.ordinal,
       'type': instance.type,
-      'row': instance.row,
+      'rank': instance.rank,
       'value': instance.value,
       'script': instance.script.toJson(),
-      'language': instance.language?.toJson(),
-      'dialect': instance.dialect?.toJson(),
+      'languages': instance.languages.map((e) => e.toJson()).toList(),
+      'dialects': instance.dialects.map((e) => e.toJson()).toList(),
       'text': instance.text.toJson(),
       'content': instance.content.toJson(),
       'word': instance.word.toJson(),

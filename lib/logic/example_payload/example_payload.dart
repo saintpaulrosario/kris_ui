@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/payload.dart';
+import 'package:kris/logic/payload/payload.dart';
 
-import '../../model/identifier.dart';
+import '../identifier.dart';
 
 part 'example_payload.g.dart';
 
@@ -15,15 +15,14 @@ part 'example_payload.g.dart';
 )
 class ExamplePayload extends Payload {
   ExamplePayload({
-    required super.row,
     required super.value,
     required super.script,
     required super.text,
     required super.content,
     required super.word,
     required super.sounds,
-    required super.language,
-    required super.dialect,
+    required super.languages,
+    required super.dialects,
     required super.root,
     required super.examples,
     required super.ordinal,
@@ -34,19 +33,20 @@ class ExamplePayload extends Payload {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.type,
+    required super.rank,
   });
 
   factory ExamplePayload.initial() {
     return ExamplePayload(
-      row: 0,
+      rank: 0,
       value: '',
       script: Identifier.initial(),
       text: Identifier.initial(),
       content: Identifier.initial(),
       word: Identifier.initial(),
       sounds: [],
-      language: Identifier.initial(),
-      dialect: Identifier.initial(),
+      languages: [],
+      dialects: [],
       root: Identifier.initial(),
       examples: [],
       ordinal: 0,

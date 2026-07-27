@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_state.dart';
 
-import '../../../model/error_response.dart';
-import '../../../model/sound.dart';
+import '../../error_response.dart';
+import '../sound.dart';
 import '../../../service_locator.dart';
 import '../sound_service.dart';
 

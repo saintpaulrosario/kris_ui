@@ -4,7 +4,7 @@ import 'package:kris/presentation/screen/word_list_screen.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/word/bloc/word_bloc.dart';
-import '../../model/word.dart';
+import '../../logic/word/word.dart';
 import '../../response/page_result.dart';
 
 class WordPage extends StatefulWidget {

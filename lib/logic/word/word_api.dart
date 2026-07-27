@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../model/word.dart';
+import 'word.dart';
 import '../../response/api_result.dart';
 
 part 'word_api.g.dart';

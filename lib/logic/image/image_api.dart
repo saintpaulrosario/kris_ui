@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../model/word_image.dart';
+import 'word_image.dart';
 import '../../response/api_result.dart';
 
 part 'image_api.g.dart';

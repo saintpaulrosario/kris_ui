@@ -3,11 +3,11 @@ import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/example_payload/example_payload.dart';
 import 'package:kris/logic/example_payload/example_payload_service.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:kris/service_locator.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/error_response.dart';
+import '../../error_response.dart';
 
 part 'example_payload_event.dart';
 part 'example_payload_state.dart';

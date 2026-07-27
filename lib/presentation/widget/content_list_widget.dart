@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/identifier.dart';
+import '../../logic/identifier.dart';
 import 'content_item_wiget.dart';
 
 class ContentListWidget extends StatelessWidget {
@@ -11,21 +11,16 @@ class ContentListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: identifiers.length,
-        separatorBuilder: (context, index) {
-          return const Divider(height: 1);
-        },
-        itemBuilder: (context, index) {
-          final Identifier identifier = identifiers[index];
-          return ContentItemWidget(
-            identifier: identifier,
-            key: Key(identifier.sku),
-          );
-        },
+      child: Column(
+        children: ListTile.divideTiles(
+          context: context,
+          tiles: identifiers.map(
+            (identifier) => ContentItemWidget(
+              key: ValueKey(identifier.sku),
+              identifier: identifier,
+            ),
+          ),
+        ).toList(),
       ),
     );
   }

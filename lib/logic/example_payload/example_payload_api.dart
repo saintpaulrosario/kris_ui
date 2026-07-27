@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:kris/model/word_text.dart';
+import 'package:kris/logic/text/word_text.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:uuid/uuid.dart';
-import '../../model/payload.dart';
-import '../../model/sound.dart';
+import '../payload/payload.dart';
+import '../sound/sound.dart';
 import '../../response/api_result.dart';
 import 'example_payload.dart';
 

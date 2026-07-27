@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/example/example.dart';
 import 'package:kris/logic/example/example_api.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/error_response.dart';
-import '../../model/word.dart';
+import '../error_response.dart';
+import '../word/word.dart';
 import '../../response/api_result.dart';
 import '../../response/page_result.dart';
 import '../../service_locator.dart';

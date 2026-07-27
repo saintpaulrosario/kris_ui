@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/identifier.dart';
+import '../../logic/identifier.dart';
 import 'payload_item_widget.dart';
 
 class PayloadListWidget extends StatelessWidget {

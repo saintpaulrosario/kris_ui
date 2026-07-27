@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/identifier.dart';
+import '../../logic/identifier.dart';
 import '../screen/word_item_screen.dart';
 
 class WordListScreen extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/error_response.dart';
-import '../../model/word_image.dart';
+import '../error_response.dart';
+import 'word_image.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'image_api.dart';

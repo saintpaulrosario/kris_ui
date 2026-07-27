@@ -2,10 +2,10 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/bloc/word_bloc.dart';
-import 'package:kris/model/content.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/content/content.dart';
+import 'package:kris/logic/identifier.dart';
 
-import 'package:kris/model/word.dart';
+import 'package:kris/logic/word/word.dart';
 import 'package:kris/presentation/widget/menu_content_widget.dart';
 
 class MenuWidget extends StatelessWidget {

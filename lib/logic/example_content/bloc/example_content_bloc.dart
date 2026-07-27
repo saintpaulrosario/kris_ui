@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:kris/service_locator.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/content.dart';
-import '../../../model/error_response.dart';
+import '../../content/content.dart';
+import '../../error_response.dart';
 import '../../base_state.dart';
 import '../example_content.dart';
 import '../example_content_service.dart';

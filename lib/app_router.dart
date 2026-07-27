@@ -5,7 +5,7 @@ import 'package:kris/presentation/page/payload_page.dart';
 import 'package:kris/presentation/page/word_detail_page.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
-import 'model/identifier.dart';
+import 'logic/identifier.dart';
 import 'presentation/page/home_page.dart';
 import 'presentation/page/word_page.dart';
 

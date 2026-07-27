@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../model/error_response.dart';
-import '../../../model/identifier.dart';
-import '../../../model/word_text.dart';
+import '../../error_response.dart';
+import '../../identifier.dart';
+import '../word_text.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import '../../content/bloc/content_bloc.dart';

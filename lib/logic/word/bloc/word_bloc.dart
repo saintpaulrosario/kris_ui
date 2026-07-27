@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 
-import '../../../model/error_response.dart';
-import '../../../model/word.dart';
+import '../../error_response.dart';
+import '../word.dart';
 import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
 import '../word_service.dart';

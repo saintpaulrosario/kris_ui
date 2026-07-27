@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/example_text/bloc/example_text_bloc.dart';
 import '../../logic/text/bloc/word_text_bloc.dart';
-import '../../model/identifier.dart';
-import '../../model/word_text.dart';
+import '../../logic/identifier.dart';
+import '../../logic/text/word_text.dart';
 import 'content_list_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/example/bloc/example_bloc.dart';
 import 'package:kris/logic/example/example.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
-
-import '../../logic/text/bloc/word_text_bloc.dart';
 
 class ExampleItemWidget extends StatefulWidget {
   final Identifier identifier;

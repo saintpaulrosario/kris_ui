@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/model/sound.dart';
+import 'package:kris/logic/sound/sound.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/error_response.dart';
+import '../error_response.dart';
 import '../../response/api_result.dart';
 import '../../service_locator.dart';
 import 'sound_api.dart';

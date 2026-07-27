@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/content/bloc/content_bloc.dart';
-import '../../model/content.dart';
-import '../../model/identifier.dart';
+import '../../logic/content/content.dart';
+import '../../logic/identifier.dart';
 import 'menu_payload_widget.dart';
 
 class MenuContentWidget extends StatefulWidget {

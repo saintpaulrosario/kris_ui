@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/example/example.dart';
-import 'package:kris/model/identifier.dart';
+import 'package:kris/logic/identifier.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/error_response.dart';
+import '../../error_response.dart';
 import '../../../service_locator.dart';
 import '../example_service.dart';
 

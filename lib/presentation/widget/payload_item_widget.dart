@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/example_payload/bloc/example_payload_bloc.dart';
 
 import '../../logic/payload/bloc/payload_bloc.dart';
-import '../../model/payload.dart';
-import '../../model/identifier.dart';
+import '../../logic/payload/payload.dart';
+import '../../logic/identifier.dart';
 import '../screen/word_list_screen.dart';
 import 'sound_list_wiget.dart';
 
@@ -64,7 +64,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           ),
         ),
 
-        Expanded(flex: 1, child: Text(payload.ordinal.toString())),
+        Expanded(flex: 1, child: Text("${payload.rank}")),
       ],
     );
   }

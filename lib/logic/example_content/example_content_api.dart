@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../model/content.dart';
+import '../content/content.dart';
 import '../../response/api_result.dart';
 import '../example/example.dart';
 import 'example_content.dart';
