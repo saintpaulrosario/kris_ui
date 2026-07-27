@@ -40,12 +40,10 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         ExampleContentState,
         ({bool fetching, Content? content})
       >(
-        selector: (state) {
-          return (
-            fetching: state.fetching.contains(widget.identifier.sku),
-            content: state.data[widget.identifier.sku],
-          );
-        },
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          content: state.data[widget.identifier.sku],
+        ),
         builder: (context, state) {
           return _buildContent(
             content: state.content,
@@ -60,12 +58,10 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
       ContentState,
       ({bool fetching, Content? content})
     >(
-      selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.data[widget.identifier.sku],
-        );
-      },
+      selector: (state) => (
+        fetching: state.fetching.contains(widget.identifier.sku),
+        content: state.data[widget.identifier.sku],
+      ),
       builder: (context, state) {
         return _buildContent(content: state.content, fetching: state.fetching);
       },
@@ -94,20 +90,16 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
       );
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(8),
-          child: Text(
-            "definition",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        Expanded(
+          flex: 1,
+          child: Center(child: Text("definition", textAlign: TextAlign.center)),
         ),
 
-        Padding(
-          padding: const EdgeInsets.all(8),
+        Expanded(
+          flex: 4,
           child: PayloadListWidget(
             key: ValueKey(content.sku),
             identifiers: content.payloads,

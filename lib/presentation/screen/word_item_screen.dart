@@ -21,11 +21,13 @@ class WordItemScreen extends StatefulWidget {
 }
 
 class _WordItemScreenState extends State<WordItemScreen> {
+  bool get isExample => widget.identifier.type == 'EXAMPLE';
+
   @override
   void initState() {
     super.initState();
 
-    if (widget.identifier.type == 'EXAMPLE') {
+    if (isExample) {
       context.read<ExampleBloc>().add(
         ExampleEventFetch(identifier: widget.identifier),
       );
@@ -36,7 +38,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
     }
   }
 
-  Widget _buildWord(Word? word, bool fetching) {
+  Widget _buildWord({required Word? word, required bool fetching}) {
     if (fetching) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -53,21 +55,15 @@ class _WordItemScreenState extends State<WordItemScreen> {
         );
       },
       child: Card(
-        key: Key(widget.identifier.sku),
+        key: ValueKey(widget.identifier.sku),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               flex: 2,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ImageListWidget(
-                    key: Key(word.sku),
-                    imagesIdentifiers: word.images,
-                  ),
-                ],
+              child: ImageListWidget(
+                key: ValueKey('${word.sku}_images'),
+                imagesIdentifiers: word.images,
               ),
             ),
 
@@ -81,13 +77,18 @@ class _WordItemScreenState extends State<WordItemScreen> {
                   );
                 },
                 child: WordTextListWidget(
+                  key: ValueKey('${word.sku}_texts'),
                   identifiers: word.texts,
-                  key: Key(word.sku),
                 ),
               ),
             ),
 
-            Expanded(flex: 1, child: Text("${word.ordinal}")),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Text("${word.ordinal}", textAlign: TextAlign.center),
+              ),
+            ),
           ],
         ),
       ),
@@ -96,7 +97,7 @@ class _WordItemScreenState extends State<WordItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.identifier.type == 'EXAMPLE') {
+    if (isExample) {
       return BlocSelector<
         ExampleBloc,
         ExampleState,
@@ -106,9 +107,8 @@ class _WordItemScreenState extends State<WordItemScreen> {
           fetching: state.fetching.contains(widget.identifier.sku),
           word: state.data[widget.identifier.sku],
         ),
-
         builder: (context, state) {
-          return _buildWord(state.word, state.fetching);
+          return _buildWord(word: state.word, fetching: state.fetching);
         },
       );
     }
@@ -118,9 +118,8 @@ class _WordItemScreenState extends State<WordItemScreen> {
         fetching: state.fetching.contains(widget.identifier.sku),
         word: state.data[widget.identifier.sku],
       ),
-
       builder: (context, state) {
-        return _buildWord(state.word, state.fetching);
+        return _buildWord(word: state.word, fetching: state.fetching);
       },
     );
   }
