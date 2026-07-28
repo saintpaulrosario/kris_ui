@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'ߞߙߌߛߌ',
+      title: 'ߞߙߌߛ',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       routerConfig: appRouter,
     );
