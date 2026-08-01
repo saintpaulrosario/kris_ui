@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/word/bloc/word_bloc.dart';
+import '../../logic/base_event.dart';
+import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
-import '../../model/word_payload.dart';
+import '../../model/translation_payload.dart';
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
@@ -19,17 +20,17 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<WordBloc>().add(
-      RetrieveWordsEventFetchPayloadBySku(identifier: widget.identifier),
+    context.read<TranslationBloc>().add(
+      BaseEvent.payloadBySku(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      WordBloc,
-      WordState,
-      ({bool fetching, WordPayload? payload})
+      TranslationBloc,
+      TranslationState,
+      ({bool fetching, TranslationPayload? payload})
     >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
@@ -50,13 +51,10 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              flex: 6,
-              child: Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                key: Key(state.payload!.sku),
-              ),
+            Text(
+              state.payload!.value,
+              textAlign: TextAlign.center,
+              key: Key(state.payload!.sku),
             ),
 
             // Expanded(

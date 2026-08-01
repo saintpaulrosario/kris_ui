@@ -1,18 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'word_text.dart';
+part of 'script.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
+Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
   $checkedConvert,
 ) {
-  final val = WordText(
+  final val = Script(
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    texts: $checkedConvert(
+      'texts',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
+    languages: $checkedConvert(
+      'languages',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
     createdDate: $checkedConvert(
       'createdDate',
       (v) => DateTime.parse(v as String),
@@ -23,16 +43,8 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-    word: $checkedConvert(
-      'word',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-    ),
-    script: $checkedConvert(
-      'script',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-    ),
-    contents: $checkedConvert(
-      'contents',
+    images: $checkedConvert(
+      'images',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -45,7 +57,7 @@ WordText _$WordTextFromJson(Map json) => $checkedCreate('WordText', json, (
   return val;
 });
 
-Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
+Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': instance.createdBy,
@@ -53,7 +65,7 @@ Map<String, dynamic> _$WordTextToJson(WordText instance) => <String, dynamic>{
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
-  'script': instance.script.toJson(),
-  'word': instance.word.toJson(),
-  'contents': instance.contents.map((e) => e.toJson()).toList(),
+  'images': instance.images.map((e) => e.toJson()).toList(),
+  'texts': instance.texts.map((e) => e.toJson()).toList(),
+  'languages': instance.languages.map((e) => e.toJson()).toList(),
 };

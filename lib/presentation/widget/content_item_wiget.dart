@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/model/word_content.dart';
+import 'package:kris/model/translation_content.dart';
 
-import '../../logic/word/bloc/word_bloc.dart';
+import '../../logic/base_event.dart';
+import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
-import '../../model/word.dart';
 import 'payload_list_widget.dart';
 
 class ContentItemWidget extends StatefulWidget {
@@ -21,22 +21,23 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
   void initState() {
     super.initState();
 
-    context.read<WordBloc>().add(
-      RetrieveWordsEventFetchContentBySku(identifier: widget.identifier),
+    context.read<TranslationBloc>().add(
+      BaseEvent.contentBySku(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      WordBloc,
-      WordState,
-      ({bool fetching, WordContent? content})
+      TranslationBloc,
+      TranslationState,
+      ({bool fetching, TranslationContent? content})
     >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
         content: state.contents[widget.identifier.sku],
       ),
+
       builder: (context, state) {
         if (state.fetching) {
           return const Padding(
@@ -60,21 +61,13 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         }
 
         return Row(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Text("definition", textAlign: TextAlign.center),
-              ),
-            ),
-
-            Expanded(
-              flex: 4,
-              child: PayloadListWidget(
-                key: ValueKey(state.content!.sku),
-                identifiers: state.content!.payloads,
-              ),
+            PayloadListWidget(
+              key: ValueKey(state.content!.sku),
+              identifiers: state.content!.payloads,
             ),
           ],
         );

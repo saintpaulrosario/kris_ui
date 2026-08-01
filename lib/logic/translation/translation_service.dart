@@ -2,30 +2,39 @@ import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:retrofit/dio.dart';
 
-import '../../model/word_content.dart';
-import '../../model/word_payload.dart';
-import '../../model/word_text.dart';
+import '../../api/tranlation_api.dart';
+import '../../model/translation_content.dart';
+import '../../model/translation_payload.dart';
+import '../../model/translation_text.dart';
 import '../../response/error_response.dart';
-import '../../model/word.dart';
+import '../../model/translation.dart';
 import '../../response/api_result.dart';
 import '../../response/page_result.dart';
 import '../../service_locator.dart';
-import '../../api/word_api.dart';
+import '../word_service.dart';
 
-class WordService {
-  final WordApi _wordApi = getIt<WordApi>();
+class TranslationService
+    implements
+        WordService<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        > {
+  final TranslationApi _api = getIt<TranslationApi>();
 
-  Future<Either<ErrorResponse, PageResult<Word>>> retrive({
+  @override
+  Future<Either<ErrorResponse, PageResult<Translation>>> retrieve({
     required int page,
     required int size,
   }) async {
     try {
-      final HttpResponse<ApiResult<PageResult<Word>>> httpResponse =
-          await _wordApi.fetchAll(page: page, size: size);
+      final HttpResponse<ApiResult<PageResult<Translation>>> httpResponse =
+          await _api.fetchAll(page: page, size: size);
 
-      ApiResult<PageResult<Word>> apiResult = httpResponse.data;
+      ApiResult<PageResult<Translation>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final PageResult<Word> payload = apiResult.payload;
+        final PageResult<Translation> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -40,14 +49,17 @@ class WordService {
     }
   }
 
-  Future<Either<ErrorResponse, Word>> retrieveWordBySku(String sku) async {
-    final HttpResponse<ApiResult<Word>> httpResponse = await _wordApi.fetch(
+  @override
+  Future<Either<ErrorResponse, Translation>> retrieveWordBySku(
+    String sku,
+  ) async {
+    final HttpResponse<ApiResult<Translation>> httpResponse = await _api.fetch(
       sku,
     );
     try {
-      ApiResult<Word> apiResult = httpResponse.data;
+      ApiResult<Translation> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final Word payload = apiResult.payload;
+        final Translation payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -63,13 +75,16 @@ class WordService {
     }
   }
 
-  Future<Either<ErrorResponse, WordText>> retrieveTextBySku(String sku) async {
-    final HttpResponse<ApiResult<WordText>> httpResponse = await _wordApi
+  @override
+  Future<Either<ErrorResponse, TranslationText>> retrieveTextBySku(
+    String sku,
+  ) async {
+    final HttpResponse<ApiResult<TranslationText>> httpResponse = await _api
         .fetchForText(sku);
     try {
-      ApiResult<WordText> apiResult = httpResponse.data;
+      ApiResult<TranslationText> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final WordText payload = apiResult.payload;
+        final TranslationText payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -85,15 +100,16 @@ class WordService {
     }
   }
 
-  Future<Either<ErrorResponse, WordContent>> retrieveContentBySku(
+  @override
+  Future<Either<ErrorResponse, TranslationContent>> retrieveContentBySku(
     String sku,
   ) async {
-    final HttpResponse<ApiResult<WordContent>> httpResponse = await _wordApi
+    final HttpResponse<ApiResult<TranslationContent>> httpResponse = await _api
         .fetchForContent(sku);
     try {
-      ApiResult<WordContent> apiResult = httpResponse.data;
+      ApiResult<TranslationContent> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final WordContent payload = apiResult.payload;
+        final TranslationContent payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -109,15 +125,16 @@ class WordService {
     }
   }
 
-  Future<Either<ErrorResponse, WordPayload>> retrievePayloadBySku(
+  @override
+  Future<Either<ErrorResponse, TranslationPayload>> retrievePayloadBySku(
     String sku,
   ) async {
-    final HttpResponse<ApiResult<WordPayload>> httpResponse = await _wordApi
+    final HttpResponse<ApiResult<TranslationPayload>> httpResponse = await _api
         .fetchForPayload(sku);
     try {
-      ApiResult<WordPayload> apiResult = httpResponse.data;
+      ApiResult<TranslationPayload> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final WordPayload payload = apiResult.payload;
+        final TranslationPayload payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

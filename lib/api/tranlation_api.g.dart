@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'word_api.dart';
+part of 'tranlation_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'word_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _WordApi implements WordApi {
-  _WordApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _TranslationApi implements TranslationApi {
+  _TranslationApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -22,7 +22,7 @@ class _WordApi implements WordApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<PageResult<Word>>>> fetchAll({
+  Future<HttpResponse<ApiResult<PageResult<Translation>>>> fetchAll({
     required int page,
     required int size,
   }) async {
@@ -30,24 +30,27 @@ class _WordApi implements WordApi {
     final queryParameters = <String, dynamic>{r'page': page, r'size': size};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<PageResult<Word>>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/word',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<PageResult<Translation>>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/translation',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<PageResult<Word>> _value;
+    late ApiResult<PageResult<Translation>> _value;
     try {
-      _value = ApiResult<PageResult<Word>>.fromJson(
+      _value = ApiResult<PageResult<Translation>>.fromJson(
         _result.data!,
-        (json) => PageResult<Word>.fromJson(
+        (json) => PageResult<Translation>.fromJson(
           json as Map<String, dynamic>,
-          (json) => Word.fromJson(json as Map<String, dynamic>),
+          (json) => Translation.fromJson(json as Map<String, dynamic>),
         ),
       );
     } on Object catch (e, s) {
@@ -59,27 +62,27 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Word>>> fetch(String identifier) async {
+  Future<HttpResponse<ApiResult<Translation>>> fetch(String identifier) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Word>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Translation>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/${identifier}',
+            '/translation/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Word> _value;
+    late ApiResult<Translation> _value;
     try {
-      _value = ApiResult<Word>.fromJson(
+      _value = ApiResult<Translation>.fromJson(
         _result.data!,
-        (json) => Word.fromJson(json as Map<String, dynamic>),
+        (json) => Translation.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -90,29 +93,29 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<WordText>>> fetchForText(
+  Future<HttpResponse<ApiResult<TranslationText>>> fetchForText(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<WordText>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<TranslationText>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/text/${identifier}',
+            '/translation/text/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<WordText> _value;
+    late ApiResult<TranslationText> _value;
     try {
-      _value = ApiResult<WordText>.fromJson(
+      _value = ApiResult<TranslationText>.fromJson(
         _result.data!,
-        (json) => WordText.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationText.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -123,29 +126,32 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<WordContent>>> fetchForContent(
+  Future<HttpResponse<ApiResult<TranslationContent>>> fetchForContent(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<WordContent>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/word/content/${identifier}',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<TranslationContent>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/translation/content/${identifier}',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<WordContent> _value;
+    late ApiResult<TranslationContent> _value;
     try {
-      _value = ApiResult<WordContent>.fromJson(
+      _value = ApiResult<TranslationContent>.fromJson(
         _result.data!,
-        (json) => WordContent.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationContent.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -156,29 +162,32 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<WordPayload>>> fetchForPayload(
+  Future<HttpResponse<ApiResult<TranslationPayload>>> fetchForPayload(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<WordPayload>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/word/payload/${identifier}',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<TranslationPayload>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/translation/payload/${identifier}',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<WordPayload> _value;
+    late ApiResult<TranslationPayload> _value;
     try {
-      _value = ApiResult<WordPayload>.fromJson(
+      _value = ApiResult<TranslationPayload>.fromJson(
         _result.data!,
-        (json) => WordPayload.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationPayload.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

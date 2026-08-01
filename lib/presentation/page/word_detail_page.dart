@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:kris/logic/word/bloc/word_bloc.dart';
+import 'package:kris/logic/translation/bloc/translation_bloc.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/model/translation.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
 import 'package:kris/presentation/widget/section_widget.dart';
+
+import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
 
 class WordDetailPage extends StatefulWidget {
   final Identifier identifier;
@@ -21,14 +24,18 @@ class _WordDetailPageState extends State<WordDetailPage> {
   void initState() {
     super.initState();
 
-    context.read<WordBloc>().add(
-      RetrieveWordsEventFetchBySku(identifier: widget.identifier),
+    context.read<TranslationBloc>().add(
+      BaseEvent.bySku(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordBloc, WordState, ({bool fetching, Word? word})>(
+    return BlocSelector<
+      TranslationBloc,
+      BaseState,
+      ({bool fetching, Translation? word})
+    >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
         word: state.data[widget.identifier.sku],

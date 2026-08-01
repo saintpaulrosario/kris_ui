@@ -4,15 +4,16 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
+import 'api/tranlation_api.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
 
 import 'logic/sound/sound_api.dart';
 import 'logic/sound/sound_service.dart';
 
-import 'logic/word/bloc/word_bloc.dart';
+import 'logic/translation/bloc/translation_bloc.dart';
 import 'api/word_api.dart';
-import 'logic/word/word_service.dart';
+import 'logic/translation/translation_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -88,8 +89,6 @@ void setupLocator() {
   _registerApis();
 
   _registerServices();
-
-  _registerBlocs();
 }
 
 ///------------------------------------------------------------
@@ -106,7 +105,9 @@ void _registerApis() {
   //String baseUrl = "http://192.168.12.59:8080";
   final baseUrl = properties['KRIS_BASE_URL']!;
 
-  getIt.registerLazySingleton<WordApi>(() => WordApi(dio, baseUrl: baseUrl));
+  getIt.registerLazySingleton<TranslationApi>(
+    () => TranslationApi(dio, baseUrl: baseUrl),
+  );
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
 
@@ -118,17 +119,9 @@ void _registerApis() {
 ///------------------------------------------------------------
 
 void _registerServices() {
-  getIt.registerLazySingleton<WordService>(() => WordService());
+  getIt.registerLazySingleton<TranslationService>(() => TranslationService());
 
   getIt.registerLazySingleton<ImageService>(() => ImageService());
 
   getIt.registerLazySingleton<SoundService>(() => SoundService());
-}
-
-///------------------------------------------------------------
-/// BLoCs
-///------------------------------------------------------------
-
-void _registerBlocs() {
-  getIt.registerLazySingleton<WordBloc>(() => WordBloc());
 }

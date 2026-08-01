@@ -48,12 +48,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
                     minScale: 1,
                     maxScale: 5,
                     boundaryMargin: const EdgeInsets.all(100),
-                    child: Center(
-                      child: ImageItemWidget(
-                        key: ValueKey('${identifier.sku}-$index'),
-                        imageIdentifier: identifier,
-                      ),
-                    ),
+                    child: Center(child: Text('images')),
                   ),
                 );
               },

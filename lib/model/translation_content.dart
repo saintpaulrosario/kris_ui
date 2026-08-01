@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'content.dart';
 import 'identifier.dart';
 
-part 'word_content.g.dart';
+part 'translation_content.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -12,13 +12,13 @@ part 'word_content.g.dart';
   anyMap: true,
   checked: true,
 )
-class WordContent extends Content {
+class TranslationContent extends Content {
   @JsonKey(disallowNullValue: false)
   final Identifier text;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> payloads;
-  WordContent({
+  TranslationContent({
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -31,8 +31,8 @@ class WordContent extends Content {
     required super.languages,
   });
 
-  factory WordContent.initial() {
-    return WordContent(
+  factory TranslationContent.initial() {
+    return TranslationContent(
       sku: '',
       version: 0,
       ordinal: 0,
@@ -46,9 +46,9 @@ class WordContent extends Content {
     );
   }
 
-  factory WordContent.fromJson(Map<String, dynamic> json) =>
-      _$WordContentFromJson(json);
+  factory TranslationContent.fromJson(Map<String, dynamic> json) =>
+      _$TranslationContentFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$WordContentToJson(this);
+  Map<String, dynamic> toJson() => _$TranslationContentToJson(this);
 }

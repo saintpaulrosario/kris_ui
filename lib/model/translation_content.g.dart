@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'word_content.dart';
+part of 'translation_content.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-WordContent _$WordContentFromJson(Map json) => $checkedCreate(
-  'WordContent',
+TranslationContent _$TranslationContentFromJson(Map json) => $checkedCreate(
+  'TranslationContent',
   json,
   ($checkedConvert) {
-    final val = WordContent(
+    final val = TranslationContent(
       sku: $checkedConvert('sku', (v) => v as String? ?? ''),
       version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
       ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
@@ -55,7 +55,7 @@ WordContent _$WordContentFromJson(Map json) => $checkedCreate(
   },
 );
 
-Map<String, dynamic> _$WordContentToJson(WordContent instance) =>
+Map<String, dynamic> _$TranslationContentToJson(TranslationContent instance) =>
     <String, dynamic>{
       'createdDate': instance.createdDate.toIso8601String(),
       'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),

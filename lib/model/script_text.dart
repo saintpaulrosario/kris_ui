@@ -3,7 +3,7 @@ import 'package:kris/model/text.dart';
 
 import 'identifier.dart';
 
-part 'word_text.g.dart';
+part 'script_text.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -12,14 +12,14 @@ part 'word_text.g.dart';
   anyMap: true,
   checked: true,
 )
-class WordText extends Text {
+class ScriptText extends Text {
   @JsonKey(disallowNullValue: false)
   final Identifier word;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
 
-  const WordText({
+  const ScriptText({
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -32,8 +32,8 @@ class WordText extends Text {
     required this.contents,
   });
 
-  factory WordText.initial() {
-    return WordText(
+  factory ScriptText.initial() {
+    return ScriptText(
       sku: '',
       version: 0,
       ordinal: 0,
@@ -54,12 +54,12 @@ class WordText extends Text {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is WordText && other.sku == sku && other.ordinal == ordinal;
+    return other is ScriptText && other.sku == sku && other.ordinal == ordinal;
   }
 
-  factory WordText.fromJson(Map<String, dynamic> json) =>
-      _$WordTextFromJson(json);
+  factory ScriptText.fromJson(Map<String, dynamic> json) =>
+      _$ScriptTextFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$WordTextToJson(this);
+  Map<String, dynamic> toJson() => _$ScriptTextToJson(this);
 }

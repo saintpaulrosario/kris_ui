@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/word/bloc/word_bloc.dart';
+import '../../logic/base_event.dart';
+import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
-import '../../model/word_text.dart';
+import '../../model/translation_text.dart';
 import 'content_list_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
@@ -19,14 +20,19 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<WordBloc>().add(
-      RetrieveWordsEventFetchTextBySku(identifier: widget.identifier),
+
+    context.read<TranslationBloc>().add(
+      BaseEvent.textBySku(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordBloc, WordState, ({bool fetching, WordText? text})>(
+    return BlocSelector<
+      TranslationBloc,
+      TranslationState,
+      ({bool fetching, TranslationText? text})
+    >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
         text: state.texts[widget.identifier.sku],
@@ -45,9 +51,33 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
           return const Text("No content found");
         }
 
-        return ContentListWidget(
-          identifiers: state.text!.contents,
-          key: Key(state.text!.sku),
+        return IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Content column - LEFT
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ContentListWidget(
+                    identifiers: state.text!.contents,
+                    key: ValueKey(state.text!.sku),
+                  ),
+                ),
+              ),
+
+              // Divider
+              const VerticalDivider(thickness: 1, width: 1, color: Colors.grey),
+
+              // Script column - CENTER
+              Expanded(
+                child: Center(
+                  child: Text("script", textAlign: TextAlign.center),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

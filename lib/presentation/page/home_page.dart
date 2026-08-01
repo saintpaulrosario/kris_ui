@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/image/bloc/image_bloc.dart';
-import '../../logic/sound/bloc/sound_bloc.dart';
-import '../../logic/word/bloc/word_bloc.dart';
+import '../../logic/translation/bloc/translation_bloc.dart';
 import 'app_bar_widget.dart';
 import 'app_drawer.dart';
 
@@ -19,11 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => WordBloc()),
-        BlocProvider(create: (context) => ImageBloc()),
-        BlocProvider(create: (context) => SoundBloc()),
-      ],
+      providers: [BlocProvider(create: (context) => TranslationBloc())],
       child: Scaffold(
         //appBar: AppBarWidget(),
         drawer: AppDrawer(),

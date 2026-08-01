@@ -20,10 +20,7 @@ class SoundListWidget extends StatelessWidget {
         for (final identifier in identifiers)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: SoundItemWidget(
-              key: ValueKey(identifier.sku),
-              identifier: identifier,
-            ),
+            child: Text("sound"),
           ),
       ],
     );

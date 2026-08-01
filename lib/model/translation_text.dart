@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/text.dart';
 
 import 'identifier.dart';
-import 'payload.dart';
 
-part 'word_payload.g.dart';
+part 'translation_text.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -12,11 +12,14 @@ part 'word_payload.g.dart';
   anyMap: true,
   checked: true,
 )
-class WordPayload extends Payload {
+class TranslationText extends Text {
+  @JsonKey(disallowNullValue: false)
+  final Identifier word;
+
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
 
-  const WordPayload({
+  const TranslationText({
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -24,25 +27,23 @@ class WordPayload extends Payload {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.word,
+    required super.script,
     required this.contents,
-    required super.value,
-    required super.dialects,
-    required super.sounds,
   });
 
-  factory WordPayload.initial() {
-    return WordPayload(
+  factory TranslationText.initial() {
+    return TranslationText(
       sku: '',
       version: 0,
-      ordinal: -1,
+      ordinal: 0,
+      contents: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
-      contents: [],
-      value: '',
-      dialects: [],
-      sounds: [],
+      script: Identifier.initial(),
+      word: Identifier.initial(),
     );
   }
 
@@ -53,12 +54,14 @@ class WordPayload extends Payload {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is WordPayload && other.sku == sku && other.ordinal == ordinal;
+    return other is TranslationText &&
+        other.sku == sku &&
+        other.ordinal == ordinal;
   }
 
-  factory WordPayload.fromJson(Map<String, dynamic> json) =>
-      _$WordPayloadFromJson(json);
+  factory TranslationText.fromJson(Map<String, dynamic> json) =>
+      _$TranslationTextFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$WordPayloadToJson(this);
+  Map<String, dynamic> toJson() => _$TranslationTextToJson(this);
 }

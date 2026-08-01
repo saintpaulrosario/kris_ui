@@ -1,21 +1,21 @@
-part of 'image_bloc.dart';
+// part of 'image_bloc.dart';
 
-class ImageEvent {}
+// class ImageEvent {}
 
-class RetrieveImagesBySkuEvent extends ImageEvent {
-  final String sku;
+// class RetrieveImagesBySkuEvent extends ImageEvent {
+//   final String sku;
 
-  RetrieveImagesBySkuEvent({required this.sku});
-}
+//   RetrieveImagesBySkuEvent({required this.sku});
+// }
 
-class RetrieveImagesByOrdinalsEvent extends ImageEvent {
-  final List<String> ordinals;
+// class RetrieveImagesByOrdinalsEvent extends ImageEvent {
+//   final List<String> ordinals;
 
-  RetrieveImagesByOrdinalsEvent({required this.ordinals});
-}
+//   RetrieveImagesByOrdinalsEvent({required this.ordinals});
+// }
 
-class ImageSelectedEvent extends ImageEvent {
-  final WordImage image;
+// class ImageSelectedEvent extends ImageEvent {
+//   final WordImage image;
 
-  ImageSelectedEvent({required this.image});
-}
+//   ImageSelectedEvent({required this.image});
+// }
