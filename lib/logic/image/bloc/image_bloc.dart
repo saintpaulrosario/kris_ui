@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../../error_response.dart';
-import '../word_image.dart';
+import '../../../response/error_response.dart';
+import '../../../model/word_image.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
 import '../image_service.dart';

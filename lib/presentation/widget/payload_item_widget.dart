@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/example_payload/bloc/example_payload_bloc.dart';
 
-import '../../logic/payload/bloc/payload_bloc.dart';
-import '../../logic/payload/payload.dart';
-import '../../logic/identifier.dart';
-import '../screen/word_list_screen.dart';
+import '../../logic/word/bloc/word_bloc.dart';
+import '../../model/identifier.dart';
+import '../../model/word_payload.dart';
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
@@ -21,85 +19,55 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
   @override
   void initState() {
     super.initState();
-
-    if ('EXAMPLE' == widget.identifier.type) {
-      context.read<ExamplePayloadBloc>().add(
-        ExamplePayloadEventRetriveByIdentifier(identifier: widget.identifier),
-      );
-    } else {
-      context.read<PayloadBloc>().add(
-        PayloadEventRetrieveBySku(widget.identifier),
-      );
-    }
-  }
-
-  Widget _buildPayload(Payload? payload, bool fetching) {
-    if (fetching) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (payload == null) {
-      return const Text("Payload was not fetched");
-    }
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          flex: 6,
-          child: Text(
-            payload.value,
-            textAlign: TextAlign.center,
-            key: Key(payload.sku),
-          ),
-        ),
-
-        Expanded(
-          flex: 2,
-          child: SoundListWidget(
-            identifiers: payload.sounds,
-            key: Key(payload.sku),
-          ),
-        ),
-
-        Expanded(flex: 1, child: Text("${payload.rank}")),
-      ],
+    context.read<WordBloc>().add(
+      RetrieveWordsEventFetchPayloadBySku(identifier: widget.identifier),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.identifier.type == "EXAMPLE") {
-      return BlocSelector<
-        ExamplePayloadBloc,
-        ExamplePayloadState,
-        ({bool fetching, Payload? payload})
-      >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          payload: state.data[widget.identifier.sku],
-        ),
-
-        builder: (context, state) {
-          return _buildPayload(state.payload, state.fetching);
-        },
-      );
-    }
-
     return BlocSelector<
-      PayloadBloc,
-      PayloadState,
-      ({bool fetching, Payload? payload})
+      WordBloc,
+      WordState,
+      ({bool fetching, WordPayload? payload})
     >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
-        payload: state.data[widget.identifier.sku],
+        payload: state.payloads[widget.identifier.sku],
       ),
 
       builder: (context, state) {
-        return _buildPayload(state.payload, state.fetching);
+        if (state.fetching) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.payload == null) {
+          return const Text("Payload was not fetched");
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 6,
+              child: Text(
+                state.payload!.value,
+                textAlign: TextAlign.center,
+                key: Key(state.payload!.sku),
+              ),
+            ),
+
+            // Expanded(
+            //   flex: 2,
+            //   child: SoundListWidget(
+            //     identifiers: state.payload.sounds,
+            //     key: Key(state.payload.sku),
+            //   ),
+            // ),
+          ],
+        );
       },
     );
   }

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../logic/sound/bloc/sound_bloc.dart';
-import '../../logic/identifier.dart';
-import '../../logic/sound/sound.dart';
+import '../../model/identifier.dart';
+import '../../model/sound.dart';
 
 class SoundItemWidget extends StatefulWidget {
   final Identifier identifier;

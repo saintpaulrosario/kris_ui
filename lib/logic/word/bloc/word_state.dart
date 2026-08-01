@@ -2,12 +2,10 @@ part of 'word_bloc.dart';
 
 class WordState extends BaseState<Word> {
   final BuiltMap<int, PageResult<Word>> pages;
-  final BuiltSet<String> maya;
-  final BuiltSet<Word> scripts;
-  final BuiltSet<Word> dialects;
-  final BuiltSet<Word> languages;
-  final BuiltMap<String, BuiltMap<String, Word>> mayaSelections;
-  final String type;
+  final BuiltMap<String, WordText> texts;
+  final BuiltMap<String, WordContent> contents;
+  final BuiltMap<String, WordPayload> payloads;
+
   final int pageNumber;
   final int pageSize;
 
@@ -19,12 +17,10 @@ class WordState extends BaseState<Word> {
     required super.selections,
     required this.pageNumber,
     required this.pageSize,
-    required this.maya,
-    required this.type,
-    required this.scripts,
-    required this.dialects,
-    required this.languages,
-    required this.mayaSelections,
+
+    required this.texts,
+    required this.contents,
+    required this.payloads,
   });
 
   factory WordState.initial() {
@@ -36,12 +32,10 @@ class WordState extends BaseState<Word> {
       selections: BuiltSet<Word>(),
       pageNumber: 0,
       pageSize: 10,
-      maya: BuiltSet<String>(),
-      type: '',
-      scripts: BuiltSet<Word>(),
-      dialects: BuiltSet<Word>(),
-      languages: BuiltSet<Word>(),
-      mayaSelections: BuiltMap<String, BuiltMap<String, Word>>(),
+
+      texts: BuiltMap<String, WordText>(),
+      contents: BuiltMap<String, WordContent>(),
+      payloads: BuiltMap<String, WordPayload>(),
     );
   }
 
@@ -55,11 +49,9 @@ class WordState extends BaseState<Word> {
     int? pageNumber,
     int? pageSize,
     String? type,
-    BuiltSet<String>? maya,
-    BuiltSet<Word>? scripts,
-    BuiltSet<Word>? languages,
-    BuiltSet<Word>? dialects,
-    BuiltMap<String, BuiltMap<String, Word>>? mayaSelections,
+    BuiltMap<String, WordText>? texts,
+    BuiltMap<String, WordContent>? contents,
+    BuiltMap<String, WordPayload>? payloads,
   }) {
     return WordState(
       errors: errors ?? this.errors,
@@ -69,12 +61,9 @@ class WordState extends BaseState<Word> {
       selections: selections ?? this.selections,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
-      maya: maya ?? this.maya,
-      type: type ?? this.type,
-      scripts: scripts ?? this.scripts,
-      dialects: dialects ?? this.dialects,
-      languages: languages ?? this.languages,
-      mayaSelections: mayaSelections ?? this.mayaSelections,
+      texts: texts ?? this.texts,
+      contents: contents ?? this.contents,
+      payloads: payloads ?? this.payloads,
     );
   }
 }

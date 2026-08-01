@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import 'sound.dart';
+import '../../model/sound.dart';
 import '../../response/api_result.dart';
 
 part 'sound_api.g.dart';

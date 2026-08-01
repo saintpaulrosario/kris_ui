@@ -2,23 +2,31 @@ part of 'word_bloc.dart';
 
 class WordEvent {}
 
-class RetrieveWordsEvent extends WordEvent {
+class WordEventFetch extends WordEvent {
   final int pageNumber;
   final int pageSize;
-  final String type;
-  final String? maya;
 
-  RetrieveWordsEvent({
-    required this.pageNumber,
-    required this.pageSize,
-    required this.type,
-    this.maya,
-  });
+  WordEventFetch({required this.pageNumber, required this.pageSize});
 }
 
-class RetrieveWordBySkuEvent extends WordEvent {
+class RetrieveWordsEventFetchBySku extends WordEvent {
   final Identifier identifier;
-  RetrieveWordBySkuEvent({required this.identifier});
+  RetrieveWordsEventFetchBySku({required this.identifier});
+}
+
+class RetrieveWordsEventFetchTextBySku extends WordEvent {
+  final Identifier identifier;
+  RetrieveWordsEventFetchTextBySku({required this.identifier});
+}
+
+class RetrieveWordsEventFetchContentBySku extends WordEvent {
+  final Identifier identifier;
+  RetrieveWordsEventFetchContentBySku({required this.identifier});
+}
+
+class RetrieveWordsEventFetchPayloadBySku extends WordEvent {
+  final Identifier identifier;
+  RetrieveWordsEventFetchPayloadBySku({required this.identifier});
 }
 
 class WordEventAdd extends WordEvent {

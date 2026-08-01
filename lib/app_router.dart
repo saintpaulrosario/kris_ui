@@ -5,7 +5,7 @@ import 'package:kris/presentation/page/payload_page.dart';
 import 'package:kris/presentation/page/word_detail_page.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
-import 'logic/identifier.dart';
+import 'model/identifier.dart';
 import 'presentation/page/home_page.dart';
 import 'presentation/page/word_page.dart';
 
@@ -63,7 +63,6 @@ final GoRouter appRouter = GoRouter(
               lastModifiedDate: DateTime.now(),
               createdBy: '',
               lastModifiedBy: '',
-              type: 'WORD',
             );
             return WordDetailPage(key: Key(sku), identifier: identifier);
           },
@@ -82,7 +81,6 @@ final GoRouter appRouter = GoRouter(
               lastModifiedDate: DateTime.now(),
               createdBy: '',
               lastModifiedBy: '',
-              type: 'WORD',
             );
             return PayloadPage(key: Key(sku), identifier: identifier);
           },

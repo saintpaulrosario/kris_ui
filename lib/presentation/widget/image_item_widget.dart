@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/presentation/widget/image_viewer_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../logic/identifier.dart';
+import '../../model/identifier.dart';
 import '../../logic/image/bloc/image_bloc.dart';
-import '../../logic/image/word_image.dart';
+import '../../model/word_image.dart';
 
 class ImageItemWidget extends StatefulWidget {
   final Identifier imageIdentifier;

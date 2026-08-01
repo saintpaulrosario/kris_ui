@@ -1,6 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 
-import 'error_response.dart';
+import '../response/error_response.dart';
 
 class BaseState<T> {
   final BuiltMap<String, ErrorResponse> errors;

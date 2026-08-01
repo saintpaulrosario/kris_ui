@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/word/bloc/word_bloc.dart';
-import 'package:kris/logic/identifier.dart';
-import 'package:kris/logic/word/word.dart';
+import 'package:kris/model/identifier.dart';
+import 'package:kris/model/word.dart';
 import 'package:kris/presentation/screen/word_item_screen.dart';
 import 'package:kris/presentation/widget/section_widget.dart';
 
@@ -22,7 +22,7 @@ class _WordDetailPageState extends State<WordDetailPage> {
     super.initState();
 
     context.read<WordBloc>().add(
-      RetrieveWordBySkuEvent(identifier: widget.identifier),
+      RetrieveWordsEventFetchBySku(identifier: widget.identifier),
     );
   }
 
@@ -44,7 +44,7 @@ class _WordDetailPageState extends State<WordDetailPage> {
           return const Center(child: Text("Word not found"));
         }
 
-        final examples = word.examples;
+        final examples = [];
 
         return ListView(
           padding: const EdgeInsets.all(16),

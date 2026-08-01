@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:kris/logic/identifier.dart';
+import 'package:kris/model/identifier.dart';
 
 class ImageViewerWidget extends StatelessWidget {
   final Identifier identifier;

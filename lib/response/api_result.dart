@@ -14,7 +14,7 @@ part 'api_result.g.dart';
 class ApiResult<T> {
   final bool success;
 
-  @JsonKey(includeIfNull: true, defaultValue: '')
+  @JsonKey(includeIfNull: false, defaultValue: '')
   final String message;
 
   final T payload;
