@@ -76,10 +76,16 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
       },
 
       (PageResult<Translation> result) {
+        final data = state.data.toBuilder();
+
+        for (final word in result.content) {
+          data[word.sku] = word;
+        }
         emit(
           state.copyWith(
             pages: (state.pages.toBuilder()..[result.page.number] = result)
                 .build(),
+            data: data.build(),
 
             pageNumber: result.page.number,
             pageSize: result.page.size,
@@ -95,35 +101,183 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     BaseEvent event,
     Emitter<TranslationState> emit,
   ) async {
-    final identifier = event.identifier!;
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
 
-    // keep your existing logic here
+      final results = await _translationService.retrieveWordBySku(
+        event.identifier.sku,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          emit(
+            state.copyWith(
+              data: (state.data.toBuilder()..[word.sku] = word).build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
   }
 
   Future<void> _fetchTextBySku(
     BaseEvent event,
     Emitter<TranslationState> emit,
   ) async {
-    final identifier = event.identifier!;
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
 
-    // keep your existing logic here
+      final results = await _translationService.retrieveTextBySku(
+        event.identifier.sku,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          emit(
+            state.copyWith(
+              texts: (state.texts.toBuilder()..[word.sku] = word).build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
   }
 
   Future<void> _fetchContentBySku(
     BaseEvent event,
     Emitter<TranslationState> emit,
   ) async {
-    final identifier = event.identifier!;
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
 
-    // keep your existing logic here
+      final results = await _translationService.retrieveContentBySku(
+        event.identifier.sku,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          emit(
+            state.copyWith(
+              contents: (state.contents.toBuilder()..[word.sku] = word).build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
   }
 
   Future<void> _fetchPayloadBySku(
     BaseEvent event,
     Emitter<TranslationState> emit,
   ) async {
-    final identifier = event.identifier!;
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
 
-    // keep your existing logic here
+      final results = await _translationService.retrievePayloadBySku(
+        event.identifier.sku,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          emit(
+            state.copyWith(
+              payloads: (state.payloads.toBuilder()..[word.sku] = word).build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
   }
 }

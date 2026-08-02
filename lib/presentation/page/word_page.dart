@@ -25,7 +25,7 @@ class _WordPageState extends State<WordPage> {
     super.initState();
 
     context.read<TranslationBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 15),
+      BaseEvent.fetch(pageNumber: 0, pageSize: 60),
     );
   }
 

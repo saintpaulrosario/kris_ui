@@ -4,13 +4,13 @@ enum WordFetchType { page, bySku, textBySku, contentBySku, payloadBySku }
 
 class BaseEvent {
   final WordFetchType type;
-  final Identifier? identifier;
+  final Identifier identifier;
   final int? pageNumber;
   final int? pageSize;
 
   const BaseEvent._({
     required this.type,
-    this.identifier,
+    required this.identifier,
     this.pageNumber,
     this.pageSize,
   });
@@ -20,6 +20,7 @@ class BaseEvent {
       type: WordFetchType.page,
       pageNumber: pageNumber,
       pageSize: pageSize,
+      identifier: Identifier.initial(),
     );
   }
 

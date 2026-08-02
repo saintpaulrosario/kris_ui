@@ -14,7 +14,7 @@ part 'translation_text.g.dart';
 )
 class TranslationText extends Text {
   @JsonKey(disallowNullValue: false)
-  final Identifier word;
+  final Identifier translation;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
@@ -27,7 +27,7 @@ class TranslationText extends Text {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.word,
+    required this.translation,
     required super.script,
     required this.contents,
   });
@@ -43,7 +43,7 @@ class TranslationText extends Text {
       createdBy: '',
       lastModifiedBy: '',
       script: Identifier.initial(),
-      word: Identifier.initial(),
+      translation: Identifier.initial(),
     );
   }
 
