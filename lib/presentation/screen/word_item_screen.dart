@@ -62,14 +62,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 2,
-                  child: ImageListWidget(
-                    key: ValueKey('${state.word!.sku}_images'),
-                    imagesIdentifiers: state.word!.images,
-                  ),
-                ),
-
-                Expanded(
                   flex: 4,
                   child: InkWell(
                     onTap: () {
@@ -81,16 +73,6 @@ class _WordItemScreenState extends State<WordItemScreen> {
                     child: WordTextListWidget(
                       key: ValueKey('${state.word!.sku}_texts'),
                       identifiers: state.word!.texts,
-                    ),
-                  ),
-                ),
-
-                Expanded(
-                  flex: 1,
-                  child: Center(
-                    child: Text(
-                      "${state.word!.ordinal}",
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

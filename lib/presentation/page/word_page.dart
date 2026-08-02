@@ -11,6 +11,7 @@ import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
 import '../../response/page_result.dart';
+import '../screen/word_item_screen.dart';
 
 class WordPage extends StatefulWidget {
   const WordPage({super.key});
@@ -51,13 +52,37 @@ class _WordPageState extends State<WordPage> {
 
         return Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: WordListScreen(
-                  key: Key("WORD"),
-                  identifiers: state.content,
-                ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: const Row(
+                children: [
+                  Expanded(child: Text("Image", textAlign: TextAlign.center)),
+                  Expanded(
+                    child: Text("Definition", textAlign: TextAlign.center),
+                  ),
+                  Expanded(
+                    child: Text("Translation", textAlign: TextAlign.center),
+                  ),
+                ],
               ),
+            ),
+
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.content.length,
+              itemBuilder: (context, index) {
+                final identifier = state.content[index];
+
+                return Row(
+                  children: [
+                    Expanded(child: Text("Image")),
+                    Expanded(child: Text("Definition")),
+
+                    Expanded(child: WordItemScreen(identifier: identifier)),
+                  ],
+                );
+              },
             ),
 
             Pagination(

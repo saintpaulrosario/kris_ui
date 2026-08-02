@@ -19,14 +19,16 @@ class PayloadListWidget extends StatelessWidget {
         final index = entry.key;
         final identifier = entry.value;
 
-        return Column(
+        return Row(
           children: [
             PayloadItemWidget(
               key: ValueKey(identifier.sku),
               identifier: identifier,
             ),
 
-            if (index != identifiers.length - 1) const Divider(height: 1),
+            Text('sound'),
+
+            Text('dialect'),
           ],
         );
       }).toList(),

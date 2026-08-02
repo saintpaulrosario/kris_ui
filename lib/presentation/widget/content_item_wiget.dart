@@ -69,6 +69,8 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
               key: ValueKey(state.content!.sku),
               identifiers: state.content!.payloads,
             ),
+
+            Text('language'),
           ],
         );
       },

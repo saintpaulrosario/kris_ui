@@ -56,7 +56,6 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Content column - LEFT
               Expanded(
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -66,16 +65,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
                   ),
                 ),
               ),
-
-              // Divider
-              const VerticalDivider(thickness: 1, width: 1, color: Colors.grey),
-
-              // Script column - CENTER
-              Expanded(
-                child: Center(
-                  child: Text("script", textAlign: TextAlign.center),
-                ),
-              ),
+              Expanded(child: Text("Script")),
             ],
           ),
         );
