@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/model/script_content.dart';
 import 'package:kris/model/translation_content.dart';
 
 import '../../logic/base_event.dart';
+import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
 import 'payload_list_widget.dart';
+import 'script_payload_list_widget.dart';
 
-class ContentItemWidget extends StatefulWidget {
+class ScriptContentWidget extends StatefulWidget {
   final Identifier identifier;
 
-  const ContentItemWidget({super.key, required this.identifier});
+  const ScriptContentWidget({super.key, required this.identifier});
 
   @override
-  State<ContentItemWidget> createState() => _ContentItemWidgetState();
+  State<ScriptContentWidget> createState() => _ScriptContentWidgetState();
 }
 
-class _ContentItemWidgetState extends State<ContentItemWidget> {
+class _ScriptContentWidgetState extends State<ScriptContentWidget> {
   @override
   void initState() {
     super.initState();
 
-    context.read<TranslationBloc>().add(
+    context.read<ScriptBloc>().add(
       BaseEvent.contentBySku(identifier: widget.identifier),
     );
   }
@@ -37,6 +40,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         fetching: state.fetching.contains(widget.identifier.sku),
         content: state.contents[widget.identifier.sku],
       ),
+
       builder: (context, state) {
         if (state.fetching) {
           return const Padding(
@@ -59,23 +63,16 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: PayloadListWidget(
-                  key: ValueKey(state.content!.sku),
-                  identifiers: state.content!.payloads,
-                ),
-              ),
-
-              const SizedBox(width: 12),
-
-              const Text('language', overflow: TextOverflow.ellipsis),
-            ],
-          ),
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ScriptPayloadListWidget(
+              key: ValueKey(state.content!.sku),
+              identifiers: state.content!.payloads,
+            ),
+          ],
         );
       },
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/presentation/screen/word_list_screen.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/base_event.dart';
@@ -42,9 +41,7 @@ class _WordPageState extends State<WordPage> {
       >,
       PageResult<Translation>?
     >(
-      selector: (state) {
-        return state.pages[state.pageNumber];
-      },
+      selector: (state) => state.pages[state.pageNumber],
       builder: (context, state) {
         if (state == null) {
           return const Center(child: CircularProgressIndicator());
@@ -52,9 +49,10 @@ class _WordPageState extends State<WordPage> {
 
         return Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: const Row(
+            // Fixed header
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: Row(
                 children: [
                   Expanded(child: Text("Image", textAlign: TextAlign.center)),
                   Expanded(
@@ -67,31 +65,49 @@ class _WordPageState extends State<WordPage> {
               ),
             ),
 
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.content.length,
-              itemBuilder: (context, index) {
-                final identifier = state.content[index];
+            const Divider(),
 
-                return Row(
-                  children: [
-                    Expanded(child: Text("Image")),
-                    Expanded(child: Text("Definition")),
+            // Scrollable rows
+            Expanded(
+              child: ListView.builder(
+                itemCount: state.content.length,
+                itemBuilder: (context, index) {
+                  final identifier = state.content[index];
 
-                    Expanded(child: WordItemScreen(identifier: identifier)),
-                  ],
-                );
-              },
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: const Text(
+                            "Image",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+
+                        Expanded(
+                          child: const Text(
+                            "Definition",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+
+                        Expanded(child: WordItemScreen(identifier: identifier)),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
 
+            // Pagination stays fixed
             Pagination(
               numOfPages: state.page.totalPages,
               selectedPage: state.page.number + 1,
               pagesVisible: state.page.totalPages > 5
                   ? 5
                   : state.page.totalPages,
-
               onPageChanged: (int selectedPage) {
                 context.read<TranslationBloc>().add(
                   BaseEvent.fetch(
@@ -100,7 +116,6 @@ class _WordPageState extends State<WordPage> {
                   ),
                 );
               },
-
               activeTextStyle: const TextStyle(),
               activeBtnStyle: const ButtonStyle(),
               inactiveTextStyle: const TextStyle(),

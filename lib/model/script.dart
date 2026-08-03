@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/instruction.dart';
+import 'package:kris/model/translation.dart';
 
 import 'identifier.dart';
 
@@ -12,16 +12,14 @@ part 'script.g.dart';
   anyMap: true,
   checked: true,
 )
-class Script extends Instruction {
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> texts;
+class Script extends Translation {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> languages;
   const Script({
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.texts,
+    required super.texts,
     required this.languages,
     //required this.examples,
     required super.createdDate,

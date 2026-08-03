@@ -4,10 +4,12 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
+import 'api/script_api.dart';
 import 'api/tranlation_api.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
 
+import 'logic/script/script_service.dart';
 import 'logic/sound/sound_api.dart';
 import 'logic/sound/sound_service.dart';
 
@@ -112,6 +114,9 @@ void _registerApis() {
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
 
   getIt.registerLazySingleton<SoundApi>(() => SoundApi(dio, baseUrl: baseUrl));
+  getIt.registerLazySingleton<ScriptApi>(
+    () => ScriptApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -124,4 +129,5 @@ void _registerServices() {
   getIt.registerLazySingleton<ImageService>(() => ImageService());
 
   getIt.registerLazySingleton<SoundService>(() => SoundService());
+  getIt.registerLazySingleton<ScriptService>(() => ScriptService());
 }

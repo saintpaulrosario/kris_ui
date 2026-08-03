@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/script_wiget.dart';
 
 import '../../logic/base_event.dart';
-import '../../logic/translation/bloc/translation_bloc.dart';
+import '../../logic/script/bloc/script_bloc.dart';
 import '../../model/identifier.dart';
+import '../../model/script_text.dart';
 import '../../model/translation_text.dart';
 import 'content_list_widget.dart';
-import 'script_wiget.dart';
+import 'script_content_list_widget.dart';
 
-class WordTextItemWidget extends StatefulWidget {
+class ScriptTextWidget extends StatefulWidget {
   final Identifier identifier;
 
-  const WordTextItemWidget({super.key, required this.identifier});
+  const ScriptTextWidget({super.key, required this.identifier});
 
   @override
-  State<WordTextItemWidget> createState() => _WordTextItemWidgetState();
+  State<ScriptTextWidget> createState() => _ScriptTextWidgetState();
 }
 
-class _WordTextItemWidgetState extends State<WordTextItemWidget> {
+class _ScriptTextWidgetState extends State<ScriptTextWidget> {
   @override
   void initState() {
     super.initState();
 
-    context.read<TranslationBloc>().add(
+    context.read<ScriptBloc>().add(
       BaseEvent.textBySku(identifier: widget.identifier),
     );
   }
@@ -30,9 +32,9 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      TranslationBloc,
-      TranslationState,
-      ({bool fetching, TranslationText? text})
+      ScriptBloc,
+      ScriptState,
+      ({bool fetching, ScriptText? text})
     >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
@@ -52,21 +54,22 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
           return const Text("No content found");
         }
 
-        return Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: ContentListWidget(
-                  identifiers: state.text!.contents,
-                  key: ValueKey(state.text!.sku),
+        return IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: ScriptContentListWidget(
+                    identifiers: state.text!.contents,
+                    key: ValueKey(state.text!.sku),
+                  ),
                 ),
               ),
-            ),
-            Expanded(child: ScriptWidget(identifier: state.text!.script)),
-          ],
+            ],
+          ),
         );
       },
     );

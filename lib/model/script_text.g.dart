@@ -24,8 +24,8 @@ ScriptText _$ScriptTextFromJson(Map json) => $checkedCreate(
       ),
       createdBy: $checkedConvert('createdBy', (v) => v as String?),
       lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-      word: $checkedConvert(
-        'word',
+      translation: $checkedConvert(
+        'translation',
         (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
       script: $checkedConvert(
@@ -58,6 +58,6 @@ Map<String, dynamic> _$ScriptTextToJson(ScriptText instance) =>
       'sku': instance.sku,
       'ordinal': instance.ordinal,
       'script': instance.script.toJson(),
-      'word': instance.word.toJson(),
+      'translation': instance.translation.toJson(),
       'contents': instance.contents.map((e) => e.toJson()).toList(),
     };
