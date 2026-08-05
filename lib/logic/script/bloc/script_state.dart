@@ -1,7 +1,7 @@
 part of 'script_bloc.dart';
 
-
-class ScriptState extends BaseState<Script, ScriptText, ScriptContent, ScriptPayload> {
+class ScriptState
+    extends BaseState<Script, ScriptText, ScriptContent, ScriptPayload> {
   ScriptState({
     required super.errors,
     required super.fetching,
@@ -12,6 +12,7 @@ class ScriptState extends BaseState<Script, ScriptText, ScriptContent, ScriptPay
     required super.payloads,
     required super.pageNumber,
     required super.pageSize,
+    required super.selections,
   });
 
   factory ScriptState.initial() {
@@ -28,6 +29,7 @@ class ScriptState extends BaseState<Script, ScriptText, ScriptContent, ScriptPay
 
       pageNumber: 0,
       pageSize: 10,
+      selections: BuiltSet<Script>(),
     );
   }
 
@@ -54,6 +56,7 @@ class ScriptState extends BaseState<Script, ScriptText, ScriptContent, ScriptPay
       payloads: payloads ?? this.payloads,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
+      selections: selections ?? this.selections,
     );
   }
 }

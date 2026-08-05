@@ -1,14 +1,14 @@
-part of 'translation_bloc.dart';
+part of 'language_bloc.dart';
 
-class TranslationState
+class LanguageState
     extends
         BaseState<
-          Translation,
+          Language,
           TranslationText,
           TranslationContent,
           TranslationPayload
         > {
-  TranslationState({
+  LanguageState({
     required super.errors,
     required super.fetching,
     required super.data,
@@ -21,13 +21,13 @@ class TranslationState
     required super.selections,
   });
 
-  factory TranslationState.initial() {
-    return TranslationState(
+  factory LanguageState.initial() {
+    return LanguageState(
       errors: BuiltMap<String, ErrorResponse>(),
       fetching: BuiltSet<String>(),
 
-      data: BuiltMap<String, Translation>(),
-      pages: BuiltMap<int, PageResult<Translation>>(),
+      data: BuiltMap<String, Language>(),
+      pages: BuiltMap<int, PageResult<Language>>(),
 
       texts: BuiltMap<String, TranslationText>(),
       contents: BuiltMap<String, TranslationContent>(),
@@ -35,34 +35,34 @@ class TranslationState
 
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<Translation>(),
+      selections: BuiltSet<Language>(),
     );
   }
 
   @override
-  TranslationState copyWith({
+  LanguageState copyWith({
     BuiltMap<String, ErrorResponse>? errors,
-    BuiltMap<String, Translation>? data,
+    BuiltMap<String, Language>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<Translation>? selections,
-    BuiltMap<int, PageResult<Translation>>? pages,
+    BuiltSet<Language>? selections,
+    BuiltMap<int, PageResult<Language>>? pages,
     BuiltMap<String, TranslationText>? texts,
     BuiltMap<String, TranslationContent>? contents,
     BuiltMap<String, TranslationPayload>? payloads,
     int? pageNumber,
     int? pageSize,
   }) {
-    return TranslationState(
+    return LanguageState(
       errors: errors ?? this.errors,
       data: data ?? this.data,
       fetching: fetching ?? this.fetching,
+      selections: selections ?? this.selections,
       pages: pages ?? this.pages,
       texts: texts ?? this.texts,
       contents: contents ?? this.contents,
       payloads: payloads ?? this.payloads,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
-      selections: selections ?? this.selections,
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:kris/model/translation_content.dart';
 import '../../logic/base_event.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
+import 'language_list_wiget.dart';
+import 'language_widget.dart';
 import 'payload_list_widget.dart';
 
 class ContentItemWidget extends StatefulWidget {
@@ -71,9 +73,8 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                 ),
               ),
 
-              const SizedBox(width: 12),
-
-              const Text('language', overflow: TextOverflow.ellipsis),
+              //const SizedBox(width: 12),
+              //LanguageListWidget(identifiers: state.content!.languages),
             ],
           ),
         );

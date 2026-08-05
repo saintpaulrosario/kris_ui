@@ -29,44 +29,38 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<
-      TranslationBloc,
-      TranslationState,
-      ({bool fetching, TranslationText? text})
-    >(
-      selector: (state) => (
-        fetching: state.fetching.contains(widget.identifier.sku),
-        text: state.texts[widget.identifier.sku],
-      ),
+    return BlocSelector<TranslationBloc, TranslationState, TranslationText?>(
+      selector: (state) => state.texts[widget.identifier.sku],
 
-      builder: (context, state) {
-        if (state.fetching) {
+      builder: (context, text) {
+        if (text == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.text == null) {
-          return const Text("Text not found");
-        }
+        return SizedBox(
+          width: double.infinity,
 
-        if (state.text!.contents.isEmpty) {
-          return const Text("No content found");
-        }
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-        return Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerLeft,
+            children: [
+              Expanded(
                 child: ContentListWidget(
-                  identifiers: state.text!.contents,
-                  key: ValueKey(state.text!.sku),
+                  key: ValueKey(text.sku),
+
+                  identifiers: text.contents,
                 ),
               ),
-            ),
-            Expanded(child: ScriptWidget(identifier: state.text!.script)),
-          ],
+
+              Expanded(
+                child: ScriptWidget(
+                  key: ValueKey('${text.script.sku}_script'),
+
+                  identifier: text.script,
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

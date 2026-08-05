@@ -11,6 +11,7 @@ class BaseState<W, T, C, P> {
   final BuiltMap<String, T> texts;
   final BuiltMap<String, C> contents;
   final BuiltMap<String, P> payloads;
+  final BuiltSet<W> selections;
 
   final int pageNumber;
   final int pageSize;
@@ -25,6 +26,7 @@ class BaseState<W, T, C, P> {
     required this.payloads,
     required this.pageNumber,
     required this.pageSize,
+    required this.selections,
   });
 
   factory BaseState.initial() {
@@ -38,6 +40,7 @@ class BaseState<W, T, C, P> {
       payloads: BuiltMap<String, P>(),
       pageNumber: 0,
       pageSize: 10,
+      selections: BuiltSet<W>(),
     );
   }
 
@@ -63,6 +66,7 @@ class BaseState<W, T, C, P> {
       payloads: payloads ?? this.payloads,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
+      selections: selections ?? this.selections,
     );
   }
 }

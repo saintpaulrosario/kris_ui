@@ -19,7 +19,11 @@ class WordPage extends StatefulWidget {
   State<WordPage> createState() => _WordPageState();
 }
 
-class _WordPageState extends State<WordPage> {
+class _WordPageState extends State<WordPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +35,8 @@ class _WordPageState extends State<WordPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return BlocSelector<
       TranslationBloc,
       BaseState<
@@ -41,7 +47,10 @@ class _WordPageState extends State<WordPage> {
       >,
       PageResult<Translation>?
     >(
-      selector: (state) => state.pages[state.pageNumber],
+      selector: (state) {
+        return state.pages[state.pageNumber];
+      },
+
       builder: (context, state) {
         if (state == null) {
           return const Center(child: CircularProgressIndicator());
@@ -49,7 +58,6 @@ class _WordPageState extends State<WordPage> {
 
         return Column(
           children: [
-            // Fixed header
             const Padding(
               padding: EdgeInsets.all(8),
               child: Row(
@@ -67,33 +75,41 @@ class _WordPageState extends State<WordPage> {
 
             const Divider(),
 
-            // Scrollable rows
             Expanded(
               child: ListView.builder(
+                // Removed shrinkWrap
+                addAutomaticKeepAlives: true,
+
                 itemCount: state.content.length,
+
                 itemBuilder: (context, index) {
                   final identifier = state.content[index];
 
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
+
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+
                       children: [
-                        Expanded(
-                          child: const Text(
-                            "Image",
-                            textAlign: TextAlign.center,
-                          ),
+                        const Expanded(
+                          child: Text("Image", textAlign: TextAlign.center),
                         ),
 
-                        Expanded(
-                          child: const Text(
+                        const Expanded(
+                          child: Text(
                             "Definition",
                             textAlign: TextAlign.center,
                           ),
                         ),
 
-                        Expanded(child: WordItemScreen(identifier: identifier)),
+                        Expanded(
+                          child: WordItemScreen(
+                            // Important
+                            key: ValueKey(identifier.sku),
+                            identifier: identifier,
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -101,13 +117,15 @@ class _WordPageState extends State<WordPage> {
               ),
             ),
 
-            // Pagination stays fixed
             Pagination(
               numOfPages: state.page.totalPages,
+
               selectedPage: state.page.number + 1,
+
               pagesVisible: state.page.totalPages > 5
                   ? 5
                   : state.page.totalPages,
+
               onPageChanged: (int selectedPage) {
                 context.read<TranslationBloc>().add(
                   BaseEvent.fetch(
@@ -116,6 +134,7 @@ class _WordPageState extends State<WordPage> {
                   ),
                 );
               },
+
               activeTextStyle: const TextStyle(),
               activeBtnStyle: const ButtonStyle(),
               inactiveTextStyle: const TextStyle(),

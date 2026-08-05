@@ -15,20 +15,23 @@ class PayloadListWidget extends StatelessWidget {
     }
 
     return Column(
-      children: identifiers.asMap().entries.map((entry) {
-        final index = entry.key;
-        final identifier = entry.value;
-
+      children: identifiers.map((identifier) {
         return Row(
           children: [
-            PayloadItemWidget(
-              key: ValueKey(identifier.sku),
-              identifier: identifier,
+            Flexible(
+              child: PayloadItemWidget(
+                key: ValueKey(identifier.sku),
+                identifier: identifier,
+              ),
             ),
 
-            Text('sound'),
+            const SizedBox(width: 4),
 
-            Text('dialect'),
+            const Text('sound', overflow: TextOverflow.ellipsis),
+
+            const SizedBox(width: 4),
+
+            const Text('dialect', overflow: TextOverflow.ellipsis),
           ],
         );
       }).toList(),

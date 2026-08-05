@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => ScriptBloc()),
       ],
       child: Scaffold(
-        //appBar: AppBarWidget(),
+        appBar: AppBarWidget(),
         drawer: AppDrawer(),
         body: widget.child,
       ),

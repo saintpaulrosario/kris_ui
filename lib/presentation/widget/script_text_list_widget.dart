@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../model/identifier.dart';
 import 'script_text_widget.dart';
-import 'word_text_item_widget.dart';
 
 class ScriptTextListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -11,6 +10,8 @@ class ScriptTextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("ScriptTextListWidget rebuild ${identifiers.length}");
+
     if (identifiers.isEmpty) {
       return const Text("No text found");
     }
@@ -18,15 +19,17 @@ class ScriptTextListWidget extends StatelessWidget {
     return Card(
       child: ListView.separated(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: identifiers.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
+        separatorBuilder: (_, index) {
+          return const Divider();
         },
-        itemBuilder: (BuildContext context, int index) {
-          Identifier identifier = identifiers.elementAt(index);
+        itemBuilder: (_, index) {
+          final identifier = identifiers[index];
+
           return ScriptTextWidget(
+            key: ValueKey(identifier.sku),
             identifier: identifier,
-            key: Key(identifier.sku),
           );
         },
       ),

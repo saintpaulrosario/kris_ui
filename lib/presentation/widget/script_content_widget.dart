@@ -32,9 +32,9 @@ class _ScriptContentWidgetState extends State<ScriptContentWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      TranslationBloc,
-      TranslationState,
-      ({bool fetching, TranslationContent? content})
+      ScriptBloc,
+      ScriptState,
+      ({bool fetching, ScriptContent? content})
     >(
       selector: (state) => (
         fetching: state.fetching.contains(widget.identifier.sku),
