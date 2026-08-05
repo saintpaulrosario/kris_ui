@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/identifier.dart';
 
-part 'instruction.g.dart';
+part 'word.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -10,11 +10,13 @@ part 'instruction.g.dart';
   anyMap: true,
   checked: true,
 )
-class Instruction extends Identifier {
+class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> images;
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> texts;
 
-  const Instruction({
+  const Word({
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
@@ -23,10 +25,11 @@ class Instruction extends Identifier {
     required super.sku,
     required super.version,
     required super.ordinal,
+    required this.texts,
   });
 
-  factory Instruction.initial() {
-    return Instruction(
+  factory Word.initial() {
+    return Word(
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: '',
@@ -35,13 +38,14 @@ class Instruction extends Identifier {
       sku: '',
       version: 0,
       ordinal: 0,
+      texts: [],
     );
   }
 
-  factory Instruction.fromJson(Map<String, dynamic> json) {
-    return _$InstructionFromJson(json);
+  factory Word.fromJson(Map<String, dynamic> json) {
+    return _$WordFromJson(json);
   }
 
   @override
-  Map<String, dynamic> toJson() => _$InstructionToJson(this);
+  Map<String, dynamic> toJson() => _$WordToJson(this);
 }

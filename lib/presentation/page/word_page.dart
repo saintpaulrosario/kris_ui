@@ -108,6 +108,7 @@ class _WordPageState extends State<WordPage>
                             // Important
                             key: ValueKey(identifier.sku),
                             identifier: identifier,
+                            maya: '',
                           ),
                         ),
                       ],

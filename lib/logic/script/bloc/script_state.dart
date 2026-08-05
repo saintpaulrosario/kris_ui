@@ -1,7 +1,13 @@
 part of 'script_bloc.dart';
 
 class ScriptState
-    extends BaseState<Script, ScriptText, ScriptContent, ScriptPayload> {
+    extends
+        BaseState<
+          Script,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        > {
   ScriptState({
     required super.errors,
     required super.fetching,
@@ -23,13 +29,13 @@ class ScriptState
       data: BuiltMap<String, Script>(),
       pages: BuiltMap<int, PageResult<Script>>(),
 
-      texts: BuiltMap<String, ScriptText>(),
-      contents: BuiltMap<String, ScriptContent>(),
-      payloads: BuiltMap<String, ScriptPayload>(),
+      texts: BuiltMap<String, TranslationText>(),
+      contents: BuiltMap<String, TranslationContent>(),
+      payloads: BuiltMap<String, TranslationPayload>(),
 
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<Script>(),
+      selections: BuiltSet<String>(),
     );
   }
 
@@ -38,11 +44,11 @@ class ScriptState
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, Script>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<Script>? selections,
+    BuiltSet<String>? selections,
     BuiltMap<int, PageResult<Script>>? pages,
-    BuiltMap<String, ScriptText>? texts,
-    BuiltMap<String, ScriptContent>? contents,
-    BuiltMap<String, ScriptPayload>? payloads,
+    BuiltMap<String, TranslationText>? texts,
+    BuiltMap<String, TranslationContent>? contents,
+    BuiltMap<String, TranslationPayload>? payloads,
     int? pageNumber,
     int? pageSize,
   }) {

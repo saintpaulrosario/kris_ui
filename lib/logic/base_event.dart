@@ -1,18 +1,29 @@
+import 'package:kris/model/word.dart';
+
 import '../model/identifier.dart';
 
-enum WordFetchType { page, bySku, textBySku, contentBySku, payloadBySku }
+enum WordFetchType {
+  page,
+  bySku,
+  textBySku,
+  contentBySku,
+  payloadBySku,
+  select,
+}
 
 class BaseEvent {
   final WordFetchType type;
   final Identifier identifier;
   final int? pageNumber;
   final int? pageSize;
+  final bool? selected;
 
   const BaseEvent._({
     required this.type,
     required this.identifier,
     this.pageNumber,
     this.pageSize,
+    this.selected,
   });
 
   factory BaseEvent.fetch({required int pageNumber, required int pageSize}) {
@@ -43,6 +54,17 @@ class BaseEvent {
     return BaseEvent._(
       type: WordFetchType.payloadBySku,
       identifier: identifier,
+    );
+  }
+
+  factory BaseEvent.select({
+    required Identifier identifier,
+    required bool selected,
+  }) {
+    return BaseEvent._(
+      type: WordFetchType.select,
+      identifier: identifier,
+      selected: selected,
     );
   }
 }

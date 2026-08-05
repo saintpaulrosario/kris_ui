@@ -35,7 +35,7 @@ class LanguageState
 
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<Language>(),
+      selections: BuiltSet<String>(),
     );
   }
 
@@ -44,7 +44,7 @@ class LanguageState
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, Language>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<Language>? selections,
+    BuiltSet<String>? selections,
     BuiltMap<int, PageResult<Language>>? pages,
     BuiltMap<String, TranslationText>? texts,
     BuiltMap<String, TranslationContent>? contents,

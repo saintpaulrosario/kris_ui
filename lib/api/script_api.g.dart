@@ -93,14 +93,14 @@ class _ScriptApi implements ScriptApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<ScriptText>>> fetchForText(
+  Future<HttpResponse<ApiResult<TranslationText>>> fetchForText(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<ScriptText>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<TranslationText>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -111,11 +111,11 @@ class _ScriptApi implements ScriptApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<ScriptText> _value;
+    late ApiResult<TranslationText> _value;
     try {
-      _value = ApiResult<ScriptText>.fromJson(
+      _value = ApiResult<TranslationText>.fromJson(
         _result.data!,
-        (json) => ScriptText.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationText.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -126,29 +126,32 @@ class _ScriptApi implements ScriptApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<ScriptContent>>> fetchForContent(
+  Future<HttpResponse<ApiResult<TranslationContent>>> fetchForContent(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<ScriptContent>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/script/content/${identifier}',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<TranslationContent>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/script/content/${identifier}',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<ScriptContent> _value;
+    late ApiResult<TranslationContent> _value;
     try {
-      _value = ApiResult<ScriptContent>.fromJson(
+      _value = ApiResult<TranslationContent>.fromJson(
         _result.data!,
-        (json) => ScriptContent.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationContent.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -159,29 +162,32 @@ class _ScriptApi implements ScriptApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<ScriptPayload>>> fetchForPayload(
+  Future<HttpResponse<ApiResult<TranslationPayload>>> fetchForPayload(
     String identifier,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<ScriptPayload>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/script/payload/${identifier}',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<TranslationPayload>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/script/payload/${identifier}',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<ScriptPayload> _value;
+    late ApiResult<TranslationPayload> _value;
     try {
-      _value = ApiResult<ScriptPayload>.fromJson(
+      _value = ApiResult<TranslationPayload>.fromJson(
         _result.data!,
-        (json) => ScriptPayload.fromJson(json as Map<String, dynamic>),
+        (json) => TranslationPayload.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

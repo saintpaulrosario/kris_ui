@@ -5,8 +5,13 @@ import 'word_text_item_widget.dart';
 
 class WordTextListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
+  final String maya;
 
-  const WordTextListWidget({super.key, required this.identifiers});
+  const WordTextListWidget({
+    super.key,
+    required this.identifiers,
+    required this.maya,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +31,7 @@ class WordTextListWidget extends StatelessWidget {
           return WordTextItemWidget(
             identifier: identifier,
             key: Key(identifier.sku),
+            maya: maya,
           );
         },
       ),

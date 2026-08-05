@@ -41,6 +41,9 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
         case WordFetchType.payloadBySku:
           await _fetchPayloadBySku(event, emit);
           break;
+        case WordFetchType.select:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }

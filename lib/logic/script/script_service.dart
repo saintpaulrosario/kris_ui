@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/api/script_api.dart';
+import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
+import 'package:kris/model/translation_text.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../api/tranlation_api.dart';
@@ -15,7 +18,13 @@ import '../../service_locator.dart';
 import '../word_service.dart';
 
 class ScriptService
-    implements WordService<Script, ScriptText, ScriptContent, ScriptPayload> {
+    implements
+        WordService<
+          Script,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        > {
   final ScriptApi _api = getIt<ScriptApi>();
 
   @override
@@ -70,15 +79,15 @@ class ScriptService
   }
 
   @override
-  Future<Either<ErrorResponse, ScriptText>> retrieveTextBySku(
+  Future<Either<ErrorResponse, TranslationText>> retrieveTextBySku(
     String sku,
   ) async {
-    final HttpResponse<ApiResult<ScriptText>> httpResponse = await _api
+    final HttpResponse<ApiResult<TranslationText>> httpResponse = await _api
         .fetchForText(sku);
     try {
-      ApiResult<ScriptText> apiResult = httpResponse.data;
+      ApiResult<TranslationText> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final ScriptText payload = apiResult.payload;
+        final TranslationText payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -95,15 +104,15 @@ class ScriptService
   }
 
   @override
-  Future<Either<ErrorResponse, ScriptContent>> retrieveContentBySku(
+  Future<Either<ErrorResponse, TranslationContent>> retrieveContentBySku(
     String sku,
   ) async {
-    final HttpResponse<ApiResult<ScriptContent>> httpResponse = await _api
+    final HttpResponse<ApiResult<TranslationContent>> httpResponse = await _api
         .fetchForContent(sku);
     try {
-      ApiResult<ScriptContent> apiResult = httpResponse.data;
+      ApiResult<TranslationContent> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final ScriptContent payload = apiResult.payload;
+        final TranslationContent payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -120,15 +129,15 @@ class ScriptService
   }
 
   @override
-  Future<Either<ErrorResponse, ScriptPayload>> retrievePayloadBySku(
+  Future<Either<ErrorResponse, TranslationPayload>> retrievePayloadBySku(
     String sku,
   ) async {
-    final HttpResponse<ApiResult<ScriptPayload>> httpResponse = await _api
+    final HttpResponse<ApiResult<TranslationPayload>> httpResponse = await _api
         .fetchForPayload(sku);
     try {
-      ApiResult<ScriptPayload> apiResult = httpResponse.data;
+      ApiResult<TranslationPayload> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final ScriptPayload payload = apiResult.payload;
+        final TranslationPayload payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

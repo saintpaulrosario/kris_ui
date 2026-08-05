@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
+import 'package:kris/model/translation_text.dart';
 import 'package:retrofit/retrofit.dart';
 import '../model/script.dart';
 import '../model/script_content.dart';
@@ -12,7 +15,7 @@ part 'script_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class ScriptApi
-    implements WordApi<Script, ScriptText, ScriptContent, ScriptPayload> {
+    implements WordApi<Script, TranslationText, TranslationContent, TranslationPayload> {
   factory ScriptApi(Dio dio, {String baseUrl}) = _ScriptApi;
 
   @override
@@ -30,19 +33,19 @@ abstract class ScriptApi
 
   @override
   @GET("/script/text/{identifier}")
-  Future<HttpResponse<ApiResult<ScriptText>>> fetchForText(
+  Future<HttpResponse<ApiResult<TranslationText>>> fetchForText(
     @Path("identifier") String identifier,
   );
 
   @override
   @GET("/script/content/{identifier}")
-  Future<HttpResponse<ApiResult<ScriptContent>>> fetchForContent(
+  Future<HttpResponse<ApiResult<TranslationContent>>> fetchForContent(
     @Path("identifier") String identifier,
   );
 
   @override
   @GET("/script/payload/{identifier}")
-  Future<HttpResponse<ApiResult<ScriptPayload>>> fetchForPayload(
+  Future<HttpResponse<ApiResult<TranslationPayload>>> fetchForPayload(
     @Path("identifier") String identifier,
   );
 }

@@ -2,12 +2,14 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
+import 'package:kris/model/language.dart';
 import 'package:kris/model/script.dart';
+import 'package:kris/model/word.dart';
 
 import 'menu_text_widget.dart';
-
 
 class MenuWidget extends StatefulWidget {
   final String maya;
@@ -25,10 +27,17 @@ class _MenuWidgetState extends State<MenuWidget> {
   @override
   void initState() {
     super.initState();
+    if ("SCRIPT" == widget.maya) {
+      context.read<ScriptBloc>().add(
+        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+      );
+    }
 
-    context.read<ScriptBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-    );
+    if ("LANGUAGE" == widget.maya) {
+      context.read<LanguageBloc>().add(
+        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+      );
+    }
   }
 
   @override
@@ -39,103 +48,161 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.maya == 'LANGUAGE') {
+      return BlocSelector<
+        LanguageBloc,
+        LanguageState,
+        (BuiltSet<String>, BuiltMap<String, Language>?)
+      >(
+        selector: (state) => (state.selections, state.data),
+        builder: (context, data) {
+          final selections = data.$1;
+          final words = data.$2?.values.toList() ?? [];
+
+          return _buildMenu(
+            scrollController: _scrollController,
+            words: words,
+            selections: selections,
+            widget: widget,
+            maya: 'LANGUAGE',
+          );
+        },
+      );
+    }
     return BlocSelector<
       ScriptBloc,
       ScriptState,
-      (BuiltSet<Script>, BuiltMap<String, Script>?)
+      (BuiltSet<String>, BuiltMap<String, Script>?)
     >(
       selector: (state) => (state.selections, state.data),
       builder: (context, data) {
         final selections = data.$1;
         final words = data.$2?.values.toList() ?? [];
 
-        return SizedBox(
-          width: 180,
-          child: MenuAnchor(
-            alignmentOffset: const Offset(0, 5),
-            menuChildren: [
-              SizedBox(
-                width: 320,
-                height: MediaQuery.of(context).size.height * .5,
-                child: Material(
-                  elevation: 4,
-                  child: Scrollbar(
-                    controller: _scrollController,
-                    thumbVisibility: true,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: words.length,
-                      itemBuilder: (context, index) {
-                        final word = words[index];
-
-                        final texts = word.texts.toList();
-
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (index > 0) const Divider(height: 1),
-
-                            ...texts.map(
-                              (Identifier identifier) => MenuTextWidget(
-                                identifier: identifier,
-                                selected: selections.contains(word),
-                                onChanged: (selected) {
-                                  // TODO:
-                                  // context.read<WordBloc>().add(
-                                  //   SelectWordEvent(
-                                  //     word: word,
-                                  //     selected: selected,
-                                  //   ),
-                                  // );
-                                },
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-            builder: (context, controller, child) {
-              return InkWell(
-                onTap: () {
-                  if (controller.isOpen) {
-                    controller.close();
-                  } else {
-                    controller.open();
-                  }
-                },
-                child: InputDecorator(
-                  decoration: InputDecoration(
-                    labelText: widget.label,
-                    border: const OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          selections.isEmpty
-                              ? 'Select'
-                              : '${selections.length} selected',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Icon(
-                        controller.isOpen
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+        return _buildMenu(
+          scrollController: _scrollController,
+          words: words,
+          selections: selections,
+          widget: widget,
+          maya: 'SCRIPT',
         );
       },
+    );
+  }
+}
+
+class _buildMenu extends StatelessWidget {
+  const _buildMenu({
+    super.key,
+    required this._scrollController,
+    required this.words,
+    required this.selections,
+    required this.widget,
+    required this.maya,
+  });
+
+  final ScrollController _scrollController;
+  final List<Word> words;
+  final BuiltSet<String> selections;
+  final MenuWidget widget;
+  final String maya;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 180,
+      child: MenuAnchor(
+        alignmentOffset: const Offset(0, 5),
+        menuChildren: [
+          SizedBox(
+            width: 320,
+            height: MediaQuery.of(context).size.height * .5,
+            child: Material(
+              elevation: 4,
+              child: Scrollbar(
+                controller: _scrollController,
+                thumbVisibility: true,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    final word = words[index];
+
+                    final texts = word.texts.toList();
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (index > 0) const Divider(height: 1),
+
+                        ...texts.map(
+                          (Identifier identifier) => MenuTextWidget(
+                            identifier: identifier,
+                            selected: selections.contains(identifier.sku),
+                            maya: widget.maya,
+                            onChanged: (selected) {
+                              if (maya == 'SCRIPT') {
+                                context.read<ScriptBloc>().add(
+                                  BaseEvent.select(
+                                    identifier: identifier,
+                                    selected: selected,
+                                  ),
+                                );
+                              } else {
+                                context.read<LanguageBloc>().add(
+                                  BaseEvent.select(
+                                    identifier: identifier,
+                                    selected: selected,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+        builder: (context, controller, child) {
+          return InkWell(
+            onTap: () {
+              if (controller.isOpen) {
+                controller.close();
+              } else {
+                controller.open();
+              }
+            },
+            child: InputDecorator(
+              decoration: InputDecoration(
+                labelText: widget.label,
+                border: const OutlineInputBorder(),
+                isDense: true,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      selections.isEmpty
+                          ? 'Select'
+                          : '${selections.length} selected',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    controller.isOpen
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

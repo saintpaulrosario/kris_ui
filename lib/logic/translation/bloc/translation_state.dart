@@ -35,7 +35,7 @@ class TranslationState
 
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<Translation>(),
+      selections: BuiltSet<String>(),
     );
   }
 
@@ -44,7 +44,7 @@ class TranslationState
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, Translation>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<Translation>? selections,
+    BuiltSet<String>? selections,
     BuiltMap<int, PageResult<Translation>>? pages,
     BuiltMap<String, TranslationText>? texts,
     BuiltMap<String, TranslationContent>? contents,

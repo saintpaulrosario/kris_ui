@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kris/api/language_api.dart';
+import 'package:kris/logic/language/language_service.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
@@ -117,6 +119,10 @@ void _registerApis() {
   getIt.registerLazySingleton<ScriptApi>(
     () => ScriptApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<LanguageApi>(
+    () => LanguageApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -130,4 +136,6 @@ void _registerServices() {
 
   getIt.registerLazySingleton<SoundService>(() => SoundService());
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
+
+  getIt.registerLazySingleton<LanguageService>(() => LanguageService());
 }

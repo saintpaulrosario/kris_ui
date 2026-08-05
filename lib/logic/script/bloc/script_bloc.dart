@@ -2,6 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
+import 'package:kris/model/translation_text.dart';
 
 import '../../../model/script.dart';
 import '../../../model/script_content.dart';
@@ -40,6 +43,9 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
 
         case WordFetchType.payloadBySku:
           await _fetchPayloadBySku(event, emit);
+          break;
+        case WordFetchType.select:
+          await _select(event, emit);
           break;
       }
     });
@@ -276,5 +282,17 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
         },
       );
     }
+  }
+
+  Future<void> _select(BaseEvent event, Emitter<ScriptState> emit) async {
+    final selections = state.selections.toBuilder();
+
+    if (event.selected ?? false) {
+      selections.add(event.identifier.sku);
+    } else {
+      selections.remove(event.identifier.sku);
+    }
+
+    emit(state.copyWith(selections: selections.build()));
   }
 }

@@ -84,7 +84,10 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     scrollDirection: Axis.horizontal,
 
                     child: Row(
-                      children: [MenuWidget(maya: 'SCRIPT', label: 'script')],
+                      children: [
+                        MenuWidget(maya: 'SCRIPT', label: 'script'),
+                        MenuWidget(maya: 'LANGUAGE', label: 'language'),
+                      ],
                     ),
                   ),
                 ],

@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/instruction.dart';
+import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
 
@@ -12,10 +12,7 @@ part 'translation.g.dart';
   anyMap: true,
   checked: true,
 )
-class Translation extends Instruction {
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> texts;
-
+class Translation extends Word {
   // @JsonKey(disallowNullValue: false, defaultValue: [])
   // final List<Identifier> examples;
 
@@ -23,7 +20,7 @@ class Translation extends Instruction {
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.texts,
+    required super.texts,
     //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
