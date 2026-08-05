@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widget/menu_widget.dart';
-import '../menu/script_menu.dart';
+import 'menu_widget.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});
@@ -16,6 +16,38 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
+  @override
+  void initState() {
+    super.initState();
+
+    // context.read<WordBloc>().add(
+    //   RetrieveWordsEvent(
+    //     pageNumber: 0,
+    //     pageSize: 10,
+    //     type: 'WORD',
+    //     maya: 'SCRIPT',
+    //   ),
+    // );
+
+    // context.read<WordBloc>().add(
+    //   RetrieveWordsEvent(
+    //     pageNumber: 0,
+    //     pageSize: 10,
+    //     type: 'WORD',
+    //     maya: 'LANGUAGE',
+    //   ),
+    // );
+
+    // context.read<WordBloc>().add(
+    //   RetrieveWordsEvent(
+    //     pageNumber: 0,
+    //     pageSize: 10,
+    //     type: 'WORD',
+    //     maya: 'DIALECT',
+    //   ),
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -39,17 +71,22 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 children: [
                   const Text(
                     "ߞߙߌߛߌ",
-
                     style: TextStyle(
                       fontSize: 22,
-
                       fontWeight: FontWeight.bold,
-
                       color: Colors.white,
                     ),
                   ),
 
-                  //ScriptMenu(),
+                  const SizedBox(height: 20),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+
+                    child: Row(
+                      children: [MenuWidget(maya: 'SCRIPT', label: 'script')],
+                    ),
+                  ),
                 ],
               ),
             ),
