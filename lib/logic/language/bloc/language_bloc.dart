@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:kris/api/language_api.dart';
 import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/word_service.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';
@@ -10,7 +12,6 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import '../../base_state.dart';
-import '../language_service.dart';
 
 class LanguageBloc
     extends
@@ -23,7 +24,15 @@ class LanguageBloc
             TranslationPayload
           >
         > {
-  final LanguageService _service = getIt<LanguageService>();
+  final _service =
+      getIt<
+        WordService<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >();
 
   LanguageBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {

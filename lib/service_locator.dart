@@ -3,7 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kris/api/language_api.dart';
 import 'package:kris/logic/dialect/dialect_service.dart';
-import 'package:kris/logic/language/language_service.dart';
+import 'package:kris/logic/word_service.dart';
+import 'package:kris/model/language.dart';
+import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
+import 'package:kris/model/translation_text.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
@@ -143,7 +147,22 @@ void _registerServices() {
   getIt.registerLazySingleton<SoundService>(() => SoundService());
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
 
-  getIt.registerLazySingleton<LanguageService>(() => LanguageService());
-
   getIt.registerLazySingleton<DialectService>(() => DialectService());
+
+  getIt.registerLazySingleton<
+    WordService<
+      Language,
+      TranslationText,
+      TranslationContent,
+      TranslationPayload
+    >
+  >(
+    () =>
+        WordService<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(getIt<LanguageApi>()),
+  );
 }
