@@ -13,13 +13,20 @@ import '../../../service_locator.dart';
 import '../../base_event.dart';
 import '../../base_state.dart';
 
-part 'dialect_event.dart';
-part 'dialect_state.dart';
-
-class DialectBloc extends Bloc<BaseEvent, DialectState> {
+class DialectBloc
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<
+            Dialect,
+            TranslationText,
+            TranslationContent,
+            TranslationPayload
+          >
+        > {
   final DialectService _service = getIt<DialectService>();
 
-  DialectBloc() : super(DialectState.initial()) {
+  DialectBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:

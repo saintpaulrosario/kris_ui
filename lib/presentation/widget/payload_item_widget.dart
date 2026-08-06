@@ -5,9 +5,15 @@ import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 
 import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
+import '../../model/dialect.dart';
 import '../../model/identifier.dart';
+import '../../model/language.dart';
+import '../../model/translation.dart';
+import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
+import '../../model/translation_text.dart';
 import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
@@ -52,7 +58,7 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
     if ('SCRIPT' == widget.maya) {
       return BlocSelector<
         ScriptBloc,
-        ScriptState,
+        BaseState,
         ({bool fetching, TranslationPayload? payload})
       >(
         selector: (state) => (
@@ -86,7 +92,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
     } else if (widget.maya == 'LANGUAGE') {
       return BlocSelector<
         LanguageBloc,
-        LanguageState,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationPayload? payload})
       >(
         selector: (state) => (
@@ -120,7 +131,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
     } else if (widget.maya == 'DIALECT') {
       return BlocSelector<
         DialectBloc,
-        DialectState,
+        BaseState<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationPayload? payload})
       >(
         selector: (state) => (
@@ -154,7 +170,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
     } else {
       return BlocSelector<
         TranslationBloc,
-        TranslationState,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationPayload? payload})
       >(
         selector: (state) => (

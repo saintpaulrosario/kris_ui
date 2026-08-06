@@ -6,8 +6,14 @@ import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/model/translation_content.dart';
 
 import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
+import '../../model/dialect.dart';
 import '../../model/identifier.dart';
+import '../../model/language.dart';
+import '../../model/translation.dart';
+import '../../model/translation_payload.dart';
+import '../../model/translation_text.dart';
 import 'payload_list_widget.dart';
 
 class ContentItemWidget extends StatefulWidget {
@@ -52,7 +58,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
     if (widget.maya == 'SCRIPT') {
       return BlocSelector<
         ScriptBloc,
-        ScriptState,
+        BaseState,
         ({bool fetching, TranslationContent? content})
       >(
         selector: (state) => (
@@ -66,7 +72,12 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
     } else if (widget.maya == 'LANGUAGE') {
       return BlocSelector<
         LanguageBloc,
-        LanguageState,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationContent? content})
       >(
         selector: (state) => (
@@ -80,7 +91,12 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
     } else if (widget.maya == 'DIALECT') {
       return BlocSelector<
         DialectBloc,
-        DialectState,
+        BaseState<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationContent? content})
       >(
         selector: (state) => (
@@ -94,7 +110,12 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
     } else {
       return BlocSelector<
         TranslationBloc,
-        TranslationState,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationContent? content})
       >(
         selector: (state) => (

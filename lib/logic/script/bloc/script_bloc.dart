@@ -7,22 +7,27 @@ import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';
 
 import '../../../model/script.dart';
-import '../../../model/script_content.dart';
-import '../../../model/script_payload.dart';
 import '../../../response/error_response.dart';
-import '../../../model/script_text.dart';
 import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
 
 import '../../base_event.dart';
 import '../script_service.dart';
 
-part 'script_state.dart';
-
-class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
+class ScriptBloc
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<
+            Script,
+            TranslationText,
+            TranslationContent,
+            TranslationPayload
+          >
+        > {
   final ScriptService _translationService = getIt<ScriptService>();
 
-  ScriptBloc() : super(ScriptState.initial()) {
+  ScriptBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -51,7 +56,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     });
   }
 
-  Future<void> _fetchWords(BaseEvent event, Emitter<ScriptState> emit) async {
+  Future<void> _fetchWords(BaseEvent event, emit) async {
     if (state.fetching.contains("all")) {
       return;
     }
@@ -100,10 +105,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     );
   }
 
-  Future<void> _fetchWordBySku(
-    BaseEvent event,
-    Emitter<ScriptState> emit,
-  ) async {
+  Future<void> _fetchWordBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -146,10 +148,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     }
   }
 
-  Future<void> _fetchTextBySku(
-    BaseEvent event,
-    Emitter<ScriptState> emit,
-  ) async {
+  Future<void> _fetchTextBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -192,10 +191,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     }
   }
 
-  Future<void> _fetchContentBySku(
-    BaseEvent event,
-    Emitter<ScriptState> emit,
-  ) async {
+  Future<void> _fetchContentBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -238,10 +234,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     }
   }
 
-  Future<void> _fetchPayloadBySku(
-    BaseEvent event,
-    Emitter<ScriptState> emit,
-  ) async {
+  Future<void> _fetchPayloadBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -284,7 +277,7 @@ class ScriptBloc extends Bloc<BaseEvent, ScriptState> {
     }
   }
 
-  Future<void> _select(BaseEvent event, Emitter<ScriptState> emit) async {
+  Future<void> _select(BaseEvent event, emit) async {
     final selections = state.selections.toBuilder();
 
     if (event.selected ?? false) {

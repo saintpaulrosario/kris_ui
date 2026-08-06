@@ -8,8 +8,13 @@ import 'package:kris/model/translation_text.dart';
 import 'package:kris/model/word.dart';
 
 import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
+import '../../model/dialect.dart';
 import '../../model/identifier.dart';
+import '../../model/language.dart';
+import '../../model/translation_content.dart';
+import '../../model/translation_payload.dart';
 import 'word_text_list_wiget.dart';
 
 class WordWidget extends StatefulWidget {
@@ -49,7 +54,7 @@ class _WordWidgetState extends State<WordWidget> {
   @override
   Widget build(BuildContext context) {
     if ('SCRIPT' == widget.maya) {
-      return BlocBuilder<ScriptBloc, ScriptState>(
+      return BlocBuilder<ScriptBloc, BaseState>(
         builder: (context, state) {
           final Translation? word = state.data[widget.identifier.sku];
 
@@ -61,7 +66,15 @@ class _WordWidgetState extends State<WordWidget> {
         },
       );
     } else if ('LANGUAGE' == widget.maya) {
-      return BlocBuilder<LanguageBloc, LanguageState>(
+      return BlocBuilder<
+        LanguageBloc,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >(
         builder: (context, state) {
           final Translation? word = state.data[widget.identifier.sku];
 
@@ -73,7 +86,15 @@ class _WordWidgetState extends State<WordWidget> {
         },
       );
     } else if ('DIALECT' == widget.maya) {
-      return BlocBuilder<DialectBloc, DialectState>(
+      return BlocBuilder<
+        DialectBloc,
+        BaseState<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >(
         builder: (context, state) {
           final Translation? word = state.data[widget.identifier.sku];
 
@@ -85,7 +106,15 @@ class _WordWidgetState extends State<WordWidget> {
         },
       );
     } else {
-      return BlocBuilder<TranslationBloc, TranslationState>(
+      return BlocBuilder<
+        TranslationBloc,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >(
         builder: (context, state) {
           final Translation? word = state.data[widget.identifier.sku];
 

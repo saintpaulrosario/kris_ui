@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
@@ -9,6 +10,10 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/script.dart';
+import 'package:kris/model/translation.dart';
+import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
+import 'package:kris/model/translation_text.dart';
 import 'package:kris/model/word.dart';
 
 import 'menu_text_widget.dart';
@@ -55,7 +60,12 @@ class _MenuWidgetState extends State<MenuWidget> {
     if (widget.maya == 'LANGUAGE') {
       return BlocSelector<
         LanguageBloc,
-        LanguageState,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         (BuiltSet<String>, BuiltMap<String, Language>?)
       >(
         selector: (state) => (state.selections, state.data),
@@ -77,7 +87,12 @@ class _MenuWidgetState extends State<MenuWidget> {
     if (widget.maya == 'DIALECT') {
       return BlocSelector<
         DialectBloc,
-        DialectState,
+        BaseState<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         (BuiltSet<String>, BuiltMap<String, Dialect>?)
       >(
         selector: (state) => (state.selections, state.data),
@@ -97,7 +112,12 @@ class _MenuWidgetState extends State<MenuWidget> {
     }
     return BlocSelector<
       ScriptBloc,
-      ScriptState,
+      BaseState<
+        Script,
+        TranslationText,
+        TranslationContent,
+        TranslationPayload
+      >,
       (BuiltSet<String>, BuiltMap<String, Script>?)
     >(
       selector: (state) => (state.selections, state.data),

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
+import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';
 import 'package:kris/presentation/widget/content_item_wiget.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../model/identifier.dart';
+import '../../model/language.dart';
 
 class MenuTextWidget extends StatefulWidget {
   final Identifier identifier;
@@ -59,7 +63,12 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
     if (widget.maya == 'LANGUAGE') {
       return BlocSelector<
         LanguageBloc,
-        LanguageState,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationText? text})
       >(
         selector: (state) => (
@@ -89,7 +98,12 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
     if (widget.maya == 'DIALECT') {
       return BlocSelector<
         DialectBloc,
-        DialectState,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, TranslationText? text})
       >(
         selector: (state) => (
@@ -118,7 +132,7 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
 
     return BlocSelector<
       ScriptBloc,
-      ScriptState,
+      BaseState,
       ({bool fetching, TranslationText? text})
     >(
       selector: (state) => (

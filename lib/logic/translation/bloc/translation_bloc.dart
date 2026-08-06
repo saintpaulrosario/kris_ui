@@ -14,12 +14,20 @@ import '../../../response/page_result.dart';
 import '../../base_event.dart';
 import '../translation_service.dart';
 
-part 'translation_state.dart';
-
-class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
+class TranslationBloc
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<
+            Translation,
+            TranslationText,
+            TranslationContent,
+            TranslationPayload
+          >
+        > {
   final TranslationService _translationService = getIt<TranslationService>();
 
-  TranslationBloc() : super(TranslationState.initial()) {
+  TranslationBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -48,10 +56,7 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     });
   }
 
-  Future<void> _fetchWords(
-    BaseEvent event,
-    Emitter<TranslationState> emit,
-  ) async {
+  Future<void> _fetchWords(BaseEvent event, emit) async {
     if (state.fetching.contains("all")) {
       return;
     }
@@ -100,10 +105,7 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     );
   }
 
-  Future<void> _fetchWordBySku(
-    BaseEvent event,
-    Emitter<TranslationState> emit,
-  ) async {
+  Future<void> _fetchWordBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -146,10 +148,7 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     }
   }
 
-  Future<void> _fetchTextBySku(
-    BaseEvent event,
-    Emitter<TranslationState> emit,
-  ) async {
+  Future<void> _fetchTextBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -192,10 +191,7 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     }
   }
 
-  Future<void> _fetchContentBySku(
-    BaseEvent event,
-    Emitter<TranslationState> emit,
-  ) async {
+  Future<void> _fetchContentBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -238,10 +234,7 @@ class TranslationBloc extends Bloc<BaseEvent, TranslationState> {
     }
   }
 
-  Future<void> _fetchPayloadBySku(
-    BaseEvent event,
-    Emitter<TranslationState> emit,
-  ) async {
+  Future<void> _fetchPayloadBySku(BaseEvent event, emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(

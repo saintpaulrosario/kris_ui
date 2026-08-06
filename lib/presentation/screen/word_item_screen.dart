@@ -3,11 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/model/language.dart';
 
 import '../../app_router.dart';
 import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
+import '../../model/script.dart';
+import '../../model/translation.dart';
+import '../../model/translation_content.dart';
+import '../../model/translation_payload.dart';
+import '../../model/translation_text.dart';
 import '../widget/word_text_list_wiget.dart';
 
 class WordItemScreen extends StatefulWidget {
@@ -57,7 +64,12 @@ class _WordItemScreenState extends State<WordItemScreen>
     if ('SCRIPT' == widget.maya) {
       return BlocSelector<
         ScriptBloc,
-        ScriptState,
+        BaseState<
+          Script,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, List<Identifier> texts})
       >(
         selector: (state) {
@@ -84,7 +96,12 @@ class _WordItemScreenState extends State<WordItemScreen>
     } else if ('SCRIPT' == widget.maya) {
       return BlocSelector<
         LanguageBloc,
-        LanguageState,
+        BaseState<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, List<Identifier> texts})
       >(
         selector: (state) {
@@ -111,7 +128,12 @@ class _WordItemScreenState extends State<WordItemScreen>
     } else {
       return BlocSelector<
         TranslationBloc,
-        TranslationState,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
         ({bool fetching, List<Identifier> texts})
       >(
         selector: (state) {
