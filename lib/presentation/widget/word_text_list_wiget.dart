@@ -30,7 +30,7 @@ class WordTextListWidget extends StatelessWidget {
           Identifier identifier = identifiers.elementAt(index);
           return WordTextItemWidget(
             identifier: identifier,
-            key: Key(identifier.sku),
+            key: ValueKey('${identifier.sku}_$maya'),
             maya: maya,
           );
         },

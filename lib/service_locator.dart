@@ -2,10 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kris/api/language_api.dart';
+import 'package:kris/logic/dialect/dialect_service.dart';
 import 'package:kris/logic/language/language_service.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
+import 'api/dialect_api.dart';
 import 'api/script_api.dart';
 import 'api/tranlation_api.dart';
 import 'logic/image/image_api.dart';
@@ -123,6 +125,10 @@ void _registerApis() {
   getIt.registerLazySingleton<LanguageApi>(
     () => LanguageApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<DialectApi>(
+    () => DialectApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -138,4 +144,6 @@ void _registerServices() {
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
 
   getIt.registerLazySingleton<LanguageService>(() => LanguageService());
+
+  getIt.registerLazySingleton<DialectService>(() => DialectService());
 }

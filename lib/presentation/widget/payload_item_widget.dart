@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 
@@ -33,6 +34,10 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
       );
     } else if ('LANGUAGE' == widget.maya) {
       context.read<LanguageBloc>().add(
+        BaseEvent.payloadBySku(identifier: widget.identifier),
+      );
+    } else if ('DIALECT' == widget.maya) {
+      context.read<DialectBloc>().add(
         BaseEvent.payloadBySku(identifier: widget.identifier),
       );
     } else {
@@ -72,13 +77,81 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
               Text(
                 state.payload!.value,
                 textAlign: TextAlign.center,
-                key: Key(state.payload!.sku),
+                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
               ),
             ],
           );
         },
       );
     } else if (widget.maya == 'LANGUAGE') {
+      return BlocSelector<
+        LanguageBloc,
+        LanguageState,
+        ({bool fetching, TranslationPayload? payload})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          payload: state.payloads[widget.identifier.sku],
+        ),
+
+        builder: (context, state) {
+          if (state.fetching) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.payload == null) {
+            return const Text("Payload was not fetched");
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                state.payload!.value,
+                textAlign: TextAlign.center,
+                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
+              ),
+            ],
+          );
+        },
+      );
+    } else if (widget.maya == 'DIALECT') {
+      return BlocSelector<
+        DialectBloc,
+        DialectState,
+        ({bool fetching, TranslationPayload? payload})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          payload: state.payloads[widget.identifier.sku],
+        ),
+
+        builder: (context, state) {
+          if (state.fetching) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.payload == null) {
+            return const Text("Payload was not fetched");
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                state.payload!.value,
+                textAlign: TextAlign.center,
+                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
       return BlocSelector<
         TranslationBloc,
         TranslationState,
@@ -106,53 +179,20 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
               Text(
                 state.payload!.value,
                 textAlign: TextAlign.center,
-                key: Key(state.payload!.sku),
+                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
               ),
+
+              // Expanded(
+              //   flex: 2,
+              //   child: SoundListWidget(
+              //     identifiers: state.payload.sounds,
+              //     key: Key(state.payload.sku),
+              //   ),
+              // ),
             ],
           );
         },
       );
     }
-    return BlocSelector<
-      TranslationBloc,
-      TranslationState,
-      ({bool fetching, TranslationPayload? payload})
-    >(
-      selector: (state) => (
-        fetching: state.fetching.contains(widget.identifier.sku),
-        payload: state.payloads[widget.identifier.sku],
-      ),
-
-      builder: (context, state) {
-        if (state.fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state.payload == null) {
-          return const Text("Payload was not fetched");
-        }
-
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              state.payload!.value,
-              textAlign: TextAlign.center,
-              key: Key(state.payload!.sku),
-            ),
-
-            // Expanded(
-            //   flex: 2,
-            //   child: SoundListWidget(
-            //     identifiers: state.payload.sounds,
-            //     key: Key(state.payload.sku),
-            //   ),
-            // ),
-          ],
-        );
-      },
-    );
   }
 }

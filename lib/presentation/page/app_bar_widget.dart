@@ -87,6 +87,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                       children: [
                         MenuWidget(maya: 'SCRIPT', label: 'script'),
                         MenuWidget(maya: 'LANGUAGE', label: 'language'),
+                        MenuWidget(maya: 'DIALECT', label: 'dialect'),
                       ],
                     ),
                   ),

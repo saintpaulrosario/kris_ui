@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/model/translation_content.dart';
 import 'package:kris/model/translation_text.dart';
@@ -40,6 +41,10 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
       context.read<LanguageBloc>().add(
         BaseEvent.textBySku(identifier: widget.identifier),
       );
+    } else if (widget.maya == 'DIALECT') {
+      context.read<DialectBloc>().add(
+        BaseEvent.textBySku(identifier: widget.identifier),
+      );
     } else {
       context.read<ScriptBloc>().add(
         BaseEvent.textBySku(identifier: widget.identifier),
@@ -55,6 +60,36 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
       return BlocSelector<
         LanguageBloc,
         LanguageState,
+        ({bool fetching, TranslationText? text})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          text: state.texts[widget.identifier.sku],
+        ),
+
+        builder: (context, state) {
+          if (state.fetching) {
+            return const Padding(
+              padding: EdgeInsets.all(8),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          final text = state.text;
+
+          if (text == null) {
+            return const SizedBox.shrink();
+          }
+
+          return _buildMenuText(text);
+        },
+      );
+    }
+
+    if (widget.maya == 'DIALECT') {
+      return BlocSelector<
+        DialectBloc,
+        DialectState,
         ({bool fetching, TranslationText? text})
       >(
         selector: (state) => (

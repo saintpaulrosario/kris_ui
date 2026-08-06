@@ -26,6 +26,10 @@ Text _$TextFromJson(Map json) =>
           'script',
           (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
         ),
+        word: $checkedConvert(
+          'word',
+          (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+        ),
       );
       return val;
     });
@@ -39,4 +43,5 @@ Map<String, dynamic> _$TextToJson(Text instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'script': instance.script.toJson(),
+  'word': instance.word.toJson(),
 };

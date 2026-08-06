@@ -24,10 +24,6 @@ TranslationText _$TranslationTextFromJson(Map json) => $checkedCreate(
       ),
       createdBy: $checkedConvert('createdBy', (v) => v as String?),
       lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-      translation: $checkedConvert(
-        'translation',
-        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-      ),
       script: $checkedConvert(
         'script',
         (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
@@ -42,6 +38,10 @@ TranslationText _$TranslationTextFromJson(Map json) => $checkedCreate(
                 )
                 .toList() ??
             [],
+      ),
+      word: $checkedConvert(
+        'word',
+        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
     );
     return val;
@@ -58,6 +58,6 @@ Map<String, dynamic> _$TranslationTextToJson(TranslationText instance) =>
       'sku': instance.sku,
       'ordinal': instance.ordinal,
       'script': instance.script.toJson(),
-      'translation': instance.translation.toJson(),
+      'word': instance.word.toJson(),
       'contents': instance.contents.map((e) => e.toJson()).toList(),
     };

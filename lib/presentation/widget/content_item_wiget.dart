@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/model/translation_content.dart';
@@ -33,6 +34,10 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
       );
     } else if ("LANGUAGE" == widget.maya) {
       context.read<LanguageBloc>().add(
+        BaseEvent.contentBySku(identifier: widget.identifier),
+      );
+    } else if ("DIALECT" == widget.maya) {
+      context.read<DialectBloc>().add(
         BaseEvent.contentBySku(identifier: widget.identifier),
       );
     } else {
@@ -72,20 +77,35 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
           return _buildWidget(state);
         },
       );
+    } else if (widget.maya == 'DIALECT') {
+      return BlocSelector<
+        DialectBloc,
+        DialectState,
+        ({bool fetching, TranslationContent? content})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          content: state.contents[widget.identifier.sku],
+        ),
+        builder: (context, state) {
+          return _buildWidget(state);
+        },
+      );
+    } else {
+      return BlocSelector<
+        TranslationBloc,
+        TranslationState,
+        ({bool fetching, TranslationContent? content})
+      >(
+        selector: (state) => (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          content: state.contents[widget.identifier.sku],
+        ),
+        builder: (context, state) {
+          return _buildWidget(state);
+        },
+      );
     }
-    return BlocSelector<
-      TranslationBloc,
-      TranslationState,
-      ({bool fetching, TranslationContent? content})
-    >(
-      selector: (state) => (
-        fetching: state.fetching.contains(widget.identifier.sku),
-        content: state.contents[widget.identifier.sku],
-      ),
-      builder: (context, state) {
-        return _buildWidget(state);
-      },
-    );
   }
 
   Padding _buildWidget(({TranslationContent? content, bool fetching}) state) {
@@ -116,7 +136,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
         children: [
           Expanded(
             child: PayloadListWidget(
-              key: ValueKey(state.content!.sku),
+              key: ValueKey('${state.content!.sku}_${widget.maya}'),
               identifiers: state.content!.payloads,
               maya: widget.maya,
             ),

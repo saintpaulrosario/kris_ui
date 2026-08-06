@@ -30,6 +30,7 @@ class ScriptText extends Text {
     required this.translation,
     required super.script,
     required this.contents,
+    required super.word,
   });
 
   factory ScriptText.initial() {
@@ -44,7 +45,7 @@ class ScriptText extends Text {
       lastModifiedBy: '',
       script: Identifier.initial(),
       translation: Identifier.initial(),
-      //word: Identifier.initial(),
+      word: Identifier.initial(),
     );
   }
 

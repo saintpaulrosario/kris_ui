@@ -1,25 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:kris/logic/base_event.dart';
-import 'package:kris/model/language.dart';
-import 'package:kris/model/translation_payload.dart';
-import 'package:kris/model/translation_text.dart';
+import 'package:kris/logic/dialect/dialect_service.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/translation_content.dart';
+import '../../../model/translation_payload.dart';
+import '../../../model/translation_text.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
+import '../../base_event.dart';
 import '../../base_state.dart';
-import '../../script/bloc/script_bloc.dart';
-import '../language_service.dart';
 
-part 'language_state.dart';
+part 'dialect_event.dart';
+part 'dialect_state.dart';
 
-class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
-  final LanguageService _service = getIt<LanguageService>();
+class DialectBloc extends Bloc<BaseEvent, DialectState> {
+  final DialectService _service = getIt<DialectService>();
 
-  LanguageBloc() : super(LanguageState.initial()) {
+  DialectBloc() : super(DialectState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -42,13 +42,13 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
           await _fetchPayloadBySku(event, emit);
           break;
         case WordFetchType.select:
-          await _select(event, emit);
-          break;
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }
 
-  Future<void> _fetchWords(BaseEvent event, Emitter<LanguageState> emit) async {
+  Future<void> _fetchWords(BaseEvent event, Emitter emit) async {
     if (state.fetching.contains("all")) {
       return;
     }
@@ -75,7 +75,7 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
         );
       },
 
-      (PageResult<Language> result) {
+      (PageResult<Dialect> result) {
         final data = state.data.toBuilder();
 
         for (final word in result.content) {
@@ -97,10 +97,7 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
     );
   }
 
-  Future<void> _fetchWordBySku(
-    BaseEvent event,
-    Emitter<LanguageState> emit,
-  ) async {
+  Future<void> _fetchWordBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -141,10 +138,7 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
     }
   }
 
-  Future<void> _fetchTextBySku(
-    BaseEvent event,
-    Emitter<LanguageState> emit,
-  ) async {
+  Future<void> _fetchTextBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -185,10 +179,7 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
     }
   }
 
-  Future<void> _fetchContentBySku(
-    BaseEvent event,
-    Emitter<LanguageState> emit,
-  ) async {
+  Future<void> _fetchContentBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -229,10 +220,7 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
     }
   }
 
-  Future<void> _fetchPayloadBySku(
-    BaseEvent event,
-    Emitter<LanguageState> emit,
-  ) async {
+  Future<void> _fetchPayloadBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -271,17 +259,5 @@ class LanguageBloc extends Bloc<BaseEvent, LanguageState> {
         },
       );
     }
-  }
-
-  Future<void> _select(BaseEvent event, Emitter<LanguageState> emit) async {
-    final selections = state.selections.toBuilder();
-
-    if (event.selected ?? false) {
-      selections.add(event.identifier.sku);
-    } else {
-      selections.remove(event.identifier.sku);
-    }
-
-    emit(state.copyWith(selections: selections.build()));
   }
 }

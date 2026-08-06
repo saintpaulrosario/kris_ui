@@ -2,8 +2,10 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/script.dart';
@@ -31,10 +33,12 @@ class _MenuWidgetState extends State<MenuWidget> {
       context.read<ScriptBloc>().add(
         BaseEvent.fetch(pageNumber: 0, pageSize: 10),
       );
-    }
-
-    if ("LANGUAGE" == widget.maya) {
+    } else if ("LANGUAGE" == widget.maya) {
       context.read<LanguageBloc>().add(
+        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+      );
+    } else {
+      context.read<DialectBloc>().add(
         BaseEvent.fetch(pageNumber: 0, pageSize: 10),
       );
     }
@@ -65,6 +69,28 @@ class _MenuWidgetState extends State<MenuWidget> {
             selections: selections,
             widget: widget,
             maya: 'LANGUAGE',
+          );
+        },
+      );
+    }
+
+    if (widget.maya == 'DIALECT') {
+      return BlocSelector<
+        DialectBloc,
+        DialectState,
+        (BuiltSet<String>, BuiltMap<String, Dialect>?)
+      >(
+        selector: (state) => (state.selections, state.data),
+        builder: (context, data) {
+          final selections = data.$1;
+          final words = data.$2?.values.toList() ?? [];
+
+          return _buildMenu(
+            scrollController: _scrollController,
+            words: words,
+            selections: selections,
+            widget: widget,
+            maya: 'DIALECT',
           );
         },
       );
@@ -143,6 +169,13 @@ class _buildMenu extends StatelessWidget {
                             onChanged: (selected) {
                               if (maya == 'SCRIPT') {
                                 context.read<ScriptBloc>().add(
+                                  BaseEvent.select(
+                                    identifier: identifier,
+                                    selected: selected,
+                                  ),
+                                );
+                              } else if (maya == 'DIALECT') {
+                                context.read<DialectBloc>().add(
                                   BaseEvent.select(
                                     identifier: identifier,
                                     selected: selected,

@@ -14,6 +14,7 @@ part 'text.g.dart';
 class Text extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier script;
+  final Identifier word;
 
   const Text({
     required super.sku,
@@ -24,6 +25,7 @@ class Text extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.script,
+    required this.word,
   });
 
   factory Text.initial() {
@@ -37,6 +39,7 @@ class Text extends Identifier {
       createdBy: '',
       lastModifiedBy: '',
       script: Identifier.initial(),
+      word: Identifier.initial(),
     );
   }
 

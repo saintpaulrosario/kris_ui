@@ -14,13 +14,13 @@ part 'language.g.dart';
 )
 class Language extends Translation {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> languages;
+  final List<Identifier> scripts;
   const Language({
     required super.sku,
     required super.version,
     required super.ordinal,
     required super.texts,
-    required this.languages,
+    required this.scripts,
     //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
@@ -40,7 +40,7 @@ class Language extends Translation {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
-      languages: [],
+      scripts: [],
     );
   }
 

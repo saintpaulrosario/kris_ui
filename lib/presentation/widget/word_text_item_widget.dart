@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/presentation/widget/word_widget.dart';
@@ -33,10 +34,12 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
       context.read<ScriptBloc>().add(
         BaseEvent.textBySku(identifier: widget.identifier),
       );
-    }
-
-    if ('LANGUAGE' == widget.maya) {
+    } else if ('LANGUAGE' == widget.maya) {
       context.read<LanguageBloc>().add(
+        BaseEvent.textBySku(identifier: widget.identifier),
+      );
+    } else if ('DIALECT' == widget.maya) {
+      context.read<DialectBloc>().add(
         BaseEvent.textBySku(identifier: widget.identifier),
       );
     } else {
@@ -58,6 +61,14 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
       );
     } else if (widget.maya == 'LANGUAGE') {
       return BlocSelector<LanguageBloc, LanguageState, TranslationText?>(
+        selector: (state) => state.texts[widget.identifier.sku],
+
+        builder: (context, text) {
+          return _buildWidget(text);
+        },
+      );
+    } else if (widget.maya == 'DIALECT') {
+      return BlocSelector<DialectBloc, DialectState, TranslationText?>(
         selector: (state) => state.texts[widget.identifier.sku],
 
         builder: (context, text) {
@@ -88,7 +99,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
         children: [
           Expanded(
             child: ContentListWidget(
-              key: ValueKey(text.sku),
+              key: ValueKey('${text.sku}_${widget.maya}'),
 
               identifiers: text.contents,
               maya: widget.maya,
@@ -97,7 +108,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
 
           // Expanded(
           //   child: WordWidget(
-          //     key: ValueKey('${text.script.sku}_${widget.maya}'),
+          //     key: ValueKey('${text.script.sku}_${"dsdsd"}'),
           //     identifier: text.script,
           //     maya: 'SCRIPT',
           //   ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/model/translation.dart';
+import 'package:kris/model/translation_text.dart';
 import 'package:kris/model/word.dart';
 
 import '../../logic/base_event.dart';
@@ -33,6 +35,10 @@ class _WordWidgetState extends State<WordWidget> {
       context.read<LanguageBloc>().add(
         BaseEvent.bySku(identifier: widget.identifier),
       );
+    } else if ('DIALECT' == widget.maya) {
+      context.read<DialectBloc>().add(
+        BaseEvent.bySku(identifier: widget.identifier),
+      );
     } else {
       context.read<TranslationBloc>().add(
         BaseEvent.bySku(identifier: widget.identifier),
@@ -51,7 +57,7 @@ class _WordWidgetState extends State<WordWidget> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return _buildWidget(word: word, maya: widget.maya);
+          return _buildWidget(word: word);
         },
       );
     } else if ('LANGUAGE' == widget.maya) {
@@ -63,7 +69,19 @@ class _WordWidgetState extends State<WordWidget> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return _buildWidget(word: word, maya: widget.maya);
+          return _buildWidget(word: word);
+        },
+      );
+    } else if ('DIALECT' == widget.maya) {
+      return BlocBuilder<DialectBloc, DialectState>(
+        builder: (context, state) {
+          final Translation? word = state.data[widget.identifier.sku];
+
+          if (state.fetching.contains(widget.identifier.sku)) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return _buildWidget(word: word);
         },
       );
     } else {
@@ -75,21 +93,13 @@ class _WordWidgetState extends State<WordWidget> {
             return const Center(child: CircularProgressIndicator());
           }
           //return Text("data");
-          return _buildWidget(word: word, maya: widget.maya);
+          return _buildWidget(word: word);
         },
       );
     }
   }
-}
 
-class _buildWidget extends StatelessWidget {
-  const _buildWidget({super.key, required this.word, required this.maya});
-
-  final Translation? word;
-  final String maya;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildWidget({Translation? word}) {
     if (word == null) {
       return const Center(child: Text("Word not found"));
     }
@@ -97,14 +107,18 @@ class _buildWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          word!.ordinal.toString(),
+          word.ordinal.toString(),
           style: Theme.of(context).textTheme.titleLarge,
         ),
 
         const SizedBox(height: 10),
 
-        if (word!.texts.isNotEmpty)
-          WordTextListWidget(identifiers: word!.texts, maya: maya),
+        if (word.texts.isNotEmpty)
+          WordTextListWidget(
+            identifiers: word.texts,
+            maya: widget.maya,
+            key: ValueKey('${word.sku}_${widget.maya}'),
+          ),
       ],
     );
   }

@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/text.dart';
+import 'package:kris/model/translation.dart';
 
 import 'identifier.dart';
 
-part 'translation_text.g.dart';
+part 'dialect.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -12,35 +12,35 @@ part 'translation_text.g.dart';
   anyMap: true,
   checked: true,
 )
-class TranslationText extends Text {
+class Dialect extends Translation {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> contents;
-
-  const TranslationText({
+  final List<Identifier> languages;
+  const Dialect({
     required super.sku,
     required super.version,
     required super.ordinal,
+    required super.texts,
+    required this.languages,
+    //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.script,
-    required this.contents,
-    required super.word,
+    required super.images,
   });
 
-  factory TranslationText.initial() {
-    return TranslationText(
+  factory Dialect.initial() {
+    return Dialect(
       sku: '',
       version: 0,
       ordinal: 0,
-      contents: [],
+      texts: [],
+      images: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
-      script: Identifier.initial(),
-      word: Identifier.initial(),
+      languages: [],
     );
   }
 
@@ -51,14 +51,12 @@ class TranslationText extends Text {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is TranslationText &&
-        other.sku == sku &&
-        other.ordinal == ordinal;
+    return other is Dialect && other.sku == sku && other.ordinal == ordinal;
   }
 
-  factory TranslationText.fromJson(Map<String, dynamic> json) =>
-      _$TranslationTextFromJson(json);
+  factory Dialect.fromJson(Map<String, dynamic> json) =>
+      _$DialectFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$TranslationTextToJson(this);
+  Map<String, dynamic> toJson() => _$DialectToJson(this);
 }

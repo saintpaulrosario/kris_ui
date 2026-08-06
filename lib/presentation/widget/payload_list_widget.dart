@@ -19,30 +19,14 @@ class PayloadListWidget extends StatelessWidget {
       return const Text("No payload found");
     }
 
-    if ('SCRIPT' == maya) {
+    if ({'SCRIPT', 'LANGUAGE', 'DIALECT'}.contains(maya)) {
       return Column(
         children: identifiers.map((identifier) {
           return Row(
             children: [
               Flexible(
                 child: PayloadItemWidget(
-                  key: ValueKey(identifier.sku),
-                  identifier: identifier,
-                  maya: maya,
-                ),
-              ),
-            ],
-          );
-        }).toList(),
-      );
-    } else if ('LANGUAGE' == maya) {
-      return Column(
-        children: identifiers.map((identifier) {
-          return Row(
-            children: [
-              Flexible(
-                child: PayloadItemWidget(
-                  key: ValueKey(identifier.sku),
+                  key: ValueKey('${identifier.sku}_$maya'),
                   identifier: identifier,
                   maya: maya,
                 ),
@@ -58,7 +42,7 @@ class PayloadListWidget extends StatelessWidget {
             children: [
               Flexible(
                 child: PayloadItemWidget(
-                  key: ValueKey(identifier.sku),
+                  key: ValueKey('${identifier.sku}_$maya'),
                   identifier: identifier,
                   maya: maya,
                 ),

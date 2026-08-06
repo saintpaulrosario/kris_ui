@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'language.dart';
+part of 'dialect.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Language _$LanguageFromJson(Map json) => $checkedCreate('Language', json, (
+Dialect _$DialectFromJson(Map json) => $checkedCreate('Dialect', json, (
   $checkedConvert,
 ) {
-  final val = Language(
+  final val = Dialect(
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
@@ -23,8 +23,8 @@ Language _$LanguageFromJson(Map json) => $checkedCreate('Language', json, (
               .toList() ??
           [],
     ),
-    scripts: $checkedConvert(
-      'scripts',
+    languages: $checkedConvert(
+      'languages',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -57,7 +57,7 @@ Language _$LanguageFromJson(Map json) => $checkedCreate('Language', json, (
   return val;
 });
 
-Map<String, dynamic> _$LanguageToJson(Language instance) => <String, dynamic>{
+Map<String, dynamic> _$DialectToJson(Dialect instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
   'createdBy': instance.createdBy,
@@ -67,5 +67,5 @@ Map<String, dynamic> _$LanguageToJson(Language instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'images': instance.images.map((e) => e.toJson()).toList(),
   'texts': instance.texts.map((e) => e.toJson()).toList(),
-  'scripts': instance.scripts.map((e) => e.toJson()).toList(),
+  'languages': instance.languages.map((e) => e.toJson()).toList(),
 };

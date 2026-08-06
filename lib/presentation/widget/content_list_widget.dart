@@ -21,7 +21,7 @@ class ContentListWidget extends StatelessWidget {
           context: context,
           tiles: identifiers.map(
             (identifier) => ContentItemWidget(
-              key: ValueKey(identifier.sku),
+              key: ValueKey('${identifier.sku}_$maya'),
               identifier: identifier,
               maya: maya,
             ),
