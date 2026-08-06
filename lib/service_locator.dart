@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kris/api/language_api.dart';
-import 'package:kris/logic/dialect/dialect_service.dart';
 import 'package:kris/logic/word_service.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/script.dart';
+import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_content.dart';
 import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';
@@ -18,13 +19,11 @@ import 'api/tranlation_api.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
 
-import 'logic/script/script_service.dart';
 import 'logic/sound/sound_api.dart';
 import 'logic/sound/sound_service.dart';
 
 import 'logic/translation/bloc/translation_bloc.dart';
 import 'api/word_api.dart';
-import 'logic/translation/translation_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -141,14 +140,9 @@ void _registerApis() {
 ///------------------------------------------------------------
 
 void _registerServices() {
-  getIt.registerLazySingleton<TranslationService>(() => TranslationService());
-
   getIt.registerLazySingleton<ImageService>(() => ImageService());
 
   getIt.registerLazySingleton<SoundService>(() => SoundService());
-  getIt.registerLazySingleton<ScriptService>(() => ScriptService());
-
-  getIt.registerLazySingleton<DialectService>(() => DialectService());
 
   getIt.registerLazySingleton<
     WordService<
@@ -177,5 +171,39 @@ void _registerServices() {
           TranslationContent,
           TranslationPayload
         >(getIt<ScriptApi>()),
+  );
+
+  getIt.registerLazySingleton<
+    WordService<
+      Translation,
+      TranslationText,
+      TranslationContent,
+      TranslationPayload
+    >
+  >(
+    () =>
+        WordService<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(getIt<TranslationApi>()),
+  );
+
+  getIt.registerLazySingleton<
+    WordService<
+      Dialect,
+      TranslationText,
+      TranslationContent,
+      TranslationPayload
+    >
+  >(
+    () =>
+        WordService<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(getIt<DialectApi>()),
   );
 }

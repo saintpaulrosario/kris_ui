@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:kris/logic/dialect/dialect_service.dart';
+
 import 'package:kris/model/dialect.dart';
 import 'package:meta/meta.dart';
 
@@ -12,6 +12,7 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import '../../base_event.dart';
 import '../../base_state.dart';
+import '../../word_service.dart';
 
 class DialectBloc
     extends
@@ -24,7 +25,15 @@ class DialectBloc
             TranslationPayload
           >
         > {
-  final DialectService _service = getIt<DialectService>();
+  final _service =
+      getIt<
+        WordService<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >();
 
   DialectBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {

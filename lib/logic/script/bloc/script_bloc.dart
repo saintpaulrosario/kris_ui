@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/model/translation_content.dart';
@@ -13,7 +12,6 @@ import '../../../response/page_result.dart';
 
 import '../../base_event.dart';
 import '../../word_service.dart';
-import '../script_service.dart';
 
 class ScriptBloc
     extends

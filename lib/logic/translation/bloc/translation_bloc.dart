@@ -12,7 +12,7 @@ import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
 
 import '../../base_event.dart';
-import '../translation_service.dart';
+import '../../word_service.dart';
 
 class TranslationBloc
     extends
@@ -25,7 +25,15 @@ class TranslationBloc
             TranslationPayload
           >
         > {
-  final TranslationService _translationService = getIt<TranslationService>();
+  final _service =
+      getIt<
+        WordService<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >();
 
   TranslationBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
@@ -67,7 +75,7 @@ class TranslationBloc
       ),
     );
 
-    final results = await _translationService.retrieve(
+    final results = await _service.retrieve(
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -115,9 +123,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _translationService.retrieveWordBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveWordBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -158,9 +164,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _translationService.retrieveTextBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveTextBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -201,9 +205,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _translationService.retrieveContentBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveContentBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -244,9 +246,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _translationService.retrievePayloadBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrievePayloadBySku(event.identifier.sku);
 
       results.fold(
         (error) {
