@@ -12,6 +12,7 @@ import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
 
 import '../../base_event.dart';
+import '../../word_service.dart';
 import '../script_service.dart';
 
 class ScriptBloc
@@ -25,7 +26,15 @@ class ScriptBloc
             TranslationPayload
           >
         > {
-  final ScriptService _translationService = getIt<ScriptService>();
+  final _service =
+      getIt<
+        WordService<
+          Script,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >
+      >();
 
   ScriptBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
@@ -67,7 +76,7 @@ class ScriptBloc
       ),
     );
 
-    final results = await _translationService.retrieve(
+    final results = await _service.retrieve(
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -115,9 +124,7 @@ class ScriptBloc
         ),
       );
 
-      final results = await _translationService.retrieveWordBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveWordBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -158,9 +165,7 @@ class ScriptBloc
         ),
       );
 
-      final results = await _translationService.retrieveTextBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveTextBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -201,9 +206,7 @@ class ScriptBloc
         ),
       );
 
-      final results = await _translationService.retrieveContentBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrieveContentBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -244,9 +247,7 @@ class ScriptBloc
         ),
       );
 
-      final results = await _translationService.retrievePayloadBySku(
-        event.identifier.sku,
-      );
+      final results = await _service.retrievePayloadBySku(event.identifier.sku);
 
       results.fold(
         (error) {
