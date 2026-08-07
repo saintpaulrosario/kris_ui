@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/identifier.dart';
-import 'image_item_widget.dart';
 
 class ImageListWidget extends StatefulWidget {
   final List<Identifier> imagesIdentifiers;

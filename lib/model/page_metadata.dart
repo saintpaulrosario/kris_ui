@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'page_metadata.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(genericArgumentFactories: true)
 class PageMetadata {
   final int size;
   final int number;

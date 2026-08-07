@@ -4,7 +4,6 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/model/dialect.dart';
-import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_content.dart';
 import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';

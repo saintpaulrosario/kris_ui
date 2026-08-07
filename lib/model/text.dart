@@ -5,6 +5,7 @@ import 'identifier.dart';
 part 'text.g.dart';
 
 @JsonSerializable(
+  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,

@@ -139,7 +139,6 @@ class _MenuWidgetState extends State<MenuWidget> {
 
 class _buildMenu extends StatelessWidget {
   const _buildMenu({
-    super.key,
     required this._scrollController,
     required this.words,
     required this.selections,

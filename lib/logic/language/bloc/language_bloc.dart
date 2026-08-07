@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word_service.dart';
 import 'package:kris/model/language.dart';
@@ -74,7 +73,6 @@ class LanguageBloc
     );
 
     final results = await _service.retrieve(
-      endpoint: "language",
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -122,10 +120,7 @@ class LanguageBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(
-        sku: event.identifier.sku,
-        endpoint: "language",
-      );
+      final results = await _service.retrieveWordBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -166,10 +161,7 @@ class LanguageBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(
-        endpoint: "language",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrieveTextBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -210,10 +202,7 @@ class LanguageBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(
-        endpoint: "language",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrieveContentBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -254,10 +243,7 @@ class LanguageBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(
-        endpoint: "language",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrievePayloadBySku(event.identifier.sku);
 
       results.fold(
         (error) {

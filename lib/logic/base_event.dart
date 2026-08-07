@@ -1,4 +1,3 @@
-import 'package:kris/model/word.dart';
 
 import '../model/identifier.dart';
 

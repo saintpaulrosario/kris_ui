@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../model/identifier.dart';
-import 'sound_item_wiget.dart';
 
 class SoundListWidget extends StatelessWidget {
   final List<Identifier> identifiers;

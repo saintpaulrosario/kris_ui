@@ -48,7 +48,7 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: routeWord,
           name: routeWord,
-          builder: (_, __) => WordPage(),
+          builder: (_, _) => WordPage(),
         ),
         GoRoute(
           path: routeWordDetail,
@@ -96,7 +96,7 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNav,
       path: routeAuthentication,
       name: "authentication",
-      builder: (_, __) => const AuthenticationPage(),
+      builder: (_, _) => const AuthenticationPage(),
     ),
   ],
 );

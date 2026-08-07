@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 
-import '../../logic/image/bloc/image_bloc.dart';
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
 import 'app_bar_widget.dart';

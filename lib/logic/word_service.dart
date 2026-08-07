@@ -14,11 +14,10 @@ class WordService<W, T, C, P> {
   Future<Either<ErrorResponse, PageResult<W>>> retrieve({
     required int page,
     required int size,
-    required endpoint,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<W>>> httpResponse = await _api
-          .fetchAll(endpoint, page, size);
+          .fetchAll(page: page, size: size);
 
       ApiResult<PageResult<W>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -37,14 +36,8 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, W>> retrieveWordBySku({
-    required String sku,
-    required String endpoint,
-  }) async {
-    final HttpResponse<ApiResult<W>> httpResponse = await _api.fetch(
-      endpoint,
-      sku,
-    );
+  Future<Either<ErrorResponse, W>> retrieveWordBySku(String sku) async {
+    final HttpResponse<ApiResult<W>> httpResponse = await _api.fetch(sku);
     try {
       ApiResult<W> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -64,12 +57,8 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, T>> retrieveTextBySku({
-    required String endpoint,
-    required String sku,
-  }) async {
+  Future<Either<ErrorResponse, T>> retrieveTextBySku(String sku) async {
     final HttpResponse<ApiResult<T>> httpResponse = await _api.fetchForText(
-      endpoint,
       sku,
     );
     try {
@@ -91,12 +80,8 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, C>> retrieveContentBySku({
-    required String sku,
-    required String endpoint,
-  }) async {
+  Future<Either<ErrorResponse, C>> retrieveContentBySku(String sku) async {
     final HttpResponse<ApiResult<C>> httpResponse = await _api.fetchForContent(
-      endpoint,
       sku,
     );
     try {
@@ -118,12 +103,8 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, P>> retrievePayloadBySku({
-    required String sku,
-    required String endpoint,
-  }) async {
+  Future<Either<ErrorResponse, P>> retrievePayloadBySku(String sku) async {
     final HttpResponse<ApiResult<P>> httpResponse = await _api.fetchForPayload(
-      endpoint,
       sku,
     );
     try {

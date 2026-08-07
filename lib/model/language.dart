@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/translation.dart';
 import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
@@ -7,6 +6,7 @@ import 'identifier.dart';
 part 'language.g.dart';
 
 @JsonSerializable(
+  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,

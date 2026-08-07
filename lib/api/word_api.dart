@@ -1,43 +1,19 @@
-import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
+import 'package:retrofit/dio.dart';
 
 import '../response/api_result.dart';
 import '../response/page_result.dart';
 
-part 'word_api.g.dart';
-
-@RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract interface class WordApi<W, T, C, P> {
-  factory WordApi(Dio dio, {String baseUrl}) = _WordApi;
+  Future<HttpResponse<ApiResult<PageResult<W>>>> fetchAll({
+    required int page,
+    required int size,
+  });
 
-  @GET("/{endpoint}")
-  Future<HttpResponse<ApiResult<PageResult<W>>>> fetchAll(
-    @Path("endpoint") String endpoint,
-    @Query("page") int page,
-    @Query("size") int size,
-  );
+  Future<HttpResponse<ApiResult<W>>> fetch(String identifier);
 
-  @GET("/{endpoint}/{sku}")
-  Future<HttpResponse<ApiResult<W>>> fetch(
-    @Path("endpoint") String endpoint,
-    @Path("sku") String sku,
-  );
+  Future<HttpResponse<ApiResult<T>>> fetchForText(String identifier);
 
-  @GET("/{endpoint}/text/{sku}")
-  Future<HttpResponse<ApiResult<T>>> fetchForText(
-    @Path("endpoint") String endpoint,
-    @Path("sku") String sku,
-  );
+  Future<HttpResponse<ApiResult<C>>> fetchForContent(String identifier);
 
-  @GET("/{endpoint}/content/{sku}")
-  Future<HttpResponse<ApiResult<C>>> fetchForContent(
-    @Path("endpoint") String endpoint,
-    @Path("sku") String sku,
-  );
-
-  @GET("/{endpoint}/payload/{sku}")
-  Future<HttpResponse<ApiResult<P>>> fetchForPayload(
-    @Path("endpoint") String endpoint,
-    @Path("sku") String sku,
-  );
+  Future<HttpResponse<ApiResult<P>>> fetchForPayload(String identifier);
 }

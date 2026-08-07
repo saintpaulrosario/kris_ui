@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
-import 'package:kris/presentation/widget/word_widget.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';

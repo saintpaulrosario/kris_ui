@@ -14,7 +14,6 @@ import '../../model/translation.dart';
 import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
-import 'sound_list_wiget.dart';
 
 class PayloadItemWidget extends StatefulWidget {
   final Identifier identifier;

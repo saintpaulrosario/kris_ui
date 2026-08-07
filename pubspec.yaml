@@ -66,7 +66,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  retrofit_generator: ^10.2.7
+  retrofit_generator: ^10.2.8
   build_runner: any
   go_router_builder: any
   json_serializable: ^6.14.0

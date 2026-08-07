@@ -6,6 +6,7 @@ import 'identifier.dart';
 part 'translation_content.g.dart';
 
 @JsonSerializable(
+  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,

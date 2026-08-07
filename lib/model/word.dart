@@ -4,6 +4,7 @@ import 'package:kris/model/identifier.dart';
 part 'word.g.dart';
 
 @JsonSerializable(
+  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,

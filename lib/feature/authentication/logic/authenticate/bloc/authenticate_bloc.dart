@@ -13,7 +13,7 @@ part 'authenticate_event.dart';
 part 'authenticate_state.dart';
 
 class AuthenticateBloc extends Bloc<AuthenticateEvent, AuthenticateState> {
-  AuthService _service = getIt<AuthService>();
+  final AuthService _service = getIt<AuthService>();
 
   AuthenticateBloc() : super(AuthenticateState.initial()) {
     on<AuthenticateEvent>((event, emit) async {

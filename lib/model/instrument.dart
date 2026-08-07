@@ -61,5 +61,6 @@ class Instrument extends Identifier {
   factory Instrument.fromJson(Map<String, dynamic> json) =>
       _$InstrumentFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$InstrumentToJson(this);
 }

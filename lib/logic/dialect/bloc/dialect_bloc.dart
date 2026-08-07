@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 
 import 'package:kris/model/dialect.dart';
-import 'package:meta/meta.dart';
 
 import '../../../model/translation_content.dart';
 import '../../../model/translation_payload.dart';
@@ -76,7 +74,6 @@ class DialectBloc
     );
 
     final results = await _service.retrieve(
-      endpoint: "dialect",
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -124,10 +121,7 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(
-        endpoint: "dialect",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrieveWordBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -168,10 +162,7 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(
-        endpoint: "dialect",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrieveTextBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -212,10 +203,7 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(
-        endpoint: "dialect",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrieveContentBySku(event.identifier.sku);
 
       results.fold(
         (error) {
@@ -256,10 +244,7 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(
-        endpoint: "dialect",
-        sku: event.identifier.sku,
-      );
+      final results = await _service.retrievePayloadBySku(event.identifier.sku);
 
       results.fold(
         (error) {
