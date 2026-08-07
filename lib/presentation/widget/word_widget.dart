@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
-import 'package:kris/logic/language/bloc/language_bloc.dart';
+
 import 'package:kris/logic/script/bloc/script_bloc.dart';
-import 'package:kris/model/translation.dart';
-import 'package:kris/model/translation_text.dart';
+import 'package:kris/logic/translation/bloc/translation_bloc.dart';
 import 'package:kris/model/word.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
-import '../../logic/translation/bloc/translation_bloc.dart';
-import '../../model/dialect.dart';
 import '../../model/identifier.dart';
-import '../../model/language.dart';
+import '../../model/script.dart';
+import '../../model/translation.dart';
 import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
+import '../../model/translation_text.dart';
 import 'word_text_list_wiget.dart';
 
 class WordWidget extends StatefulWidget {
   final Identifier identifier;
   final String maya;
+  final Set<String> visited;
 
-  const WordWidget({super.key, required this.identifier, required this.maya});
+  const WordWidget({
+    super.key,
+    required this.identifier,
+    required this.maya,
+    required this.visited,
+  });
 
   @override
   State<WordWidget> createState() => _WordWidgetState();
@@ -32,16 +36,8 @@ class _WordWidgetState extends State<WordWidget> {
   void initState() {
     super.initState();
 
-    if ('SCRIPT' == widget.maya) {
+    if (widget.maya == 'SCRIPT') {
       context.read<ScriptBloc>().add(
-        BaseEvent.bySku(identifier: widget.identifier),
-      );
-    } else if ('LANGUAGE' == widget.maya) {
-      context.read<LanguageBloc>().add(
-        BaseEvent.bySku(identifier: widget.identifier),
-      );
-    } else if ('DIALECT' == widget.maya) {
-      context.read<DialectBloc>().add(
         BaseEvent.bySku(identifier: widget.identifier),
       );
     } else {
@@ -53,101 +49,83 @@ class _WordWidgetState extends State<WordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if ('SCRIPT' == widget.maya) {
-      return BlocBuilder<ScriptBloc, BaseState>(
-        builder: (context, state) {
-          final Translation? word = state.data[widget.identifier.sku];
+    final visited = {...widget.visited, widget.identifier.sku};
 
-          if (state.fetching.contains(widget.identifier.sku)) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return _buildWidget(word: word);
-        },
-      );
-    } else if ('LANGUAGE' == widget.maya) {
-      return BlocBuilder<
-        LanguageBloc,
+    if (widget.maya == 'SCRIPT') {
+      return BlocSelector<
+        ScriptBloc,
         BaseState<
-          Language,
+          Script,
           TranslationText,
           TranslationContent,
           TranslationPayload
-        >
+        >,
+        ({bool fetching, Script? word})
       >(
-        builder: (context, state) {
-          final Language? word = state.data[widget.identifier.sku];
-
-          if (state.fetching.contains(widget.identifier.sku)) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return _buildWidget(word: word);
+        selector: (state) {
+          return (
+            fetching: state.fetching.contains(widget.identifier.sku),
+            word: state.data[widget.identifier.sku],
+          );
         },
-      );
-    } else if ('DIALECT' == widget.maya) {
-      return BlocBuilder<
-        DialectBloc,
-        BaseState<
-          Dialect,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >
-      >(
-        builder: (context, state) {
-          final Dialect? word = state.data[widget.identifier.sku];
 
-          if (state.fetching.contains(widget.identifier.sku)) {
+        builder: (context, result) {
+          if (result.fetching) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return _buildWidget(word: word);
-        },
-      );
-    } else {
-      return BlocBuilder<
-        TranslationBloc,
-        BaseState<
-          Translation,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >
-      >(
-        builder: (context, state) {
-          final Translation? word = state.data[widget.identifier.sku];
-
-          if (state.fetching.contains(widget.identifier.sku)) {
-            return const Center(child: CircularProgressIndicator());
+          if (result.word == null) {
+            return const Center(child: Text("Word not found"));
           }
-          //return Text("data");
-          return _buildWidget(word: word);
+
+          return _buildWord(result.word!, visited);
         },
       );
     }
+
+    return BlocSelector<
+      TranslationBloc,
+      BaseState<
+        Translation,
+        TranslationText,
+        TranslationContent,
+        TranslationPayload
+      >,
+      ({bool fetching, Translation? word})
+    >(
+      selector: (state) {
+        return (
+          fetching: state.fetching.contains(widget.identifier.sku),
+          word: state.data[widget.identifier.sku],
+        );
+      },
+
+      builder: (context, result) {
+        if (result.fetching) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (result.word == null) {
+          return const Center(child: Text("Word not found"));
+        }
+
+        return _buildWord(result.word!, visited);
+      },
+    );
   }
 
-  Widget _buildWidget({Word? word}) {
-    if (word == null) {
-      return const Center(child: Text("Word not found"));
-    }
+  Widget _buildWord(Word word, Set<String> visited) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          word.ordinal.toString(),
-          style: Theme.of(context).textTheme.titleLarge,
+        if (widget.maya != 'SCRIPT') Text('${word.ordinal}'),
+
+        WordTextListWidget(
+          identifiers: word.texts,
+          maya: widget.maya,
+          visited: visited,
+          key: ValueKey('${word.sku}_${widget.maya}'),
         ),
-
-        const SizedBox(height: 10),
-
-        if (word.texts.isNotEmpty)
-          WordTextListWidget(
-            identifiers: word.texts,
-            maya: widget.maya,
-            key: ValueKey('${word.sku}_${widget.maya}'),
-          ),
       ],
     );
   }

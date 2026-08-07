@@ -56,7 +56,11 @@ class _WordDetailPageState extends State<WordDetailPage> {
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            WordItemScreen(identifier: widget.identifier, maya: ''),
+            WordItemScreen(
+              identifier: widget.identifier,
+              maya: '',
+              visited: {},
+            ),
 
             if (examples.isNotEmpty) ...[
               const SizedBox(height: 16),
@@ -75,7 +79,8 @@ class _WordDetailPageState extends State<WordDetailPage> {
                       child: WordItemScreen(
                         key: ValueKey(identifier.sku),
                         identifier: identifier,
-                        maya: '',
+                        maya: 'TRANSLATION',
+                        visited: {},
                       ),
                     );
                   },

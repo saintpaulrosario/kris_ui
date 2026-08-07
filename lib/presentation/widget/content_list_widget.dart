@@ -5,13 +5,8 @@ import 'content_item_wiget.dart';
 
 class ContentListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
-  final String maya;
 
-  const ContentListWidget({
-    super.key,
-    required this.identifiers,
-    required this.maya,
-  });
+  const ContentListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +16,9 @@ class ContentListWidget extends StatelessWidget {
           context: context,
           tiles: identifiers.map(
             (identifier) => ContentItemWidget(
-              key: ValueKey('${identifier.sku}_$maya'),
+              key: ValueKey(identifier.sku),
               identifier: identifier,
-              maya: maya,
+              maya: 'TRANSLATION',
             ),
           ),
         ).toList(),

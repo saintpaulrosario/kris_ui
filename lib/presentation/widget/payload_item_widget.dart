@@ -74,17 +74,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
             return const Text("Payload was not fetched");
           }
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
-              ),
-            ],
+          return Text(
+            state.payload!.value,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            key: ValueKey('${state.payload!.sku}_${widget.maya}'),
           );
         },
       );
@@ -113,17 +108,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
             return const Text("Payload was not fetched");
           }
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
-              ),
-            ],
+          return Text(
+            state.payload!.value,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            key: ValueKey('${state.payload!.sku}_${widget.maya}'),
           );
         },
       );
@@ -152,18 +142,14 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
             return const Text("Payload was not fetched");
           }
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
-              ),
-            ],
+          return Text(
+            state.payload!.value,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            key: ValueKey('${state.payload!.sku}_${widget.maya}'),
           );
+          ;
         },
       );
     } else {
@@ -191,25 +177,12 @@ class _PayloadItemWidgetState extends State<PayloadItemWidget> {
             return const Text("Payload was not fetched");
           }
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                key: ValueKey('${state.payload!.sku}_${widget.maya}'),
-              ),
-
-              // Expanded(
-              //   flex: 2,
-              //   child: SoundListWidget(
-              //     identifiers: state.payload.sounds,
-              //     key: Key(state.payload.sku),
-              //   ),
-              // ),
-            ],
+          return Text(
+            state.payload!.value,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            key: ValueKey('${state.payload!.sku}_${widget.maya}'),
           );
         },
       );

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
 import 'package:kris/logic/script/bloc/script_bloc.dart';
+import 'package:kris/model/script.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
@@ -15,14 +17,17 @@ import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
 import 'content_list_widget.dart';
+import 'word_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
+  final Set<String> visited;
   final String maya;
 
   const WordTextItemWidget({
     super.key,
     required this.identifier,
+    required this.visited,
     required this.maya,
   });
 
@@ -35,118 +40,55 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
   void initState() {
     super.initState();
 
-    if ('SCRIPT' == widget.maya) {
-      context.read<ScriptBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
-      );
-    } else if ('LANGUAGE' == widget.maya) {
-      context.read<LanguageBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
-      );
-    } else if ('DIALECT' == widget.maya) {
-      context.read<DialectBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
-      );
-    } else {
-      context.read<TranslationBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
-      );
-    }
+    context.read<TranslationBloc>().add(
+      BaseEvent.textBySku(identifier: widget.identifier),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.maya == 'SCRIPT') {
-      return BlocSelector<ScriptBloc, BaseState, TranslationText?>(
-        selector: (state) => state.texts[widget.identifier.sku],
+    return BlocSelector<
+      TranslationBloc,
+      BaseState<
+        Translation,
+        TranslationText,
+        TranslationContent,
+        TranslationPayload
+      >,
+      TranslationText?
+    >(
+      selector: (state) => state.texts[widget.identifier.sku],
 
-        builder: (context, text) {
-          return _buildWidget(text);
-        },
-      );
-    } else if (widget.maya == 'LANGUAGE') {
-      return BlocSelector<
-        LanguageBloc,
-        BaseState<
-          Language,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        TranslationText?
-      >(
-        selector: (state) => state.texts[widget.identifier.sku],
+      builder: (context, text) {
+        if (text == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return SizedBox(
+          width: double.infinity,
 
-        builder: (context, text) {
-          return _buildWidget(text);
-        },
-      );
-    } else if (widget.maya == 'DIALECT') {
-      return BlocSelector<
-        DialectBloc,
-        BaseState<
-          Dialect,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        TranslationText?
-      >(
-        selector: (state) => state.texts[widget.identifier.sku],
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-        builder: (context, text) {
-          return _buildWidget(text);
-        },
-      );
-    } else {
-      return BlocSelector<
-        TranslationBloc,
-        BaseState<
-          Translation,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        TranslationText?
-      >(
-        selector: (state) => state.texts[widget.identifier.sku],
-
-        builder: (context, text) {
-          return _buildWidget(text);
-        },
-      );
-    }
-  }
-
-  Widget _buildWidget(TranslationText? text) {
-    if (text == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    return SizedBox(
-      width: double.infinity,
-
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: [
-          Expanded(
-            child: ContentListWidget(
-              key: ValueKey('${text.sku}_${widget.maya}'),
-
-              identifiers: text.contents,
-              maya: widget.maya,
-            ),
+            children: [
+              Expanded(
+                child: ContentListWidget(
+                  key: ValueKey(text.sku),
+                  identifiers: text.contents,
+                ),
+              ),
+              if (!widget.visited.contains(text.sku))
+                Expanded(
+                  child: WordWidget(
+                    key: ValueKey(text.sku),
+                    identifier: text.script,
+                    visited: {...widget.visited, text.sku},
+                    maya: 'SCRIPT',
+                  ),
+                ),
+            ],
           ),
-
-          // Expanded(
-          //   child: WordWidget(
-          //     key: ValueKey('${text.script.sku}_${"dsdsd"}'),
-          //     identifier: text.script,
-          //     maya: 'SCRIPT',
-          //   ),
-          // ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

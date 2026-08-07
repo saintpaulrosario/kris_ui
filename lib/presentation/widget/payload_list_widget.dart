@@ -21,44 +21,53 @@ class PayloadListWidget extends StatelessWidget {
 
     if ({'SCRIPT', 'LANGUAGE', 'DIALECT'}.contains(maya)) {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: identifiers.map((identifier) {
-          return Row(
-            children: [
-              Flexible(
-                child: PayloadItemWidget(
-                  key: ValueKey('${identifier.sku}_$maya'),
-                  identifier: identifier,
-                  maya: maya,
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: [
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 50),
+                  child: PayloadItemWidget(
+                    key: ValueKey('${identifier.sku}_$maya'),
+                    identifier: identifier,
+                    maya: maya,
+                  ),
                 ),
-              ),
-            ],
-          );
-        }).toList(),
-      );
-    } else {
-      return Column(
-        children: identifiers.map((identifier) {
-          return Row(
-            children: [
-              Flexible(
-                child: PayloadItemWidget(
-                  key: ValueKey('${identifier.sku}_$maya'),
-                  identifier: identifier,
-                  maya: maya,
-                ),
-              ),
-
-              const SizedBox(width: 4),
-
-              const Text('sound', overflow: TextOverflow.ellipsis),
-
-              const SizedBox(width: 4),
-
-              const Text('dialect', overflow: TextOverflow.ellipsis),
-            ],
+              ],
+            ),
           );
         }).toList(),
       );
     }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: identifiers.map((identifier) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 50),
+                child: PayloadItemWidget(
+                  key: ValueKey('${identifier.sku}_$maya'),
+                  identifier: identifier,
+                  maya: maya,
+                ),
+              ),
+
+              const Text('sound'),
+              const Text('dialect'),
+            ],
+          ),
+        );
+      }).toList(),
+    );
   }
 }

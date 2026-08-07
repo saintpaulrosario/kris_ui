@@ -20,11 +20,13 @@ import '../widget/word_text_list_wiget.dart';
 class WordItemScreen extends StatefulWidget {
   final Identifier identifier;
   final String maya;
+  final Set<String> visited;
 
   const WordItemScreen({
     super.key,
     required this.identifier,
     required this.maya,
+    required this.visited,
   });
 
   @override
@@ -186,6 +188,7 @@ class _WordItemScreenState extends State<WordItemScreen>
                   key: ValueKey('${sku}_texts'),
                   identifiers: state.texts,
                   maya: widget.maya,
+                  visited: widget.visited,
                 ),
               ),
             ],
