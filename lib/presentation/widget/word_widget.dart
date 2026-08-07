@@ -76,7 +76,7 @@ class _WordWidgetState extends State<WordWidget> {
         >
       >(
         builder: (context, state) {
-          final Translation? word = state.data[widget.identifier.sku];
+          final Language? word = state.data[widget.identifier.sku];
 
           if (state.fetching.contains(widget.identifier.sku)) {
             return const Center(child: CircularProgressIndicator());
@@ -96,7 +96,7 @@ class _WordWidgetState extends State<WordWidget> {
         >
       >(
         builder: (context, state) {
-          final Translation? word = state.data[widget.identifier.sku];
+          final Dialect? word = state.data[widget.identifier.sku];
 
           if (state.fetching.contains(widget.identifier.sku)) {
             return const Center(child: CircularProgressIndicator());
@@ -128,7 +128,7 @@ class _WordWidgetState extends State<WordWidget> {
     }
   }
 
-  Widget _buildWidget({Translation? word}) {
+  Widget _buildWidget({Word? word}) {
     if (word == null) {
       return const Center(child: Text("Word not found"));
     }

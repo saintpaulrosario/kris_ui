@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/translation.dart';
+import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
 
@@ -12,7 +13,7 @@ part 'language.g.dart';
   anyMap: true,
   checked: true,
 )
-class Language extends Translation {
+class Language extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> scripts;
   const Language({
@@ -26,7 +27,6 @@ class Language extends Translation {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.images,
   });
 
   factory Language.initial() {
@@ -35,7 +35,6 @@ class Language extends Translation {
       version: 0,
       ordinal: 0,
       texts: [],
-      images: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: '',

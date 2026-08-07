@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dialect_api.dart';
+part of 'word_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'dialect_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _DialectApi implements DialectApi {
-  _DialectApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _WordApi<W, T, C, P> implements WordApi<W, T, C, P> {
+  _WordApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -22,35 +22,33 @@ class _DialectApi implements DialectApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<PageResult<Dialect>>>> fetchAll({
-    required int page,
-    required int size,
-  }) async {
+  Future<HttpResponse<ApiResult<PageResult<W>>>> fetchAll(
+    String endpoint,
+    int page,
+    int size,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page, r'size': size};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResult<PageResult<Dialect>>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/dialect',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResult<PageResult<W>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/${endpoint}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<PageResult<Dialect>> _value;
+    late ApiResult<PageResult<W>> _value;
     try {
-      _value = ApiResult<PageResult<Dialect>>.fromJson(
+      _value = ApiResult<PageResult<W>>.fromJson(
         _result.data!,
-        (json) => PageResult<Dialect>.fromJson(
+        (json) => PageResult<W>.fromJson(
           json as Map<String, dynamic>,
-          (json) => Dialect.fromJson(json as Map<String, dynamic>),
+          (json) => json as W,
         ),
       );
     } on Object catch (e, s) {
@@ -62,28 +60,25 @@ class _DialectApi implements DialectApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Dialect>>> fetch(String identifier) async {
+  Future<HttpResponse<ApiResult<W>>> fetch(String endpoint, String sku) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Dialect>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<W>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/${identifier}',
+            '/${endpoint}/${sku}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Dialect> _value;
+    late ApiResult<W> _value;
     try {
-      _value = ApiResult<Dialect>.fromJson(
-        _result.data!,
-        (json) => Dialect.fromJson(json as Map<String, dynamic>),
-      );
+      _value = ApiResult<W>.fromJson(_result.data!, (json) => json as W);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -93,30 +88,28 @@ class _DialectApi implements DialectApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<TranslationText>>> fetchForText(
-    String identifier,
+  Future<HttpResponse<ApiResult<T>>> fetchForText(
+    String endpoint,
+    String sku,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<TranslationText>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<T>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/text/${identifier}',
+            '/${endpoint}/text/${sku}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<TranslationText> _value;
+    late ApiResult<T> _value;
     try {
-      _value = ApiResult<TranslationText>.fromJson(
-        _result.data!,
-        (json) => TranslationText.fromJson(json as Map<String, dynamic>),
-      );
+      _value = ApiResult<T>.fromJson(_result.data!, (json) => json as T);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -126,33 +119,28 @@ class _DialectApi implements DialectApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<TranslationContent>>> fetchForContent(
-    String identifier,
+  Future<HttpResponse<ApiResult<C>>> fetchForContent(
+    String endpoint,
+    String sku,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResult<TranslationContent>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/dialect/content/${identifier}',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResult<C>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/${endpoint}/content/${sku}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<TranslationContent> _value;
+    late ApiResult<C> _value;
     try {
-      _value = ApiResult<TranslationContent>.fromJson(
-        _result.data!,
-        (json) => TranslationContent.fromJson(json as Map<String, dynamic>),
-      );
+      _value = ApiResult<C>.fromJson(_result.data!, (json) => json as C);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -162,33 +150,28 @@ class _DialectApi implements DialectApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<TranslationPayload>>> fetchForPayload(
-    String identifier,
+  Future<HttpResponse<ApiResult<P>>> fetchForPayload(
+    String endpoint,
+    String sku,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResult<TranslationPayload>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/dialect/payload/${identifier}',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResult<P>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/${endpoint}/payload/${sku}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<TranslationPayload> _value;
+    late ApiResult<P> _value;
     try {
-      _value = ApiResult<TranslationPayload>.fromJson(
-        _result.data!,
-        (json) => TranslationPayload.fromJson(json as Map<String, dynamic>),
-      );
+      _value = ApiResult<P>.fromJson(_result.data!, (json) => json as P);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

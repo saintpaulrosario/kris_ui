@@ -43,16 +43,6 @@ Language _$LanguageFromJson(Map json) => $checkedCreate('Language', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
   );
   return val;
 });
@@ -65,7 +55,6 @@ Map<String, dynamic> _$LanguageToJson(Language instance) => <String, dynamic>{
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
-  'images': instance.images.map((e) => e.toJson()).toList(),
   'texts': instance.texts.map((e) => e.toJson()).toList(),
   'scripts': instance.scripts.map((e) => e.toJson()).toList(),
 };

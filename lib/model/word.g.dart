@@ -20,16 +20,6 @@ Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
     ),
     createdBy: $checkedConvert('createdBy', (v) => v as String?),
     lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
     sku: $checkedConvert('sku', (v) => v as String? ?? ''),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
     ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
@@ -55,6 +45,5 @@ Map<String, dynamic> _$WordToJson(Word instance) => <String, dynamic>{
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
-  'images': instance.images.map((e) => e.toJson()).toList(),
   'texts': instance.texts.map((e) => e.toJson()).toList(),
 };

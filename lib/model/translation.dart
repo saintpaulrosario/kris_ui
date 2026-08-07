@@ -15,6 +15,8 @@ part 'translation.g.dart';
 class Translation extends Word {
   // @JsonKey(disallowNullValue: false, defaultValue: [])
   // final List<Identifier> examples;
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> images;
 
   const Translation({
     required super.sku,
@@ -26,7 +28,7 @@ class Translation extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.images,
+    required this.images,
   });
 
   factory Translation.initial() {

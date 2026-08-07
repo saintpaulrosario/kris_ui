@@ -75,6 +75,7 @@ class ScriptBloc
     );
 
     final results = await _service.retrieve(
+      endpoint: "script",
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -122,7 +123,10 @@ class ScriptBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(event.identifier.sku);
+      final results = await _service.retrieveWordBySku(
+        endpoint: "script",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -163,7 +167,10 @@ class ScriptBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(event.identifier.sku);
+      final results = await _service.retrieveTextBySku(
+        endpoint: "script",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -204,7 +211,10 @@ class ScriptBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(event.identifier.sku);
+      final results = await _service.retrieveContentBySku(
+        endpoint: "script",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -245,7 +255,10 @@ class ScriptBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(event.identifier.sku);
+      final results = await _service.retrievePayloadBySku(
+        endpoint: "script",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {

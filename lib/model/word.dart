@@ -12,8 +12,6 @@ part 'word.g.dart';
 )
 class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> images;
-  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> texts;
 
   const Word({
@@ -21,7 +19,6 @@ class Word extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.images,
     required super.sku,
     required super.version,
     required super.ordinal,
@@ -34,7 +31,6 @@ class Word extends Identifier {
       lastModifiedDate: DateTime.now(),
       createdBy: '',
       lastModifiedBy: '',
-      images: [],
       sku: '',
       version: 0,
       ordinal: 0,

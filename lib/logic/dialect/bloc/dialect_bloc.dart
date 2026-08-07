@@ -76,6 +76,7 @@ class DialectBloc
     );
 
     final results = await _service.retrieve(
+      endpoint: "dialect",
       page: event.pageNumber!,
       size: event.pageSize!,
     );
@@ -123,7 +124,10 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(event.identifier.sku);
+      final results = await _service.retrieveWordBySku(
+        endpoint: "dialect",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -164,7 +168,10 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(event.identifier.sku);
+      final results = await _service.retrieveTextBySku(
+        endpoint: "dialect",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -205,7 +212,10 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(event.identifier.sku);
+      final results = await _service.retrieveContentBySku(
+        endpoint: "dialect",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {
@@ -246,7 +256,10 @@ class DialectBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(event.identifier.sku);
+      final results = await _service.retrievePayloadBySku(
+        endpoint: "dialect",
+        sku: event.identifier.sku,
+      );
 
       results.fold(
         (error) {

@@ -5,6 +5,7 @@ import 'package:kris/presentation/page/payload_page.dart';
 import 'package:kris/presentation/page/word_detail_page.dart';
 import 'package:kris/presentation/screen/word_list_screen.dart';
 
+import 'feature/presentation/page/authentication_page.dart';
 import 'model/identifier.dart';
 import 'presentation/page/home_page.dart';
 import 'presentation/page/word_page.dart';
@@ -13,7 +14,7 @@ import 'presentation/page/word_page.dart';
 // Route constants
 // ---------------------
 const routeHome = '/';
-const routeLogin = '/login';
+const routeAuthentication = '/authenticate';
 const routeAncestry = '/ancestry';
 const routeProfile = '/profile/:alias';
 const routeWord = '/word';
@@ -85,7 +86,17 @@ final GoRouter appRouter = GoRouter(
             return PayloadPage(key: Key(sku), identifier: identifier);
           },
         ),
+
+        // --------------------------------
+        // **** LOGIN (ROOT) ****
+        // --------------------------------
       ],
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNav,
+      path: routeAuthentication,
+      name: "authentication",
+      builder: (_, __) => const AuthenticationPage(),
     ),
   ],
 );

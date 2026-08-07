@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kris/api/language_api.dart';
+import 'package:kris/feature/authentication/api/authentication_api.dart';
+
 import 'package:kris/logic/word_service.dart';
 import 'package:kris/model/dialect.dart';
 import 'package:kris/model/language.dart';
@@ -13,9 +14,7 @@ import 'package:kris/model/translation_text.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
-import 'api/dialect_api.dart';
-import 'api/script_api.dart';
-import 'api/tranlation_api.dart';
+import 'feature/authentication/logic/authenticate/authenticate_service.dart';
 import 'logic/image/image_api.dart';
 import 'logic/image/image_service.dart';
 
@@ -112,27 +111,82 @@ void setupLocator() {
 void _registerApis() {
   getIt.registerLazySingleton<Dio>(() => Dio());
   final dio = getIt<Dio>();
+  dio.interceptors.add(
+    LogInterceptor(
+      request: true,
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: true,
+      responseBody: true,
+      error: true,
+    ),
+  );
   //String baseUrl = "http://192.168.12.59:8080";
   final baseUrl = properties['KRIS_BASE_URL']!;
+  getIt.registerLazySingleton<AuthenticationApi>(
+    () => AuthenticationApi(dio, baseUrl: baseUrl),
+  );
 
-  getIt.registerLazySingleton<TranslationApi>(
-    () => TranslationApi(dio, baseUrl: baseUrl),
+  getIt.registerLazySingleton<
+    WordApi<Language, TranslationText, TranslationContent, TranslationPayload>
+  >(
+    () =>
+        WordApi<
+          Language,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(dio, baseUrl: baseUrl),
+    instanceName: "languageApi",
+  );
+
+  getIt.registerLazySingleton<
+    WordApi<Script, TranslationText, TranslationContent, TranslationPayload>
+  >(
+    () =>
+        WordApi<
+          Script,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(dio, baseUrl: baseUrl),
+    instanceName: "scriptApi",
+  );
+
+  getIt.registerLazySingleton<
+    WordApi<
+      Translation,
+      TranslationText,
+      TranslationContent,
+      TranslationPayload
+    >
+  >(
+    () =>
+        WordApi<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(dio, baseUrl: baseUrl),
+    instanceName: "translationApi",
+  );
+
+  getIt.registerLazySingleton<
+    WordApi<Dialect, TranslationText, TranslationContent, TranslationPayload>
+  >(
+    () =>
+        WordApi<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >(dio, baseUrl: baseUrl),
+    instanceName: "dialectApi",
   );
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
 
   getIt.registerLazySingleton<SoundApi>(() => SoundApi(dio, baseUrl: baseUrl));
-  getIt.registerLazySingleton<ScriptApi>(
-    () => ScriptApi(dio, baseUrl: baseUrl),
-  );
-
-  getIt.registerLazySingleton<LanguageApi>(
-    () => LanguageApi(dio, baseUrl: baseUrl),
-  );
-
-  getIt.registerLazySingleton<DialectApi>(
-    () => DialectApi(dio, baseUrl: baseUrl),
-  );
 }
 
 ///------------------------------------------------------------
@@ -140,6 +194,7 @@ void _registerApis() {
 ///------------------------------------------------------------
 
 void _registerServices() {
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
   getIt.registerLazySingleton<ImageService>(() => ImageService());
 
   getIt.registerLazySingleton<SoundService>(() => SoundService());
@@ -158,7 +213,16 @@ void _registerServices() {
           TranslationText,
           TranslationContent,
           TranslationPayload
-        >(getIt<LanguageApi>()),
+        >(
+          getIt<
+            WordApi<
+              Language,
+              TranslationText,
+              TranslationContent,
+              TranslationPayload
+            >
+          >(instanceName: "languageApi"),
+        ),
   );
 
   getIt.registerLazySingleton<
@@ -170,7 +234,16 @@ void _registerServices() {
           TranslationText,
           TranslationContent,
           TranslationPayload
-        >(getIt<ScriptApi>()),
+        >(
+          getIt<
+            WordApi<
+              Script,
+              TranslationText,
+              TranslationContent,
+              TranslationPayload
+            >
+          >(instanceName: "scriptApi"),
+        ),
   );
 
   getIt.registerLazySingleton<
@@ -187,7 +260,16 @@ void _registerServices() {
           TranslationText,
           TranslationContent,
           TranslationPayload
-        >(getIt<TranslationApi>()),
+        >(
+          getIt<
+            WordApi<
+              Translation,
+              TranslationText,
+              TranslationContent,
+              TranslationPayload
+            >
+          >(instanceName: "translationApi"),
+        ),
   );
 
   getIt.registerLazySingleton<
@@ -204,6 +286,15 @@ void _registerServices() {
           TranslationText,
           TranslationContent,
           TranslationPayload
-        >(getIt<DialectApi>()),
+        >(
+          getIt<
+            WordApi<
+              Dialect,
+              TranslationText,
+              TranslationContent,
+              TranslationPayload
+            >
+          >(instanceName: "dialectApi"),
+        ),
   );
 }

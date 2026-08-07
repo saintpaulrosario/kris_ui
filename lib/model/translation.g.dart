@@ -60,6 +60,6 @@ Map<String, dynamic> _$TranslationToJson(Translation instance) =>
       'version': instance.version,
       'sku': instance.sku,
       'ordinal': instance.ordinal,
-      'images': instance.images.map((e) => e.toJson()).toList(),
       'texts': instance.texts.map((e) => e.toJson()).toList(),
+      'images': instance.images.map((e) => e.toJson()).toList(),
     };

@@ -1,108 +1,153 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../widget/menu_widget.dart';
+import '../../feature/presentation/page/authentication_page.dart';
 import 'menu_widget.dart';
 
-class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});
 
   @override
-  State<AppBarWidget> createState() => _AppBarWidgetState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(150);
-}
-
-class _AppBarWidgetState extends State<AppBarWidget> {
-  @override
-  void initState() {
-    super.initState();
-
-    // context.read<WordBloc>().add(
-    //   RetrieveWordsEvent(
-    //     pageNumber: 0,
-    //     pageSize: 10,
-    //     type: 'WORD',
-    //     maya: 'SCRIPT',
-    //   ),
-    // );
-
-    // context.read<WordBloc>().add(
-    //   RetrieveWordsEvent(
-    //     pageNumber: 0,
-    //     pageSize: 10,
-    //     type: 'WORD',
-    //     maya: 'LANGUAGE',
-    //   ),
-    // );
-
-    // context.read<WordBloc>().add(
-    //   RetrieveWordsEvent(
-    //     pageNumber: 0,
-    //     pageSize: 10,
-    //     type: 'WORD',
-    //     maya: 'DIALECT',
-    //   ),
-    // );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return AppBar(
-      toolbarHeight: 150,
+      toolbarHeight: 220,
 
-      flexibleSpace: Stack(
-        fit: StackFit.expand,
+      backgroundColor: Colors.white,
 
-        children: [
-          Image.network("https://picsum.photos/800/400", fit: BoxFit.cover),
-
-          Container(color: Colors.black.withValues(alpha: 0.35)),
-
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-
-                children: [
-                  const Text(
-                    "ߞߙߌߛߌ",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+      actions: [
+        Text("john"),
+        Visibility(
+          visible: true,
+          child: IconButton(
+            icon: const Icon(Icons.login),
+            color: Colors.black,
+            onPressed: () {
+              showDialog(
+                context: context,
+                useSafeArea: true,
+                builder: (ctx) => Dialog(
+                  insetPadding: const EdgeInsets.all(16),
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-
-                    child: Row(
-                      children: [
-                        MenuWidget(maya: 'SCRIPT', label: 'script'),
-                        MenuWidget(maya: 'LANGUAGE', label: 'language'),
-                        MenuWidget(maya: 'DIALECT', label: 'dialect'),
-                      ],
-                    ),
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    height: size.height * 0.8,
+                    child: const AuthenticationPage(),
                   ),
+                ),
+              );
+            },
+          ),
+        ),
+
+        Visibility(
+          visible: true,
+          child: IconButton(
+            icon: const Icon(Icons.logout),
+            color: Colors.black,
+            onPressed: () {
+              // TODO logout
+            },
+          ),
+        ),
+
+        IconButton(
+          icon: const Icon(Icons.search),
+          color: Colors.black,
+          onPressed: () {
+            // Add your search functionality here
+          },
+        ),
+        Badge(
+          label: const Text("4"),
+          child: IconButton(
+            icon: const Icon(Icons.notifications),
+            color: Colors.black,
+            onPressed: () {
+              //context.go('/notifications');
+            },
+          ),
+        ),
+        Visibility(
+          visible: true,
+          child: IconButton(
+            icon: const Icon(Icons.mail_outline),
+            color: Colors.black,
+            onPressed: () {
+              // Navigate to messages
+            },
+          ),
+        ),
+      ],
+
+      flexibleSpace: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Logo
+            Container(
+              color: Colors.grey[200],
+              child: const Center(
+                child: CircleAvatar(
+                  radius: 55,
+                  backgroundImage: AssetImage("images/app_logo.png"),
+                ),
+              ),
+            ),
+
+            // Menus
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+
+              child: Row(
+                children: const [
+                  MenuWidget(maya: "SCRIPT", label: "script"),
+
+                  SizedBox(width: 10),
+
+                  MenuWidget(maya: "LANGUAGE", label: "language"),
+
+                  SizedBox(width: 10),
+
+                  MenuWidget(maya: "DIALECT", label: "dialect"),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
 
-      backgroundColor: Colors.transparent,
+  @override
+  Size get preferredSize => const Size.fromHeight(220);
 
-      elevation: 4,
+  void _showAuthenticationDialog(BuildContext context) {
+    final size = MediaQuery.of(context).size;
 
-      foregroundColor: Colors.white,
+    showDialog(
+      context: context,
+
+      builder: (context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(16),
+
+          clipBehavior: Clip.antiAlias,
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+
+          child: SizedBox(
+            width: size.width * 0.5,
+            height: size.height * 0.5,
+
+            child: const AuthenticationPage(),
+          ),
+        );
+      },
     );
   }
 }
