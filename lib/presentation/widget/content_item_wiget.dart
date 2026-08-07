@@ -34,139 +34,61 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
   @override
   void initState() {
     super.initState();
-    if ("SCRIPT" == widget.maya) {
-      context.read<ScriptBloc>().add(
-        BaseEvent.contentBySku(identifier: widget.identifier),
-      );
-    } else if ("LANGUAGE" == widget.maya) {
-      context.read<LanguageBloc>().add(
-        BaseEvent.contentBySku(identifier: widget.identifier),
-      );
-    } else if ("DIALECT" == widget.maya) {
-      context.read<DialectBloc>().add(
-        BaseEvent.contentBySku(identifier: widget.identifier),
-      );
-    } else {
-      context.read<TranslationBloc>().add(
-        BaseEvent.contentBySku(identifier: widget.identifier),
-      );
-    }
+    context.read<TranslationBloc>().add(
+      BaseEvent.contentBySku(identifier: widget.identifier),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.maya == 'SCRIPT') {
-      return BlocSelector<
-        ScriptBloc,
-        BaseState,
-        ({bool fetching, TranslationContent? content})
-      >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        ),
-        builder: (context, state) {
-          return _buildWidget(state);
-        },
-      );
-    } else if (widget.maya == 'LANGUAGE') {
-      return BlocSelector<
-        LanguageBloc,
-        BaseState<
-          Language,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        ({bool fetching, TranslationContent? content})
-      >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        ),
-        builder: (context, state) {
-          return _buildWidget(state);
-        },
-      );
-    } else if (widget.maya == 'DIALECT') {
-      return BlocSelector<
-        DialectBloc,
-        BaseState<
-          Dialect,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        ({bool fetching, TranslationContent? content})
-      >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        ),
-        builder: (context, state) {
-          return _buildWidget(state);
-        },
-      );
-    } else {
-      return BlocSelector<
-        TranslationBloc,
-        BaseState<
-          Translation,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >,
-        ({bool fetching, TranslationContent? content})
-      >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        ),
-        builder: (context, state) {
-          return _buildWidget(state);
-        },
-      );
-    }
-  }
-
-  Padding _buildWidget(({TranslationContent? content, bool fetching}) state) {
-    if (state.fetching) {
-      return const Padding(
-        padding: EdgeInsets.all(16),
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (state.content == null) {
-      return const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("script Content not found"),
-      );
-    }
-
-    if (state.content!.payloads.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("No payload found"),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: PayloadListWidget(
-              key: ValueKey('${state.content!.sku}_${widget.maya}'),
-              identifiers: state.content!.payloads,
-              maya: widget.maya,
-            ),
-          ),
-
-          //const SizedBox(width: 12),
-          //LanguageListWidget(identifiers: state.content!.languages),
-        ],
+    return BlocSelector<
+      TranslationBloc,
+      BaseState<
+        Translation,
+        TranslationText,
+        TranslationContent,
+        TranslationPayload
+      >,
+      ({bool fetching, TranslationContent? content})
+    >(
+      selector: (state) => (
+        fetching: state.fetching.contains(widget.identifier.sku),
+        content: state.contents[widget.identifier.sku],
       ),
+      builder: (context, state) {
+        if (state.fetching) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state.content == null) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text("script Content not found"),
+          );
+        }
+
+        if (state.content!.payloads.isEmpty) {
+          return Text("No payload found");
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: PayloadListWidget(
+                key: ValueKey('${state.content!.sku}_${widget.maya}'),
+                identifiers: state.content!.payloads,
+                maya: widget.maya,
+              ),
+            ),
+
+            //const SizedBox(width: 12),
+            //LanguageListWidget(identifiers: state.content!.languages),
+          ],
+        );
+      },
     );
   }
 }

@@ -15,10 +15,6 @@ class PayloadListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (identifiers.isEmpty) {
-      return const Text("No payload found");
-    }
-
     if ({'SCRIPT', 'LANGUAGE', 'DIALECT'}.contains(maya)) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,45 +25,36 @@ class PayloadListWidget extends StatelessWidget {
               spacing: 4,
               runSpacing: 4,
               children: [
-                ConstrainedBox(
-                  constraints: const BoxConstraints(minWidth: 50),
-                  child: PayloadItemWidget(
-                    key: ValueKey('${identifier.sku}_$maya'),
-                    identifier: identifier,
-                    maya: maya,
-                  ),
+                PayloadItemWidget(
+                  key: ValueKey('${identifier.sku}_$maya'),
+                  identifier: identifier,
+                  maya: maya,
                 ),
               ],
             ),
           );
         }).toList(),
       );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: identifiers.map((identifier) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Wrap(
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: identifiers.map((identifier) {
+          return Wrap(
             spacing: 4,
             runSpacing: 4,
             children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 50),
-                child: PayloadItemWidget(
-                  key: ValueKey('${identifier.sku}_$maya'),
-                  identifier: identifier,
-                  maya: maya,
-                ),
+              PayloadItemWidget(
+                key: ValueKey('${identifier.sku}_$maya'),
+                identifier: identifier,
+                maya: maya,
               ),
 
               const Text('sound'),
               const Text('dialect'),
             ],
-          ),
-        );
-      }).toList(),
-    );
+          );
+        }).toList(),
+      );
+    }
   }
 }

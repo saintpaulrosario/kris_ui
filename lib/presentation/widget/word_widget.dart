@@ -51,7 +51,7 @@ class _WordWidgetState extends State<WordWidget> {
   Widget build(BuildContext context) {
     final visited = {...widget.visited, widget.identifier.sku};
 
-    if (widget.maya == 'SCRIPT') {
+    if (widget.maya == 'SCRIPT' && visited.isNotEmpty) {
       return BlocSelector<
         ScriptBloc,
         BaseState<
