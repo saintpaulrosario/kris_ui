@@ -28,7 +28,11 @@ class WordTextItemWidget extends StatefulWidget {
   State<WordTextItemWidget> createState() => _WordTextItemWidgetState();
 }
 
-class _WordTextItemWidgetState extends State<WordTextItemWidget> {
+class _WordTextItemWidgetState extends State<WordTextItemWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
