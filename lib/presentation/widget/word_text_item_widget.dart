@@ -14,7 +14,7 @@ import 'word_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set visited;
+  final Set<String> visited;
   final String maya;
 
   const WordTextItemWidget({
@@ -50,47 +50,63 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
       >,
       TranslationText?
     >(
-      selector: (state) => state.texts[widget.identifier.sku],
+      selector: (state) {
+        return state.texts[widget.identifier.sku];
+      },
       builder: (context, text) {
         if (text == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return SizedBox(
-          width: double.infinity,
-          child: IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: ContentListWidget(
-                    key: ValueKey(text.sku),
-                    identifiers: text.contents,
-                    maya: widget.maya,
-                  ),
-                ),
+        return _buildTranslation(context, text);
+      },
+    );
+  }
 
-                const VerticalDivider(
-                  width: 16,
-                  thickness: 1,
-                  indent: 8,
-                  endIndent: 8,
-                ),
+  Widget _buildTranslation(BuildContext context, TranslationText text) {
+    final bool scriptVisited = widget.visited.contains(text.script.sku);
 
-                if (widget.visited.isEmpty)
-                  Expanded(
-                    child: WordWidget(
-                      key: ValueKey(text.sku),
-                      identifier: text.script,
-                      visited: {...widget.visited, text.sku},
-                      maya: 'SCRIPT',
-                    ),
-                  ),
-              ],
+    final Set<String> nextVisited = {...widget.visited, text.sku};
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // ==========================================================
+        // TEXT
+        // ==========================================================
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ContentListWidget(
+              key: ValueKey('${text.sku}_content'),
+              identifiers: text.contents,
+              maya: widget.maya,
             ),
           ),
-        );
-      },
+        ),
+
+        // ==========================================================
+        // SINGLE TEXT / SCRIPT DIVIDER
+        // ==========================================================
+        Container(width: 1, color: Theme.of(context).dividerColor),
+
+        // ==========================================================
+        // SCRIPT
+        // ==========================================================
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: scriptVisited
+                ? const SizedBox.shrink()
+                : WordWidget(
+                    key: ValueKey('${text.script.sku}_SCRIPT'),
+                    identifier: text.script,
+                    maya: 'SCRIPT',
+                    visited: nextVisited,
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }
