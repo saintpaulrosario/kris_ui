@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/feature/authentication/model/authenticate_request.dart';
-import 'package:kris/logic/base_state.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../response/error_response.dart';

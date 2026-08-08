@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/presentation/widget/word_widget.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/base_event.dart';
@@ -131,7 +130,7 @@ class _WordPageState extends State<WordPage>
             flex: 2,
             child: Column(
               children: [
-                // First header row
+                // Translation title
                 Expanded(
                   child: Center(
                     child: Text(
@@ -144,7 +143,7 @@ class _WordPageState extends State<WordPage>
 
                 _horizontalDivider(),
 
-                // Second header row
+                // Text | Script
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -160,7 +159,7 @@ class _WordPageState extends State<WordPage>
                         ),
                       ),
 
-                      // SINGLE TEXT/SCRIPT DIVIDER
+                      // TEXT / SCRIPT DIVIDER
                       _verticalDivider(),
 
                       // SCRIPT
@@ -241,16 +240,16 @@ class _WordPageState extends State<WordPage>
           // TRANSLATION
           // ------------------------------------------------------
           //
+          // IMPORTANT:
+          //
           // WordTextItemWidget owns:
           //
-          //      Text | Script
+          //       Text | Script
           //
-          // because it is the widget that knows the
-          // TranslationText and its script.
-          //
+          // ------------------------------------------------------
           Expanded(
             flex: 2,
-            child: WordWidget(
+            child: WordTextItemWidget(
               key: ValueKey('${identifier.sku}_translation'),
               identifier: identifier,
               maya: '',

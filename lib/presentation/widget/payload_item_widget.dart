@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
-import 'package:kris/logic/language/bloc/language_bloc.dart';
-import 'package:kris/logic/script/bloc/script_bloc.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
-import '../../model/dialect.dart';
 import '../../model/identifier.dart';
-import '../../model/language.dart';
 import '../../model/translation.dart';
 import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';

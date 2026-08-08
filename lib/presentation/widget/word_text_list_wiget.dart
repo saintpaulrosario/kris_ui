@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../model/identifier.dart';
 import 'word_text_item_widget.dart';

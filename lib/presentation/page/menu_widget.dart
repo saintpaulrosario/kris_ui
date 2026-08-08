@@ -10,7 +10,6 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/script.dart';
-import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_content.dart';
 import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';

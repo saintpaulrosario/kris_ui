@@ -6,5 +6,5 @@ Widget _verticalDivider() {
 }
 
 Widget _horizontalDivider() {
-  return Container(height: 1, width: double.infinity);
+  return SizedBox(height: 1, width: double.infinity);
 }
