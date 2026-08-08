@@ -14,7 +14,7 @@ import 'word_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set<String> visited;
+  final Set visited;
   final String maya;
 
   const WordTextItemWidget({
@@ -68,45 +68,47 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
 
     final Set<String> nextVisited = {...widget.visited, text.sku};
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // ==========================================================
-        // TEXT
-        // ==========================================================
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: ContentListWidget(
-              key: ValueKey('${text.sku}_content'),
-              identifiers: text.contents,
-              maya: widget.maya,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // ====================================================
+          // TEXT COLUMN
+          // ====================================================
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: ContentListWidget(
+                key: ValueKey('${text.sku}_content'),
+                identifiers: text.contents,
+                maya: widget.maya,
+              ),
             ),
           ),
-        ),
 
-        // ==========================================================
-        // SINGLE TEXT / SCRIPT DIVIDER
-        // ==========================================================
-        Container(width: 1, color: Theme.of(context).dividerColor),
+          // ====================================================
+          // VERTICAL DIVIDER
+          // ====================================================
+          Container(width: 1, color: Theme.of(context).dividerColor),
 
-        // ==========================================================
-        // SCRIPT
-        // ==========================================================
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: scriptVisited
-                ? const SizedBox.shrink()
-                : WordWidget(
-                    key: ValueKey('${text.script.sku}_SCRIPT'),
-                    identifier: text.script,
-                    maya: 'SCRIPT',
-                    visited: nextVisited,
-                  ),
+          // ====================================================
+          // SCRIPT COLUMN
+          // ====================================================
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: scriptVisited
+                  ? const SizedBox.shrink()
+                  : WordWidget(
+                      key: ValueKey('${text.script.sku}_script'),
+                      identifier: text.script,
+                      maya: 'SCRIPT',
+                      visited: nextVisited,
+                    ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/presentation/widget/word_widget.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/base_event.dart';
@@ -249,7 +250,7 @@ class _WordPageState extends State<WordPage>
           //
           Expanded(
             flex: 2,
-            child: WordTextItemWidget(
+            child: WordWidget(
               key: ValueKey('${identifier.sku}_translation'),
               identifier: identifier,
               maya: '',
