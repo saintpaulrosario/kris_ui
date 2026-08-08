@@ -73,8 +73,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget> {
               Expanded(
                 child: ContentListWidget(
                   key: ValueKey(text.sku),
-                  identifiers: text.contents,
-                  maya: widget.maya,
+                  identifiers: text.contents, maya: widget.maya,
                 ),
               ),
               if (widget.visited.isEmpty)

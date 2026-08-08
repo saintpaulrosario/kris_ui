@@ -63,11 +63,23 @@ class _WordPageState extends State<WordPage>
               child: Row(
                 children: [
                   Expanded(child: Text("Image", textAlign: TextAlign.center)),
+
                   Expanded(
                     child: Text("Definition", textAlign: TextAlign.center),
                   ),
                   Expanded(
-                    child: Text("Translation", textAlign: TextAlign.center),
+                    child: Column(
+                      children: [
+                        Center(child: Text("Translation")),
+                        Row(
+                          children: [
+                            Expanded(child: Center(child: Text("Text"))),
+                            const VerticalDivider(width: 121),
+                            Expanded(child: Center(child: Text("Script"))),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
