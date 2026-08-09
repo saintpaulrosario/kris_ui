@@ -29,50 +29,32 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       );
     }
 
-    return SizedBox(
-      width: 120,
+    return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            height: _imageHeight,
-            child: CarouselSlider.builder(
-              itemCount: widget.imagesIdentifiers.length,
-              itemBuilder: (context, index, realIndex) {
-                final identifier = widget.imagesIdentifiers[index];
+          CarouselSlider.builder(
+            itemCount: widget.imagesIdentifiers.length,
+            itemBuilder: (context, index, realIndex) {
+              final identifier = widget.imagesIdentifiers[index];
 
-                return Card(
-                  margin: const EdgeInsets.all(4),
-                  clipBehavior: Clip.antiAlias,
-                  child: InteractiveViewer(
-                    minScale: 1,
-                    maxScale: 5,
-                    boundaryMargin: const EdgeInsets.all(100),
-                    child: ImageItemWidget(imageIdentifier: identifier),
-                  ),
-                );
+              return ImageItemWidget(imageIdentifier: identifier);
+            },
+            options: CarouselOptions(
+              height: 130,
+              viewportFraction: 1,
+              enlargeCenterPage: false,
+              enableInfiniteScroll: false,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
               },
-              options: CarouselOptions(
-                height: _imageHeight,
-                viewportFraction: 1,
-                enlargeCenterPage: false,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
             ),
           ),
           if (widget.imagesIdentifiers.length > 1) ...[
             const SizedBox(height: 8),
             _buildIndicators(context),
-            const SizedBox(height: 4),
-            Text(
-              '${_currentIndex + 1} / ${widget.imagesIdentifiers.length}',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
           ],
         ],
       ),
@@ -84,7 +66,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
 
     final List<Widget> dots;
 
-    if (total <= _maxIndicators) {
+    if (total <= widget.imagesIdentifiers.length) {
       dots = List.generate(total, (index) => _buildDot(context, index));
     } else {
       int start = _currentIndex - (_maxIndicators ~/ 2);
@@ -93,12 +75,12 @@ class _ImageListWidgetState extends State<ImageListWidget> {
         start = 0;
       }
 
-      if (start > total - _maxIndicators) {
+      if (start > total - widget.imagesIdentifiers.length) {
         start = total - _maxIndicators;
       }
 
       dots = List.generate(
-        _maxIndicators,
+        widget.imagesIdentifiers.length,
         (i) => _buildDot(context, start + i),
       );
     }

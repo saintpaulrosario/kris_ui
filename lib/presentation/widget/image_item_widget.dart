@@ -50,7 +50,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
       MaterialPageRoute(
         builder: (_) => ImageViewerWidget(
           identifier: widget.imageIdentifier,
-          payload: image.payload,
+          payload: image.content,
           descriptions: ['this is a descripont', 'thisis second'],
         ),
       ),
@@ -94,7 +94,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
           child: InkWell(
             onTap: () => _openViewer(image),
             child: Image.memory(
-              _decodeImage(image.payload),
+              _decodeImage(image.content),
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(Icons.broken_image);

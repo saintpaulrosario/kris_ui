@@ -12,7 +12,7 @@ part 'word_image.g.dart';
 )
 class WordImage extends Medium {
   WordImage({
-    required super.payload,
+    required super.content,
     required super.contentType,
     required super.size,
     required super.description,
@@ -28,7 +28,7 @@ class WordImage extends Medium {
 
   factory WordImage.initial() {
     return WordImage(
-      payload: '',
+      content: '',
       contentType: '',
       size: 0,
       description: '',

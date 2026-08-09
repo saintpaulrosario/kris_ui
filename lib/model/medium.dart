@@ -12,7 +12,7 @@ part 'medium.g.dart';
 )
 class Medium extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
-  final String payload;
+  final String content;
 
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String contentType;
@@ -27,7 +27,7 @@ class Medium extends Identifier {
   final List<String> tags;
 
   const Medium({
-    required this.payload,
+    required this.content,
     required this.contentType,
     required this.size,
     required this.description,
@@ -43,7 +43,7 @@ class Medium extends Identifier {
 
   factory Medium.initial() {
     return Medium(
-      payload: '',
+      content: '',
       contentType: '',
       size: 0,
       description: '',

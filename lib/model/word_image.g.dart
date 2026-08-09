@@ -9,7 +9,7 @@ part of 'word_image.dart';
 WordImage _$WordImageFromJson(Map json) =>
     $checkedCreate('WordImage', json, ($checkedConvert) {
       final val = WordImage(
-        payload: $checkedConvert('payload', (v) => v as String? ?? ''),
+        content: $checkedConvert('content', (v) => v as String? ?? ''),
         contentType: $checkedConvert('contentType', (v) => v as String? ?? ''),
         size: $checkedConvert('size', (v) => (v as num?)?.toInt() ?? 0),
         description: $checkedConvert('description', (v) => v as String? ?? ''),
@@ -42,7 +42,7 @@ Map<String, dynamic> _$WordImageToJson(WordImage instance) => <String, dynamic>{
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
-  'payload': instance.payload,
+  'content': instance.content,
   'contentType': instance.contentType,
   'size': instance.size,
   'description': instance.description,
