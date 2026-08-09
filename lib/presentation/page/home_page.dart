@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/logic/language/bloc/language_bloc.dart';
+import 'package:kris/logic/medium/bloc/medium_bloc.dart';
 
 import '../../logic/script/bloc/script_bloc.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => ScriptBloc()),
         BlocProvider(create: (context) => LanguageBloc()),
         BlocProvider(create: (context) => DialectBloc()),
+        BlocProvider(create: (context) => MediumBloc()),
       ],
       child: Scaffold(
         appBar: AppBarWidget(),

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:kris/presentation/widget/image_item_widget.dart';
 
 import '../../model/identifier.dart';
 
@@ -47,7 +48,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
                     minScale: 1,
                     maxScale: 5,
                     boundaryMargin: const EdgeInsets.all(100),
-                    child: Center(child: Text('images')),
+                    child: ImageItemWidget(imageIdentifier: identifier),
                   ),
                 );
               },

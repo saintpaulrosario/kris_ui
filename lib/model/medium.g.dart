@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'instrument.dart';
+part of 'medium.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Instrument _$InstrumentFromJson(Map json) =>
-    $checkedCreate('Instrument', json, ($checkedConvert) {
-      final val = Instrument(
+Medium _$MediumFromJson(Map json) =>
+    $checkedCreate('Medium', json, ($checkedConvert) {
+      final val = Medium(
         payload: $checkedConvert('payload', (v) => v as String? ?? ''),
         contentType: $checkedConvert('contentType', (v) => v as String? ?? ''),
         size: $checkedConvert('size', (v) => (v as num?)?.toInt() ?? 0),
@@ -34,18 +34,17 @@ Instrument _$InstrumentFromJson(Map json) =>
       return val;
     });
 
-Map<String, dynamic> _$InstrumentToJson(Instrument instance) =>
-    <String, dynamic>{
-      'createdDate': instance.createdDate.toIso8601String(),
-      'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
-      'createdBy': ?instance.createdBy,
-      'lastModifiedBy': ?instance.lastModifiedBy,
-      'version': instance.version,
-      'sku': instance.sku,
-      'ordinal': instance.ordinal,
-      'payload': instance.payload,
-      'contentType': instance.contentType,
-      'size': instance.size,
-      'description': instance.description,
-      'tags': instance.tags,
-    };
+Map<String, dynamic> _$MediumToJson(Medium instance) => <String, dynamic>{
+  'createdDate': instance.createdDate.toIso8601String(),
+  'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
+  'createdBy': ?instance.createdBy,
+  'lastModifiedBy': ?instance.lastModifiedBy,
+  'version': instance.version,
+  'sku': instance.sku,
+  'ordinal': instance.ordinal,
+  'payload': instance.payload,
+  'contentType': instance.contentType,
+  'size': instance.size,
+  'description': instance.description,
+  'tags': instance.tags,
+};

@@ -11,6 +11,7 @@ import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
 import '../../response/page_result.dart';
+import '../widget/image_list_widget.dart';
 import '../widget/word_text_item_widget.dart';
 
 class WordPage extends StatefulWidget {
@@ -195,9 +196,9 @@ class _WordPageState extends State<WordPage>
         return _horizontalDivider();
       },
       itemBuilder: (context, index) {
-        final identifier = page.content[index];
+        final Translation translation = page.content[index];
 
-        return _buildRow(context, identifier);
+        return _buildRow(context, translation);
       },
     );
   }
@@ -206,7 +207,7 @@ class _WordPageState extends State<WordPage>
   // ROW
   // ==============================================================
 
-  Widget _buildRow(BuildContext context, dynamic identifier) {
+  Widget _buildRow(BuildContext context, Translation translation) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -217,7 +218,7 @@ class _WordPageState extends State<WordPage>
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Center(child: Text('Image', textAlign: TextAlign.center)),
+              child: ImageListWidget(imagesIdentifiers: translation.images),
             ),
           ),
 
@@ -237,6 +238,8 @@ class _WordPageState extends State<WordPage>
 
           _verticalDivider(),
 
+          _verticalDivider(),
+
           // ------------------------------------------------------
           // TRANSLATION
           // ------------------------------------------------------
@@ -251,10 +254,10 @@ class _WordPageState extends State<WordPage>
           Expanded(
             flex: 2,
             child: WordWidget(
-              key: ValueKey('${identifier.sku}_translation'),
-              identifier: identifier,
+              key: ValueKey('${translation.sku}_translation'),
+              identifier: translation,
               maya: '',
-              visited: {identifier.sku},
+              visited: {translation.sku},
             ),
           ),
         ],

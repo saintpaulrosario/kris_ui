@@ -11,17 +11,14 @@ import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_content.dart';
 import 'package:kris/model/translation_payload.dart';
 import 'package:kris/model/translation_text.dart';
+import 'package:kris/model/word_image.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
 import 'api/dialect_api.dart';
 import 'api/script_api.dart';
-import 'logic/image/image_api.dart';
-import 'logic/image/image_service.dart';
-
-import 'logic/sound/sound_api.dart';
-import 'logic/sound/sound_service.dart';
-
+import 'logic/medium/image_api.dart';
+import 'logic/medium/image_service.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -117,9 +114,6 @@ void _registerApis() {
     () => TranslationApi(dio, baseUrl: baseUrl),
   );
 
-  getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
-
-  getIt.registerLazySingleton<SoundApi>(() => SoundApi(dio, baseUrl: baseUrl));
   getIt.registerLazySingleton<ScriptApi>(
     () => ScriptApi(dio, baseUrl: baseUrl),
   );
@@ -131,6 +125,8 @@ void _registerApis() {
   getIt.registerLazySingleton<DialectApi>(
     () => DialectApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
 }
 
 ///------------------------------------------------------------
@@ -138,9 +134,7 @@ void _registerApis() {
 ///------------------------------------------------------------
 
 void _registerServices() {
-  getIt.registerLazySingleton<ImageService>(() => ImageService());
-
-  getIt.registerLazySingleton<SoundService>(() => SoundService());
+  getIt.registerLazySingleton<ImageService<WordImage>>(() => ImageService());
 
   getIt.registerLazySingleton<
     WordService<

@@ -1,27 +1,17 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import 'identifier.dart';
-import 'instrument.dart';
+import 'package:kris/model/medium.dart';
 
 part 'word_image.g.dart';
 
 @JsonSerializable(
-  includeIfNull: true,
+  includeIfNull: false,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
-class WordImage extends Instrument {
-  @JsonKey(defaultValue: [])
-  final List<Identifier> words;
-
-  @JsonKey(defaultValue: [])
-  final List<Identifier> sounds;
-
-  const WordImage({
-    required this.words,
-    required this.sounds,
+class WordImage extends Medium {
+  WordImage({
     required super.payload,
     required super.contentType,
     required super.size,
@@ -38,8 +28,6 @@ class WordImage extends Instrument {
 
   factory WordImage.initial() {
     return WordImage(
-      words: [],
-      sounds: [],
       payload: '',
       contentType: '',
       size: 0,
@@ -57,7 +45,4 @@ class WordImage extends Instrument {
 
   factory WordImage.fromJson(Map<String, dynamic> json) =>
       _$WordImageFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$WordImageToJson(this);
 }

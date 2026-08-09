@@ -44,6 +44,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocSelector<
       TranslationBloc,
       BaseState<
@@ -79,6 +80,12 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget>
           // ====================================================
           // TEXT COLUMN
           // ====================================================
+
+          // ====================================================
+          // VERTICAL DIVIDER
+          // ====================================================
+          Container(width: 1, color: Theme.of(context).dividerColor),
+
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -89,11 +96,6 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget>
               ),
             ),
           ),
-
-          // ====================================================
-          // VERTICAL DIVIDER
-          // ====================================================
-          Container(width: 1, color: Theme.of(context).dividerColor),
 
           // ====================================================
           // SCRIPT COLUMN

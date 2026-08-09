@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/identifier.dart';
 
-part 'instrument.g.dart';
+part 'medium.g.dart';
 
 @JsonSerializable(
   includeIfNull: false,
@@ -10,7 +10,7 @@ part 'instrument.g.dart';
   anyMap: true,
   checked: true,
 )
-class Instrument extends Identifier {
+class Medium extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String payload;
 
@@ -26,7 +26,7 @@ class Instrument extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: <String>[])
   final List<String> tags;
 
-  const Instrument({
+  const Medium({
     required this.payload,
     required this.contentType,
     required this.size,
@@ -41,8 +41,8 @@ class Instrument extends Identifier {
     required super.lastModifiedBy,
   });
 
-  factory Instrument.initial() {
-    return Instrument(
+  factory Medium.initial() {
+    return Medium(
       payload: '',
       contentType: '',
       size: 0,
@@ -58,9 +58,8 @@ class Instrument extends Identifier {
     );
   }
 
-  factory Instrument.fromJson(Map<String, dynamic> json) =>
-      _$InstrumentFromJson(json);
+  factory Medium.fromJson(Map<String, dynamic> json) => _$MediumFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$InstrumentToJson(this);
+  Map<String, dynamic> toJson() => _$MediumToJson(this);
 }
