@@ -180,18 +180,7 @@ class _WordItemScreenState extends State<WordItemScreen>
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
 
-            children: [
-              Expanded(
-                flex: 4,
-
-                child: WordTextListWidget(
-                  key: ValueKey('${sku}_texts'),
-                  identifiers: state.texts,
-                  maya: widget.maya,
-                  visited: widget.visited,
-                ),
-              ),
-            ],
+            children: [Expanded(flex: 4, child: Text("data"))],
           ),
         ),
       ),
