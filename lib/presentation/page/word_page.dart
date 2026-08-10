@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/presentation/widget/word_widget.dart';
+import 'package:kris/model/word_detail.dart';
+import 'package:kris/presentation/page/word_table.dart';
+import 'package:kris/presentation/page/word_table_source.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 import '../../logic/translation/bloc/translation_bloc.dart';
+import '../../logic/word/detail/word_detail_bloc.dart';
 import '../../model/translation.dart';
 import '../../model/translation_content.dart';
 import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
 import '../../response/page_result.dart';
-import '../widget/image_list_widget.dart';
-import '../widget/word_text_item_widget.dart';
 
 class WordPage extends StatefulWidget {
   const WordPage({super.key});
@@ -30,8 +31,14 @@ class _WordPageState extends State<WordPage>
   void initState() {
     super.initState();
 
-    context.read<TranslationBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 60),
+    context.read<WordDetailBloc>().add(
+      WordDetailEvent(
+        page: 0,
+        size: 60,
+        scripts: [],
+        dialects: [],
+        languages: [],
+      ),
     );
   }
 
@@ -40,14 +47,9 @@ class _WordPageState extends State<WordPage>
     super.build(context);
 
     return BlocSelector<
-      TranslationBloc,
-      BaseState<
-        Translation,
-        TranslationText,
-        TranslationContent,
-        TranslationPayload
-      >,
-      PageResult<Translation>?
+      WordDetailBloc,
+      WordDetailState,
+      PageResult<WordDetail>?
     >(
       selector: (state) {
         return state.pages[state.pageNumber];
@@ -56,158 +58,14 @@ class _WordPageState extends State<WordPage>
         if (page == null) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        return Column(
-          children: [
-            _buildHeader(context),
-            _buildRows(context, page),
-            _buildPagination(context, page),
-          ],
-        );
+        List<DataColumn> columns = [
+          DataColumn(label: Text('TEXT')),
+          DataColumn(label: Text('LANGUAGE')),
+          DataColumn(label: Text('SCRIPT')),
+        ];
+        WordTableSource source = WordTableSource(page: page);
+        return WordTable(wordSource: source, columns: columns);
       },
-    );
-  }
-
-  // ==============================================================
-  // HEADER
-  // ==============================================================
-
-  Widget _buildHeader(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.titleMedium;
-
-    return SizedBox(
-      height: 75,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                'Image',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-
-          Expanded(
-            child: Center(
-              child: Text(
-                'Definition',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-
-          // SOUND
-          Expanded(
-            child: Center(
-              child: Text(
-                'Sound',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-
-          // TEXT
-          Expanded(
-            child: Center(
-              child: Text(
-                'Text',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-
-          Expanded(
-            child: Center(
-              child: Text(
-                'dialect',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          // SCRIPT
-          Expanded(
-            child: Center(
-              child: Text(
-                'Script',
-                style: textStyle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ==============================================================
-  // ROWS
-  // ==============================================================
-
-  Widget _buildRows(BuildContext context, PageResult<Translation> page) {
-    return ListView.separated(
-      itemCount: page.content.length,
-      separatorBuilder: (context, index) {
-        return _horizontalDivider();
-      },
-      itemBuilder: (context, index) {
-        final Translation translation = page.content[index];
-
-        return _buildRow(context, translation);
-      },
-    );
-  }
-
-  // ==============================================================
-  // ROW
-  // ==============================================================
-
-  Widget _buildRow(BuildContext context, Translation translation) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Expanded(flex: 2, child: Text("data"));
-      },
-    );
-  }
-
-  Widget _verticalDivider() {
-    return Container(width: 1, color: Theme.of(context).dividerColor);
-  }
-
-  Widget _horizontalDivider() {
-    return Container(
-      height: 1,
-      width: double.infinity,
-      color: Theme.of(context).dividerColor,
-    );
-  }
-
-  Widget _buildPagination(BuildContext context, PageResult<Translation> page) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Pagination(
-        numOfPages: page.page.totalPages,
-        selectedPage: page.page.number + 1,
-        pagesVisible: page.page.totalPages > 5 ? 5 : page.page.totalPages,
-        onPageChanged: (int selectedPage) {
-          context.read<TranslationBloc>().add(
-            BaseEvent.fetch(
-              pageNumber: selectedPage - 1,
-              pageSize: page.page.size,
-            ),
-          );
-        },
-        activeTextStyle: const TextStyle(),
-        activeBtnStyle: const ButtonStyle(),
-        inactiveTextStyle: const TextStyle(),
-        inactiveBtnStyle: const ButtonStyle(),
-      ),
     );
   }
 }

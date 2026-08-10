@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:kris/api/language_api.dart';
 import 'package:kris/api/translation_api.dart';
+import 'package:kris/api/word_detail_api.dart';
+import 'package:kris/logic/word/detail/word_detail_service.dart';
 import 'package:kris/logic/word_service.dart';
 import 'package:kris/model/dialect.dart';
 import 'package:kris/model/language.dart';
@@ -127,6 +129,10 @@ void _registerApis() {
   );
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
+
+  getIt.registerLazySingleton<WordDetailApi>(
+    () => WordDetailApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -135,6 +141,8 @@ void _registerApis() {
 
 void _registerServices() {
   getIt.registerLazySingleton<ImageService<WordImage>>(() => ImageService());
+
+  getIt.registerLazySingleton<WordDetailService>(() => WordDetailService());
 
   getIt.registerLazySingleton<
     WordService<
