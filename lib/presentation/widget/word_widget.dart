@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 
 import 'package:kris/logic/script/bloc/script_bloc.dart';
 import 'package:kris/logic/translation/bloc/translation_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:kris/model/word.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
+import '../../model/dialect.dart';
 import '../../model/identifier.dart';
 import '../../model/script.dart';
 import '../../model/translation.dart';
@@ -40,6 +42,10 @@ class _WordWidgetState extends State<WordWidget> {
       context.read<ScriptBloc>().add(
         BaseEvent.bySku(identifier: widget.identifier),
       );
+    } else if (widget.maya == 'DIALECT') {
+      context.read<DialectBloc>().add(
+        BaseEvent.bySku(identifier: widget.identifier),
+      );
     } else {
       context.read<TranslationBloc>().add(
         BaseEvent.bySku(identifier: widget.identifier),
@@ -49,9 +55,7 @@ class _WordWidgetState extends State<WordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final visited = {...widget.visited, widget.identifier.sku};
-
-    if (widget.maya == 'SCRIPT' && visited.isNotEmpty) {
+    if (widget.maya == 'SCRIPT' && widget.visited.isNotEmpty) {
       return BlocSelector<
         ScriptBloc,
         BaseState<
@@ -69,6 +73,44 @@ class _WordWidgetState extends State<WordWidget> {
           );
         },
 
+        builder: (context, state) {
+          if (state.fetching) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.word == null) {
+            return const Center(child: Text("Word not found"));
+          }
+
+          return widget.visited.contains(widget.identifier.sku)
+              ? WordTextListWidget(
+                  identifiers: state.word!.texts,
+                  maya: widget.maya,
+                  visited: {...widget.visited, widget.identifier.sku},
+                  key: ValueKey('${widget.identifier.sku}_${widget.maya}'),
+                )
+              : SizedBox.shrink();
+        },
+      );
+    }
+    if (widget.maya == 'DIALECT' && widget.visited.isNotEmpty) {
+      return BlocSelector<
+        DialectBloc,
+        BaseState<
+          Dialect,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
+        ({bool fetching, Dialect? word})
+      >(
+        selector: (state) {
+          return (
+            fetching: state.fetching.contains(widget.identifier.sku),
+            word: state.data[widget.identifier.sku],
+          );
+        },
+
         builder: (context, result) {
           if (result.fetching) {
             return const Center(child: CircularProgressIndicator());
@@ -78,55 +120,56 @@ class _WordWidgetState extends State<WordWidget> {
             return const Center(child: Text("Word not found"));
           }
 
-          return _buildWord(result.word!, visited);
+          return widget.visited.contains(widget.identifier.sku)
+              ? WordTextListWidget(
+                  identifiers: result.word!.texts,
+                  maya: widget.maya,
+                  visited: {...widget.visited, widget.identifier.sku},
+                  key: ValueKey('${widget.identifier.sku}_${widget.maya}'),
+                )
+              : SizedBox.shrink();
+        },
+      );
+    } else {
+      return BlocSelector<
+        TranslationBloc,
+        BaseState<
+          Translation,
+          TranslationText,
+          TranslationContent,
+          TranslationPayload
+        >,
+        ({bool fetching, Translation? word})
+      >(
+        selector: (state) {
+          return (
+            fetching: state.fetching.contains(widget.identifier.sku),
+            word: state.data[widget.identifier.sku],
+          );
+        },
+
+        builder: (context, result) {
+          if (result.fetching) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (result.word == null) {
+            return const Center(child: Text("Word not found"));
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              WordTextListWidget(
+                identifiers: result.word!.texts,
+                maya: widget.maya,
+                visited: {...widget.visited, widget.identifier.sku},
+                key: ValueKey('${widget.identifier.sku}_${widget.maya}'),
+              ),
+            ],
+          );
         },
       );
     }
-
-    return BlocSelector<
-      TranslationBloc,
-      BaseState<
-        Translation,
-        TranslationText,
-        TranslationContent,
-        TranslationPayload
-      >,
-      ({bool fetching, Translation? word})
-    >(
-      selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          word: state.data[widget.identifier.sku],
-        );
-      },
-
-      builder: (context, result) {
-        if (result.fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (result.word == null) {
-          return const Center(child: Text("Word not found"));
-        }
-
-        return _buildWord(result.word!, visited);
-      },
-    );
-  }
-
-  Widget _buildWord(Word word, Set<String> visited) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.maya != 'SCRIPT') Text('${word.ordinal}'),
-
-        WordTextListWidget(
-          identifiers: word.texts,
-          maya: widget.maya,
-          visited: visited,
-          key: ValueKey('${word.sku}_${widget.maya}'),
-        ),
-      ],
-    );
   }
 }

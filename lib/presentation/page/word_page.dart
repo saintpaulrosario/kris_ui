@@ -60,14 +60,14 @@ class _WordPageState extends State<WordPage>
         return Column(
           children: [
             // ====================================================
-            // FIXED HEADER
+            // HEADER
             // ====================================================
             _buildHeader(context),
 
             _horizontalDivider(),
 
             // ====================================================
-            // SCROLLING ROWS
+            // ROWS
             // ====================================================
             Expanded(child: _buildRows(context, page)),
 
@@ -132,7 +132,7 @@ class _WordPageState extends State<WordPage>
             flex: 2,
             child: Column(
               children: [
-                // Translation title
+                // Translation
                 Expanded(
                   child: Center(
                     child: Text(
@@ -145,11 +145,24 @@ class _WordPageState extends State<WordPage>
 
                 _horizontalDivider(),
 
-                // Text | Script
+                // Sound | Text | Script
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      // SOUND
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Sound',
+                            style: textStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+
+                      _verticalDivider(),
+
                       // TEXT
                       Expanded(
                         child: Center(
@@ -161,9 +174,18 @@ class _WordPageState extends State<WordPage>
                         ),
                       ),
 
-                      // TEXT / SCRIPT DIVIDER
                       _verticalDivider(),
 
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'dialect',
+                            style: textStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      _verticalDivider(),
                       // SCRIPT
                       Expanded(
                         child: Center(
@@ -208,60 +230,83 @@ class _WordPageState extends State<WordPage>
   // ==============================================================
 
   Widget _buildRow(BuildContext context, Translation translation) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // ------------------------------------------------------
-          // IMAGE
-          // ------------------------------------------------------
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ImageListWidget(imagesIdentifiers: translation.images),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            // ====================================================
+            // CONTENT
+            // ====================================================
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ------------------------------------------------
+                // IMAGE
+                // ------------------------------------------------
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ImageListWidget(
+                      imagesIdentifiers: translation.images,
+                    ),
+                  ),
+                ),
+
+                // Space occupied by divider
+                const SizedBox(width: 1),
+
+                // ------------------------------------------------
+                // DEFINITION
+                // ------------------------------------------------
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Center(
+                      child: Text('Definition', textAlign: TextAlign.center),
+                    ),
+                  ),
+                ),
+
+                // Space occupied by divider
+                const SizedBox(width: 1),
+
+                // ------------------------------------------------
+                // TRANSLATION
+                // ------------------------------------------------
+                Expanded(
+                  flex: 2,
+                  child: WordWidget(
+                    key: ValueKey('${translation.sku}_translation'),
+                    identifier: translation,
+                    maya: '',
+                    visited: {translation.sku},
+                  ),
+                ),
+              ],
             ),
-          ),
 
-          _verticalDivider(),
-
-          // ------------------------------------------------------
-          // DEFINITION
-          // ------------------------------------------------------
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Center(
-                child: Text('Definition', textAlign: TextAlign.center),
-              ),
+            // ====================================================
+            // IMAGE / DEFINITION DIVIDER
+            // ====================================================
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: constraints.maxWidth / 4,
+              child: Container(width: 1, color: Theme.of(context).dividerColor),
             ),
-          ),
 
-          _verticalDivider(),
-
-          _verticalDivider(),
-
-          // ------------------------------------------------------
-          // TRANSLATION
-          // ------------------------------------------------------
-          //
-          // IMPORTANT:
-          //
-          // WordTextItemWidget owns:
-          //
-          //       Text | Script
-          //
-          // ------------------------------------------------------
-          Expanded(
-            flex: 2,
-            child: WordWidget(
-              key: ValueKey('${translation.sku}_translation'),
-              identifier: translation,
-              maya: '',
-              visited: {translation.sku},
+            // ====================================================
+            // DEFINITION / TRANSLATION DIVIDER
+            // ====================================================
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: constraints.maxWidth / 2,
+              child: Container(width: 1, color: Theme.of(context).dividerColor),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 

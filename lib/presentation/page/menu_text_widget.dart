@@ -190,6 +190,7 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
                         key: ValueKey(identifier.sku),
                         identifier: identifier,
                         maya: widget.maya,
+                        visited: {},
                       ),
                     ),
                 ],

@@ -14,11 +14,13 @@ import 'payload_list_widget.dart';
 class ContentItemWidget extends StatefulWidget {
   final Identifier identifier;
   final String maya;
+  final Set<String> visited;
 
   const ContentItemWidget({
     super.key,
     required this.identifier,
     required this.maya,
+    required this.visited,
   });
 
   @override
@@ -76,6 +78,7 @@ class _ContentItemWidgetState extends State<ContentItemWidget> {
                 key: ValueKey('${state.content!.sku}_${widget.maya}'),
                 identifiers: state.content!.payloads,
                 maya: widget.maya,
+                visited: widget.visited,
               ),
             ),
 

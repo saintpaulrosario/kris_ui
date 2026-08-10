@@ -14,7 +14,7 @@ import 'word_widget.dart';
 
 class WordTextItemWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set visited;
+  final Set<String> visited;
   final String maya;
 
   const WordTextItemWidget({
@@ -45,6 +45,7 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return BlocSelector<
       TranslationBloc,
       BaseState<
@@ -69,52 +70,80 @@ class _WordTextItemWidgetState extends State<WordTextItemWidget>
   }
 
   Widget _buildTranslation(BuildContext context, TranslationText text) {
-    final bool scriptVisited = widget.visited.contains(text.script.sku);
-
-    final Set<String> nextVisited = {...widget.visited, text.sku};
-
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // ====================================================
-          // TEXT COLUMN
-          // ====================================================
-
-          // ====================================================
-          // VERTICAL DIVIDER
-          // ====================================================
-          Container(width: 1, color: Theme.of(context).dividerColor),
-
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: ContentListWidget(
-                key: ValueKey('${text.sku}_content'),
-                identifiers: text.contents,
-                maya: widget.maya,
+    return Stack(
+      children: [
+        // ====================================================
+        // TEXT | SCRIPT CONTENT
+        // ====================================================
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // ==================================================
+            // TEXT
+            // ==================================================
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ContentListWidget(
+                  key: ValueKey('${text.sku}_content'),
+                  identifiers: text.contents,
+                  maya: widget.maya,
+                  visited: {...widget.visited, text.sku},
+                ),
               ),
             ),
-          ),
 
-          // ====================================================
-          // SCRIPT COLUMN
-          // ====================================================
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: scriptVisited
-                  ? const SizedBox.shrink()
-                  : WordWidget(
-                      key: ValueKey('${text.script.sku}_script'),
-                      identifier: text.script,
-                      maya: 'SCRIPT',
-                      visited: nextVisited,
+            // Space occupied by divider
+            const SizedBox(width: 1),
+
+            // ==================================================
+            // SCRIPT
+            // ==================================================
+            if ('SCRIPT' == widget.maya)
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: WordWidget(
+                    key: ValueKey('${text.script.sku}_script'),
+                    identifier: text.script,
+                    maya: 'SCRIPT',
+                    visited: {...widget.visited, text.sku},
+                  ),
+                ),
+              ),
+          ],
+        ),
+
+        // ====================================================
+        // CONTINUOUS TEXT / SCRIPT DIVIDER
+        // ====================================================
+        Positioned(
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: IgnorePointer(
+            child: Row(
+              children: [
+                const Spacer(),
+
+                // Text column = 50%
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 1,
+                      color: Theme.of(context).dividerColor,
                     ),
+                  ),
+                ),
+
+                const Spacer(),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

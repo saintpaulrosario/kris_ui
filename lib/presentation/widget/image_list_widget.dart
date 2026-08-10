@@ -29,35 +29,33 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       );
     }
 
-    return Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CarouselSlider.builder(
-            itemCount: widget.imagesIdentifiers.length,
-            itemBuilder: (context, index, realIndex) {
-              final identifier = widget.imagesIdentifiers[index];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CarouselSlider.builder(
+          itemCount: widget.imagesIdentifiers.length,
+          itemBuilder: (context, index, realIndex) {
+            final identifier = widget.imagesIdentifiers[index];
 
-              return ImageItemWidget(imageIdentifier: identifier);
+            return ImageItemWidget(imageIdentifier: identifier);
+          },
+          options: CarouselOptions(
+            height: 130,
+            viewportFraction: 1,
+            enlargeCenterPage: false,
+            enableInfiniteScroll: false,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _currentIndex = index;
+              });
             },
-            options: CarouselOptions(
-              height: 130,
-              viewportFraction: 1,
-              enlargeCenterPage: false,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
           ),
-          if (widget.imagesIdentifiers.length > 1) ...[
-            const SizedBox(height: 8),
-            _buildIndicators(context),
-          ],
+        ),
+        if (widget.imagesIdentifiers.length > 1) ...[
+          const SizedBox(height: 8),
+          _buildIndicators(context),
         ],
-      ),
+      ],
     );
   }
 
@@ -78,11 +76,12 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       if (start > total - widget.imagesIdentifiers.length) {
         start = total - _maxIndicators;
       }
+      dots = [];
 
-      dots = List.generate(
-        widget.imagesIdentifiers.length,
-        (i) => _buildDot(context, start + i),
-      );
+      // dots = List.generate(
+      //   widget.imagesIdentifiers.length,
+      //   (i) => _buildDot(context, start + i),
+      // );
     }
 
     return Row(
