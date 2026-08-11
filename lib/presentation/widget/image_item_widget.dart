@@ -80,13 +80,11 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
     ({bool fetching, WordImage? image}) state,
   ) {
     if (state.fetching) {
-      return SizedBox.expand(
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: const DecoratedBox(
-            decoration: BoxDecoration(color: Colors.white),
-          ),
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: const DecoratedBox(
+          decoration: BoxDecoration(color: Colors.white),
         ),
       );
     }
@@ -101,14 +99,12 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
 
     return InkWell(
       onTap: () => _openViewer(image),
-      child: SizedBox.expand(
-        child: Image.memory(
-          _decodeImage(image.content),
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return const Center(child: Icon(Icons.broken_image));
-          },
-        ),
+      child: Image.memory(
+        _decodeImage(image.content),
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return const Center(child: Icon(Icons.broken_image));
+        },
       ),
     );
   }

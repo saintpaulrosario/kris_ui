@@ -16,7 +16,7 @@ class ImageListWidget extends StatefulWidget {
 class _ImageListWidgetState extends State<ImageListWidget> {
   static const int _maxIndicators = 5;
 
-  static const double _carouselHeight = 130;
+  static const double _carouselHeight = 150;
 
   int _currentIndex = 0;
 
@@ -39,7 +39,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       return const SizedBox(
         width: double.infinity,
         height: _carouselHeight,
-        child: Center(child: Text('No image', textAlign: TextAlign.center)),
+        child: Icon(Icons.image_not_supported),
       );
     }
 
@@ -48,7 +48,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       children: [
         SizedBox(
           width: double.infinity,
-          height: 28,
+          height: 42,
           child: CarouselSlider.builder(
             itemCount: identifiers.length,
             itemBuilder: (BuildContext context, int index, int realIndex) {
@@ -62,7 +62,6 @@ class _ImageListWidgetState extends State<ImageListWidget> {
               );
             },
             options: CarouselOptions(
-              height: _carouselHeight,
               viewportFraction: 1.0,
               enlargeCenterPage: false,
               enableInfiniteScroll: false,
@@ -81,7 +80,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
         ),
 
         if (identifiers.length > 1) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: 1),
           _buildIndicators(context),
         ],
       ],
@@ -105,7 +104,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
 
     return SizedBox(
       width: double.infinity,
-      height: 12,
+      height: 4,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -124,12 +123,12 @@ class _ImageListWidgetState extends State<ImageListWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
+        duration: const Duration(seconds: 30),
         width: selected ? 10 : 6,
         height: selected ? 10 : 6,
         decoration: BoxDecoration(
           color: selected ? Theme.of(context).colorScheme.primary : Colors.grey,
-          shape: BoxShape.circle,
+          shape: BoxShape.rectangle,
         ),
       ),
     );
