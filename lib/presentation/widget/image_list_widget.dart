@@ -5,9 +5,9 @@ import 'package:kris/presentation/widget/image_item_widget.dart';
 import '../../model/identifier.dart';
 
 class ImageListWidget extends StatefulWidget {
-  final List<Identifier> imagesIdentifiers;
+  final List<Identifier> identifiers;
 
-  const ImageListWidget({super.key, required this.imagesIdentifiers});
+  const ImageListWidget({super.key, required this.identifiers});
 
   @override
   State<ImageListWidget> createState() => _ImageListWidgetState();
@@ -15,79 +15,113 @@ class ImageListWidget extends StatefulWidget {
 
 class _ImageListWidgetState extends State<ImageListWidget> {
   static const int _maxIndicators = 5;
-  static const double _imageHeight = 120;
+
+  static const double _width = 120;
+  static const double _carouselHeight = 130;
 
   int _currentIndex = 0;
 
   @override
+  void didUpdateWidget(covariant ImageListWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Reset the carousel position if the list changes
+    // and the current index is no longer valid.
+    if (widget.identifiers.isEmpty) {
+      _currentIndex = 0;
+    } else if (_currentIndex >= widget.identifiers.length) {
+      _currentIndex = widget.identifiers.length - 1;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (widget.imagesIdentifiers.isEmpty) {
+    final identifiers = widget.identifiers;
+
+    if (identifiers.isEmpty) {
       return const SizedBox(
-        width: 120,
-        height: _imageHeight,
-        child: Center(child: Text("No image")),
+        width: _width,
+        height: _carouselHeight,
+        child: Center(child: Text('No image', textAlign: TextAlign.center)),
       );
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CarouselSlider.builder(
-          itemCount: widget.imagesIdentifiers.length,
-          itemBuilder: (context, index, realIndex) {
-            final identifier = widget.imagesIdentifiers[index];
+    return SizedBox(
+      width: _width,
+      height: _carouselHeight + 20,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: _width,
+            height: _carouselHeight,
+            child: CarouselSlider.builder(
+              itemCount: identifiers.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return SizedBox(
+                  width: _width,
+                  height: _carouselHeight,
+                  child: ImageItemWidget(
+                    key: ValueKey(identifiers[index].sku),
+                    imageIdentifier: identifiers[index],
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                height: _carouselHeight,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                enableInfiniteScroll: false,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  if (!mounted) {
+                    return;
+                  }
 
-            return ImageItemWidget(imageIdentifier: identifier);
-          },
-          options: CarouselOptions(
-            height: 130,
-            viewportFraction: 1,
-            enlargeCenterPage: false,
-            enableInfiniteScroll: false,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ),
+            ),
           ),
-        ),
-        if (widget.imagesIdentifiers.length > 1) ...[
-          const SizedBox(height: 8),
-          _buildIndicators(context),
+
+          if (identifiers.length > 1) ...[
+            const SizedBox(height: 8),
+            _buildIndicators(context),
+          ],
         ],
-      ],
+      ),
     );
   }
 
   Widget _buildIndicators(BuildContext context) {
-    final total = widget.imagesIdentifiers.length;
+    final total = widget.identifiers.length;
 
-    final List<Widget> dots;
+    final count = total > _maxIndicators ? _maxIndicators : total;
 
-    if (total <= widget.imagesIdentifiers.length) {
-      dots = List.generate(total, (index) => _buildDot(context, index));
-    } else {
-      int start = _currentIndex - (_maxIndicators ~/ 2);
+    int start = _currentIndex - (count ~/ 2);
 
-      if (start < 0) {
-        start = 0;
-      }
-
-      if (start > total - widget.imagesIdentifiers.length) {
-        start = total - _maxIndicators;
-      }
-      dots = [];
-
-      // dots = List.generate(
-      //   widget.imagesIdentifiers.length,
-      //   (i) => _buildDot(context, start + i),
-      // );
+    if (start < 0) {
+      start = 0;
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: dots,
+    if (start > total - count) {
+      start = total - count;
+    }
+
+    return SizedBox(
+      width: _width,
+      height: 12,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(count, (index) {
+          final actualIndex = start + index;
+
+          return _buildDot(context, actualIndex);
+        }),
+      ),
     );
   }
 

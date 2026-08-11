@@ -16,15 +16,24 @@ WordDetail _$WordDetailFromJson(
     ),
     images: $checkedConvert(
       'images',
-      (v) => (v as List<dynamic>)
-          .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
-          .toList(),
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
-    details: $checkedConvert(
-      'details',
-      (v) => (v as List<dynamic>)
-          .map((e) => WordDetail.fromJson(Map<String, dynamic>.from(e as Map)))
-          .toList(),
+    attributes: $checkedConvert(
+      'attributes',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) =>
+                    WordAttribute.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
   );
   return val;
@@ -33,6 +42,6 @@ WordDetail _$WordDetailFromJson(
 Map<String, dynamic> _$WordDetailToJson(WordDetail instance) =>
     <String, dynamic>{
       'word': instance.word.toJson(),
-      'details': instance.details.map((e) => e.toJson()).toList(),
+      'attributes': instance.attributes.map((e) => e.toJson()).toList(),
       'images': instance.images.map((e) => e.toJson()).toList(),
     };

@@ -8,8 +8,8 @@ import 'package:kris/model/word_image.dart';
 import 'package:kris/presentation/widget/image_viewer_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../model/identifier.dart';
 import '../../logic/medium/bloc/medium_bloc.dart';
+import '../../model/identifier.dart';
 
 class ImageItemWidget extends StatefulWidget {
   final Identifier imageIdentifier;
@@ -24,6 +24,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<MediumBloc>().add(
       MediumEventFetch(sku: widget.imageIdentifier.sku),
     );
@@ -51,7 +52,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
         builder: (_) => ImageViewerWidget(
           identifier: widget.imageIdentifier,
           payload: image.content,
-          descriptions: ['this is a descripont', 'thisis second'],
+          descriptions: const ['this is a descripont', 'thisis second'],
         ),
       ),
     );
@@ -68,41 +69,47 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
         fetching: state.fetching.contains(widget.imageIdentifier.sku),
         image: state.data[widget.imageIdentifier.sku],
       ),
-
       builder: (context, state) {
-        if (state.fetching) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: const AspectRatio(
-              aspectRatio: 1,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: Colors.white),
-              ),
-            ),
-          );
-        }
-
-        final image = state.image;
-
-        if (image == null) {
-          return const Center(child: Text("Image was not found"));
-        }
-
-        return AspectRatio(
-          aspectRatio: 1,
-          child: InkWell(
-            onTap: () => _openViewer(image),
-            child: Image.memory(
-              _decodeImage(image.content),
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image);
-              },
-            ),
-          ),
+        return SizedBox(
+          width: 120,
+          height: 120,
+          child: _buildContent(context, state),
         );
       },
+    );
+  }
+
+  Widget _buildContent(
+    BuildContext context,
+    ({bool fetching, WordImage? image}) state,
+  ) {
+    if (state.fetching) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: const DecoratedBox(
+          decoration: BoxDecoration(color: Colors.white),
+        ),
+      );
+    }
+
+    final image = state.image;
+
+    if (image == null) {
+      return const Center(
+        child: Text('Image was not found', textAlign: TextAlign.center),
+      );
+    }
+
+    return InkWell(
+      onTap: () => _openViewer(image),
+      child: Image.memory(
+        _decodeImage(image.content),
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(Icons.broken_image);
+        },
+      ),
     );
   }
 }

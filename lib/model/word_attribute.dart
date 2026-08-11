@@ -19,6 +19,8 @@ class WordAttribute {
   final Identifier dialect;
   final Identifier language;
   final Identifier trait;
+
+  @JsonKey(defaultValue: [])
   final List<Identifier> sounds;
 
   const WordAttribute({

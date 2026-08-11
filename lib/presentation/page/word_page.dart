@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/model/word_detail.dart';
-import 'package:kris/presentation/page/word_table.dart';
+
 import 'package:kris/presentation/page/word_table_source.dart';
+import 'package:kris/presentation/widget/dialect_widget.dart';
+import 'package:kris/presentation/widget/image_list_widget.dart';
+import 'package:kris/presentation/widget/language_widget.dart';
+import 'package:kris/presentation/widget/script_widget.dart';
+import 'package:kris/presentation/widget/text_widget.dart';
 import 'package:pagination_flutter/pagination.dart';
 
 import '../../logic/base_event.dart';
@@ -22,11 +27,7 @@ class WordPage extends StatefulWidget {
   State<WordPage> createState() => _WordPageState();
 }
 
-class _WordPageState extends State<WordPage>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _WordPageState extends State<WordPage> {
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,7 @@ class _WordPageState extends State<WordPage>
     context.read<WordDetailBloc>().add(
       WordDetailEvent(
         page: 0,
-        size: 60,
+        size: 10,
         scripts: [],
         dialects: [],
         languages: [],
@@ -44,8 +45,6 @@ class _WordPageState extends State<WordPage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return BlocSelector<
       WordDetailBloc,
       WordDetailState,
@@ -54,17 +53,24 @@ class _WordPageState extends State<WordPage>
       selector: (state) {
         return state.pages[state.pageNumber];
       },
-      builder: (context, page) {
-        if (page == null) {
+      builder: (context, state) {
+        if (state == null) {
           return const Center(child: CircularProgressIndicator());
         }
         List<DataColumn> columns = [
-          DataColumn(label: Text('TEXT')),
-          DataColumn(label: Text('LANGUAGE')),
-          DataColumn(label: Text('SCRIPT')),
+          DataColumn(label: Text("Image")),
+          DataColumn(label: Text("Text")),
+          DataColumn(label: Text("Dialect")),
+          DataColumn(label: Text("Language")),
+          DataColumn(label: Text("Script")),
         ];
-        WordTableSource source = WordTableSource(page: page);
-        return WordTable(wordSource: source, columns: columns);
+        WordTableSource source = WordTableSource(words: state.content);
+        return PaginatedDataTable(
+          header: Center(child: Text('Translation')),
+          columns: columns,
+          rowsPerPage: state.page.size,
+          source: source,
+        );
       },
     );
   }

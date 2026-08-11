@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/word_attribute.dart';
 
 import 'identifier.dart';
 
@@ -15,17 +16,21 @@ part 'word_detail.g.dart';
 class WordDetail {
   @JsonKey(disallowNullValue: false)
   final Identifier word;
-  final List<WordDetail> details;
+
+  @JsonKey(defaultValue: [])
+  final List<WordAttribute> attributes;
+
+  @JsonKey(defaultValue: [])
   final List<Identifier> images;
 
   const WordDetail({
     required this.word,
     required this.images,
-    required this.details,
+    required this.attributes,
   });
 
   factory WordDetail.initial() {
-    return WordDetail(word: Identifier.initial(), images: [], details: []);
+    return WordDetail(word: Identifier.initial(), images: [], attributes: []);
   }
 
   @override

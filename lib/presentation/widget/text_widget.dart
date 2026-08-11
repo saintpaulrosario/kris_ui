@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kris/model/identifier.dart';
 
 class TextWidget extends StatefulWidget {
-  final Identifier text;
-  final Identifier script;
-  const TextWidget({super.key, required this.text, required this.script});
+  // final List<String> sounds;
+  // final Identifier identifier;
+  const TextWidget({super.key});
 
   @override
   State<TextWidget> createState() => _TextWidgetState();
@@ -13,6 +13,6 @@ class TextWidget extends StatefulWidget {
 class _TextWidgetState extends State<TextWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Text("Text");
   }
 }
