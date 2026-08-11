@@ -19,18 +19,19 @@ class WordTableSource extends DataTableSource {
       cells: [
         DataCell(
           SizedBox(
-            width: 120,
+            width: 150,
+            height: 150,
             child: ImageListWidget(identifiers: word.images),
           ),
         ),
 
-        DataCell(SizedBox(width: 200, child: TextWidget())),
+        DataCell(TextWidget()),
 
-        DataCell(SizedBox(width: 150, child: DialectWidget())),
+        DataCell(DialectWidget()),
 
-        DataCell(SizedBox(width: 150, child: LanguageWidget())),
+        DataCell(LanguageWidget()),
 
-        DataCell(SizedBox(width: 150, child: ScriptWidget())),
+        DataCell(ScriptWidget()),
       ],
     );
   }

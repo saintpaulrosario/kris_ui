@@ -70,11 +70,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
         image: state.data[widget.imageIdentifier.sku],
       ),
       builder: (context, state) {
-        return SizedBox(
-          width: 120,
-          height: 120,
-          child: _buildContent(context, state),
-        );
+        return _buildContent(context, state);
       },
     );
   }
@@ -84,11 +80,13 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
     ({bool fetching, WordImage? image}) state,
   ) {
     if (state.fetching) {
-      return Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: const DecoratedBox(
-          decoration: BoxDecoration(color: Colors.white),
+      return SizedBox.expand(
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: const DecoratedBox(
+            decoration: BoxDecoration(color: Colors.white),
+          ),
         ),
       );
     }
@@ -103,12 +101,14 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
 
     return InkWell(
       onTap: () => _openViewer(image),
-      child: Image.memory(
-        _decodeImage(image.content),
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return const Icon(Icons.broken_image);
-        },
+      child: SizedBox.expand(
+        child: Image.memory(
+          _decodeImage(image.content),
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            return const Center(child: Icon(Icons.broken_image));
+          },
+        ),
       ),
     );
   }

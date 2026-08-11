@@ -16,7 +16,6 @@ class ImageListWidget extends StatefulWidget {
 class _ImageListWidgetState extends State<ImageListWidget> {
   static const int _maxIndicators = 5;
 
-  static const double _width = 120;
   static const double _carouselHeight = 130;
 
   int _currentIndex = 0;
@@ -25,8 +24,6 @@ class _ImageListWidgetState extends State<ImageListWidget> {
   void didUpdateWidget(covariant ImageListWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Reset the carousel position if the list changes
-    // and the current index is no longer valid.
     if (widget.identifiers.isEmpty) {
       _currentIndex = 0;
     } else if (_currentIndex >= widget.identifiers.length) {
@@ -40,58 +37,54 @@ class _ImageListWidgetState extends State<ImageListWidget> {
 
     if (identifiers.isEmpty) {
       return const SizedBox(
-        width: _width,
+        width: double.infinity,
         height: _carouselHeight,
         child: Center(child: Text('No image', textAlign: TextAlign.center)),
       );
     }
 
-    return SizedBox(
-      width: _width,
-      height: _carouselHeight + 20,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: _width,
-            height: _carouselHeight,
-            child: CarouselSlider.builder(
-              itemCount: identifiers.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                return SizedBox(
-                  width: _width,
-                  height: _carouselHeight,
-                  child: ImageItemWidget(
-                    key: ValueKey(identifiers[index].sku),
-                    imageIdentifier: identifiers[index],
-                  ),
-                );
-              },
-              options: CarouselOptions(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 28,
+          child: CarouselSlider.builder(
+            itemCount: identifiers.length,
+            itemBuilder: (BuildContext context, int index, int realIndex) {
+              return SizedBox(
+                width: double.infinity,
                 height: _carouselHeight,
-                viewportFraction: 1.0,
-                enlargeCenterPage: false,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (index, reason) {
-                  if (!mounted) {
-                    return;
-                  }
+                child: ImageItemWidget(
+                  key: ValueKey(identifiers[index].sku),
+                  imageIdentifier: identifiers[index],
+                ),
+              );
+            },
+            options: CarouselOptions(
+              height: _carouselHeight,
+              viewportFraction: 1.0,
+              enlargeCenterPage: false,
+              enableInfiniteScroll: false,
+              scrollDirection: Axis.horizontal,
+              onPageChanged: (index, reason) {
+                if (!mounted) {
+                  return;
+                }
 
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
             ),
           ),
+        ),
 
-          if (identifiers.length > 1) ...[
-            const SizedBox(height: 8),
-            _buildIndicators(context),
-          ],
+        if (identifiers.length > 1) ...[
+          const SizedBox(height: 8),
+          _buildIndicators(context),
         ],
-      ),
+      ],
     );
   }
 
@@ -111,7 +104,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
     }
 
     return SizedBox(
-      width: _width,
+      width: double.infinity,
       height: 12,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
