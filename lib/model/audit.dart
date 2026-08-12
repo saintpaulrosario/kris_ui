@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/account.dart';
 
 part 'audit.g.dart';
 
@@ -12,8 +13,8 @@ part 'audit.g.dart';
 class Audit {
   final DateTime createdDate;
   final DateTime lastModifiedDate;
-  final String? createdBy;
-  final String? lastModifiedBy;
+  final Account? createdBy;
+  final Account? lastModifiedBy;
   @JsonKey(disallowNullValue: false, defaultValue: 0)
   final int version;
 
@@ -29,8 +30,8 @@ class Audit {
     return Audit(
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: null,
-      lastModifiedBy: null,
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       version: 0,
     );
   }

@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/identifier.dart';
 
+import 'account.dart';
+
 part 'medium.g.dart';
 
 @JsonSerializable(
@@ -53,8 +55,8 @@ class Medium extends Identifier {
       ordinal: 0,
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
     );
   }
 

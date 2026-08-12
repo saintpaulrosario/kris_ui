@@ -20,8 +20,18 @@ Text _$TextFromJson(Map json) =>
           'lastModifiedDate',
           (v) => DateTime.parse(v as String),
         ),
-        createdBy: $checkedConvert('createdBy', (v) => v as String?),
-        lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+        createdBy: $checkedConvert(
+          'createdBy',
+          (v) => v == null
+              ? null
+              : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+        ),
+        lastModifiedBy: $checkedConvert(
+          'lastModifiedBy',
+          (v) => v == null
+              ? null
+              : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+        ),
         script: $checkedConvert(
           'script',
           (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
@@ -30,6 +40,12 @@ Text _$TextFromJson(Map json) =>
           'word',
           (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
         ),
+        contents: $checkedConvert(
+          'contents',
+          (v) => (v as List<dynamic>)
+              .map((e) => Content.fromJson(Map<String, dynamic>.from(e as Map)))
+              .toList(),
+        ),
       );
       return val;
     });
@@ -37,11 +53,12 @@ Text _$TextFromJson(Map json) =>
 Map<String, dynamic> _$TextToJson(Text instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
-  'createdBy': instance.createdBy,
-  'lastModifiedBy': instance.lastModifiedBy,
+  'createdBy': instance.createdBy?.toJson(),
+  'lastModifiedBy': instance.lastModifiedBy?.toJson(),
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'script': instance.script.toJson(),
   'word': instance.word.toJson(),
+  'contents': instance.contents.map((e) => e.toJson()).toList(),
 };

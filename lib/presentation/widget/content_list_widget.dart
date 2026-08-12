@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../model/identifier.dart';
-import 'content_item_wiget.dart';
+import 'content_wiget.dart';
 
 class ContentListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -22,7 +22,7 @@ class ContentListWidget extends StatelessWidget {
         children: ListTile.divideTiles(
           context: context,
           tiles: identifiers.map(
-            (identifier) => ContentItemWidget(
+            (identifier) => ContentWidget(
               key: ValueKey(identifier.sku),
               identifier: identifier,
               maya: maya,

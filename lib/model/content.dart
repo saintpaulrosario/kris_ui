@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/account.dart';
+import 'package:kris/model/payload.dart';
 
 import 'identifier.dart';
 
@@ -16,6 +18,9 @@ class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> languages;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Payload> payloads;
+
   const Content({
     required super.sku,
     required super.version,
@@ -25,6 +30,7 @@ class Content extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.payloads,
   });
 
   factory Content.initial() {
@@ -34,9 +40,10 @@ class Content extends Identifier {
       ordinal: -1,
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       languages: [],
+      payloads: [],
     );
   }
 

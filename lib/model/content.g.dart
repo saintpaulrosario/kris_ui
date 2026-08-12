@@ -31,8 +31,28 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
       'lastModifiedDate',
       (v) => DateTime.parse(v as String),
     ),
-    createdBy: $checkedConvert('createdBy', (v) => v as String?),
-    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    createdBy: $checkedConvert(
+      'createdBy',
+      (v) => v == null
+          ? null
+          : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
+    lastModifiedBy: $checkedConvert(
+      'lastModifiedBy',
+      (v) => v == null
+          ? null
+          : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
+    payloads: $checkedConvert(
+      'payloads',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Payload.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
   );
   return val;
 });
@@ -40,10 +60,11 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
 Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
-  'createdBy': instance.createdBy,
-  'lastModifiedBy': instance.lastModifiedBy,
+  'createdBy': instance.createdBy?.toJson(),
+  'lastModifiedBy': instance.lastModifiedBy?.toJson(),
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'languages': instance.languages.map((e) => e.toJson()).toList(),
+  'payloads': instance.payloads.map((e) => e.toJson()).toList(),
 };

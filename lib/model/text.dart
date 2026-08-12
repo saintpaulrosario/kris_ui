@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/account.dart';
+import 'package:kris/model/content.dart';
 
 import 'identifier.dart';
 
@@ -16,6 +18,7 @@ class Text extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier script;
   final Identifier word;
+  final List<Content> contents;
 
   const Text({
     required super.sku,
@@ -27,6 +30,7 @@ class Text extends Identifier {
     required super.lastModifiedBy,
     required this.script,
     required this.word,
+    required this.contents,
   });
 
   factory Text.initial() {
@@ -37,10 +41,11 @@ class Text extends Identifier {
 
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       script: Identifier.initial(),
       word: Identifier.initial(),
+      contents: [],
     );
   }
 

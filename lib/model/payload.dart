@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'account.dart';
 import 'identifier.dart';
 
 part 'payload.g.dart';
@@ -41,8 +42,8 @@ class Payload extends Identifier {
       ordinal: -1,
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       value: '',
       dialects: [],
       sounds: [],

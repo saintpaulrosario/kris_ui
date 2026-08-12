@@ -17,8 +17,18 @@ Audit _$AuditFromJson(Map json) =>
           'lastModifiedDate',
           (v) => DateTime.parse(v as String),
         ),
-        createdBy: $checkedConvert('createdBy', (v) => v as String?),
-        lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+        createdBy: $checkedConvert(
+          'createdBy',
+          (v) => v == null
+              ? null
+              : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+        ),
+        lastModifiedBy: $checkedConvert(
+          'lastModifiedBy',
+          (v) => v == null
+              ? null
+              : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+        ),
         version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
       );
       return val;
@@ -27,7 +37,7 @@ Audit _$AuditFromJson(Map json) =>
 Map<String, dynamic> _$AuditToJson(Audit instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
-  'createdBy': ?instance.createdBy,
-  'lastModifiedBy': ?instance.lastModifiedBy,
+  'createdBy': ?instance.createdBy?.toJson(),
+  'lastModifiedBy': ?instance.lastModifiedBy?.toJson(),
   'version': instance.version,
 };

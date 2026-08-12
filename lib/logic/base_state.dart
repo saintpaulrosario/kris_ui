@@ -1,16 +1,19 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:kris/model/content.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart';
 
 import '../response/error_response.dart';
 import '../response/page_result.dart';
 
-class BaseState<W, T, C, P> {
+class BaseState<W> {
   final BuiltMap<String, ErrorResponse> errors;
   final BuiltSet<String> fetching;
   final BuiltMap<int, PageResult<W>> pages;
   final BuiltMap<String, W> data;
-  final BuiltMap<String, T> texts;
-  final BuiltMap<String, C> contents;
-  final BuiltMap<String, P> payloads;
+  final BuiltMap<String, Text> texts;
+  final BuiltMap<String, Content> contents;
+  final BuiltMap<String, Payload> payloads;
   final BuiltSet<String> selections;
 
   final int pageNumber;
@@ -35,28 +38,28 @@ class BaseState<W, T, C, P> {
       data: BuiltMap<String, W>(),
       fetching: BuiltSet<String>(),
       pages: BuiltMap<int, PageResult<W>>(),
-      texts: BuiltMap<String, T>(),
-      contents: BuiltMap<String, C>(),
-      payloads: BuiltMap<String, P>(),
+      texts: BuiltMap<String, Text>(),
+      contents: BuiltMap<String, Content>(),
+      payloads: BuiltMap<String, Payload>(),
       pageNumber: 0,
       pageSize: 10,
       selections: BuiltSet<String>(),
     );
   }
 
-  BaseState<W, T, C, P> copyWith({
+  BaseState<W> copyWith({
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, W>? data,
     BuiltSet<String>? fetching,
     BuiltSet<String>? selections,
     BuiltMap<int, PageResult<W>>? pages,
-    BuiltMap<String, T>? texts,
-    BuiltMap<String, C>? contents,
-    BuiltMap<String, P>? payloads,
+    BuiltMap<String, Text>? texts,
+    BuiltMap<String, Content>? contents,
+    BuiltMap<String, Payload>? payloads,
     int? pageNumber,
     int? pageSize,
   }) {
-    return BaseState<W, T, C, P>(
+    return BaseState<W>(
       errors: errors ?? this.errors,
       data: data ?? this.data,
       fetching: fetching ?? this.fetching,

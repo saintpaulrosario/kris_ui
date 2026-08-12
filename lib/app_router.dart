@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kris/model/account.dart';
 import 'package:kris/presentation/page/payload_page.dart';
 import 'package:kris/presentation/page/word_detail_page.dart';
 
@@ -60,10 +61,10 @@ final GoRouter appRouter = GoRouter(
               ordinal: 0,
               createdDate: DateTime.now(),
               lastModifiedDate: DateTime.now(),
-              createdBy: '',
-              lastModifiedBy: '',
+              createdBy: Account.initial(),
+              lastModifiedBy: Account.initial(),
             );
-            return WordDetailPage(key: Key(sku), identifier: identifier);
+            return Text("data");
           },
         ),
         GoRoute(
@@ -78,8 +79,8 @@ final GoRouter appRouter = GoRouter(
               ordinal: 0,
               createdDate: DateTime.now(),
               lastModifiedDate: DateTime.now(),
-              createdBy: '',
-              lastModifiedBy: '',
+              createdBy: Account.initial(),
+              lastModifiedBy: Account.initial(),
             );
             return PayloadPage(key: Key(sku), identifier: identifier);
           },

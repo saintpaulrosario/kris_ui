@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/image_item_widget.dart';
+import 'package:kris/presentation/widget/image_widget.dart';
 
 import '../../model/identifier.dart';
 
@@ -55,7 +55,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
               return SizedBox(
                 width: double.infinity,
                 height: _carouselHeight,
-                child: ImageItemWidget(
+                child: ImageWidget(
                   key: ValueKey(identifiers[index].sku),
                   imageIdentifier: identifiers[index],
                 ),

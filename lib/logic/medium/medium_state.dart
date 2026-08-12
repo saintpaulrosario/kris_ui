@@ -1,6 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 
-import '../response/error_response.dart';
+import '../../response/error_response.dart';
 
 class MediumState<M> {
   final BuiltMap<String, ErrorResponse> errors;

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/medium_state.dart';
+import 'package:kris/logic/medium/medium_state.dart';
 import 'package:kris/model/word_image.dart';
 import 'package:kris/presentation/widget/image_viewer_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,16 +11,16 @@ import 'package:shimmer/shimmer.dart';
 import '../../logic/medium/bloc/medium_bloc.dart';
 import '../../model/identifier.dart';
 
-class ImageItemWidget extends StatefulWidget {
+class ImageWidget extends StatefulWidget {
   final Identifier imageIdentifier;
 
-  const ImageItemWidget({super.key, required this.imageIdentifier});
+  const ImageWidget({super.key, required this.imageIdentifier});
 
   @override
-  State<ImageItemWidget> createState() => _ImageItemWidgetState();
+  State<ImageWidget> createState() => _ImageWidgetState();
 }
 
-class _ImageItemWidgetState extends State<ImageItemWidget> {
+class _ImageWidgetState extends State<ImageWidget> {
   @override
   void initState() {
     super.initState();
@@ -31,7 +31,7 @@ class _ImageItemWidgetState extends State<ImageItemWidget> {
   }
 
   @override
-  void didUpdateWidget(covariant ImageItemWidget oldWidget) {
+  void didUpdateWidget(covariant ImageWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.imageIdentifier.sku != widget.imageIdentifier.sku) {

@@ -1,12 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/account.dart';
 import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
+import 'text.dart';
 
 part 'dialect.g.dart';
 
 @JsonSerializable(
-  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
@@ -27,6 +28,7 @@ class Dialect extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.images,
   });
 
   factory Dialect.initial() {
@@ -37,9 +39,10 @@ class Dialect extends Word {
       texts: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       languages: [],
+      images: [],
     );
   }
 

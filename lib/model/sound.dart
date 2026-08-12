@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/medium.dart';
 
+import 'account.dart';
+
 part 'sound.g.dart';
 
 @JsonSerializable(
@@ -38,8 +40,8 @@ class Sound extends Medium {
       ordinal: 0,
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
     );
   }
 

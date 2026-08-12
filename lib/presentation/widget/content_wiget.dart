@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/translation_content.dart';
+import 'package:kris/model/word.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
@@ -11,27 +13,24 @@ import '../../model/translation_payload.dart';
 import '../../model/translation_text.dart';
 import 'payload_list_widget.dart';
 
-class ContentItemWidget extends StatefulWidget {
+class ContentWidget extends StatefulWidget {
   final Identifier identifier;
   final String maya;
-  final Set<String> visited;
-
-  const ContentItemWidget({
+  const ContentWidget({
     super.key,
     required this.identifier,
     required this.maya,
-    required this.visited,
   });
 
   @override
-  State<ContentItemWidget> createState() => _ContentItemWidgetState();
+  State<ContentWidget> createState() => _ContentWidgetState();
 }
 
-class _ContentItemWidgetState extends State<ContentItemWidget> {
+class _ContentWidgetState extends State<ContentWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<TranslationBloc>().add(
+    context.read<WordBloc<Word>>().add(
       BaseEvent.contentBySku(identifier: widget.identifier),
     );
   }

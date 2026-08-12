@@ -1,40 +1,19 @@
 import 'package:bloc/bloc.dart';
-
+import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/model/word.dart';
 
-import '../../../model/translation_content.dart';
-import '../../../model/translation_payload.dart';
-import '../../../model/translation_text.dart';
+import 'package:fpdart/fpdart.dart';
+
 import '../../../response/error_response.dart';
-import '../../../model/translation.dart';
-import '../../../service_locator.dart';
 import '../../../response/page_result.dart';
+import '../../../service_locator.dart';
+import 'service/word_service.dart';
 
-import '../../base_event.dart';
-import '../../word_service.dart';
+class WordBloc extends Bloc<BaseEvent, BaseState<W>> {
+  final _service = getIt<WordService>();
 
-class TranslationBloc
-    extends
-        Bloc<
-          BaseEvent,
-          BaseState<
-            Translation,
-            TranslationText,
-            TranslationContent,
-            TranslationPayload
-          >
-        > {
-  final _service =
-      getIt<
-        WordService<
-          Translation,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >
-      >();
-
-  TranslationBloc() : super(BaseState.initial()) {
+  WordBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -63,7 +42,7 @@ class TranslationBloc
     });
   }
 
-  Future<void> _fetchWords(BaseEvent event, emit) async {
+  Future<void> _fetchWords(BaseEvent event, Emitter emit) async {
     if (state.fetching.contains("all")) {
       return;
     }
@@ -74,12 +53,10 @@ class TranslationBloc
       ),
     );
 
-    final results = await _service.retrieve(
-      page: event.pageNumber!,
-      size: event.pageSize!,
-    );
+    final Either<ErrorResponse, PageResult<Word>> results = await _service
+        .retrieve(page: event.pageNumber!, size: event.pageSize!);
 
-    results.fold(
+    results.match(
       (ErrorResponse error) {
         emit(
           state.copyWith(
@@ -90,7 +67,7 @@ class TranslationBloc
         );
       },
 
-      (PageResult<Translation> result) {
+      (PageResult<Word> result) {
         final data = state.data.toBuilder();
 
         for (final word in result.content) {
@@ -112,7 +89,7 @@ class TranslationBloc
     );
   }
 
-  Future<void> _fetchWordBySku(BaseEvent event, emit) async {
+  Future<void> _fetchWordBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -153,7 +130,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchTextBySku(BaseEvent event, emit) async {
+  Future<void> _fetchTextBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -194,7 +171,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchContentBySku(BaseEvent event, emit) async {
+  Future<void> _fetchContentBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -235,7 +212,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchPayloadBySku(BaseEvent event, emit) async {
+  Future<void> _fetchPayloadBySku(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(

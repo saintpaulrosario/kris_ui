@@ -5,21 +5,21 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
-import 'package:kris/logic/medium_state.dart';
+import 'package:kris/logic/medium/medium_state.dart';
 
 import '../../model/identifier.dart';
 import '../../model/sound.dart';
 
-class SoundItemWidget extends StatefulWidget {
+class SoundWidget extends StatefulWidget {
   final Identifier identifier;
 
-  const SoundItemWidget({super.key, required this.identifier});
+  const SoundWidget({super.key, required this.identifier});
 
   @override
-  State<SoundItemWidget> createState() => _SoundItemWidgetState();
+  State<SoundWidget> createState() => _SoundWidgetState();
 }
 
-class _SoundItemWidgetState extends State<SoundItemWidget> {
+class _SoundWidgetState extends State<SoundWidget> {
   late final AudioPlayer player;
 
   @override

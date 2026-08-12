@@ -1,27 +1,33 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/logic/word/api/word_api.dart';
+import 'package:kris/logic/word/service/base_service.dart';
+import 'package:kris/model/content.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart';
+import 'package:kris/model/word.dart';
 import 'package:kris/response/api_result.dart';
+import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';
 
-import '../api/word_api.dart';
-import '../response/error_response.dart';
-import '../response/page_result.dart';
+import '../../../response/error_response.dart';
+import '../../../response/page_result.dart';
 
-class WordService<W, T, C, P> {
-  final WordApi<W, T, C, P> _api;
+class WordService extends BaseService<Word, Text, Content, Payload> {
+  final WordApi _api = getIt<WordApi>();
 
-  WordService(this._api);
-  Future<Either<ErrorResponse, PageResult<W>>> retrieve({
+  @override
+  Future<Either<ErrorResponse, PageResult<Word>>> retrieve({
     required int page,
     required int size,
   }) async {
     try {
-      final HttpResponse<ApiResult<PageResult<W>>> httpResponse = await _api
+      final HttpResponse<ApiResult<PageResult<Word>>> httpResponse = await _api
           .fetchAll(page: page, size: size);
 
-      ApiResult<PageResult<W>> apiResult = httpResponse.data;
+      ApiResult<PageResult<Word>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final PageResult<W> payload = apiResult.payload;
+        final PageResult<Word> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -36,35 +42,13 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, W>> retrieveWordBySku(String sku) async {
-    final HttpResponse<ApiResult<W>> httpResponse = await _api.fetch(sku);
+  @override
+  Future<Either<ErrorResponse, Word>> retrieveWordBySku(String sku) async {
+    final HttpResponse<ApiResult<Word>> httpResponse = await _api.fetch(sku);
     try {
-      ApiResult<W> apiResult = httpResponse.data;
+      ApiResult<Word> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final W payload = apiResult.payload;
-        return right(payload);
-      } else {
-        final ErrorResponse errorResponse = ErrorResponse.fromJson(
-          httpResponse.response.data,
-        );
-        //throw Exception('Failed to retrieve scripts');
-        return left(errorResponse);
-      }
-    } on DioException catch (e) {
-      return left(ErrorResponse(e.message ?? 'Unknown error'));
-    } catch (e) {
-      return left(ErrorResponse(e.toString()));
-    }
-  }
-
-  Future<Either<ErrorResponse, T>> retrieveTextBySku(String sku) async {
-    final HttpResponse<ApiResult<T>> httpResponse = await _api.fetchForText(
-      sku,
-    );
-    try {
-      ApiResult<T> apiResult = httpResponse.data;
-      if (httpResponse.response.statusCode == 200) {
-        final T payload = apiResult.payload;
+        final Word payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -80,14 +64,15 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, C>> retrieveContentBySku(String sku) async {
-    final HttpResponse<ApiResult<C>> httpResponse = await _api.fetchForContent(
+  @override
+  Future<Either<ErrorResponse, Text>> retrieveTextBySku(String sku) async {
+    final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchForText(
       sku,
     );
     try {
-      ApiResult<C> apiResult = httpResponse.data;
+      ApiResult<Text> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final C payload = apiResult.payload;
+        final Text payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -103,14 +88,40 @@ class WordService<W, T, C, P> {
     }
   }
 
-  Future<Either<ErrorResponse, P>> retrievePayloadBySku(String sku) async {
-    final HttpResponse<ApiResult<P>> httpResponse = await _api.fetchForPayload(
-      sku,
-    );
+  @override
+  Future<Either<ErrorResponse, Content>> retrieveContentBySku(
+    String sku,
+  ) async {
+    final HttpResponse<ApiResult<Content>> httpResponse = await _api
+        .fetchForContent(sku);
     try {
-      ApiResult<P> apiResult = httpResponse.data;
+      ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final P payload = apiResult.payload;
+        final Content payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
+
+  Future<Either<ErrorResponse, Payload>> retrievePayloadBySku(
+    String sku,
+  ) async {
+    final HttpResponse<ApiResult<Payload>> httpResponse = await _api
+        .fetchForPayload(sku);
+    try {
+      ApiResult<Payload> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final Payload payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

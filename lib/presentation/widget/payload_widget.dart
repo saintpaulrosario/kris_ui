@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/dialect/bloc/dialect_bloc.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
 import 'package:kris/presentation/widget/word_widget.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
-import '../../logic/translation/bloc/translation_bloc.dart';
 import '../../model/identifier.dart';
 import '../../model/translation.dart';
-import '../../model/translation_content.dart';
-import '../../model/translation_payload.dart';
-import '../../model/translation_text.dart';
 
-class PayloadItemWidget extends StatefulWidget {
+class PayloadWidget extends StatefulWidget {
   final Identifier identifier;
   final String maya;
   final Set<String> visited;
 
-  const PayloadItemWidget({
+  const PayloadWidget({
     super.key,
     required this.identifier,
     required this.maya,
@@ -26,10 +21,10 @@ class PayloadItemWidget extends StatefulWidget {
   });
 
   @override
-  State<PayloadItemWidget> createState() => _PayloadItemWidgetState();
+  State<PayloadWidget> createState() => _PayloadWidgetState();
 }
 
-class _PayloadItemWidgetState extends State<PayloadItemWidget>
+class _PayloadWidgetState extends State<PayloadWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {

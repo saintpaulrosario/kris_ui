@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/word_detail.dart';
+import 'package:kris/model/word.dart';
 import 'package:kris/presentation/widget/dialect_widget.dart';
 import 'package:kris/presentation/widget/image_list_widget.dart';
 import 'package:kris/presentation/widget/language_widget.dart';
@@ -7,7 +7,7 @@ import 'package:kris/presentation/widget/script_widget.dart';
 import 'package:kris/presentation/widget/text_widget.dart';
 
 class WordTableSource extends DataTableSource {
-  final List<WordDetail> words;
+  final List<Word> words;
 
   WordTableSource({required this.words});
 

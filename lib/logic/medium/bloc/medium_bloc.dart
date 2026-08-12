@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/logic/medium_state.dart';
+import 'package:kris/logic/medium/medium_state.dart';
 
 import '../../../model/medium.dart';
 import '../../../model/word_image.dart';

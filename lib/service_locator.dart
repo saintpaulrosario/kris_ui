@@ -1,26 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kris/api/language_api.dart';
-import 'package:kris/api/translation_api.dart';
-import 'package:kris/api/word_detail_api.dart';
-import 'package:kris/logic/word/detail/word_detail_service.dart';
-import 'package:kris/logic/word_service.dart';
+
+import 'package:kris/logic/word/api/base_api.dart';
+
+import 'package:kris/logic/word/service/word_service.dart';
 import 'package:kris/model/dialect.dart';
-import 'package:kris/model/language.dart';
-import 'package:kris/model/script.dart';
-import 'package:kris/model/translation.dart';
-import 'package:kris/model/translation_content.dart';
-import 'package:kris/model/translation_payload.dart';
-import 'package:kris/model/translation_text.dart';
+import 'package:kris/model/word.dart';
 import 'package:kris/model/word_image.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
 
-import 'api/dialect_api.dart';
-import 'api/script_api.dart';
 import 'logic/medium/image_api.dart';
 import 'logic/medium/image_service.dart';
+import 'logic/word/api/word_api.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -112,27 +105,9 @@ void _registerApis() {
   //String baseUrl = "http://192.168.12.59:8080";
   final baseUrl = properties['KRIS_BASE_URL']!;
 
-  getIt.registerLazySingleton<TranslationApi>(
-    () => TranslationApi(dio, baseUrl: baseUrl),
-  );
-
-  getIt.registerLazySingleton<ScriptApi>(
-    () => ScriptApi(dio, baseUrl: baseUrl),
-  );
-
-  getIt.registerLazySingleton<LanguageApi>(
-    () => LanguageApi(dio, baseUrl: baseUrl),
-  );
-
-  getIt.registerLazySingleton<DialectApi>(
-    () => DialectApi(dio, baseUrl: baseUrl),
-  );
+  getIt.registerLazySingleton<WordApi>(() => WordApi(dio, baseUrl: baseUrl));
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
-
-  getIt.registerLazySingleton<WordDetailApi>(
-    () => WordDetailApi(dio, baseUrl: baseUrl),
-  );
 }
 
 ///------------------------------------------------------------
@@ -142,68 +117,5 @@ void _registerApis() {
 void _registerServices() {
   getIt.registerLazySingleton<ImageService<WordImage>>(() => ImageService());
 
-  getIt.registerLazySingleton<WordDetailService>(() => WordDetailService());
-
-  getIt.registerLazySingleton<
-    WordService<
-      Language,
-      TranslationText,
-      TranslationContent,
-      TranslationPayload
-    >
-  >(
-    () =>
-        WordService<
-          Language,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >(getIt<LanguageApi>()),
-  );
-
-  getIt.registerLazySingleton<
-    WordService<Script, TranslationText, TranslationContent, TranslationPayload>
-  >(
-    () =>
-        WordService<
-          Script,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >(getIt<ScriptApi>()),
-  );
-
-  getIt.registerLazySingleton<
-    WordService<
-      Translation,
-      TranslationText,
-      TranslationContent,
-      TranslationPayload
-    >
-  >(
-    () =>
-        WordService<
-          Translation,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >(getIt<TranslationApi>()),
-  );
-
-  getIt.registerLazySingleton<
-    WordService<
-      Dialect,
-      TranslationText,
-      TranslationContent,
-      TranslationPayload
-    >
-  >(
-    () =>
-        WordService<
-          Dialect,
-          TranslationText,
-          TranslationContent,
-          TranslationPayload
-        >(getIt<DialectApi>()),
-  );
+  getIt.registerLazySingleton<WordService>(() => WordService());
 }

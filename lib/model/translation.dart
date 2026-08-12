@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kris/model/account.dart';
 import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
@@ -6,7 +7,6 @@ import 'identifier.dart';
 part 'translation.g.dart';
 
 @JsonSerializable(
-   genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
@@ -14,22 +14,20 @@ part 'translation.g.dart';
   checked: true,
 )
 class Translation extends Word {
-  // @JsonKey(disallowNullValue: false, defaultValue: [])
-  // final List<Identifier> examples;
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> images;
-
+  final List<Identifier> languages;
   const Translation({
     required super.sku,
     required super.version,
     required super.ordinal,
     required super.texts,
+    required this.languages,
     //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.images,
+    required super.images,
   });
 
   factory Translation.initial() {
@@ -38,12 +36,12 @@ class Translation extends Word {
       version: 0,
       ordinal: 0,
       texts: [],
-      images: [],
-      //examples: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
+      languages: [],
+      images: [],
     );
   }
 

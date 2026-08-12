@@ -32,8 +32,18 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
       'lastModifiedDate',
       (v) => DateTime.parse(v as String),
     ),
-    createdBy: $checkedConvert('createdBy', (v) => v as String?),
-    lastModifiedBy: $checkedConvert('lastModifiedBy', (v) => v as String?),
+    createdBy: $checkedConvert(
+      'createdBy',
+      (v) => v == null
+          ? null
+          : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
+    lastModifiedBy: $checkedConvert(
+      'lastModifiedBy',
+      (v) => v == null
+          ? null
+          : Account.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
     sounds: $checkedConvert(
       'sounds',
       (v) =>
@@ -51,8 +61,8 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
 Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'createdDate': instance.createdDate.toIso8601String(),
   'lastModifiedDate': instance.lastModifiedDate.toIso8601String(),
-  'createdBy': instance.createdBy,
-  'lastModifiedBy': instance.lastModifiedBy,
+  'createdBy': instance.createdBy?.toJson(),
+  'lastModifiedBy': instance.lastModifiedBy?.toJson(),
   'version': instance.version,
   'sku': instance.sku,
   'ordinal': instance.ordinal,

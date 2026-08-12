@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'account.dart';
 import 'audit.dart';
 
 part 'identifier.g.dart';
@@ -31,11 +32,11 @@ class Identifier extends Audit {
   factory Identifier.initial() {
     return Identifier(
       sku: '',
-      ordinal: -1,
+      ordinal: 0,
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       version: 0,
     );
   }

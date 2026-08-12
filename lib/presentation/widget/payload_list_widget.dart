@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../model/identifier.dart';
-import 'payload_item_widget.dart';
+import 'payload_widget.dart';
 
 class PayloadListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -24,7 +24,7 @@ class PayloadListWidget extends StatelessWidget {
           spacing: 4,
           runSpacing: 4,
           children: [
-            PayloadItemWidget(
+            PayloadWidget(
               key: ValueKey('${identifier.sku}_$maya'),
               identifier: identifier,
               maya: maya,

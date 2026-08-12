@@ -1,7 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/word.dart';
 
+import 'account.dart';
 import 'identifier.dart';
+import 'text.dart';
 
 part 'language.g.dart';
 
@@ -27,6 +29,7 @@ class Language extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.images,
   });
 
   factory Language.initial() {
@@ -37,9 +40,10 @@ class Language extends Word {
       texts: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
-      createdBy: '',
-      lastModifiedBy: '',
+      createdBy: Account.initial(),
+      lastModifiedBy: Account.initial(),
       scripts: [],
+      images: [],
     );
   }
 
