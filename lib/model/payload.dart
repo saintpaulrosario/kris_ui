@@ -6,7 +6,6 @@ import 'identifier.dart';
 part 'payload.g.dart';
 
 @JsonSerializable(
-  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,

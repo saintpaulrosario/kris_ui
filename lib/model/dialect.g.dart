@@ -17,7 +17,9 @@ Dialect _$DialectFromJson(Map json) => $checkedCreate('Dialect', json, (
       'texts',
       (v) =>
           (v as List<dynamic>?)
-              ?.map((e) => Text.fromJson(Map<String, dynamic>.from(e as Map)))
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
               .toList() ??
           [],
     ),
@@ -53,9 +55,13 @@ Dialect _$DialectFromJson(Map json) => $checkedCreate('Dialect', json, (
     ),
     images: $checkedConvert(
       'images',
-      (v) => (v as List<dynamic>)
-          .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
-          .toList(),
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
   );
   return val;

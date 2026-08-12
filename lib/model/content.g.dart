@@ -48,7 +48,7 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
       (v) =>
           (v as List<dynamic>?)
               ?.map(
-                (e) => Payload.fromJson(Map<String, dynamic>.from(e as Map)),
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
               )
               .toList() ??
           [],

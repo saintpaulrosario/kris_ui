@@ -19,7 +19,7 @@ class Content extends Identifier {
   final List<Identifier> languages;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Payload> payloads;
+  final List<Identifier> payloads;
 
   const Content({
     required super.sku,

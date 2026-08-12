@@ -18,7 +18,9 @@ class Text extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier script;
   final Identifier word;
-  final List<Content> contents;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> contents;
 
   const Text({
     required super.sku,

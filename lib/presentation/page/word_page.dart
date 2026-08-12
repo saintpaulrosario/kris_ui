@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/translation.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/model/text.dart' as w;
 
@@ -24,15 +26,17 @@ class _WordPageState extends State<WordPage> {
   void initState() {
     super.initState();
 
-    context.read<WordBloc>().add(BaseEvent.fetch(pageNumber: 0, pageSize: 10));
+    context.read<TranslationBloc>().add(
+      BaseEvent.fetch(pageNumber: 0, pageSize: 50),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      WordBloc,
-      BaseState<Word, w.Text, Content, Payload>,
-      PageResult<Word>?
+      TranslationBloc,
+      BaseState<Translation, w.Text, Content, Payload>,
+      PageResult<Translation>?
     >(
       selector: (state) {
         return state.pages[state.pageNumber];
@@ -44,9 +48,6 @@ class _WordPageState extends State<WordPage> {
         List<DataColumn> columns = [
           DataColumn(label: Text("Image")),
           DataColumn(label: Text("Text")),
-          DataColumn(label: Text("Dialect")),
-          DataColumn(label: Text("Language")),
-          DataColumn(label: Text("Script")),
         ];
         WordTableSource source = WordTableSource(words: state.content);
         return LayoutBuilder(

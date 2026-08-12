@@ -16,7 +16,9 @@ part 'word.g.dart';
 )
 class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Text> texts;
+  final List<Identifier> texts;
+
+   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> images;
 
   const Word({

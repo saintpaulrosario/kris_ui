@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kris/model/word.dart';
-import 'package:kris/presentation/widget/dialect_widget.dart';
 import 'package:kris/presentation/widget/image_list_widget.dart';
-import 'package:kris/presentation/widget/language_widget.dart';
-import 'package:kris/presentation/widget/script_widget.dart';
 import 'package:kris/presentation/widget/text_list_wiget.dart';
 
 class WordTableSource extends DataTableSource {
@@ -20,13 +17,7 @@ class WordTableSource extends DataTableSource {
       cells: [
         DataCell(ImageListWidget(identifiers: word.images)),
 
-        DataCell(TextListWidget(texts: texts)),
-
-        DataCell(DialectWidget()),
-
-        DataCell(LanguageWidget()),
-
-        DataCell(ScriptWidget()),
+        DataCell(TextListWidget(identifiers: texts)),
       ],
     );
   }

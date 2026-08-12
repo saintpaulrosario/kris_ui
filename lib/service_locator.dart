@@ -4,6 +4,9 @@ import 'package:get_it/get_it.dart';
 
 import 'package:kris/logic/word/api/dialect_api.dart';
 import 'package:kris/logic/word/api/script_api.dart';
+import 'package:kris/logic/word/api/translation_api.dart';
+import 'package:kris/logic/word/service/script_service.dart';
+import 'package:kris/logic/word/service/translation_service.dart';
 
 import 'package:kris/logic/word/service/word_service.dart';
 import 'package:kris/model/word_image.dart';
@@ -115,6 +118,10 @@ void _registerApis() {
   );
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
+
+  getIt.registerLazySingleton<TranslationApi>(
+    () => TranslationApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -125,4 +132,8 @@ void _registerServices() {
   getIt.registerLazySingleton<ImageService<WordImage>>(() => ImageService());
 
   getIt.registerLazySingleton<WordService>(() => WordService());
+
+  getIt.registerLazySingleton<TranslationService>(() => TranslationService());
+
+  getIt.registerLazySingleton<ScriptService>(() => ScriptService());
 }
