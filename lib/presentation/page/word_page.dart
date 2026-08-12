@@ -53,13 +53,16 @@ class _WordPageState extends State<WordPage> {
           builder: (context, constraints) {
             return SizedBox(
               width: constraints.maxWidth,
-              child: PaginatedDataTable(
-                header: const Center(child: Text('Translation')),
-                columns: columns,
-                rowsPerPage: state.page.size,
-                dataRowMinHeight: 48,
-                dataRowMaxHeight: double.infinity,
-                source: source,
+              child: SingleChildScrollView(
+                child: PaginatedDataTable(
+                  header: const Center(child: Text('Translation')),
+                  columns: columns,
+                  rowsPerPage: state.page.size,
+                  dataRowMinHeight: 50,
+                  dividerThickness: 1,
+                  dataRowMaxHeight: double.infinity,
+                  source: source,
+                ),
               ),
             );
           },

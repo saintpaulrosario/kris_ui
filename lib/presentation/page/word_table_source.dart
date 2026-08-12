@@ -18,15 +18,9 @@ class WordTableSource extends DataTableSource {
 
     return DataRow(
       cells: [
-        DataCell(
-          SizedBox(
-            width: 150,
-            height: 150,
-            child: ImageListWidget(identifiers: word.images),
-          ),
-        ),
+        DataCell(ImageListWidget(identifiers: word.images)),
 
-        DataCell(TextListCell(texts: texts)),
+        DataCell(TextListWidget(texts: texts)),
 
         DataCell(DialectWidget()),
 
