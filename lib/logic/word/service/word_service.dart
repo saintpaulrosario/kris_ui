@@ -113,6 +113,7 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
     }
   }
 
+  @override
   Future<Either<ErrorResponse, Payload>> retrievePayloadBySku(
     String sku,
   ) async {

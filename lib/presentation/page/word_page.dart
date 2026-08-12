@@ -4,9 +4,9 @@ import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/word.dart';
+import 'package:kris/model/text.dart' as w;
 
 import 'package:kris/presentation/page/word_table_source.dart';
-
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 
@@ -31,7 +31,7 @@ class _WordPageState extends State<WordPage> {
   Widget build(BuildContext context) {
     return BlocSelector<
       WordBloc,
-      BaseState<Word, Text, Content, Payload>,
+      BaseState<Word, w.Text, Content, Payload>,
       PageResult<Word>?
     >(
       selector: (state) {
@@ -49,11 +49,20 @@ class _WordPageState extends State<WordPage> {
           DataColumn(label: Text("Script")),
         ];
         WordTableSource source = WordTableSource(words: state.content);
-        return PaginatedDataTable(
-          header: Center(child: Text('Translation')),
-          columns: columns,
-          rowsPerPage: state.page.size,
-          source: source,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return SizedBox(
+              width: constraints.maxWidth,
+              child: PaginatedDataTable(
+                header: const Center(child: Text('Translation')),
+                columns: columns,
+                rowsPerPage: state.page.size,
+                dataRowMinHeight: 48,
+                dataRowMaxHeight: double.infinity,
+                source: source,
+              ),
+            );
+          },
         );
       },
     );

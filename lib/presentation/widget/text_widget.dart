@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/identifier.dart';
 
 class TextWidget extends StatefulWidget {
   // final List<String> sounds;

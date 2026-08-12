@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';
-import 'menu_widget.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});

@@ -4,7 +4,7 @@ import 'package:kris/presentation/widget/dialect_widget.dart';
 import 'package:kris/presentation/widget/image_list_widget.dart';
 import 'package:kris/presentation/widget/language_widget.dart';
 import 'package:kris/presentation/widget/script_widget.dart';
-import 'package:kris/presentation/widget/text_widget.dart';
+import 'package:kris/presentation/widget/text_list_wiget.dart';
 
 class WordTableSource extends DataTableSource {
   final List<Word> words;
@@ -14,6 +14,7 @@ class WordTableSource extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     final word = words[index];
+    final texts = word.texts;
 
     return DataRow(
       cells: [
@@ -25,7 +26,7 @@ class WordTableSource extends DataTableSource {
           ),
         ),
 
-        DataCell(TextWidget()),
+        DataCell(TextListCell(texts: texts)),
 
         DataCell(DialectWidget()),
 

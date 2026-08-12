@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../model/medium.dart';
 import '../../response/api_result.dart';
 
 part 'image_api.g.dart';

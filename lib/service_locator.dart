@@ -2,13 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/logic/word/api/dialect_api.dart';
 import 'package:kris/logic/word/api/script_api.dart';
 
 import 'package:kris/logic/word/service/word_service.dart';
-import 'package:kris/model/dialect.dart';
-import 'package:kris/model/word.dart';
 import 'package:kris/model/word_image.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
