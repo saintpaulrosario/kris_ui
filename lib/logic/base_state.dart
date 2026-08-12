@@ -1,20 +1,17 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:kris/model/content.dart';
-import 'package:kris/model/payload.dart';
-import 'package:kris/model/text.dart';
 
 import '../response/error_response.dart';
 import '../response/page_result.dart';
 
-class BaseState<W> {
+class BaseState<W, T, C, P> {
   final BuiltMap<String, ErrorResponse> errors;
   final BuiltSet<String> fetching;
   final BuiltMap<int, PageResult<W>> pages;
   final BuiltMap<String, W> data;
-  final BuiltMap<String, Text> texts;
-  final BuiltMap<String, Content> contents;
-  final BuiltMap<String, Payload> payloads;
-  final BuiltSet<String> selections;
+  final BuiltMap<String, T> texts;
+  final BuiltMap<String, C> contents;
+  final BuiltMap<String, P> payloads;
+  final BuiltSet<W> selections;
 
   final int pageNumber;
   final int pageSize;
@@ -33,33 +30,33 @@ class BaseState<W> {
   });
 
   factory BaseState.initial() {
-    return BaseState(
+    return BaseState<W, T, C, P>(
       errors: BuiltMap<String, ErrorResponse>(),
       data: BuiltMap<String, W>(),
       fetching: BuiltSet<String>(),
       pages: BuiltMap<int, PageResult<W>>(),
-      texts: BuiltMap<String, Text>(),
-      contents: BuiltMap<String, Content>(),
-      payloads: BuiltMap<String, Payload>(),
+      texts: BuiltMap<String, T>(),
+      contents: BuiltMap<String, C>(),
+      payloads: BuiltMap<String, P>(),
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<String>(),
+      selections: BuiltSet<W>(),
     );
   }
 
-  BaseState<W> copyWith({
+  BaseState<W, T, C, P> copyWith({
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, W>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<String>? selections,
+    BuiltSet<W>? selections,
     BuiltMap<int, PageResult<W>>? pages,
-    BuiltMap<String, Text>? texts,
-    BuiltMap<String, Content>? contents,
-    BuiltMap<String, Payload>? payloads,
+    BuiltMap<String, T>? texts,
+    BuiltMap<String, C>? contents,
+    BuiltMap<String, P>? payloads,
     int? pageNumber,
     int? pageSize,
   }) {
-    return BaseState<W>(
+    return BaseState<W, T, C, P>(
       errors: errors ?? this.errors,
       data: data ?? this.data,
       fetching: fetching ?? this.fetching,

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:kris/logic/word/api/base_api.dart';
+import 'package:kris/logic/word/api/dialect_api.dart';
+import 'package:kris/logic/word/api/script_api.dart';
 
 import 'package:kris/logic/word/service/word_service.dart';
 import 'package:kris/model/dialect.dart';
@@ -106,6 +108,14 @@ void _registerApis() {
   final baseUrl = properties['KRIS_BASE_URL']!;
 
   getIt.registerLazySingleton<WordApi>(() => WordApi(dio, baseUrl: baseUrl));
+
+  getIt.registerLazySingleton<ScriptApi>(
+    () => ScriptApi(dio, baseUrl: baseUrl),
+  );
+
+  getIt.registerLazySingleton<DialectApi>(
+    () => DialectApi(dio, baseUrl: baseUrl),
+  );
 
   getIt.registerLazySingleton<ImageApi>(() => ImageApi(dio, baseUrl: baseUrl));
 }

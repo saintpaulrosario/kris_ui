@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/model/content.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart';
 import 'package:kris/model/word.dart';
 
 import 'package:fpdart/fpdart.dart';
@@ -10,7 +13,8 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import 'service/word_service.dart';
 
-class WordBloc extends Bloc<BaseEvent, BaseState<W>> {
+class WordBloc
+    extends Bloc<BaseEvent, BaseState<Word, Text, Content, Payload>> {
   final _service = getIt<WordService>();
 
   WordBloc() : super(BaseState.initial()) {

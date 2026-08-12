@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
+import 'package:kris/model/content.dart';
+import 'package:kris/model/payload.dart';
 import 'package:kris/model/word.dart';
 
 import 'package:kris/presentation/page/word_table_source.dart';
@@ -27,7 +29,11 @@ class _WordPageState extends State<WordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<WordBloc, BaseState<Word>, PageResult<Word>?>(
+    return BlocSelector<
+      WordBloc,
+      BaseState<Word, Text, Content, Payload>,
+      PageResult<Word>?
+    >(
       selector: (state) {
         return state.pages[state.pageNumber];
       },
