@@ -57,33 +57,29 @@ class _ImageListWidgetState extends State<ImageListWidget> {
           height: availableHeight,
           child: Column(
             children: [
-              SizedBox(
-                height: carouselHeight,
-                child: CarouselSlider.builder(
-                  itemCount: identifiers.length,
-                  itemBuilder:
-                      (BuildContext context, int index, int realIndex) {
-                        return ImageWidget(
-                          key: ValueKey(identifiers[index].sku),
-                          imageIdentifier: identifiers[index],
-                        );
-                      },
-                  options: CarouselOptions(
-                    height: carouselHeight,
-                    viewportFraction: 1.0,
-                    enlargeCenterPage: false,
-                    enableInfiniteScroll: false,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index, reason) {
-                      if (!mounted) {
-                        return;
-                      }
+              CarouselSlider.builder(
+                itemCount: identifiers.length,
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  return ImageWidget(
+                    key: ValueKey(identifiers[index].sku),
+                    imageIdentifier: identifiers[index],
+                  );
+                },
+                options: CarouselOptions(
+                  height: carouselHeight,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
+                  enableInfiniteScroll: false,
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (index, reason) {
+                    if (!mounted) {
+                      return;
+                    }
 
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
                 ),
               ),
 
