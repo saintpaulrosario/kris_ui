@@ -55,7 +55,7 @@ class _TextWidgetState extends State<TextWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Don't render a text that is already in the chain.
+    // Prevent circular text references.
     if (widget.visited.contains(widget.identifier.sku)) {
       return const SizedBox.shrink();
     }
@@ -74,7 +74,7 @@ class _TextWidgetState extends State<TextWidget> {
       builder: (context, state) {
         if (state.fetching) {
           return const SizedBox(
-            height: 30,
+            height: 40,
             child: Center(child: CircularProgressIndicator()),
           );
         }
@@ -85,23 +85,45 @@ class _TextWidgetState extends State<TextWidget> {
           return const SizedBox.shrink();
         }
 
-        // Mark THIS text as visited.
+        // Mark this text as visited.
         final visited = {...widget.visited, text.sku};
 
-        return Column(
+        return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(text.sku),
-
-            // Only create the script if the script itself
-            // hasn't already appeared in the chain.
-            if (!visited.contains(text.script.sku))
-              ScriptWidget(
-                key: ValueKey(text.script.sku),
-                identifier: text.script,
-                visited: visited,
+            // ==========================================
+            // TEXT COLUMN
+            // ==========================================
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(text.sku, softWrap: true),
               ),
+            ),
+
+            // ==========================================
+            // VERTICAL DIVIDER
+            // ==========================================
+            const SizedBox(
+              width: 1,
+              child: VerticalDivider(width: 1, thickness: 1),
+            ),
+
+            // ==========================================
+            // SCRIPT COLUMN
+            // ==========================================
+            Expanded(
+              child: visited.contains(text.script.sku)
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: ScriptWidget(
+                        key: ValueKey(text.script.sku),
+                        identifier: text.script,
+                        visited: visited,
+                      ),
+                    ),
+            ),
           ],
         );
       },
