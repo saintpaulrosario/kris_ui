@@ -85,32 +85,36 @@ class _TextWidgetState extends State<TextWidget> {
           return const SizedBox.shrink();
         }
 
-        // Mark this text as visited.
         final visited = {...widget.visited, text.sku};
 
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(text.sku, softWrap: true),
+        return Card(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(text.sku, softWrap: true),
+                ),
               ),
-            ),
 
-            Expanded(
-              child: visited.contains(text.script.sku)
+              visited.contains(text.script.sku)
                   ? const SizedBox.shrink()
-                  : Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: ScriptWidget(
-                        key: ValueKey(text.script.sku),
-                        identifier: text.script,
-                        visited: visited,
+                  : Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: ScriptWidget(
+                          key: ValueKey(text.script.sku),
+                          identifier: text.script,
+                          visited: visited,
+                        ),
                       ),
                     ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

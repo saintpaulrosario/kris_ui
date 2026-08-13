@@ -1,33 +1,28 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// import '../../model/identifier.dart';
-// import 'content_wiget.dart';
+import '../../model/identifier.dart';
+import 'content_wiget.dart';
 
-// class ContentListWidget extends StatelessWidget {
-//   final List<Identifier> identifiers;
-//   final String maya;
+class ContentListWidget extends StatelessWidget {
+  final List<Identifier> identifiers;
 
-//   const ContentListWidget({
-//     super.key,
-//     required this.identifiers,
-//     required this.maya,
-//   });
+  const ContentListWidget({super.key, required this.identifiers});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: Column(
-//         children: ListTile.divideTiles(
-//           context: context,
-//           tiles: identifiers.map(
-//             (identifier) => ContentWidget(
-//               key: ValueKey(identifier.sku),
-//               identifier: identifier,
-//               maya: maya,
-//             ),
-//           ),
-//         ).toList(),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          separatorBuilder: (_, __) => Divider(),
+          itemCount: identifiers.length,
+          itemBuilder: (_, index) {
+            final identifier = identifiers.elementAt(index);
+            return Text(identifier.sku);
+          },
+        ),
+      ],
+    );
+  }
+}

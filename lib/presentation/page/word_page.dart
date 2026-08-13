@@ -9,6 +9,7 @@ import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/page/word_table_source.dart';
 import 'package:kris/presentation/widget/image_list_widget.dart';
 import 'package:kris/presentation/widget/text_list_wiget.dart';
+import 'package:kris/presentation/widget/word_widget.dart';
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 
@@ -56,23 +57,7 @@ class _WordPageState extends State<WordPage> {
               itemBuilder: (context, index) {
                 Word word = state.content.elementAt(index);
 
-                return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: ImageListWidget(identifiers: word.images),
-                      ),
-                      Expanded(
-                        child: TextListWidget(
-                          identifiers: word.texts,
-                          visited: {},
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return WordWidget(word: word);
               },
             );
           },

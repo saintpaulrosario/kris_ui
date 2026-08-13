@@ -1,39 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:kris/model/word.dart';
 
 import '../../model/identifier.dart';
+import 'image_list_widget.dart';
+import 'text_list_wiget.dart';
 
-class WordWidget extends StatefulWidget {
-  final Identifier text;
-  final Identifier script;
-  final Identifier dialect;
-  final Identifier language;
-  final Identifier image;
-  final Identifier sound;
-  final Identifier definition;
+class WordWidget extends StatelessWidget {
+  final Word word;
 
-  const WordWidget({
-    super.key,
-    required this.text,
-    required this.script,
-    required this.dialect,
-    required this.language,
-    required this.image,
-    required this.sound,
-    required this.definition,
-  });
-
-  @override
-  State<WordWidget> createState() => _WordWidgetState();
-}
-
-class _WordWidgetState extends State<WordWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  const WordWidget({super.key, required this.word});
 
   @override
   Widget build(BuildContext context) {
-    return Text("data");
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(flex: 1, child: ImageListWidget(identifiers: word.images)),
+          Expanded(
+            flex: 5,
+            child: TextListWidget(identifiers: word.texts, visited: {}),
+          ),
+        ],
+      ),
+    );
   }
 }

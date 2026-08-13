@@ -41,9 +41,6 @@ class _ImageListWidgetState extends State<ImageListWidget> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // If the parent gives us a real height, use it.
-        //
-        // If the height is unbounded, use a safe default.
         final availableHeight = constraints.hasBoundedHeight
             ? constraints.maxHeight
             : _defaultHeight;
@@ -52,45 +49,41 @@ class _ImageListWidgetState extends State<ImageListWidget> {
             ? (availableHeight - _indicatorHeight).clamp(0.0, double.infinity)
             : availableHeight;
 
-        return SizedBox(
-          width: double.infinity,
-          height: availableHeight,
-          child: Column(
-            children: [
-              CarouselSlider.builder(
-                itemCount: identifiers.length,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return ImageWidget(
-                    key: ValueKey(identifiers[index].sku),
-                    imageIdentifier: identifiers[index],
-                  );
+        return Column(
+          children: [
+            CarouselSlider.builder(
+              itemCount: identifiers.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return ImageWidget(
+                  key: ValueKey(identifiers[index].sku),
+                  imageIdentifier: identifiers[index],
+                );
+              },
+              options: CarouselOptions(
+                height: carouselHeight,
+                viewportFraction: 1.0,
+                enlargeCenterPage: false,
+                enableInfiniteScroll: false,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  if (!mounted) {
+                    return;
+                  }
+
+                  setState(() {
+                    _currentIndex = index;
+                  });
                 },
-                options: CarouselOptions(
-                  height: carouselHeight,
-                  viewportFraction: 1.0,
-                  enlargeCenterPage: false,
-                  enableInfiniteScroll: false,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index, reason) {
-                    if (!mounted) {
-                      return;
-                    }
-
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
               ),
+            ),
 
-              if (identifiers.length > 1) ...[
-                SizedBox(
-                  height: _indicatorHeight - 1,
-                  child: _buildIndicators(context),
-                ),
-              ],
+            if (identifiers.length > 1) ...[
+              SizedBox(
+                height: _indicatorHeight - 1,
+                child: _buildIndicators(context),
+              ),
             ],
-          ),
+          ],
         );
       },
     );

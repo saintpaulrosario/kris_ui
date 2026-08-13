@@ -16,14 +16,21 @@ class TextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: identifiers.length,
-      separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final identifier = identifiers.elementAt(index);
-        return TextWidget(identifier: identifier, visited: visited);
-      },
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: identifiers.length,
+          separatorBuilder: (_, _) => const Divider(height: 1),
+          itemBuilder: (context, index) {
+            final identifier = identifiers.elementAt(index);
+            return TextWidget(identifier: identifier, visited: visited);
+          },
+        ),
+      ],
     );
   }
 }

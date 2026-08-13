@@ -26,7 +26,10 @@ class ScriptWidget extends StatefulWidget {
   State<ScriptWidget> createState() => _ScriptWidgetState();
 }
 
-class _ScriptWidgetState extends State<ScriptWidget> {
+class _ScriptWidgetState extends State<ScriptWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();

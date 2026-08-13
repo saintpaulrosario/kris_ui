@@ -5,13 +5,11 @@
 
 // class PayloadListWidget extends StatelessWidget {
 //   final List<Identifier> identifiers;
-//   final String maya;
 //   final Set<String> visited;
 
 //   const PayloadListWidget({
 //     super.key,
 //     required this.identifiers,
-//     required this.maya,
 //     required this.visited,
 //   });
 
@@ -27,7 +25,7 @@
 //             PayloadWidget(
 //               key: ValueKey('${identifier.sku}_$maya'),
 //               identifier: identifier,
-//               maya: maya,
+
 //               visited: visited,
 //             ),
 //           ],
