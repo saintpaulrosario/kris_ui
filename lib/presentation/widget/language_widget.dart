@@ -65,12 +65,10 @@ class _LanguageWidgetState extends State<LanguageWidget>
         if (state.fetching || state.language == null) {
           return const CircularProgressIndicator();
         }
-        // NOW mark this script as visited.
-        final visited = {...widget.visited, state.language!.sku};
 
         return TextListWidget(
           identifiers: state.language!.texts,
-          visited: visited,
+          visited: {...widget.visited, state.language!.sku},
         );
       },
     );

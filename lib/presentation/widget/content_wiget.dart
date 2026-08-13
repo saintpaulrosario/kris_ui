@@ -32,10 +32,11 @@ class _ContentWidgetState extends State<ContentWidget> {
   @override
   void initState() {
     super.initState();
-
-    context.read<TranslationBloc>().add(
-      BaseEvent.contentBySku(identifier: widget.identifier),
-    );
+    if (!widget.visited.contains(widget.identifier.sku)) {
+      context.read<TranslationBloc>().add(
+        BaseEvent.contentBySku(identifier: widget.identifier),
+      );
+    }
   }
 
   @override
@@ -44,8 +45,6 @@ class _ContentWidgetState extends State<ContentWidget> {
     if (widget.visited.contains(widget.identifier.sku)) {
       return const SizedBox.shrink();
     }
-
-    final visited = {...widget.visited, widget.identifier.sku};
 
     return BlocSelector<
       TranslationBloc,
@@ -84,18 +83,18 @@ class _ContentWidgetState extends State<ContentWidget> {
               child: PayloadListWidget(
                 key: ValueKey(content.sku),
                 identifiers: content.payloads,
+                visited: {...widget.visited, widget.identifier.sku},
               ),
             ),
 
-            Expanded(child: Text('languages')),
-
-            // Expanded(
-            //   child: LanguageListWidget(
-            //     key: ValueKey('${content.sku}-languages'),
-            //     identifiers: content.languages,
-            //     visited: visited,
-            //   ),
-            // ),
+            //Expanded(child: Text('languages')),
+            Expanded(
+              child: LanguageListWidget(
+                key: ValueKey('${content.sku}-languages'),
+                identifiers: content.languages,
+                visited: widget.visited,
+              ),
+            ),
           ],
         );
       },

@@ -16,8 +16,13 @@ import 'package:kris/model/text.dart' as w;
 
 class PayloadWidget extends StatefulWidget {
   final Identifier identifier;
+  final Set<String> visited;
 
-  const PayloadWidget({super.key, required this.identifier});
+  const PayloadWidget({
+    super.key,
+    required this.identifier,
+    required this.visited,
+  });
 
   @override
   State<PayloadWidget> createState() => _PayloadWidgetState();
@@ -28,14 +33,19 @@ class _PayloadWidgetState extends State<PayloadWidget>
   @override
   void initState() {
     super.initState();
-    context.read<TranslationBloc>().add(
-      BaseEvent.payloadBySku(identifier: widget.identifier),
-    );
+    if (!widget.visited.contains(widget.identifier.sku)) {
+      context.read<TranslationBloc>().add(
+        BaseEvent.payloadBySku(identifier: widget.identifier),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (widget.visited.contains(widget.identifier.sku)) {
+      return SizedBox.shrink();
+    }
     return BlocSelector<
       TranslationBloc,
       BaseState<Translation, w.Text, Content, Payload>,

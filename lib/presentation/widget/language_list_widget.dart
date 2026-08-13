@@ -24,9 +24,10 @@ class LanguageListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return visited.contains(identifier.sku)
-                ? SizedBox.shrink()
-                : LanguageWidget(identifier: identifier, visited: visited);
+            return LanguageWidget(
+              identifier: identifier,
+              visited: {...visited, identifier.sku},
+            );
           },
         ),
       ],

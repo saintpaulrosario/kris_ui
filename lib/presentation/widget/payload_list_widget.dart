@@ -5,8 +5,13 @@ import '../../model/identifier.dart';
 
 class PayloadListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
+  final Set<String> visited;
 
-  const PayloadListWidget({super.key, required this.identifiers});
+  const PayloadListWidget({
+    super.key,
+    required this.identifiers,
+    required this.visited,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,7 @@ class PayloadListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return PayloadWidget(identifier: identifier);
+            return PayloadWidget(identifier: identifier, visited: visited,);
           },
         ),
       ],
