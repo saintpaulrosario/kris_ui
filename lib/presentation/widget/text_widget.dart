@@ -99,7 +99,10 @@ class _TextWidgetState extends State<TextWidget> {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: ContentListWidget(identifiers: text.contents),
+                  child: ContentListWidget(
+                    identifiers: text.contents,
+                    visited: visited,
+                  ),
                 ),
               ),
 

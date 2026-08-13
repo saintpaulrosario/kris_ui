@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/content.dart';
+import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 
 import '../../logic/base_event.dart';
@@ -10,11 +11,18 @@ import '../../model/identifier.dart';
 import '../../model/translation.dart';
 import 'package:kris/model/text.dart' as w;
 
+import 'language_list_widget.dart';
 import 'payload_list_widget.dart';
 
 class ContentWidget extends StatefulWidget {
   final Identifier identifier;
-  const ContentWidget({super.key, required this.identifier});
+  final Set<String> visited;
+
+  const ContentWidget({
+    super.key,
+    required this.identifier,
+    required this.visited,
+  });
 
   @override
   State<ContentWidget> createState() => _ContentWidgetState();
@@ -24,6 +32,7 @@ class _ContentWidgetState extends State<ContentWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<TranslationBloc>().add(
       BaseEvent.contentBySku(identifier: widget.identifier),
     );
@@ -31,6 +40,13 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Stop recursive cycles.
+    if (widget.visited.contains(widget.identifier.sku)) {
+      return const SizedBox.shrink();
+    }
+
+    final visited = {...widget.visited, widget.identifier.sku};
+
     return BlocSelector<
       TranslationBloc,
       BaseState<Translation, w.Text, Content, Payload>,
@@ -48,28 +64,38 @@ class _ContentWidgetState extends State<ContentWidget> {
           );
         }
 
-        if (state.content == null) {
+        final content = state.content;
+
+        if (content == null) {
           return const Padding(
             padding: EdgeInsets.all(16),
-            child: Text("script Content not found"),
+            child: Text('Content not found'),
           );
         }
 
-        if (state.content!.payloads.isEmpty) {
-          return Text("No payload found");
+        if (content.payloads.isEmpty) {
+          return const Text('No payload found');
         }
+
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: PayloadListWidget(
-                key: ValueKey(state.content!.sku),
-                identifiers: state.content!.payloads,
+                key: ValueKey(content.sku),
+                identifiers: content.payloads,
               ),
             ),
 
-            //const SizedBox(width: 12),
-            //LanguageListWidget(identifiers: state.content!.languages),
+            Expanded(child: Text('languages')),
+
+            // Expanded(
+            //   child: LanguageListWidget(
+            //     key: ValueKey('${content.sku}-languages'),
+            //     identifiers: content.languages,
+            //     visited: visited,
+            //   ),
+            // ),
           ],
         );
       },

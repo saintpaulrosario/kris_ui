@@ -5,6 +5,7 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
+import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/text_list_wiget.dart';
 import 'package:kris/presentation/widget/text_widget.dart';
@@ -50,25 +51,25 @@ class _LanguageWidgetState extends State<LanguageWidget>
     }
 
     return BlocSelector<
-      ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
-      ({bool fetching, Script? script})
+      LanguageBloc,
+      BaseState<Language, w.Text, Content, Payload>,
+      ({bool fetching, Language? language})
     >(
       selector: (state) {
         return (
           fetching: state.fetching.contains(widget.identifier.sku),
-          script: state.data[widget.identifier.sku],
+          language: state.data[widget.identifier.sku],
         );
       },
       builder: (context, state) {
-        if (state.fetching || state.script == null) {
+        if (state.fetching || state.language == null) {
           return const CircularProgressIndicator();
         }
         // NOW mark this script as visited.
-        final visited = {...widget.visited, state.script!.sku};
+        final visited = {...widget.visited, state.language!.sku};
 
         return TextListWidget(
-          identifiers: state.script!.texts,
+          identifiers: state.language!.texts,
           visited: visited,
         );
       },
