@@ -5,6 +5,7 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/text_list_wiget.dart';
 import 'package:kris/presentation/widget/text_widget.dart';
 
 import '../../model/content.dart';
@@ -14,6 +15,7 @@ import 'package:kris/model/text.dart' as w;
 class ScriptWidget extends StatefulWidget {
   final Identifier identifier;
   final Set<String> visited;
+
   const ScriptWidget({
     super.key,
     required this.identifier,
@@ -28,16 +30,20 @@ class _ScriptWidgetState extends State<ScriptWidget> {
   @override
   void initState() {
     super.initState();
-    context.read<ScriptBloc>().add(
-      BaseEvent.bySku(identifier: widget.identifier),
-    );
+
+    if (!widget.visited.contains(widget.identifier.sku)) {
+      context.read<ScriptBloc>().add(
+        BaseEvent.bySku(identifier: widget.identifier),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.visited.contains(widget.identifier.sku)) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
+
     return BlocSelector<
       ScriptBloc,
       BaseState<Script, w.Text, Content, Payload>,
@@ -50,9 +56,15 @@ class _ScriptWidgetState extends State<ScriptWidget> {
         );
       },
       builder: (context, state) {
-        return TextWidget(
-          identifier: widget.identifier,
-          visited: {...widget.visited, widget.identifier.sku},
+        if (state.fetching || state.script == null) {
+          return const CircularProgressIndicator();
+        }
+        // NOW mark this script as visited.
+        final visited = {...widget.visited, state.script!.sku};
+
+        return TextListWidget(
+          identifiers: state.script!.texts,
+          visited: visited,
         );
       },
     );

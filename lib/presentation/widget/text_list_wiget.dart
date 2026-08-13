@@ -6,11 +6,17 @@ import 'text_widget.dart';
 
 class TextListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
+  final Set<String> visited;
 
-  const TextListWidget({super.key, required this.identifiers});
+  const TextListWidget({
+    super.key,
+    required this.identifiers,
+    required this.visited,
+  });
 
   @override
   Widget build(BuildContext context) {
+  
     return SizedBox(
       height: 50,
       width: 300,
@@ -20,7 +26,7 @@ class TextListWidget extends StatelessWidget {
         separatorBuilder: (_, _) => const Divider(height: 1),
         itemBuilder: (context, index) {
           final identifier = identifiers.elementAt(index);
-          return TextWidget(identifier: identifier, visited: {});
+          return TextWidget(identifier: identifier, visited: visited);
         },
       ),
     );

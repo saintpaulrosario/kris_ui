@@ -17,7 +17,7 @@ class WordTableSource extends DataTableSource {
       cells: [
         DataCell(ImageListWidget(identifiers: word.images)),
 
-        DataCell(TextListWidget(identifiers: texts)),
+        DataCell(TextListWidget(identifiers: texts, visited: {})),
       ],
     );
   }
