@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/content_wiget.dart';
+import 'package:kris/presentation/widget/script/script_text_widget.dart';
 
-import '../../model/identifier.dart';
+import '../../../model/identifier.dart';
 
-class ContentListWidget extends StatelessWidget {
+class ScriptTextListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
 
-  const ContentListWidget({super.key, required this.identifiers});
+  const ScriptTextListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ContentListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return ContentWidget(identifier: identifier);
+            return ScriptTextWidget(identifier: identifier);
           },
         ),
       ],

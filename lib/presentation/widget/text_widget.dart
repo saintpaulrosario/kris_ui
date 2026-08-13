@@ -14,17 +14,12 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/widget/content_list_widget.dart';
 
-import 'script_widget.dart';
+import 'script/script_widget.dart';
 
 class TextWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set<String> visited;
 
-  const TextWidget({
-    super.key,
-    required this.identifier,
-    required this.visited,
-  });
+  const TextWidget({super.key, required this.identifier});
 
   @override
   State<TextWidget> createState() => _TextWidgetState();
@@ -34,23 +29,6 @@ class _TextWidgetState extends State<TextWidget> {
   @override
   void initState() {
     super.initState();
-    _fetch();
-  }
-
-  @override
-  void didUpdateWidget(covariant TextWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.identifier.sku != widget.identifier.sku) {
-      _fetch();
-    }
-  }
-
-  void _fetch() {
-    if (widget.visited.contains(widget.identifier.sku)) {
-      return;
-    }
-
     context.read<TranslationBloc>().add(
       BaseEvent.textBySku(identifier: widget.identifier),
     );
@@ -59,9 +37,6 @@ class _TextWidgetState extends State<TextWidget> {
   @override
   Widget build(BuildContext context) {
     // Prevent circular text references.
-    if (widget.visited.contains(widget.identifier.sku)) {
-      return const SizedBox.shrink();
-    }
 
     return BlocSelector<
       TranslationBloc,
@@ -88,8 +63,6 @@ class _TextWidgetState extends State<TextWidget> {
           return const SizedBox.shrink();
         }
 
-        final visited = {...widget.visited, text.sku};
-
         return Card(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -98,30 +71,19 @@ class _TextWidgetState extends State<TextWidget> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: visited.contains('${widget.identifier.sku}_contents')
-                      ? SizedBox.shrink()
-                      : ContentListWidget(
-                          identifiers: text.contents,
-                          visited: {
-                            ...visited,
-                            '${widget.identifier.sku}_contents',
-                          },
-                        ),
+                  child: ContentListWidget(identifiers: text.contents),
                 ),
               ),
 
-              visited.contains(text.script.sku)
-                  ? const SizedBox.shrink()
-                  : Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: ScriptWidget(
-                          key: ValueKey(text.script.sku),
-                          identifier: text.script,
-                          visited: visited,
-                        ),
-                      ),
-                    ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ScriptWidget(
+                    key: ValueKey(text.script.sku),
+                    identifier: text.script,
+                  ),
+                ),
+              ),
             ],
           ),
         );

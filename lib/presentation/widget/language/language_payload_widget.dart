@@ -1,34 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/word/language_bloc.dart';
+import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/dialect.dart';
+import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/script.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
 import 'package:kris/presentation/widget/word_widget.dart';
 
-import '../../logic/base_event.dart';
-import '../../logic/base_state.dart';
-import '../../model/content.dart';
-import '../../model/identifier.dart';
-import '../../model/translation.dart';
+import '../../../logic/base_event.dart';
+import '../../../logic/base_state.dart';
+import '../../../model/content.dart';
+import '../../../model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
 
-class PayloadWidget extends StatefulWidget {
+class LanguagePayloadWidget extends StatefulWidget {
   final Identifier identifier;
 
-  const PayloadWidget({super.key, required this.identifier});
+  const LanguagePayloadWidget({super.key, required this.identifier});
 
   @override
-  State<PayloadWidget> createState() => _PayloadWidgetState();
+  State<LanguagePayloadWidget> createState() => _LanguagePayloadWidgetState();
 }
 
-class _PayloadWidgetState extends State<PayloadWidget>
+class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
-    context.read<TranslationBloc>().add(
+    context.read<LanguageBloc>().add(
       BaseEvent.payloadBySku(identifier: widget.identifier),
     );
   }
@@ -37,8 +40,8 @@ class _PayloadWidgetState extends State<PayloadWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return BlocSelector<
-      TranslationBloc,
-      BaseState<Translation, w.Text, Content, Payload>,
+      LanguageBloc,
+      BaseState<Language, w.Text, Content, Payload>,
       ({bool fetching, Payload? payload})
     >(
       selector: (state) => (
@@ -55,21 +58,14 @@ class _PayloadWidgetState extends State<PayloadWidget>
           return const Text("Payload was not fetched");
         }
 
-        return Row(
-          children: [
-            Expanded(
-              child: SoundListWidget(identifiers: state.payload!.sounds),
-            ),
-            Expanded(
-              child: Text(
-                state.payload!.value,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                key: ValueKey(state.payload!.sku),
-              ),
-            ),
-          ],
+        return Expanded(
+          child: Text(
+            state.payload!.value,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            key: ValueKey(state.payload!.sku),
+          ),
         );
       },
     );

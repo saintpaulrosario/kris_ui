@@ -2,12 +2,12 @@ import 'package:flutter/material.dart' show Divider;
 import 'package:flutter/widgets.dart';
 import 'package:kris/model/identifier.dart';
 
-import 'text_widget.dart';
+import 'script_content_widget.dart';
 
-class TextListWidget extends StatelessWidget {
+class ScriptContentListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
 
-  const TextListWidget({super.key, required this.identifiers});
+  const ScriptContentListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class TextListWidget extends StatelessWidget {
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final identifier = identifiers.elementAt(index);
-            return TextWidget(identifier: identifier);
+            return ScriptContentWidget(identifier: identifier);
           },
         ),
       ],

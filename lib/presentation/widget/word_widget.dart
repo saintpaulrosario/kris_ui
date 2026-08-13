@@ -18,10 +18,7 @@ class WordWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(flex: 1, child: ImageListWidget(identifiers: word.images)),
-          Expanded(
-            flex: 5,
-            child: TextListWidget(identifiers: word.texts, visited: {}),
-          ),
+          Expanded(flex: 5, child: TextListWidget(identifiers: word.texts)),
         ],
       ),
     );

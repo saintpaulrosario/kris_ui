@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/language_widget.dart';
+import 'package:kris/presentation/widget/language/language_widget.dart';
 
-import '../../model/identifier.dart';
+import '../../../model/identifier.dart';
 
 class LanguageListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
-  final Set<String> visited;
 
-  const LanguageListWidget({
-    super.key,
-    required this.identifiers,
-    required this.visited,
-  });
+  const LanguageListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +19,7 @@ class LanguageListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return LanguageWidget(
-              identifier: identifier,
-              visited: {...visited, identifier.sku},
-            );
+            return LanguageWidget(identifier: identifier);
           },
         ),
       ],

@@ -3,26 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
-import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/presentation/widget/text_list_wiget.dart';
-import 'package:kris/presentation/widget/text_widget.dart';
+import 'package:kris/presentation/widget/language/language_text_list_widget.dart';
+import 'package:kris/presentation/widget/language/language_text_widget.dart';
 
-import '../../model/content.dart';
-import '../../model/script.dart';
+import '../../../model/content.dart';
 import 'package:kris/model/text.dart' as w;
 
 class LanguageWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set<String> visited;
 
-  const LanguageWidget({
-    super.key,
-    required this.identifier,
-    required this.visited,
-  });
+  const LanguageWidget({super.key, required this.identifier});
 
   @override
   State<LanguageWidget> createState() => _LanguageWidgetState();
@@ -35,20 +28,14 @@ class _LanguageWidgetState extends State<LanguageWidget>
   @override
   void initState() {
     super.initState();
-
-    if (!widget.visited.contains(widget.identifier.sku)) {
-      context.read<LanguageBloc>().add(
-        BaseEvent.bySku(identifier: widget.identifier),
-      );
-    }
+    context.read<LanguageBloc>().add(
+      BaseEvent.bySku(identifier: widget.identifier),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (widget.visited.contains(widget.identifier.sku)) {
-      return const SizedBox.shrink();
-    }
 
     return BlocSelector<
       LanguageBloc,
@@ -66,10 +53,7 @@ class _LanguageWidgetState extends State<LanguageWidget>
           return const CircularProgressIndicator();
         }
 
-        return TextListWidget(
-          identifiers: state.language!.texts,
-          visited: {...widget.visited, state.language!.sku},
-        );
+        return LanguageTextListWidget(identifiers: state.language!.texts);
       },
     );
   }

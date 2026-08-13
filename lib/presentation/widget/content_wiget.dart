@@ -11,18 +11,13 @@ import '../../model/identifier.dart';
 import '../../model/translation.dart';
 import 'package:kris/model/text.dart' as w;
 
-import 'language_list_widget.dart';
+import 'language/language_list_widget.dart';
 import 'payload_list_widget.dart';
 
 class ContentWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set<String> visited;
 
-  const ContentWidget({
-    super.key,
-    required this.identifier,
-    required this.visited,
-  });
+  const ContentWidget({super.key, required this.identifier});
 
   @override
   State<ContentWidget> createState() => _ContentWidgetState();
@@ -32,20 +27,13 @@ class _ContentWidgetState extends State<ContentWidget> {
   @override
   void initState() {
     super.initState();
-    if (!widget.visited.contains(widget.identifier.sku)) {
-      context.read<TranslationBloc>().add(
-        BaseEvent.contentBySku(identifier: widget.identifier),
-      );
-    }
+    context.read<TranslationBloc>().add(
+      BaseEvent.contentBySku(identifier: widget.identifier),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Stop recursive cycles.
-    if (widget.visited.contains(widget.identifier.sku)) {
-      return const SizedBox.shrink();
-    }
-
     return BlocSelector<
       TranslationBloc,
       BaseState<Translation, w.Text, Content, Payload>,
@@ -81,30 +69,18 @@ class _ContentWidgetState extends State<ContentWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child:
-                  widget.visited.contains('${widget.identifier.sku}_payloads')
-                  ? SizedBox.shrink()
-                  : PayloadListWidget(
-                      key: ValueKey(content.sku),
-                      identifiers: content.payloads,
-                      visited: {
-                        ...widget.visited,
-                        widget.identifier.sku,
-                        '${widget.identifier.sku}_payloads',
-                      },
-                    ),
+              child: PayloadListWidget(
+                key: ValueKey(content.sku),
+                identifiers: content.payloads,
+              ),
             ),
 
-            widget.visited.contains('${widget.identifier.sku}_languages')
-                ? SizedBox.shrink()
-                : Expanded(child: Text('languages')),
-            // Expanded(
-            //   child: LanguageListWidget(
-            //     key: ValueKey('${content.sku}-languages'),
-            //     identifiers: content.languages,
-            //     visited: widget.visited,
-            //   ),
-            // ),
+            Expanded(
+              child: LanguageListWidget(
+                key: ValueKey('${content.sku}-languages'),
+                identifiers: content.languages,
+              ),
+            ),
           ],
         );
       },

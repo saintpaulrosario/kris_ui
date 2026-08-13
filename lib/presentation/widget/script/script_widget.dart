@@ -5,22 +5,19 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/script/script_text_list_widget.dart';
+import 'package:kris/presentation/widget/script/script_text_widget.dart';
 import 'package:kris/presentation/widget/text_list_wiget.dart';
 import 'package:kris/presentation/widget/text_widget.dart';
 
-import '../../model/content.dart';
-import '../../model/script.dart';
+import '../../../model/content.dart';
+import '../../../model/script.dart';
 import 'package:kris/model/text.dart' as w;
 
 class ScriptWidget extends StatefulWidget {
   final Identifier identifier;
-  final Set<String> visited;
 
-  const ScriptWidget({
-    super.key,
-    required this.identifier,
-    required this.visited,
-  });
+  const ScriptWidget({super.key, required this.identifier});
 
   @override
   State<ScriptWidget> createState() => _ScriptWidgetState();
@@ -34,19 +31,14 @@ class _ScriptWidgetState extends State<ScriptWidget>
   void initState() {
     super.initState();
 
-    if (!widget.visited.contains(widget.identifier.sku)) {
-      context.read<ScriptBloc>().add(
-        BaseEvent.bySku(identifier: widget.identifier),
-      );
-    }
+    context.read<ScriptBloc>().add(
+      BaseEvent.bySku(identifier: widget.identifier),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (widget.visited.contains(widget.identifier.sku)) {
-      return const SizedBox.shrink();
-    }
 
     return BlocSelector<
       ScriptBloc,
@@ -63,12 +55,8 @@ class _ScriptWidgetState extends State<ScriptWidget>
         if (state.fetching || state.script == null) {
           return const CircularProgressIndicator();
         }
-        // NOW mark this script as visited.
 
-        return TextListWidget(
-          identifiers: state.script!.texts,
-          visited: {...widget.visited, widget.identifier.sku},
-        );
+        return ScriptTextListWidget(identifiers: state.script!.texts);
       },
     );
   }
