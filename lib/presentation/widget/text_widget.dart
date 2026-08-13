@@ -91,9 +91,6 @@ class _TextWidgetState extends State<TextWidget> {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ==========================================
-            // TEXT COLUMN
-            // ==========================================
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8),
@@ -101,17 +98,6 @@ class _TextWidgetState extends State<TextWidget> {
               ),
             ),
 
-            // ==========================================
-            // VERTICAL DIVIDER
-            // ==========================================
-            const SizedBox(
-              width: 1,
-              child: VerticalDivider(width: 1, thickness: 1),
-            ),
-
-            // ==========================================
-            // SCRIPT COLUMN
-            // ==========================================
             Expanded(
               child: visited.contains(text.script.sku)
                   ? const SizedBox.shrink()
