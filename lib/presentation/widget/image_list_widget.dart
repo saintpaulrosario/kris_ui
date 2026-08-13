@@ -63,13 +63,9 @@ class _ImageListWidgetState extends State<ImageListWidget> {
                   itemCount: identifiers.length,
                   itemBuilder:
                       (BuildContext context, int index, int realIndex) {
-                        return SizedBox(
-                          width: double.infinity,
-                          height: carouselHeight,
-                          child: ImageWidget(
-                            key: ValueKey(identifiers[index].sku),
-                            imageIdentifier: identifiers[index],
-                          ),
+                        return ImageWidget(
+                          key: ValueKey(identifiers[index].sku),
+                          imageIdentifier: identifiers[index],
                         );
                       },
                   options: CarouselOptions(
