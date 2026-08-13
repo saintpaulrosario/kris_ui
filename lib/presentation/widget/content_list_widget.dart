@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kris/presentation/widget/content_wiget.dart';
+import 'package:kris/presentation/widget/payload_list_widget.dart';
 
 import '../../model/identifier.dart';
-import 'content_wiget.dart';
 
 class ContentListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -19,7 +20,7 @@ class ContentListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return Text(identifier.sku);
+            return ContentWidget(identifier: identifier);
           },
         ),
       ],

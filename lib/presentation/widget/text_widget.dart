@@ -3,13 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/translation.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/presentation/widget/content_list_widget.dart';
 
 import 'script_widget.dart';
 
@@ -48,7 +51,7 @@ class _TextWidgetState extends State<TextWidget> {
       return;
     }
 
-    context.read<WordBloc>().add(
+    context.read<TranslationBloc>().add(
       BaseEvent.textBySku(identifier: widget.identifier),
     );
   }
@@ -61,8 +64,8 @@ class _TextWidgetState extends State<TextWidget> {
     }
 
     return BlocSelector<
-      WordBloc,
-      BaseState<Word, w.Text, Content, Payload>,
+      TranslationBloc,
+      BaseState<Translation, w.Text, Content, Payload>,
       ({bool fetching, w.Text? text})
     >(
       selector: (state) {
@@ -96,7 +99,7 @@ class _TextWidgetState extends State<TextWidget> {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text(text.sku, softWrap: true),
+                  child: ContentListWidget(identifiers: text.contents),
                 ),
               ),
 
