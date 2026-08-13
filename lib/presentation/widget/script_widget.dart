@@ -64,11 +64,10 @@ class _ScriptWidgetState extends State<ScriptWidget>
           return const CircularProgressIndicator();
         }
         // NOW mark this script as visited.
-        final visited = {...widget.visited, state.script!.sku};
 
         return TextListWidget(
           identifiers: state.script!.texts,
-          visited: visited,
+          visited: {...widget.visited, widget.identifier.sku},
         );
       },
     );

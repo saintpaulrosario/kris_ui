@@ -76,25 +76,35 @@ class _ContentWidgetState extends State<ContentWidget> {
           return const Text('No payload found');
         }
 
+        //final visited = {...widget.visited, text.sku};
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: PayloadListWidget(
-                key: ValueKey(content.sku),
-                identifiers: content.payloads,
-                visited: {...widget.visited, widget.identifier.sku},
-              ),
+              child:
+                  widget.visited.contains('${widget.identifier.sku}_payloads')
+                  ? SizedBox.shrink()
+                  : PayloadListWidget(
+                      key: ValueKey(content.sku),
+                      identifiers: content.payloads,
+                      visited: {
+                        ...widget.visited,
+                        widget.identifier.sku,
+                        '${widget.identifier.sku}_payloads',
+                      },
+                    ),
             ),
 
-            //Expanded(child: Text('languages')),
-            Expanded(
-              child: LanguageListWidget(
-                key: ValueKey('${content.sku}-languages'),
-                identifiers: content.languages,
-                visited: widget.visited,
-              ),
-            ),
+            widget.visited.contains('${widget.identifier.sku}_languages')
+                ? SizedBox.shrink()
+                : Expanded(child: Text('languages')),
+            // Expanded(
+            //   child: LanguageListWidget(
+            //     key: ValueKey('${content.sku}-languages'),
+            //     identifiers: content.languages,
+            //     visited: widget.visited,
+            //   ),
+            // ),
           ],
         );
       },

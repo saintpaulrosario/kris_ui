@@ -96,20 +96,23 @@ class _TextWidgetState extends State<TextWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(
-                flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: ContentListWidget(
-                    identifiers: text.contents,
-                    visited: visited,
-                  ),
+                  child: visited.contains('${widget.identifier.sku}_contents')
+                      ? SizedBox.shrink()
+                      : ContentListWidget(
+                          identifiers: text.contents,
+                          visited: {
+                            ...visited,
+                            '${widget.identifier.sku}_contents',
+                          },
+                        ),
                 ),
               ),
 
               visited.contains(text.script.sku)
                   ? const SizedBox.shrink()
                   : Expanded(
-                      flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: ScriptWidget(
