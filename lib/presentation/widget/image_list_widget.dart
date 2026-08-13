@@ -83,11 +83,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
                 ),
               ),
 
-              // ==============================
-              // INDICATORS
-              // ==============================
               if (identifiers.length > 1) ...[
-                const SizedBox(height: 1),
                 SizedBox(
                   height: _indicatorHeight - 1,
                   child: _buildIndicators(context),
