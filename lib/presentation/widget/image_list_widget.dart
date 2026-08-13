@@ -15,8 +15,8 @@ class ImageListWidget extends StatefulWidget {
 
 class _ImageListWidgetState extends State<ImageListWidget> {
   static const int _maxIndicators = 5;
-
-  static const double _carouselHeight = 150;
+  static const double _defaultHeight = 150;
+  static const double _indicatorHeight = 10;
 
   int _currentIndex = 0;
 
@@ -36,50 +36,75 @@ class _ImageListWidgetState extends State<ImageListWidget> {
     final identifiers = widget.identifiers;
 
     if (identifiers.isEmpty) {
-      return const SizedBox(
-        width: double.infinity,
-        height: _carouselHeight,
-        child: Icon(Icons.image_not_supported),
-      );
+      return const SizedBox(child: Icon(Icons.image_not_supported));
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // If the parent gives us a real height, use it.
+        //
+        // If the height is unbounded, use a safe default.
+        final availableHeight = constraints.hasBoundedHeight
+            ? constraints.maxHeight
+            : _defaultHeight;
+
+        final carouselHeight = identifiers.length > 1
+            ? (availableHeight - _indicatorHeight).clamp(0.0, double.infinity)
+            : availableHeight;
+
+        return SizedBox(
           width: double.infinity,
-          height: 60,
-          child: CarouselSlider.builder(
-            itemCount: identifiers.length,
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              return ImageWidget(
-                key: ValueKey(identifiers[index].sku),
-                imageIdentifier: identifiers[index],
-              );
-            },
-            options: CarouselOptions(
-              viewportFraction: 1.0,
-              enlargeCenterPage: false,
-              enableInfiniteScroll: false,
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (index, reason) {
-                if (!mounted) {
-                  return;
-                }
+          height: availableHeight,
+          child: Column(
+            children: [
+              SizedBox(
+                height: carouselHeight,
+                child: CarouselSlider.builder(
+                  itemCount: identifiers.length,
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: carouselHeight,
+                          child: ImageWidget(
+                            key: ValueKey(identifiers[index].sku),
+                            imageIdentifier: identifiers[index],
+                          ),
+                        );
+                      },
+                  options: CarouselOptions(
+                    height: carouselHeight,
+                    viewportFraction: 1.0,
+                    enlargeCenterPage: false,
+                    enableInfiniteScroll: false,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index, reason) {
+                      if (!mounted) {
+                        return;
+                      }
 
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                ),
+              ),
+
+              // ==============================
+              // INDICATORS
+              // ==============================
+              if (identifiers.length > 1) ...[
+                const SizedBox(height: 1),
+                SizedBox(
+                  height: _indicatorHeight - 1,
+                  child: _buildIndicators(context),
+                ),
+              ],
+            ],
           ),
-        ),
-
-        if (identifiers.length > 1) ...[
-          const SizedBox(height: 1),
-          _buildIndicators(context),
-        ],
-      ],
+        );
+      },
     );
   }
 
@@ -98,18 +123,13 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       start = total - count;
     }
 
-    return SizedBox(
-      width: double.infinity,
-      height: 4,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(count, (index) {
-          final actualIndex = start + index;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(count, (index) {
+        final actualIndex = start + index;
 
-          return _buildDot(context, actualIndex);
-        }),
-      ),
+        return _buildDot(context, actualIndex);
+      }),
     );
   }
 
@@ -119,9 +139,9 @@ class _ImageListWidgetState extends State<ImageListWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: AnimatedContainer(
-        duration: const Duration(seconds: 30),
+        duration: const Duration(milliseconds: 200),
         width: selected ? 10 : 6,
-        height: selected ? 10 : 6,
+        height: selected ? 6 : 4,
         decoration: BoxDecoration(
           color: selected ? Theme.of(context).colorScheme.primary : Colors.grey,
           shape: BoxShape.rectangle,

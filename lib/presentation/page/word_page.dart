@@ -55,19 +55,23 @@ class _WordPageState extends State<WordPage> {
               separatorBuilder: (context, index) => Divider(),
               itemBuilder: (context, index) {
                 Word word = state.content.elementAt(index);
-                //return TextListWidget(identifiers: word.texts, visited: {});
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(child: ImageListWidget(identifiers: word.images)),
-                    Expanded(
-                      child: TextListWidget(
-                        identifiers: word.texts,
-                        visited: {},
+
+                return Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: ImageListWidget(identifiers: word.images),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: TextListWidget(
+                          identifiers: word.texts,
+                          visited: {},
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );
