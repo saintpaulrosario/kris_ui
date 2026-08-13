@@ -43,6 +43,7 @@ class _ScriptWidgetState extends State<ScriptWidget>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (widget.visited.contains(widget.identifier.sku)) {
       return const SizedBox.shrink();
     }
