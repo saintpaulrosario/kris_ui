@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
@@ -25,11 +24,8 @@ class _WordPageState extends State<WordPage> {
   @override
   void initState() {
     super.initState();
-
-    Set<String> scripts = context.read<ScriptBloc>().state.selections.toSet();
-
     context.read<TranslationBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 50, scripts: scripts),
+      BaseEvent.fetch(pageNumber: 0, pageSize: 50),
     );
   }
 
