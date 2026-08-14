@@ -102,15 +102,17 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               scrollDirection: Axis.horizontal,
 
               child: Row(
-                children: const [
-                  MenuWidget(maya: "SCRIPT", label: "script"),
-                  SizedBox(width: 10),
+                children: [
+                  const MenuWidget(maya: "SCRIPT", label: "script"),
+                  const SizedBox(width: 10),
 
-                  MenuWidget(maya: "LANGUAGE", label: "language"),
+                  const MenuWidget(maya: "LANGUAGE", label: "language"),
 
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
 
-                  MenuWidget(maya: "DIALECT", label: "dialect"),
+                  const MenuWidget(maya: "DIALECT", label: "dialect"),
+
+                  ElevatedButton(onPressed: () {}, child: const Text("submit")),
                 ],
               ),
             ),
