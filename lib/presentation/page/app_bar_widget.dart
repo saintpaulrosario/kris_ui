@@ -122,13 +122,10 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo
-            Container(
-              color: Colors.grey[200],
-              child: const Center(
-                child: CircleAvatar(
-                  radius: 55,
-                  backgroundImage: AssetImage("images/app_logo.png"),
-                ),
+            const Center(
+              child: CircleAvatar(
+                radius: 55,
+                backgroundImage: AssetImage("images/app_logo.png"),
               ),
             ),
 
