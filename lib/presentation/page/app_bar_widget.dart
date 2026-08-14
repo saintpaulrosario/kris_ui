@@ -67,7 +67,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: SizedBox(
-                    width: size.width * 0.9,
+                    width: size.width * 0,
                     height: size.height * 0.8,
                     child: const AuthenticationPage(),
                   ),
@@ -117,100 +117,107 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         ),
       ],
 
-      flexibleSpace: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Logo
-            const Center(
-              child: CircleAvatar(
-                radius: 55,
-                backgroundImage: AssetImage("images/app_logo.png"),
-              ),
-            ),
-
-            // Menus
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-
-              child:
-                  BlocSelector<
-                    ScriptBloc,
-                    BaseState<Script, w.Text, Content, Payload>,
-                    BaseState<Script, w.Text, Content, Payload>
-                  >(
-                    selector: (state) {
-                      return state;
-                    },
-                    builder: (context, script) {
-                      return BlocSelector<
-                        LanguageBloc,
-                        BaseState<Language, w.Text, Content, Payload>,
-                        BaseState<Language, w.Text, Content, Payload>
-                      >(
-                        selector: (state) {
-                          return state;
-                        },
-                        builder: (context, language) {
-                          return BlocSelector<
-                            DialectBloc,
-                            BaseState<Dialect, w.Text, Content, Payload>,
-                            BaseState<Dialect, w.Text, Content, Payload>
-                          >(
-                            selector: (state) {
-                              return state;
-                            },
-                            builder: (context, dialect) {
-                              return Row(
-                                children: [
-                                  MenuWidget(
-                                    maya: "SCRIPT",
-                                    label: "script",
-                                    words: script.data.values.toList(),
-                                    selections: script.selections.toSet(),
-                                  ),
-                                  const SizedBox(width: 10),
-
-                                  MenuWidget(
-                                    maya: "LANGUAGE",
-                                    label: "language",
-                                    words: language.data.values.toList(),
-                                    selections: language.selections.toSet(),
-                                  ),
-
-                                  const SizedBox(width: 10),
-
-                                  MenuWidget(
-                                    maya: "DIALECT",
-                                    label: "dialect",
-                                    words: dialect.data.values.toList(),
-                                    selections: dialect.selections.toSet(),
-                                  ),
-
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.read<TranslationBloc>().add(
-                                        BaseEvent.fetch(
-                                          scripts: script.selections.toSet(),
-                                          languages: language.selections
-                                              .toSet(),
-                                          dialects: dialect.selections.toSet(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text("submit"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
+      flexibleSpace: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo
+              SizedBox(
+                height: constraints.maxHeight * 0.75,
+                width: constraints.maxWidth,
+                child: Center(
+                  child: Image.asset(
+                    "images/app_logo.png",
+                    fit: BoxFit.contain,
                   ),
-            ),
-          ],
-        ),
+                ),
+              ),
+
+              // Menus
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+
+                child:
+                    BlocSelector<
+                      ScriptBloc,
+                      BaseState<Script, w.Text, Content, Payload>,
+                      BaseState<Script, w.Text, Content, Payload>
+                    >(
+                      selector: (state) {
+                        return state;
+                      },
+                      builder: (context, script) {
+                        return BlocSelector<
+                          LanguageBloc,
+                          BaseState<Language, w.Text, Content, Payload>,
+                          BaseState<Language, w.Text, Content, Payload>
+                        >(
+                          selector: (state) {
+                            return state;
+                          },
+                          builder: (context, language) {
+                            return BlocSelector<
+                              DialectBloc,
+                              BaseState<Dialect, w.Text, Content, Payload>,
+                              BaseState<Dialect, w.Text, Content, Payload>
+                            >(
+                              selector: (state) {
+                                return state;
+                              },
+                              builder: (context, dialect) {
+                                return Row(
+                                  children: [
+                                    MenuWidget(
+                                      maya: "SCRIPT",
+                                      label: "script",
+                                      words: script.data.values.toList(),
+                                      selections: script.selections.toSet(),
+                                    ),
+                                    const SizedBox(width: 10),
+
+                                    MenuWidget(
+                                      maya: "LANGUAGE",
+                                      label: "language",
+                                      words: language.data.values.toList(),
+                                      selections: language.selections.toSet(),
+                                    ),
+
+                                    const SizedBox(width: 10),
+
+                                    MenuWidget(
+                                      maya: "DIALECT",
+                                      label: "dialect",
+                                      words: dialect.data.values.toList(),
+                                      selections: dialect.selections.toSet(),
+                                    ),
+
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<TranslationBloc>().add(
+                                          BaseEvent.fetch(
+                                            scripts: script.selections.toSet(),
+                                            languages: language.selections
+                                                .toSet(),
+                                            dialects: dialect.selections
+                                                .toSet(),
+                                          ),
+                                        );
+                                      },
+                                      child: const Text("submit"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
