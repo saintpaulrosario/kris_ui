@@ -173,19 +173,19 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                   ),
                                   const SizedBox(width: 10),
 
-                                  const MenuWidget(
+                                  MenuWidget(
                                     maya: "LANGUAGE",
                                     label: "language",
-                                    words: [],
+                                    words: language.data.values.toList(),
                                     selections: {},
                                   ),
 
                                   const SizedBox(width: 10),
 
-                                  const MenuWidget(
+                                  MenuWidget(
                                     maya: "DIALECT",
                                     label: "dialect",
-                                    words: [],
+                                    words: dialect.data.values.toList(),
                                     selections: {},
                                   ),
 

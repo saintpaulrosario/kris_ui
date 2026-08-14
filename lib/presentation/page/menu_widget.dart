@@ -133,30 +133,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 controller.open();
               }
             },
-            child: InputDecorator(
-              decoration: InputDecoration(
-                labelText: widget.label,
-                border: const OutlineInputBorder(),
-                isDense: true,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.selections.isEmpty
-                          ? 'Select'
-                          : '${widget.selections.length} selected',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Icon(
-                    controller.isOpen
-                        ? Icons.arrow_drop_up
-                        : Icons.arrow_drop_down,
-                  ),
-                ],
-              ),
-            ),
+            child: SizedBox.shrink(),
           );
         },
       ),
