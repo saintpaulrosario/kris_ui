@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
 
 import '../../logic/base_event.dart';
@@ -65,6 +66,10 @@ class _PayloadWidgetState extends State<PayloadWidget>
                 maxLines: 1,
                 key: ValueKey(state.payload!.sku),
               ),
+            ),
+
+            Expanded(
+              child: DialectListWidget(identifiers: state.payload!.dialects),
             ),
           ],
         );

@@ -62,8 +62,6 @@ class _ContentWidgetState extends State<ContentWidget> {
         if (content.payloads.isEmpty) {
           return const Text('No payload found');
         }
-
-        //final visited = {...widget.visited, text.sku};
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -76,7 +74,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
             Expanded(
               child: LanguageListWidget(
-                key: ValueKey('${content.sku}-languages'),
+                key: ValueKey(content.sku),
                 identifiers: content.languages,
               ),
             ),

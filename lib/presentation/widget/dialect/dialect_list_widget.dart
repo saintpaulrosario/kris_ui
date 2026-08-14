@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kris/presentation/widget/dialect/dialect_text_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_widget.dart';
 import 'package:kris/presentation/widget/language/language_widget.dart';
 
 import '../../../model/identifier.dart';
@@ -20,7 +21,7 @@ class DialectListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return DialectTextWidget(identifier: identifier);
+            return DialectWidget(identifier: identifier);
           },
         ),
       ],

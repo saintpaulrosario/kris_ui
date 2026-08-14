@@ -45,16 +45,11 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
       },
       builder: (context, state) {
         if (state.fetching) {
-          return const SizedBox(
-            height: 40,
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return Center(child: CircularProgressIndicator());
         }
 
-        final text = state.text;
-
-        if (text == null) {
-          return const SizedBox.shrink();
+        if (state.text == null) {
+          return const Text("no text");
         }
 
         return DialectContentListWidget(identifiers: state.text!.contents);
