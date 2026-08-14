@@ -1,17 +1,10 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
-import 'package:kris/model/content.dart';
-import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/language.dart';
-import 'package:kris/model/payload.dart';
-import 'package:kris/model/script.dart';
 import 'package:kris/model/word.dart';
-import 'package:kris/model/text.dart' as w;
 
 import '../../logic/word/dialect_bloc.dart';
 import '../../logic/word/language_bloc.dart';
@@ -40,11 +33,6 @@ class _MenuWidgetState extends State<MenuWidget> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -52,80 +40,79 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 180,
-      child: MenuAnchor(
-        alignmentOffset: const Offset(0, 5),
-        menuChildren: [
-          SizedBox(
-            width: 320,
-            height: MediaQuery.of(context).size.height * .5,
-            child: Material(
-              elevation: 4,
-              child: Scrollbar(
+    return MenuAnchor(
+      alignmentOffset: const Offset(0, 5),
+
+      menuChildren: [
+        SizedBox(
+          width: 320,
+          height: MediaQuery.of(context).size.height * .5,
+          child: Material(
+            elevation: 4,
+            color: Colors.white,
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: ListView.builder(
                 controller: _scrollController,
-                thumbVisibility: true,
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: widget.words.length,
-                  itemBuilder: (context, index) {
-                    final word = widget.words[index];
+                padding: EdgeInsets.zero,
+                itemCount: widget.words.length,
+                itemBuilder: (context, index) {
+                  final word = widget.words[index];
 
-                    final texts = word.texts.toList();
+                  final texts = word.texts.toList();
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (index > 0) const Divider(height: 1),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (index > 0) const Divider(height: 1, thickness: 1),
 
-                        ...texts.map(
-                          (Identifier identifier) => MenuTextWidget(
-                            identifier: identifier,
-                            selected: widget.selections.contains(
-                              identifier.sku,
-                            ),
-                            maya: widget.maya,
-                            onChanged: (selected) async {
-                              if (widget.maya == 'SCRIPT') {
-                                context.read<ScriptBloc>().add(
-                                  BaseEvent.select(
-                                    identifier: identifier,
-                                    selected: selected,
-                                  ),
-                                );
-                                context.read<TranslationBloc>().add(
-                                  BaseEvent.fetch(
-                                    scripts: widget.selections.toSet(),
-                                  ),
-                                );
-                              } else if (widget.maya == 'DIALECT') {
-                                context.read<DialectBloc>().add(
-                                  BaseEvent.select(
-                                    identifier: identifier,
-                                    selected: selected,
-                                  ),
-                                );
-                              } else {
-                                context.read<LanguageBloc>().add(
-                                  BaseEvent.select(
-                                    identifier: identifier,
-                                    selected: selected,
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                      ...texts.map((Identifier identifier) {
+                        return MenuTextWidget(
+                          identifier: identifier,
+                          selected: widget.selections.contains(identifier.sku),
+                          maya: widget.maya,
+                          onChanged: (selected) {
+                            if (widget.maya == 'SCRIPT') {
+                              context.read<ScriptBloc>().add(
+                                BaseEvent.select(
+                                  identifier: identifier,
+                                  selected: selected,
+                                ),
+                              );
+                            } else if (widget.maya == 'DIALECT') {
+                              context.read<DialectBloc>().add(
+                                BaseEvent.select(
+                                  identifier: identifier,
+                                  selected: selected,
+                                ),
+                              );
+                            } else {
+                              context.read<LanguageBloc>().add(
+                                BaseEvent.select(
+                                  identifier: identifier,
+                                  selected: selected,
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      }),
+                    ],
+                  );
+                },
               ),
             ),
           ),
-        ],
-        builder: (context, controller, child) {
-          return InkWell(
+        ),
+      ],
+
+      builder: (context, controller, child) {
+        return SizedBox(
+          width: 180,
+          height: 48,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
             onTap: () {
               if (controller.isOpen) {
                 controller.close();
@@ -133,10 +120,33 @@ class _MenuWidgetState extends State<MenuWidget> {
                 controller.open();
               }
             },
-            child: SizedBox.shrink(),
-          );
-        },
-      ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey.shade400),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.label,
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+
+                  Icon(
+                    controller.isOpen
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
