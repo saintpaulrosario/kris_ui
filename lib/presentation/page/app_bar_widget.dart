@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/script.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';
@@ -177,7 +178,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                     maya: "LANGUAGE",
                                     label: "language",
                                     words: language.data.values.toList(),
-                                    selections: {},
+                                    selections: language.selections.toSet(),
                                   ),
 
                                   const SizedBox(width: 10),
@@ -186,16 +187,19 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                     maya: "DIALECT",
                                     label: "dialect",
                                     words: dialect.data.values.toList(),
-                                    selections: {},
+                                    selections: dialect.selections.toSet(),
                                   ),
 
                                   ElevatedButton(
                                     onPressed: () {
-                                      // context.read<TranslationBloc>().add(
-                                      //   BaseEvent.fetch(
-                                      //     scripts: selections.toSet(),
-                                      //   ),
-                                      // );
+                                      context.read<TranslationBloc>().add(
+                                        BaseEvent.fetch(
+                                          scripts: script.selections.toSet(),
+                                          languages: language.selections
+                                              .toSet(),
+                                          dialects: dialect.selections.toSet(),
+                                        ),
+                                      );
                                     },
                                     child: const Text("submit"),
                                   ),
