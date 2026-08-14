@@ -1,4 +1,3 @@
-
 import '../model/identifier.dart';
 
 enum WordFetchType {

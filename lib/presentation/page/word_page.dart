@@ -6,9 +6,6 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/text.dart' as w;
 
-import 'package:kris/presentation/page/word_table_source.dart';
-import 'package:kris/presentation/widget/image_list_widget.dart';
-import 'package:kris/presentation/widget/text_list_wiget.dart';
 import 'package:kris/presentation/widget/word_widget.dart';
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';

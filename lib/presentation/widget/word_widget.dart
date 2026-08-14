@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kris/model/word.dart';
 
-import '../../model/identifier.dart';
 import 'image_list_widget.dart';
 import 'text_list_wiget.dart';
 

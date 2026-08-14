@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/language/language_text_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_payload_list_widget.dart';
+import 'package:kris/presentation/widget/language/language_content_widget.dart';
 
 import '../../../model/identifier.dart';
 
-class LanguageTextListWidget extends StatelessWidget {
+class DialectContentListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
 
-  const LanguageTextListWidget({super.key, required this.identifiers});
+  const DialectContentListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class LanguageTextListWidget extends StatelessWidget {
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final identifier = identifiers.elementAt(index);
-            return LanguageTextWidget(identifier: identifier);
+            return DialectContentWidget(identifier: identifier);
           },
         ),
       ],

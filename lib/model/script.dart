@@ -3,7 +3,6 @@ import 'package:kris/model/word.dart';
 
 import 'account.dart';
 import 'identifier.dart';
-import 'text.dart';
 
 part 'script.g.dart';
 

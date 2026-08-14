@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 
 import '../../logic/base_event.dart';

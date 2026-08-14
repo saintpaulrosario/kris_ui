@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/account.dart';
 import 'package:kris/model/identifier.dart';
 
-import 'text.dart';
 
 part 'word.g.dart';
 

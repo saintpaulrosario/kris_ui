@@ -40,8 +40,7 @@ class LanguageBloc
           await _fetchPayloadBySku(event, emit);
           break;
         case WordFetchType.select:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _selectBySku(event, emit);
       }
     });
   }
@@ -255,5 +254,20 @@ class LanguageBloc
         },
       );
     }
+  }
+
+  Future<void> _selectBySku(
+    BaseEvent event,
+    Emitter<BaseState<Language, Text, Content, Payload>> emit,
+  ) async {
+    final selections = state.selections.toBuilder();
+
+    if (event.selected == false) {
+      selections.remove(event.identifier.sku);
+    } else {
+      selections.add(event.identifier.sku);
+    }
+
+    emit(state.copyWith(selections: selections.build()));
   }
 }

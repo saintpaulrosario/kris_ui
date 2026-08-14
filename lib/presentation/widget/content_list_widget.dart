@@ -15,7 +15,7 @@ class ContentListWidget extends StatelessWidget {
         ListView.separated(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          separatorBuilder: (_, __) => Divider(),
+          separatorBuilder: (_, _) => Divider(),
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);

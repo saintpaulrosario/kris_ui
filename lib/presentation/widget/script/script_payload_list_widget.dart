@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/presentation/widget/script/script_payload_widget.dart';
 
-import 'script_content_widget.dart';
 
 class ScriptPayloadListWidget extends StatelessWidget {
   final List<Identifier> identifiers;

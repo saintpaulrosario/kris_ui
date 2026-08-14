@@ -3,7 +3,6 @@ import 'package:kris/model/account.dart';
 import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
-import 'text.dart';
 
 part 'dialect.g.dart';
 

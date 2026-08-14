@@ -6,6 +6,7 @@ import 'package:kris/logic/word/api/dialect_api.dart';
 import 'package:kris/logic/word/api/language_api.dart';
 import 'package:kris/logic/word/api/script_api.dart';
 import 'package:kris/logic/word/api/translation_api.dart';
+import 'package:kris/logic/word/service/dialect_service.dart';
 import 'package:kris/logic/word/service/language_service.dart';
 import 'package:kris/logic/word/service/script_service.dart';
 import 'package:kris/logic/word/service/translation_service.dart';
@@ -144,4 +145,6 @@ void _registerServices() {
   getIt.registerLazySingleton<ScriptService>(() => ScriptService());
 
   getIt.registerLazySingleton<LanguageService>(() => LanguageService());
+
+   getIt.registerLazySingleton<DialectService>(() => DialectService());
 }

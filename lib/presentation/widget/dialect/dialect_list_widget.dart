@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/script/script_text_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_text_widget.dart';
+import 'package:kris/presentation/widget/language/language_widget.dart';
 
 import '../../../model/identifier.dart';
 
-class ScriptTextListWidget extends StatelessWidget {
+class DialectListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
 
-  const ScriptTextListWidget({super.key, required this.identifiers});
+  const DialectListWidget({super.key, required this.identifiers});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class ScriptTextListWidget extends StatelessWidget {
           itemCount: identifiers.length,
           itemBuilder: (_, index) {
             final identifier = identifiers.elementAt(index);
-            return ScriptTextWidget(identifier: identifier);
+            return DialectTextWidget(identifier: identifier);
           },
         ),
       ],

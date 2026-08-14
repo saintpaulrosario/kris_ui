@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
+import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/widget/script/script_content_list_widget.dart';
 
@@ -26,11 +29,15 @@ class _ScriptTextWidgetState extends State<ScriptTextWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<ScriptBloc, BaseState, ({bool fetching, w.Text? text})>(
+    return BlocSelector<
+      ScriptBloc,
+      BaseState<Script, w.Text, Content, Payload>,
+      ({bool fetching, w.Text? text})
+    >(
       selector: (state) {
         return (
           fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.data[widget.identifier.sku],
+          text: state.texts[widget.identifier.sku],
         );
       },
       builder: (context, state) {

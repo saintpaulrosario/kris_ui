@@ -2,12 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/service/script_service.dart';
-import 'package:kris/logic/word/service/translation_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/translation.dart';
 
 import 'package:fpdart/fpdart.dart';
 
@@ -42,8 +40,7 @@ class ScriptBloc
           await _fetchPayloadBySku(event, emit);
           break;
         case WordFetchType.select:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _selectBySku(event, emit);
       }
     });
   }
@@ -257,5 +254,17 @@ class ScriptBloc
         },
       );
     }
+  }
+
+  Future<void> _selectBySku(BaseEvent event, Emitter<BaseState> emit) async {
+    final selections = state.selections.toBuilder();
+
+    if (event.selected == false) {
+      selections.remove(event.identifier.sku);
+    } else {
+      selections.add(event.identifier.sku);
+    }
+
+    emit(state.copyWith(selections: selections.build()));
   }
 }

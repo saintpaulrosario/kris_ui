@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
-import 'package:kris/model/dialect.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
-import 'package:kris/presentation/widget/word_widget.dart';
 
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';

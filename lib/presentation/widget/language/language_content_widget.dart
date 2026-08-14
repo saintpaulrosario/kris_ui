@@ -6,7 +6,6 @@ import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/presentation/widget/language/language_payload_list_widget.dart';
-import 'package:kris/presentation/widget/script/script_payload_list_widget.dart';
 
 class LanguageContentWidget extends StatefulWidget {
   final Identifier identifier;
@@ -35,12 +34,15 @@ class _LanguageContentWidgetState extends State<LanguageContentWidget> {
       selector: (state) {
         return (
           fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.texts[widget.identifier.sku],
+          content: state.contents[widget.identifier.sku],
         );
       },
       builder: (context, state) {
         if (state.fetching) {
           return CircularProgressIndicator();
+        }
+        if (state.content == null) {
+          return Text("no content");
         }
 
         return LanguagePayloadListWidget(identifiers: state.content!.payloads);

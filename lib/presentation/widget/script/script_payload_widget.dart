@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/translation_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
-import 'package:kris/model/dialect.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
-import 'package:kris/presentation/widget/sound_list_wiget.dart';
-import 'package:kris/presentation/widget/word_widget.dart';
 
 import '../../../logic/base_event.dart';
 import '../../../logic/base_state.dart';
@@ -56,14 +51,12 @@ class _ScriptPayloadWidgetState extends State<ScriptPayloadWidget>
           return const Text("Payload was not fetched");
         }
 
-        return Expanded(
-          child: Text(
-            state.payload!.value,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            key: ValueKey(state.payload!.sku),
-          ),
+        return Text(
+          state.payload!.value,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          key: ValueKey(state.payload!.sku),
         );
       },
     );

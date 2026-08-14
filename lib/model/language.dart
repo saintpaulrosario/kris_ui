@@ -3,7 +3,6 @@ import 'package:kris/model/word.dart';
 
 import 'account.dart';
 import 'identifier.dart';
-import 'text.dart';
 
 part 'language.g.dart';
 
@@ -18,6 +17,7 @@ part 'language.g.dart';
 class Language extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> scripts;
+  final List<Identifier> dialects;
   const Language({
     required super.sku,
     required super.version,
@@ -30,6 +30,7 @@ class Language extends Word {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.images,
+    required this.dialects,
   });
 
   factory Language.initial() {
@@ -44,6 +45,7 @@ class Language extends Word {
       lastModifiedBy: Account.initial(),
       scripts: [],
       images: [],
+      dialects: [],
     );
   }
 

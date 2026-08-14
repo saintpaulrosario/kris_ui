@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';
+import 'menu_widget.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});
@@ -102,14 +103,14 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
               child: Row(
                 children: const [
-                  //MenuWidget(maya: "SCRIPT", label: "script"),
+                  MenuWidget(maya: "SCRIPT", label: "script"),
                   SizedBox(width: 10),
 
-                 // MenuWidget(maya: "LANGUAGE", label: "language"),
+                  MenuWidget(maya: "LANGUAGE", label: "language"),
 
                   SizedBox(width: 10),
 
-                  //MenuWidget(maya: "DIALECT", label: "dialect"),
+                  MenuWidget(maya: "DIALECT", label: "dialect"),
                 ],
               ),
             ),

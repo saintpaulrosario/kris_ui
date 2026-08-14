@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/language_bloc.dart';
+import 'package:kris/logic/word/dialect_bloc.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/presentation/widget/language/language_text_list_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_text_list_widget.dart';
 
 import '../../../model/content.dart';
 import 'package:kris/model/text.dart' as w;
 
-class LanguageWidget extends StatefulWidget {
+class DialectWidget extends StatefulWidget {
   final Identifier identifier;
 
-  const LanguageWidget({super.key, required this.identifier});
+  const DialectWidget({super.key, required this.identifier});
 
   @override
-  State<LanguageWidget> createState() => _LanguageWidgetState();
+  State<DialectWidget> createState() => _DialectWidgetState();
 }
 
-class _LanguageWidgetState extends State<LanguageWidget>
+class _DialectWidgetState extends State<DialectWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
-    context.read<LanguageBloc>().add(
+    context.read<DialectBloc>().add(
       BaseEvent.bySku(identifier: widget.identifier),
     );
   }
@@ -37,22 +38,22 @@ class _LanguageWidgetState extends State<LanguageWidget>
     super.build(context);
 
     return BlocSelector<
-      LanguageBloc,
-      BaseState<Language, w.Text, Content, Payload>,
-      ({bool fetching, Language? language})
+      DialectBloc,
+      BaseState<Dialect, w.Text, Content, Payload>,
+      ({bool fetching, Dialect? dialect})
     >(
       selector: (state) {
         return (
           fetching: state.fetching.contains(widget.identifier.sku),
-          language: state.data[widget.identifier.sku],
+          dialect: state.data[widget.identifier.sku],
         );
       },
       builder: (context, state) {
-        if (state.fetching || state.language == null) {
+        if (state.fetching || state.dialect == null) {
           return const CircularProgressIndicator();
         }
 
-        return LanguageTextListWidget(identifiers: state.language!.texts);
+        return DialectTextListWidget(identifiers: state.dialect!.texts);
       },
     );
   }

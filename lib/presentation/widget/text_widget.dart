@@ -4,12 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/translation.dart';
-import 'package:kris/model/word.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/widget/content_list_widget.dart';
@@ -25,7 +23,8 @@ class TextWidget extends StatefulWidget {
   State<TextWidget> createState() => _TextWidgetState();
 }
 
-class _TextWidgetState extends State<TextWidget> {
+class _TextWidgetState extends State<TextWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -90,4 +89,8 @@ class _TextWidgetState extends State<TextWidget> {
       },
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

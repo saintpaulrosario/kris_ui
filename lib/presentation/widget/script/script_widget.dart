@@ -6,9 +6,6 @@ import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/script/script_text_list_widget.dart';
-import 'package:kris/presentation/widget/script/script_text_widget.dart';
-import 'package:kris/presentation/widget/text_list_wiget.dart';
-import 'package:kris/presentation/widget/text_widget.dart';
 
 import '../../../model/content.dart';
 import '../../../model/script.dart';
