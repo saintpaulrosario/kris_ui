@@ -58,7 +58,11 @@ class TranslationBloc
     );
 
     final Either<ErrorResponse, PageResult<Translation>> results =
-        await _service.retrieve(page: event.pageNumber!, size: event.pageSize!);
+        await _service.retrieve(
+          page: event.pageNumber!,
+          size: event.pageSize!,
+          scripts: event.scripts,
+        );
 
     results.match(
       (ErrorResponse error) {

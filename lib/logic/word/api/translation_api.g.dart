@@ -25,10 +25,13 @@ class _TranslationApi implements TranslationApi {
   Future<HttpResponse<ApiResult<PageResult<Translation>>>> fetchAll({
     required int page,
     required int size,
+    Set<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page, r'size': size};
-    final _headers = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'scripts': scripts};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options =
         _setStreamType<HttpResponse<ApiResult<PageResult<Translation>>>>(
