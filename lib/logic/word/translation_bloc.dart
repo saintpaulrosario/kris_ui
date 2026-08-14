@@ -57,10 +57,13 @@ class TranslationBloc
       ),
     );
 
+    int? number = event.pageNumber ?? state.pageNumber;
+    int? size = event.pageSize ?? state.pageSize;
+
     final Either<ErrorResponse, PageResult<Translation>> results =
         await _service.retrieve(
-          page: event.pageNumber!,
-          size: event.pageSize!,
+          page: number,
+          size: size,
           scripts: event.scripts,
         );
 

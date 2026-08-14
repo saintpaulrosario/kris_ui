@@ -16,6 +16,8 @@ class BaseEvent {
   final int? pageSize;
   final bool? selected;
   final Set<String>? scripts;
+  final Set<String>? languages;
+  final Set<String>? dialects;
 
   const BaseEvent._({
     required this.type,
@@ -24,18 +26,24 @@ class BaseEvent {
     this.pageSize,
     this.selected,
     this.scripts,
+    this.dialects,
+    this.languages,
   });
 
   factory BaseEvent.fetch({
-    required int pageNumber,
-    required int pageSize,
+    int? pageNumber,
+    int? pageSize,
     Set<String>? scripts,
+    Set<String>? languages,
+    Set<String>? dialects,
   }) {
     return BaseEvent._(
       type: WordFetchType.page,
       pageNumber: pageNumber,
       pageSize: pageSize,
       scripts: scripts,
+      dialects: dialects,
+      languages: languages,
       identifier: Identifier.initial(),
     );
   }

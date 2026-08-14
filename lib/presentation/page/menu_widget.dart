@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
@@ -102,12 +103,12 @@ class _MenuWidgetState extends State<MenuWidget> {
     return BlocSelector<
       ScriptBloc,
       BaseState<Script, w.Text, Content, Payload>,
-      (BuiltSet<String>, BuiltMap<String, Script>?)
+      BaseState<Script, w.Text, Content, Payload>
     >(
-      selector: (state) => (state.selections, state.data),
-      builder: (context, data) {
-        final selections = data.$1;
-        final words = data.$2?.values.toList() ?? [];
+      selector: (state) => state,
+      builder: (context, state) {
+        final selections = state.selections;
+        final words = state.data.values.toList();
 
         return _buildMenu(
           scrollController: _scrollController,
@@ -169,13 +170,16 @@ class _buildMenu extends StatelessWidget {
                             identifier: identifier,
                             selected: selections.contains(identifier.sku),
                             maya: widget.maya,
-                            onChanged: (selected) {
+                            onChanged: (selected) async {
                               if (maya == 'SCRIPT') {
                                 context.read<ScriptBloc>().add(
                                   BaseEvent.select(
                                     identifier: identifier,
                                     selected: selected,
                                   ),
+                                );
+                                context.read<TranslationBloc>().add(
+                                  BaseEvent.fetch(scripts: selections.toSet()),
                                 );
                               } else if (maya == 'DIALECT') {
                                 context.read<DialectBloc>().add(
