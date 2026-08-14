@@ -1,17 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/model/script.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';
+import '../../logic/base_event.dart';
+import '../../logic/base_state.dart';
+import '../../logic/word/dialect_bloc.dart';
+import '../../logic/word/language_bloc.dart';
+import '../../logic/word/script_bloc.dart';
+import '../../model/content.dart';
+import '../../model/dialect.dart';
+import '../../model/language.dart';
+import '../../model/payload.dart';
+import '../../model/text.dart' as w;
 import 'menu_widget.dart';
 
-class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});
+
+  @override
+  State<AppBarWidget> createState() => _AppBarWidgetState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(220);
+}
+
+class _AppBarWidgetState extends State<AppBarWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ScriptBloc>().add(
+      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+    );
+
+    context.read<LanguageBloc>().add(
+      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+    );
+
+    context.read<DialectBloc>().add(
+      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return AppBar(
-      toolbarHeight: 220,
-
       backgroundColor: Colors.white,
 
       actions: [
@@ -101,29 +135,84 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
 
-              child: Row(
-                children: [
-                  const MenuWidget(maya: "SCRIPT", label: "script"),
-                  const SizedBox(width: 10),
+              child:
+                  BlocSelector<
+                    ScriptBloc,
+                    BaseState<Script, w.Text, Content, Payload>,
+                    BaseState<Script, w.Text, Content, Payload>
+                  >(
+                    selector: (state) {
+                      return state;
+                    },
+                    builder: (context, script) {
+                      return BlocSelector<
+                        LanguageBloc,
+                        BaseState<Language, w.Text, Content, Payload>,
+                        BaseState<Language, w.Text, Content, Payload>
+                      >(
+                        selector: (state) {
+                          return state;
+                        },
+                        builder: (context, language) {
+                          return BlocSelector<
+                            DialectBloc,
+                            BaseState<Dialect, w.Text, Content, Payload>,
+                            BaseState<Dialect, w.Text, Content, Payload>
+                          >(
+                            selector: (state) {
+                              return state;
+                            },
+                            builder: (context, dialect) {
+                              return Row(
+                                children: [
+                                  MenuWidget(
+                                    maya: "SCRIPT",
+                                    label: "script",
+                                    words: script.data.values.toList(),
+                                    selections: script.selections.toSet(),
+                                  ),
+                                  const SizedBox(width: 10),
 
-                  const MenuWidget(maya: "LANGUAGE", label: "language"),
+                                  const MenuWidget(
+                                    maya: "LANGUAGE",
+                                    label: "language",
+                                    words: [],
+                                    selections: {},
+                                  ),
 
-                  const SizedBox(width: 10),
+                                  const SizedBox(width: 10),
 
-                  const MenuWidget(maya: "DIALECT", label: "dialect"),
+                                  const MenuWidget(
+                                    maya: "DIALECT",
+                                    label: "dialect",
+                                    words: [],
+                                    selections: {},
+                                  ),
 
-                  ElevatedButton(onPressed: () {}, child: const Text("submit")),
-                ],
-              ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // context.read<TranslationBloc>().add(
+                                      //   BaseEvent.fetch(
+                                      //     scripts: selections.toSet(),
+                                      //   ),
+                                      // );
+                                    },
+                                    child: const Text("submit"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
             ),
           ],
         ),
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(220);
 
   void _showAuthenticationDialog(BuildContext context) {
     final size = MediaQuery.of(context).size;

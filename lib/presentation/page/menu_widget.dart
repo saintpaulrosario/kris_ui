@@ -21,8 +21,16 @@ import 'menu_text_widget.dart';
 class MenuWidget extends StatefulWidget {
   final String maya;
   final String label;
+  final List<Word> words;
+  final Set<String> selections;
 
-  const MenuWidget({super.key, required this.maya, required this.label});
+  const MenuWidget({
+    super.key,
+    required this.maya,
+    required this.label,
+    required this.words,
+    required this.selections,
+  });
 
   @override
   State<MenuWidget> createState() => _MenuWidgetState();
@@ -34,19 +42,6 @@ class _MenuWidgetState extends State<MenuWidget> {
   @override
   void initState() {
     super.initState();
-    if ("SCRIPT" == widget.maya) {
-      context.read<ScriptBloc>().add(
-        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-      );
-    } else if ("LANGUAGE" == widget.maya) {
-      context.read<LanguageBloc>().add(
-        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-      );
-    } else {
-      context.read<DialectBloc>().add(
-        BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-      );
-    }
   }
 
   @override
@@ -54,88 +49,6 @@ class _MenuWidgetState extends State<MenuWidget> {
     _scrollController.dispose();
     super.dispose();
   }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.maya == 'LANGUAGE') {
-      return BlocSelector<
-        LanguageBloc,
-        BaseState<Language, w.Text, Content, Payload>,
-        (BuiltSet<String>, BuiltMap<String, Language>?)
-      >(
-        selector: (state) => (state.selections, state.data),
-        builder: (context, data) {
-          final selections = data.$1;
-          final words = data.$2?.values.toList() ?? [];
-
-          return _buildMenu(
-            scrollController: _scrollController,
-            words: words,
-            selections: selections,
-            widget: widget,
-            maya: widget.maya,
-          );
-        },
-      );
-    }
-
-    if (widget.maya == 'DIALECT') {
-      return BlocSelector<
-        DialectBloc,
-        BaseState<Dialect, w.Text, Content, Payload>,
-        (BuiltSet<String>, BuiltMap<String, Dialect>?)
-      >(
-        selector: (state) => (state.selections, state.data),
-        builder: (context, data) {
-          final selections = data.$1;
-          final words = data.$2?.values.toList() ?? [];
-
-          return _buildMenu(
-            scrollController: _scrollController,
-            words: words,
-            selections: selections,
-            widget: widget,
-            maya: 'DIALECT',
-          );
-        },
-      );
-    }
-    return BlocSelector<
-      ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
-      BaseState<Script, w.Text, Content, Payload>
-    >(
-      selector: (state) => state,
-      builder: (context, state) {
-        final selections = state.selections;
-        final words = state.data.values.toList();
-
-        return _buildMenu(
-          scrollController: _scrollController,
-          words: words,
-          selections: selections,
-          widget: widget,
-          maya: 'SCRIPT',
-        );
-      },
-    );
-  }
-}
-
-class _buildMenu extends StatelessWidget {
-  const _buildMenu({
-    required this._scrollController,
-    required this.words,
-    required this.selections,
-    required this.widget,
-    required this.maya,
-  });
-
-  final ScrollController _scrollController;
-  final List<Word> words;
-  final BuiltSet<String> selections;
-  final MenuWidget widget;
-  final String maya;
 
   @override
   Widget build(BuildContext context) {
@@ -154,9 +67,9 @@ class _buildMenu extends StatelessWidget {
                 thumbVisibility: true,
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: words.length,
+                  itemCount: widget.words.length,
                   itemBuilder: (context, index) {
-                    final word = words[index];
+                    final word = widget.words[index];
 
                     final texts = word.texts.toList();
 
@@ -168,10 +81,12 @@ class _buildMenu extends StatelessWidget {
                         ...texts.map(
                           (Identifier identifier) => MenuTextWidget(
                             identifier: identifier,
-                            selected: selections.contains(identifier.sku),
+                            selected: widget.selections.contains(
+                              identifier.sku,
+                            ),
                             maya: widget.maya,
                             onChanged: (selected) async {
-                              if (maya == 'SCRIPT') {
+                              if (widget.maya == 'SCRIPT') {
                                 context.read<ScriptBloc>().add(
                                   BaseEvent.select(
                                     identifier: identifier,
@@ -179,9 +94,11 @@ class _buildMenu extends StatelessWidget {
                                   ),
                                 );
                                 context.read<TranslationBloc>().add(
-                                  BaseEvent.fetch(scripts: selections.toSet()),
+                                  BaseEvent.fetch(
+                                    scripts: widget.selections.toSet(),
+                                  ),
                                 );
-                              } else if (maya == 'DIALECT') {
+                              } else if (widget.maya == 'DIALECT') {
                                 context.read<DialectBloc>().add(
                                   BaseEvent.select(
                                     identifier: identifier,
@@ -226,9 +143,9 @@ class _buildMenu extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      selections.isEmpty
+                      widget.selections.isEmpty
                           ? 'Select'
-                          : '${selections.length} selected',
+                          : '${widget.selections.length} selected',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
