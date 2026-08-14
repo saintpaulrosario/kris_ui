@@ -192,19 +192,23 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                       selections: dialect.selections.toSet(),
                                     ),
 
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        context.read<TranslationBloc>().add(
-                                          BaseEvent.fetch(
-                                            scripts: script.selections.toSet(),
-                                            languages: language.selections
-                                                .toSet(),
-                                            dialects: dialect.selections
-                                                .toSet(),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text("submit"),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          context.read<TranslationBloc>().add(
+                                            BaseEvent.fetch(
+                                              scripts: script.selections
+                                                  .toSet(),
+                                              languages: language.selections
+                                                  .toSet(),
+                                              dialects: dialect.selections
+                                                  .toSet(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text("submit"),
+                                      ),
                                     ),
                                   ],
                                 );
