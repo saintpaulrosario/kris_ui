@@ -45,7 +45,7 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Translation>> retrieveWordBySku({
+  Future<Either<ErrorResponse, Translation>> retrieveWord({
     required Identifier identifier,
   }) async {
     final HttpResponse<ApiResult<Translation>> httpResponse = await _api.fetch(
@@ -71,13 +71,11 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Text>> retrieveTextBySku({
+  Future<Either<ErrorResponse, Text>> retrieveText({
     required Identifier identifier,
-    Set<String>? scripts,
   }) async {
-    final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchForText(
+    final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchText(
       identifier: identifier.sku,
-      scripts: scripts,
     );
     try {
       ApiResult<Text> apiResult = httpResponse.data;
@@ -99,12 +97,11 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Content>> retrieveContentBySku({
+  Future<Either<ErrorResponse, Content>> retrieveContent({
     required Identifier identifier,
-    required Set<String> languages,
   }) async {
     final HttpResponse<ApiResult<Content>> httpResponse = await _api
-        .fetchForContent(identifier: identifier.sku, languages: languages);
+        .fetchContent(identifier: identifier.sku);
     try {
       ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -125,12 +122,11 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Payload>> retrievePayloadBySku({
+  Future<Either<ErrorResponse, Payload>> retrievePayload({
     required Identifier identifier,
-    required Set<String> dialects,
   }) async {
     final HttpResponse<ApiResult<Payload>> httpResponse = await _api
-        .fetchForPayload(identifier: identifier.sku, dialects: dialects);
+        .fetchPayload(identifier: identifier.sku);
     try {
       ApiResult<Payload> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -148,5 +144,32 @@ class TranslationService
     } catch (e) {
       return left(ErrorResponse(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Content>>> retrieveContents({
+    required List<Identifier> identifiers,
+    required Set<String>? languages,
+  }) {
+    // TODO: implement retrieveContents
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
+    required List<Identifier> identifiers,
+    required Set<String>? dialects,
+  }) {
+    // TODO: implement retrievePayloads
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Text>>> retrieveTexts({
+    required List<Identifier> identifiers,
+    required Set<String>? scripts,
+  }) {
+    // TODO: implement retrieveTexts
+    throw UnimplementedError();
   }
 }

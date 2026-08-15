@@ -44,7 +44,7 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Dialect>> retrieveWordBySku({
+  Future<Either<ErrorResponse, Dialect>> retrieveWord({
     required Identifier identifier,
   }) async {
     final HttpResponse<ApiResult<Dialect>> httpResponse = await _api.fetch(
@@ -70,12 +70,10 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Text>> retrieveTextBySku({
+  Future<Either<ErrorResponse, Text>> retrieveText({
     required Identifier identifier,
-    required Set<String> scripts,
   }) async {
-    final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchForText(
-      scripts: scripts,
+    final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchText(
       identifier: identifier.sku,
     );
     try {
@@ -98,12 +96,11 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Content>> retrieveContentBySku({
+  Future<Either<ErrorResponse, Content>> retrieveContent({
     required Identifier identifier,
-    required Set<String> languages,
   }) async {
     final HttpResponse<ApiResult<Content>> httpResponse = await _api
-        .fetchForContent(identifier: identifier.sku, languages: languages);
+        .fetchContent(identifier: identifier.sku);
     try {
       ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -124,12 +121,11 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Payload>> retrievePayloadBySku({
+  Future<Either<ErrorResponse, Payload>> retrievePayload({
     required Identifier identifier,
-    required Set<String> dialects,
   }) async {
     final HttpResponse<ApiResult<Payload>> httpResponse = await _api
-        .fetchForPayload(identifier: identifier.sku, dialects: dialects);
+        .fetchPayload(identifier: identifier.sku);
     try {
       ApiResult<Payload> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -147,5 +143,32 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
     } catch (e) {
       return left(ErrorResponse(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Content>>> retrieveContents({
+    required List<Identifier> identifiers,
+    required Set<String>? languages,
+  }) {
+    // TODO: implement retrieveContents
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
+    required List<Identifier> identifiers,
+    required Set<String>? dialects,
+  }) {
+    // TODO: implement retrievePayloads
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Text>>> retrieveTexts({
+    required List<Identifier> identifiers,
+    required Set<String>? scripts,
+  }) {
+    // TODO: implement retrieveTexts
+    throw UnimplementedError();
   }
 }

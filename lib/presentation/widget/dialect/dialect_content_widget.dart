@@ -20,7 +20,7 @@ class _DialectContentWidgetState extends State<DialectContentWidget> {
   void initState() {
     super.initState();
     context.read<DialectBloc>().add(
-      BaseEvent.contentBySku(identifier: widget.identifier, languages: {}),
+      BaseEvent.content(identifier: widget.identifier),
     );
   }
 

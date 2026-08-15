@@ -30,13 +30,8 @@ class _ContentWidgetState extends State<ContentWidget>
   @override
   void initState() {
     super.initState();
-
-    final languages = context.read<LanguageBloc>().state.selections.toSet();
     context.read<TranslationBloc>().add(
-      BaseEvent.contentBySku(
-        identifier: widget.identifier,
-        languages: languages,
-      ),
+      BaseEvent.content(identifier: widget.identifier),
     );
   }
 
@@ -53,10 +48,7 @@ class _ContentWidgetState extends State<ContentWidget>
 
       listener: (context, state) {
         context.read<TranslationBloc>().add(
-          BaseEvent.contentBySku(
-            identifier: widget.identifier,
-            languages: state.selections.toSet(),
-          ),
+          BaseEvent.content(identifier: widget.identifier),
         );
       },
 
@@ -78,14 +70,14 @@ class _ContentWidgetState extends State<ContentWidget>
                 );
               }
 
-              final content = state.content;
-
-              if (content == null) {
+              if (state.content == null) {
                 return const Padding(
                   padding: EdgeInsets.all(16),
                   child: Text('Content not found'),
                 );
               }
+
+              final content = state.content!;
 
               if (content.payloads.isEmpty) {
                 return const Text('No payload found');

@@ -31,10 +31,8 @@ class _TextWidgetState extends State<TextWidget>
   void initState() {
     super.initState();
 
-    final scripts = context.read<ScriptBloc>().state.selections.toSet();
-
     context.read<TranslationBloc>().add(
-      BaseEvent.textBySku(identifier: widget.identifier, scripts: scripts),
+      BaseEvent.text(identifier: widget.identifier),
     );
   }
 
@@ -50,10 +48,7 @@ class _TextWidgetState extends State<TextWidget>
 
       listener: (context, state) {
         context.read<TranslationBloc>().add(
-          BaseEvent.textBySku(
-            identifier: widget.identifier,
-            scripts: state.selections.toSet(),
-          ),
+          BaseEvent.text(identifier: widget.identifier),
         );
       },
 
@@ -77,11 +72,10 @@ class _TextWidgetState extends State<TextWidget>
                 );
               }
 
-              final text = state.text;
-
-              if (text == null) {
-                return const SizedBox.shrink();
+              if (state.text == null) {
+                return const Text("Text not found");
               }
+              final text = state.text!;
 
               return Card(
                 child: Padding(

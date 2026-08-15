@@ -24,7 +24,7 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
   void initState() {
     super.initState();
     context.read<DialectBloc>().add(
-      BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
+      BaseEvent.text(identifier: widget.identifier),
     );
   }
 

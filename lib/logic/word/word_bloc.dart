@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
@@ -26,22 +24,34 @@ class WordBloc
           await _fetchWords(event, emit);
           break;
 
-        case WordFetchType.bySku:
-          await _fetchWordBySku(event, emit);
+        case WordFetchType.identifier:
+          await _fetchWord(event, emit);
           break;
 
-        case WordFetchType.textBySku:
-          await _fetchTextBySku(event, emit);
+        case WordFetchType.text:
+          await _fetchText(event, emit);
           break;
 
-        case WordFetchType.contentBySku:
-          await _fetchContentBySku(event, emit);
+        case WordFetchType.content:
+          await _fetchContent(event, emit);
           break;
 
-        case WordFetchType.payloadBySku:
-          await _fetchPayloadBySku(event, emit);
+        case WordFetchType.payload:
+          await _fetchPayload(event, emit);
           break;
         case WordFetchType.select:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.texts:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.contents:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.payloads:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.selects:
           // TODO: Handle this case.
           throw UnimplementedError();
       }
@@ -95,7 +105,7 @@ class WordBloc
     );
   }
 
-  Future<void> _fetchWordBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchWord(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -105,9 +115,7 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(
-        identifier: event.identifier,
-      );
+      final results = await _service.retrieveWord(identifier: event.identifier);
 
       results.fold(
         (error) {
@@ -138,7 +146,7 @@ class WordBloc
     }
   }
 
-  Future<void> _fetchTextBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchText(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -148,10 +156,7 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(
-        identifier: event.identifier,
-        scripts: event.scripts,
-      );
+      final results = await _service.retrieveText(identifier: event.identifier);
 
       results.fold(
         (error) {
@@ -182,7 +187,7 @@ class WordBloc
     }
   }
 
-  Future<void> _fetchContentBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchContent(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -192,9 +197,8 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(
+      final results = await _service.retrieveContent(
         identifier: event.identifier,
-        languages: event.languages,
       );
 
       results.fold(
@@ -226,7 +230,7 @@ class WordBloc
     }
   }
 
-  Future<void> _fetchPayloadBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchPayload(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -236,9 +240,8 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(
+      final results = await _service.retrievePayload(
         identifier: event.identifier,
-        dialects: event.dialects,
       );
 
       results.fold(

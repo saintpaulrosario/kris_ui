@@ -2,22 +2,27 @@ import '../model/identifier.dart';
 
 enum WordFetchType {
   page,
-  bySku,
-  textBySku,
-  contentBySku,
-  payloadBySku,
+  identifier,
+  text,
+  texts,
+  content,
+  contents,
+  payload,
+  payloads,
   select,
+  selects,
 }
 
 class BaseEvent {
   final WordFetchType type;
   final Identifier identifier;
+  final List<Identifier> identifiers;
   final int pageNumber;
   final int pageSize;
   final bool selected;
-  final Set<String> scripts;
-  final Set<String> languages;
-  final Set<String> dialects;
+  final Set<String>? scripts;
+  final Set<String>? languages;
+  final Set<String>? dialects;
 
   const BaseEvent._({
     required this.type,
@@ -25,9 +30,10 @@ class BaseEvent {
     required this.pageNumber,
     required this.pageSize,
     required this.selected,
-    required this.scripts,
-    required this.dialects,
-    required this.languages,
+    required this.identifiers,
+    this.scripts,
+    this.dialects,
+    this.languages,
   });
 
   factory BaseEvent.fetch({required int pageNumber, required int pageSize}) {
@@ -40,12 +46,13 @@ class BaseEvent {
       scripts: {},
       dialects: {},
       languages: {},
+      identifiers: [],
     );
   }
 
-  factory BaseEvent.bySku({required Identifier identifier}) {
+  factory BaseEvent.identifier({required Identifier identifier}) {
     return BaseEvent._(
-      type: WordFetchType.bySku,
+      type: WordFetchType.identifier,
       identifier: identifier,
       pageNumber: 0,
       pageSize: 25,
@@ -53,31 +60,61 @@ class BaseEvent {
       scripts: {},
       dialects: {},
       languages: {},
+      identifiers: [],
     );
   }
 
-  factory BaseEvent.textBySku({
-    required Identifier identifier,
-    required Set<String> scripts,
-  }) {
+  factory BaseEvent.text({required Identifier identifier}) {
     return BaseEvent._(
-      type: WordFetchType.textBySku,
+      type: WordFetchType.text,
       identifier: identifier,
-      scripts: scripts,
       pageNumber: 0,
       pageSize: 25,
       selected: false,
       dialects: {},
       languages: {},
+      scripts: {},
+      identifiers: [],
     );
   }
 
-  factory BaseEvent.contentBySku({
+  factory BaseEvent.texts({
+    required List<Identifier> identifiers,
+    Set<String>? scripts,
+  }) {
+    return BaseEvent._(
+      type: WordFetchType.texts,
+      identifiers: identifiers,
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      dialects: {},
+      languages: {},
+      scripts: scripts,
+      identifier: Identifier.initial(),
+    );
+  }
+
+  factory BaseEvent.content({required Identifier identifier}) {
+    return BaseEvent._(
+      type: WordFetchType.content,
+      identifier: identifier,
+      languages: {},
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      scripts: {},
+      dialects: {},
+      identifiers: [],
+    );
+  }
+
+  factory BaseEvent.contents({
     required Identifier identifier,
     required Set<String> languages,
   }) {
     return BaseEvent._(
-      type: WordFetchType.contentBySku,
+      type: WordFetchType.contents,
       identifier: identifier,
       languages: languages,
       pageNumber: 0,
@@ -85,15 +122,30 @@ class BaseEvent {
       selected: false,
       scripts: {},
       dialects: {},
+      identifiers: [],
     );
   }
 
-  factory BaseEvent.payloadBySku({
+  factory BaseEvent.payload({required Identifier identifier}) {
+    return BaseEvent._(
+      type: WordFetchType.payload,
+      identifier: identifier,
+      dialects: {},
+      scripts: {},
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      languages: {},
+      identifiers: [],
+    );
+  }
+
+  factory BaseEvent.payloads({
     required Identifier identifier,
     required Set<String> dialects,
   }) {
     return BaseEvent._(
-      type: WordFetchType.payloadBySku,
+      type: WordFetchType.payloads,
       identifier: identifier,
       dialects: dialects,
       scripts: {},
@@ -101,6 +153,7 @@ class BaseEvent {
       pageSize: 25,
       selected: false,
       languages: {},
+      identifiers: [],
     );
   }
 
@@ -117,6 +170,24 @@ class BaseEvent {
       scripts: {},
       dialects: {},
       languages: {},
+      identifiers: [],
+    );
+  }
+
+  factory BaseEvent.selects({
+    required List<Identifier> identifiers,
+    required bool selected,
+  }) {
+    return BaseEvent._(
+      type: WordFetchType.selects,
+      identifier: Identifier.initial(),
+      selected: selected,
+      pageNumber: 0,
+      pageSize: 25,
+      scripts: {},
+      dialects: {},
+      languages: {},
+      identifiers: identifiers,
     );
   }
 }

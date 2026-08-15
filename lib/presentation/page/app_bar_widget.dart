@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/script.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';

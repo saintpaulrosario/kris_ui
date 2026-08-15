@@ -30,10 +30,8 @@ class _PayloadWidgetState extends State<PayloadWidget>
   void initState() {
     super.initState();
 
-    final dialects = context.read<DialectBloc>().state.selections.toSet();
-
     context.read<TranslationBloc>().add(
-      BaseEvent.payloadBySku(identifier: widget.identifier, dialects: dialects),
+      BaseEvent.payload(identifier: widget.identifier),
     );
   }
 
@@ -50,10 +48,7 @@ class _PayloadWidgetState extends State<PayloadWidget>
 
       listener: (context, state) {
         context.read<TranslationBloc>().add(
-          BaseEvent.payloadBySku(
-            identifier: widget.identifier,
-            dialects: state.selections.toSet(),
-          ),
+          BaseEvent.payload(identifier: widget.identifier),
         );
       },
 

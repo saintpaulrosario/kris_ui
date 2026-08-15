@@ -1,4 +1,3 @@
-import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../response/api_result.dart';
@@ -10,22 +9,28 @@ abstract interface class BaseApi<W, T, C, P> {
     required int size,
   });
 
-  Future<HttpResponse<ApiResult<W>>> fetch({
-   required String identifier
+  Future<HttpResponse<ApiResult<W>>> fetch({required String identifier});
+
+  Future<HttpResponse<ApiResult<T>>> fetchText({required String identifier});
+
+  Future<HttpResponse<ApiResult<List<T>>>> fetchTexts({
+    required List<String> identifiers,
+    Set<String>? scripts,
   });
 
-  Future<HttpResponse<ApiResult<T>>> fetchForText({
-    required String identifier,
-    required Set<String> scripts,
+  Future<HttpResponse<ApiResult<C>>> fetchContent({required String identifier});
+
+  Future<HttpResponse<ApiResult<List<C>>>> fetchContents({
+    required List<String> identifiers,
+    Set<String>? languages,
   });
 
-  Future<HttpResponse<ApiResult<C>>> fetchForContent({
+  Future<HttpResponse<ApiResult<P>>> fetchPayload({
     required String identifier,
-    required Set<String> languages,
   });
 
-  Future<HttpResponse<ApiResult<P>>> fetchForPayload({
-    required String identifier,
-    required Set<String> dialects,
+  Future<HttpResponse<ApiResult<List<P>>>> fetchPayloads({
+    required List<String> identifiers,
+    Set<String>? dialects,
   });
 }

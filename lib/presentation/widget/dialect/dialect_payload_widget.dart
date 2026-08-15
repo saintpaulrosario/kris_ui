@@ -25,7 +25,7 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
   void initState() {
     super.initState();
     context.read<DialectBloc>().add(
-      BaseEvent.payloadBySku(identifier: widget.identifier, dialects: {}),
+      BaseEvent.payload(identifier: widget.identifier),
     );
   }
 

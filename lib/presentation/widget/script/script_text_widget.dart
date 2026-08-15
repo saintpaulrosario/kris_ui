@@ -23,10 +23,8 @@ class _ScriptTextWidgetState extends State<ScriptTextWidget> {
   void initState() {
     super.initState();
 
-    Set<String> scripts = context.watch<ScriptBloc>().state.selections.toSet();
-
     context.read<ScriptBloc>().add(
-      BaseEvent.textBySku(identifier: widget.identifier, scripts: scripts),
+      BaseEvent.text(identifier: widget.identifier),
     );
   }
 

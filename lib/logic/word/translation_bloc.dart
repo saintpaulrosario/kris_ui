@@ -24,22 +24,34 @@ class TranslationBloc
           await _fetchWords(event, emit);
           break;
 
-        case WordFetchType.bySku:
-          await _fetchWordBySku(event, emit);
+        case WordFetchType.identifier:
+          await _fetchWord(event, emit);
           break;
 
-        case WordFetchType.textBySku:
-          await _fetchTextBySku(event, emit);
+        case WordFetchType.text:
+          await _fetchText(event, emit);
           break;
 
-        case WordFetchType.contentBySku:
-          await _fetchContentBySku(event, emit);
+        case WordFetchType.content:
+          await _fetchContent(event, emit);
           break;
 
-        case WordFetchType.payloadBySku:
-          await _fetchPayloadBySku(event, emit);
+        case WordFetchType.payload:
+          await _fetchPayload(event, emit);
           break;
         case WordFetchType.select:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.texts:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.contents:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.payloads:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.selects:
           // TODO: Handle this case.
           throw UnimplementedError();
       }
@@ -57,11 +69,8 @@ class TranslationBloc
       ),
     );
 
-    int? number = event.pageNumber ?? state.pageNumber;
-    int? size = event.pageSize ?? state.pageSize;
-
     final Either<ErrorResponse, PageResult<Translation>> results =
-        await _service.retrieve(page: number, size: size);
+        await _service.retrieve(page: event.pageNumber, size: event.pageSize);
 
     results.match(
       (ErrorResponse error) {
@@ -96,7 +105,7 @@ class TranslationBloc
     );
   }
 
-  Future<void> _fetchWordBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchWord(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -106,9 +115,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(
-        identifier: event.identifier,
-      );
+      final results = await _service.retrieveWord(identifier: event.identifier);
 
       results.fold(
         (error) {
@@ -139,7 +146,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchTextBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchText(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -149,10 +156,7 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(
-        identifier: event.identifier,
-        scripts: event.scripts,
-      );
+      final results = await _service.retrieveText(identifier: event.identifier);
 
       results.fold(
         (error) {
@@ -183,7 +187,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchContentBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchContent(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -193,9 +197,8 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(
+      final results = await _service.retrieveContent(
         identifier: event.identifier,
-        languages: event.languages,
       );
 
       results.fold(
@@ -227,7 +230,7 @@ class TranslationBloc
     }
   }
 
-  Future<void> _fetchPayloadBySku(BaseEvent event, Emitter emit) async {
+  Future<void> _fetchPayload(BaseEvent event, Emitter emit) async {
     if (!state.data.containsKey(event.identifier.sku) &&
         !state.fetching.contains(event.identifier.sku)) {
       emit(
@@ -237,9 +240,8 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(
+      final results = await _service.retrievePayload(
         identifier: event.identifier,
-        dialects: event.dialects,
       );
 
       results.fold(

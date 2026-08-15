@@ -10,22 +10,34 @@ abstract class BaseService<W, T, C, P> {
     required int size,
   });
 
-  Future<Either<ErrorResponse, W>> retrieveWordBySku({
+  Future<Either<ErrorResponse, W>> retrieveWord({
     required Identifier identifier,
   });
 
-  Future<Either<ErrorResponse, T>> retrieveTextBySku({
+  Future<Either<ErrorResponse, T>> retrieveText({
     required Identifier identifier,
-    required Set<String> scripts,
   });
 
-  Future<Either<ErrorResponse, C>> retrieveContentBySku({
+  Future<Either<ErrorResponse, C>> retrieveContent({
     required Identifier identifier,
-    required Set<String> languages,
   });
 
-  Future<Either<ErrorResponse, P>> retrievePayloadBySku({
+  Future<Either<ErrorResponse, P>> retrievePayload({
     required Identifier identifier,
-    required Set<String> dialects,
+  });
+
+  Future<Either<ErrorResponse, List<T>>> retrieveTexts({
+    required List<Identifier> identifiers,
+    required Set<String>? scripts,
+  });
+
+  Future<Either<ErrorResponse, List<C>>> retrieveContents({
+    required List<Identifier> identifiers,
+    required Set<String>? languages,
+  });
+
+  Future<Either<ErrorResponse, List<P>>> retrievePayloads({
+    required List<Identifier> identifiers,
+    required Set<String>? dialects,
   });
 }

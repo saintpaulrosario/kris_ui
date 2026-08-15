@@ -29,7 +29,7 @@ class _ScriptWidgetState extends State<ScriptWidget>
     super.initState();
 
     context.read<ScriptBloc>().add(
-      BaseEvent.bySku(identifier: widget.identifier),
+      BaseEvent.identifier(identifier: widget.identifier),
     );
   }
 

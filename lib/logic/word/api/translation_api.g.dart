@@ -95,15 +95,12 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Text>>> fetchForText({
-    required Set<String>? scripts,
+  Future<HttpResponse<ApiResult<Text>>> fetchText({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'scripts': scripts};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Text>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -131,14 +128,52 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
-    required String identifier,
-    required Set<String> languages,
+  Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
+    Set<String>? scripts,
+    required List<String> identifiers,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'languages': languages};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'scripts': scripts};
     _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Text>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/translation/text/${identifiers}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<List<Text>> _value;
+    try {
+      _value = ApiResult<List<Text>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Text>((i) => Text.fromJson(i as Map<String, dynamic>))
+                  .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<Content>>> fetchContent({
+    required String identifier,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Content>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -166,14 +201,54 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
-    required String identifier,
-    required Set<String> dialects,
+  Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
+    required List<String> identifiers,
+    Set<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'dialects': dialects};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'languages': languages};
     _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/translation/content/${identifiers}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<List<Content>> _value;
+    try {
+      _value = ApiResult<List<Content>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Content>(
+                    (i) => Content.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<Payload>>> fetchPayload({
+    required String identifier,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Payload>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -191,6 +266,48 @@ class _TranslationApi implements TranslationApi {
       _value = ApiResult<Payload>.fromJson(
         _result.data!,
         (json) => Payload.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
+    required List<String> identifiers,
+    Set<String>? dialects,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'dialects': dialects};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Payload>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/translation/payload/${identifiers}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<List<Payload>> _value;
+    try {
+      _value = ApiResult<List<Payload>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Payload>(
+                    (i) => Payload.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
