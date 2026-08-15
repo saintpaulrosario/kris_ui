@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
-import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/model/dialect.dart';
-import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 
 import '../../../logic/base_event.dart';
@@ -27,7 +25,7 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
   void initState() {
     super.initState();
     context.read<DialectBloc>().add(
-      BaseEvent.payloadBySku(identifier: widget.identifier),
+      BaseEvent.payloadBySku(identifier: widget.identifier, dialects: {}),
     );
   }
 

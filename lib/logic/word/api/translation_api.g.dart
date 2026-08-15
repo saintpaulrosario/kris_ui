@@ -25,13 +25,10 @@ class _TranslationApi implements TranslationApi {
   Future<HttpResponse<ApiResult<PageResult<Translation>>>> fetchAll({
     required int page,
     required int size,
-    Set<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page, r'size': size};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'scripts': scripts};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options =
         _setStreamType<HttpResponse<ApiResult<PageResult<Translation>>>>(
@@ -65,7 +62,9 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Translation>>> fetch(String identifier) async {
+  Future<HttpResponse<ApiResult<Translation>>> fetch({
+    required String identifier,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -96,10 +95,15 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(String identifier) async {
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    required Set<String>? scripts,
+    required String identifier,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'scripts': scripts};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Text>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -127,12 +131,14 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    String identifier,
-  ) async {
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    required String identifier,
+    required Set<String> languages,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'languages': languages};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Content>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -160,12 +166,14 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    String identifier,
-  ) async {
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    required String identifier,
+    required Set<String> dialects,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'dialects': dialects};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<Payload>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)

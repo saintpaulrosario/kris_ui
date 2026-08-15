@@ -24,25 +24,28 @@ abstract class WordApi implements BaseApi<Dialect, Text, Content, Payload> {
 
   @override
   @GET("/word/{identifier}")
-  Future<HttpResponse<ApiResult<Dialect>>> fetch(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Dialect>>> fetch({
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/word/text/{identifier}")
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    @Header("scripts") required Set<String> scripts,
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/word/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    @Path("identifier") required String identifier,
+    @Header("languages") required Set<String> languages,
+  });
 
   @override
   @GET("/word/payload/{identifier}")
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    @Path("identifier") required String identifier,
+    @Header("dialects") required Set<String> dialects,
+  });
 }

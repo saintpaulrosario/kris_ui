@@ -61,11 +61,7 @@ class TranslationBloc
     int? size = event.pageSize ?? state.pageSize;
 
     final Either<ErrorResponse, PageResult<Translation>> results =
-        await _service.retrieve(
-          page: number,
-          size: size,
-          scripts: event.scripts,
-        );
+        await _service.retrieve(page: number, size: size);
 
     results.match(
       (ErrorResponse error) {
@@ -110,7 +106,9 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(event.identifier.sku);
+      final results = await _service.retrieveWordBySku(
+        identifier: event.identifier,
+      );
 
       results.fold(
         (error) {
@@ -151,7 +149,10 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(event.identifier.sku);
+      final results = await _service.retrieveTextBySku(
+        identifier: event.identifier,
+        scripts: event.scripts,
+      );
 
       results.fold(
         (error) {
@@ -192,7 +193,10 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(event.identifier.sku);
+      final results = await _service.retrieveContentBySku(
+        identifier: event.identifier,
+        languages: event.languages,
+      );
 
       results.fold(
         (error) {
@@ -233,7 +237,10 @@ class TranslationBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(event.identifier.sku);
+      final results = await _service.retrievePayloadBySku(
+        identifier: event.identifier,
+        dialects: event.dialects,
+      );
 
       results.fold(
         (error) {

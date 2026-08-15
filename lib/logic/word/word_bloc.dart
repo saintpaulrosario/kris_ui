@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
@@ -58,7 +60,7 @@ class WordBloc
     );
 
     final Either<ErrorResponse, PageResult<Word>> results = await _service
-        .retrieve(page: event.pageNumber!, size: event.pageSize!);
+        .retrieve(page: event.pageNumber, size: event.pageSize);
 
     results.match(
       (ErrorResponse error) {
@@ -103,7 +105,9 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveWordBySku(event.identifier.sku);
+      final results = await _service.retrieveWordBySku(
+        identifier: event.identifier,
+      );
 
       results.fold(
         (error) {
@@ -144,7 +148,10 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveTextBySku(event.identifier.sku);
+      final results = await _service.retrieveTextBySku(
+        identifier: event.identifier,
+        scripts: event.scripts,
+      );
 
       results.fold(
         (error) {
@@ -185,7 +192,10 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrieveContentBySku(event.identifier.sku);
+      final results = await _service.retrieveContentBySku(
+        identifier: event.identifier,
+        languages: event.languages,
+      );
 
       results.fold(
         (error) {
@@ -226,7 +236,10 @@ class WordBloc
         ),
       );
 
-      final results = await _service.retrievePayloadBySku(event.identifier.sku);
+      final results = await _service.retrievePayloadBySku(
+        identifier: event.identifier,
+        dialects: event.dialects,
+      );
 
       results.fold(
         (error) {

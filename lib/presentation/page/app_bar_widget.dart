@@ -196,16 +196,16 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: OutlinedButton(
                                         onPressed: () {
-                                          context.read<TranslationBloc>().add(
-                                            BaseEvent.fetch(
-                                              scripts: script.selections
-                                                  .toSet(),
-                                              languages: language.selections
-                                                  .toSet(),
-                                              dialects: dialect.selections
-                                                  .toSet(),
-                                            ),
-                                          );
+                                          // context.read<TranslationBloc>().add(
+                                          //   BaseEvent.fetch(
+                                          //     scripts: script.selections
+                                          //         .toSet(),
+                                          //     languages: language.selections
+                                          //         .toSet(),
+                                          //     dialects: dialect.selections
+                                          //         .toSet(),
+                                          //   ),
+                                          // );
                                         },
                                         child: const Text("submit"),
                                       ),

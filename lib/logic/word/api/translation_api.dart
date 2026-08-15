@@ -20,30 +20,32 @@ abstract class TranslationApi
   Future<HttpResponse<ApiResult<PageResult<Translation>>>> fetchAll({
     @Query("page") required int page,
     @Query("size") required int size,
-    @Header("scripts") Set<String>? scripts,
   });
 
   @override
   @GET("/translation/{identifier}")
-  Future<HttpResponse<ApiResult<Translation>>> fetch(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Translation>>> fetch({
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/translation/text/{identifier}")
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    @Header("scripts") required Set<String>? scripts,
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/translation/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    @Path("identifier") required String identifier,
+    @Header("languages") required Set<String> languages,
+  });
 
   @override
   @GET("/translation/payload/{identifier}")
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    @Path("identifier") required String identifier,
+    @Header("dialects") required Set<String> dialects,
+  });
 }

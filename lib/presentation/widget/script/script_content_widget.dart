@@ -20,7 +20,7 @@ class _ScriptContentWidgetState extends State<ScriptContentWidget> {
   void initState() {
     super.initState();
     context.read<ScriptBloc>().add(
-      BaseEvent.contentBySku(identifier: widget.identifier),
+      BaseEvent.contentBySku(identifier: widget.identifier, languages: {}),
     );
   }
 

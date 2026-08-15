@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/word/api/language_api.dart';
 import 'package:kris/logic/word/service/base_service.dart';
 import 'package:kris/model/content.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
@@ -43,9 +44,11 @@ class LanguageService extends BaseService<Language, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Language>> retrieveWordBySku(String sku) async {
+  Future<Either<ErrorResponse, Language>> retrieveWordBySku({
+    required Identifier identifier,
+  }) async {
     final HttpResponse<ApiResult<Language>> httpResponse = await _api.fetch(
-      sku,
+      identifier: identifier.sku,
     );
     try {
       ApiResult<Language> apiResult = httpResponse.data;
@@ -67,9 +70,13 @@ class LanguageService extends BaseService<Language, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Text>> retrieveTextBySku(String sku) async {
+  Future<Either<ErrorResponse, Text>> retrieveTextBySku({
+    required Identifier identifier,
+    required Set<String> scripts,
+  }) async {
     final HttpResponse<ApiResult<Text>> httpResponse = await _api.fetchForText(
-      sku,
+      identifier: identifier.sku,
+      scripts: scripts,
     );
     try {
       ApiResult<Text> apiResult = httpResponse.data;
@@ -91,11 +98,12 @@ class LanguageService extends BaseService<Language, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Content>> retrieveContentBySku(
-    String sku,
-  ) async {
+  Future<Either<ErrorResponse, Content>> retrieveContentBySku({
+    required Identifier identifier,
+    required Set<String> languages,
+  }) async {
     final HttpResponse<ApiResult<Content>> httpResponse = await _api
-        .fetchForContent(sku);
+        .fetchForContent(identifier: identifier.sku, languages: languages);
     try {
       ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -116,11 +124,12 @@ class LanguageService extends BaseService<Language, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, Payload>> retrievePayloadBySku(
-    String sku,
-  ) async {
+  Future<Either<ErrorResponse, Payload>> retrievePayloadBySku({
+    required Identifier identifier,
+    required Set<String> dialects,
+  }) async {
     final HttpResponse<ApiResult<Payload>> httpResponse = await _api
-        .fetchForPayload(sku);
+        .fetchForPayload(identifier: identifier.sku, dialects: dialects);
     try {
       ApiResult<Payload> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {

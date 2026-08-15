@@ -6,7 +6,6 @@ import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 import 'package:kris/presentation/widget/dialect/dialect_text_list_widget.dart';
 
 import '../../../model/content.dart';

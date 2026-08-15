@@ -24,7 +24,7 @@ class _LanguageTextWidgetState extends State<LanguageTextWidget> {
   void initState() {
     super.initState();
     context.read<LanguageBloc>().add(
-      BaseEvent.textBySku(identifier: widget.identifier),
+      BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
     );
   }
 

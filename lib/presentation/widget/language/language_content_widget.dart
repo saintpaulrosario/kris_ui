@@ -20,7 +20,7 @@ class _LanguageContentWidgetState extends State<LanguageContentWidget> {
   void initState() {
     super.initState();
     context.read<LanguageBloc>().add(
-      BaseEvent.contentBySku(identifier: widget.identifier),
+      BaseEvent.contentBySku(identifier: widget.identifier, languages: {}),
     );
   }
 

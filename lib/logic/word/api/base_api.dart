@@ -1,3 +1,4 @@
+import 'package:kris/model/identifier.dart';
 import 'package:retrofit/dio.dart';
 
 import '../../../response/api_result.dart';
@@ -9,11 +10,22 @@ abstract interface class BaseApi<W, T, C, P> {
     required int size,
   });
 
-  Future<HttpResponse<ApiResult<W>>> fetch(String identifier);
+  Future<HttpResponse<ApiResult<W>>> fetch({
+   required String identifier
+  });
 
-  Future<HttpResponse<ApiResult<T>>> fetchForText(String identifier);
+  Future<HttpResponse<ApiResult<T>>> fetchForText({
+    required String identifier,
+    required Set<String> scripts,
+  });
 
-  Future<HttpResponse<ApiResult<C>>> fetchForContent(String identifier);
+  Future<HttpResponse<ApiResult<C>>> fetchForContent({
+    required String identifier,
+    required Set<String> languages,
+  });
 
-  Future<HttpResponse<ApiResult<P>>> fetchForPayload(String identifier);
+  Future<HttpResponse<ApiResult<P>>> fetchForPayload({
+    required String identifier,
+    required Set<String> dialects,
+  });
 }

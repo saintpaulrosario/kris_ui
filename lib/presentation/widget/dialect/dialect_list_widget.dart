@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/dialect/dialect_text_widget.dart';
 import 'package:kris/presentation/widget/dialect/dialect_widget.dart';
-import 'package:kris/presentation/widget/language/language_widget.dart';
 
 import '../../../model/identifier.dart';
 

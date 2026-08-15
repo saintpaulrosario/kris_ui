@@ -24,25 +24,28 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
 
   @override
   @GET("/script/{identifier}")
-  Future<HttpResponse<ApiResult<Script>>> fetch(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Script>>> fetch({
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/script/text/{identifier}")
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    @Header("scripts") required Set<String> scripts,
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/script/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    @Header("languages") required Set<String> languages,
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/script/payload/{identifier}")
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    @Path("identifier") required String identifier,
+    @Header("dialects") required Set<String> dialects,
+  });
 }

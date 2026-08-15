@@ -24,25 +24,28 @@ abstract class LanguageApi
 
   @override
   @GET("/language/{identifier}")
-  Future<HttpResponse<ApiResult<Language>>> fetch(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Language>>> fetch({
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/language/text/{identifier}")
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    @Path("identifier") required String identifier,
+    @Header("scripts") required Set<String> scripts,
+  });
 
   @override
   @GET("/language/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    @Header("languages") required Set<String> languages,
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/language/payload/{identifier}")
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    @Path("identifier") required String identifier,
+    @Header("dialects") required Set<String> dialects,
+  });
 }

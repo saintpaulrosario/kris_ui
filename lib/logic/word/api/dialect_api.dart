@@ -23,25 +23,28 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
 
   @override
   @GET("/dialect/{identifier}")
-  Future<HttpResponse<ApiResult<Dialect>>> fetch(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Dialect>>> fetch({
+    @Path("identifier") required String identifier,
+  });
 
   @override
   @GET("/dialect/text/{identifier}")
-  Future<HttpResponse<ApiResult<Text>>> fetchForText(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Text>>> fetchForText({
+    @Path("identifier") required String identifier,
+    @Header("scripts") required Set<String> scripts,
+  });
 
   @override
   @GET("/dialect/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchForContent(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Content>>> fetchForContent({
+    @Path("identifier") required String identifier,
+    @Header("languages") required Set<String> languages,
+  });
 
   @override
   @GET("/dialect/payload/{identifier}")
-  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload(
-    @Path("identifier") String identifier,
-  );
+  Future<HttpResponse<ApiResult<Payload>>> fetchForPayload({
+    @Path("identifier") required String identifier,
+    @Header("dialects") required Set<String> dialects,
+  });
 }

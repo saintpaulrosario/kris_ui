@@ -3,12 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
-import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/model/identifier.dart';
 
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/widget/dialect/dialect_content_list_widget.dart';
-import 'package:kris/presentation/widget/language/language_content_list_widget.dart';
 
 import '../../../logic/base_event.dart';
 
@@ -26,7 +24,7 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
   void initState() {
     super.initState();
     context.read<DialectBloc>().add(
-      BaseEvent.textBySku(identifier: widget.identifier),
+      BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
     );
   }
 

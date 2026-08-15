@@ -45,15 +45,15 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
 
     if (widget.maya == 'LANGUAGE') {
       context.read<LanguageBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
+        BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
       );
     } else if (widget.maya == 'DIALECT') {
       context.read<DialectBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
+        BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
       );
     } else {
       context.read<ScriptBloc>().add(
-        BaseEvent.textBySku(identifier: widget.identifier),
+        BaseEvent.textBySku(identifier: widget.identifier, scripts: {}),
       );
     }
   }

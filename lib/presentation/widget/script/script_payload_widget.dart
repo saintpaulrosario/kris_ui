@@ -25,7 +25,7 @@ class _ScriptPayloadWidgetState extends State<ScriptPayloadWidget>
   void initState() {
     super.initState();
     context.read<ScriptBloc>().add(
-      BaseEvent.payloadBySku(identifier: widget.identifier),
+      BaseEvent.payloadBySku(identifier: widget.identifier, dialects: {}),
     );
   }
 
