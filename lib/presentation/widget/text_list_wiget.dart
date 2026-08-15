@@ -60,9 +60,20 @@ class _TextListWidgetState extends State<TextListWidget> {
             ({Set<bool> fetching, Set<w.Text>? texts})
           >(
             selector: (state) {
-              return (fetching: {}, texts: {
-                
-              });
+              return (
+                fetching: {
+                  
+                },
+                texts: state.texts.entries
+                    .where(
+                      (x) => widget.identifiers
+                          .map((i) => i.sku)
+                          .toSet()
+                          .contains(x.key),
+                    )
+                    .map((x) => x.value)
+                    .toSet(),
+              );
             },
             builder: (context, state) {
               if (state.texts!.isEmpty) {
