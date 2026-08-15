@@ -196,33 +196,14 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: OutlinedButton(
                                         onPressed: () {
-                                          Set<String> scripts = {};
-                                          Set<String> languages = {};
-                                          Set<String> dialects = {};
-
-                                          for (var item
-                                              in script.selections.toSet()) {
-                                            var sku = script.texts[item]!.sku;
-                                            scripts.add(sku);
-                                          }
-
-                                          for (var item
-                                              in dialect.selections.toSet()) {
-                                            var sku = dialect.texts[item]!.sku;
-                                            dialects.add(sku);
-                                          }
-
-                                          for (var item
-                                              in language.selections.toSet()) {
-                                            var sku = language.texts[item]!.sku;
-                                            languages.add(sku);
-                                          }
-
                                           context.read<TranslationBloc>().add(
                                             BaseEvent.fetch(
-                                              scripts: scripts,
-                                              languages: languages,
-                                              dialects: dialects,
+                                              scripts: script.selections
+                                                  .toSet(),
+                                              languages: language.selections
+                                                  .toSet(),
+                                              dialects: dialect.selections
+                                                  .toSet(),
                                             ),
                                           );
                                         },

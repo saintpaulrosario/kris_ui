@@ -62,6 +62,16 @@ class _MenuWidgetState extends State<MenuWidget> {
 
                   final texts = word.texts.toList();
 
+                  final Identifier wordIdentifier = Identifier(
+                    sku: word.sku,
+                    ordinal: word.ordinal,
+                    createdDate: word.createdDate,
+                    lastModifiedDate: word.lastModifiedDate,
+                    createdBy: word.createdBy,
+                    lastModifiedBy: word.lastModifiedBy,
+                    version: word.version,
+                  );
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -70,27 +80,29 @@ class _MenuWidgetState extends State<MenuWidget> {
                       ...texts.map((Identifier identifier) {
                         return MenuTextWidget(
                           identifier: identifier,
-                          selected: widget.selections.contains(identifier.sku),
+                          selected: widget.selections.contains(
+                            wordIdentifier.sku,
+                          ),
                           maya: widget.maya,
                           onChanged: (selected) {
                             if (widget.maya == 'SCRIPT') {
                               context.read<ScriptBloc>().add(
                                 BaseEvent.select(
-                                  identifier: identifier,
+                                  identifier: wordIdentifier,
                                   selected: selected,
                                 ),
                               );
                             } else if (widget.maya == 'DIALECT') {
                               context.read<DialectBloc>().add(
                                 BaseEvent.select(
-                                  identifier: identifier,
+                                  identifier: wordIdentifier,
                                   selected: selected,
                                 ),
                               );
                             } else {
                               context.read<LanguageBloc>().add(
                                 BaseEvent.select(
-                                  identifier: identifier,
+                                  identifier: wordIdentifier,
                                   selected: selected,
                                 ),
                               );
