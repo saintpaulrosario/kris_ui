@@ -71,7 +71,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                     lastModifiedBy: word.lastModifiedBy,
                     version: word.version,
                   );
-
+                  // todo send word as selected
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -53,14 +53,12 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
           return const Text("Payload was not fetched");
         }
 
-        return Expanded(
-          child: Text(
-            state.payload!.value,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            key: ValueKey(state.payload!.sku),
-          ),
+        return Text(
+          state.payload!.value,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          key: ValueKey(state.payload!.sku),
         );
       },
     );
