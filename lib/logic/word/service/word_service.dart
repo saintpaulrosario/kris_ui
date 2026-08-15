@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/word/api/word_api.dart';
@@ -148,7 +150,7 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
   @override
   Future<Either<ErrorResponse, List<Content>>> retrieveContents({
     required List<Identifier> identifiers,
-    required Set<String>? languages,
+    required List<String>? languages,
   }) {
     // TODO: implement retrieveContents
     throw UnimplementedError();
@@ -157,7 +159,7 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
   @override
   Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
     required List<Identifier> identifiers,
-    required Set<String>? dialects,
+    required List<String>? dialects,
   }) {
     // TODO: implement retrievePayloads
     throw UnimplementedError();
@@ -166,9 +168,27 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
   @override
   Future<Either<ErrorResponse, List<Text>>> retrieveTexts({
     required List<Identifier> identifiers,
-    required Set<String>? scripts,
-  }) {
-    // TODO: implement retrieveTexts
-    throw UnimplementedError();
+    required List<String>? scripts,
+  }) async {
+    List<String> skus = identifiers.map((x) => x.sku).toList();
+    final HttpResponse<ApiResult<List<Text>>> httpResponse = await _api
+        .fetchTexts(identifiers: skus, scripts: scripts);
+    try {
+      ApiResult<List<Text>> apiResult = httpResponse.data;
+      if (HttpStatus.ok == httpResponse.response.statusCode) {
+        final List<Text> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
   }
 }

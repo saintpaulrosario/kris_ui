@@ -43,8 +43,8 @@ class WordBloc
           // TODO: Handle this case.
           throw UnimplementedError();
         case WordFetchType.texts:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _fetchTexts(event, emit);
+          break;
         case WordFetchType.contents:
           // TODO: Handle this case.
           throw UnimplementedError();
@@ -185,6 +185,54 @@ class WordBloc
         },
       );
     }
+  }
+
+  Future<void> _fetchTexts(BaseEvent event, Emitter emit) async {
+    emit(
+      state.copyWith(
+        fetching:
+            (state.fetching.toBuilder()
+                  ..addAll(event.identifiers.map((x) => x.sku)))
+                .build(),
+      ),
+    );
+
+    final results = await _service.retrieveTexts(
+      identifiers: event.identifiers,
+      scripts: event.scripts,
+    );
+
+    results.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                .build(),
+            fetching:
+                (state.fetching.toBuilder()
+                      ..removeAll(event.identifiers.map((x) => x.sku)))
+                    .build(),
+          ),
+        );
+      },
+      (List<Text> texts) {
+        final data = state.texts.toBuilder();
+
+        for (final text in texts) {
+          data[text.sku] = text;
+        }
+
+        emit(
+          state.copyWith(
+            texts: data.build(),
+            fetching:
+                (state.fetching.toBuilder()
+                      ..removeAll(event.identifiers.map((x) => x.sku)))
+                    .build(),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> _fetchContent(BaseEvent event, Emitter emit) async {

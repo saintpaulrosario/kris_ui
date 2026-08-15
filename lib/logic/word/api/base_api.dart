@@ -15,14 +15,14 @@ abstract interface class BaseApi<W, T, C, P> {
 
   Future<HttpResponse<ApiResult<List<T>>>> fetchTexts({
     required List<String> identifiers,
-    Set<String>? scripts,
+    List<String>? scripts,
   });
 
   Future<HttpResponse<ApiResult<C>>> fetchContent({required String identifier});
 
   Future<HttpResponse<ApiResult<List<C>>>> fetchContents({
     required List<String> identifiers,
-    Set<String>? languages,
+    List<String>? languages,
   });
 
   Future<HttpResponse<ApiResult<P>>> fetchPayload({
@@ -31,6 +31,6 @@ abstract interface class BaseApi<W, T, C, P> {
 
   Future<HttpResponse<ApiResult<List<P>>>> fetchPayloads({
     required List<String> identifiers,
-    Set<String>? dialects,
+    List<String>? dialects,
   });
 }

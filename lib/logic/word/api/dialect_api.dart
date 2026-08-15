@@ -37,7 +37,7 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
   @GET("/dialect/text/{identifier}")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     @Path("identifier") required List<String> identifiers,
-    @Header("scripts") Set<String>? scripts,
+    @Query("scripts") List<String>? scripts,
   });
 
   @override
@@ -50,7 +50,7 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
   @GET("/dialect/content/{identifier}")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     @Path("identifier") required List<String> identifiers,
-    @Header("languages") Set<String>? languages,
+    @Query("languages") List<String>? languages,
   });
 
   @override
@@ -63,6 +63,6 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
   @GET("/dialect/payload/{identifier}")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     @Path("identifier") required List<String> identifiers,
-    @Header("dialects") Set<String>? dialects,
+    @Query("dialects") List<String>? dialects,
   });
 }

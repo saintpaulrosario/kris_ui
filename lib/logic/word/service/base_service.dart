@@ -28,16 +28,16 @@ abstract class BaseService<W, T, C, P> {
 
   Future<Either<ErrorResponse, List<T>>> retrieveTexts({
     required List<Identifier> identifiers,
-    required Set<String>? scripts,
+    required List<String>? scripts,
   });
 
   Future<Either<ErrorResponse, List<C>>> retrieveContents({
     required List<Identifier> identifiers,
-    required Set<String>? languages,
+    required List<String>? languages,
   });
 
   Future<Either<ErrorResponse, List<P>>> retrievePayloads({
     required List<Identifier> identifiers,
-    required Set<String>? dialects,
+    required List<String>? dialects,
   });
 }

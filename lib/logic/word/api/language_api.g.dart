@@ -130,13 +130,12 @@ class _LanguageApi implements LanguageApi {
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     required List<String> identifiers,
-    Set<String>? scripts,
+    List<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'scripts': scripts};
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'scripts': scripts};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Text>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -202,14 +201,13 @@ class _LanguageApi implements LanguageApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    Set<String>? languages,
+    List<String>? languages,
     required List<String> identifiers,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'languages': languages};
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'languages': languages};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
@@ -278,13 +276,12 @@ class _LanguageApi implements LanguageApi {
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     required List<String> identifiers,
-    Set<String>? dialects,
+    List<String>? dialects,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'dialects': dialects};
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'dialects': dialects};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Payload>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)

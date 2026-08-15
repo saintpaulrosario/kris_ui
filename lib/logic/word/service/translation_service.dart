@@ -149,7 +149,7 @@ class TranslationService
   @override
   Future<Either<ErrorResponse, List<Content>>> retrieveContents({
     required List<Identifier> identifiers,
-    required Set<String>? languages,
+    required List<String>? languages,
   }) {
     // TODO: implement retrieveContents
     throw UnimplementedError();
@@ -158,7 +158,7 @@ class TranslationService
   @override
   Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
     required List<Identifier> identifiers,
-    required Set<String>? dialects,
+    required List<String>? dialects,
   }) {
     // TODO: implement retrievePayloads
     throw UnimplementedError();
@@ -167,7 +167,7 @@ class TranslationService
   @override
   Future<Either<ErrorResponse, List<Text>>> retrieveTexts({
     required List<Identifier> identifiers,
-    required Set<String>? scripts,
+    required List<String>? scripts,
   }) {
     // TODO: implement retrieveTexts
     throw UnimplementedError();

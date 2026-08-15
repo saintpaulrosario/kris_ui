@@ -38,7 +38,7 @@ abstract class LanguageApi
   @GET("/language/text/{identifier}")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     @Path("identifier") required List<String> identifiers,
-    @Header("scripts") Set<String>? scripts,
+    @Query("scripts") List<String>? scripts,
   });
 
   @override
@@ -50,7 +50,7 @@ abstract class LanguageApi
   @override
   @GET("/language/content/{identifier}")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Header("languages") Set<String>? languages,
+    @Query("languages") List<String>? languages,
     @Path("identifier") required List<String> identifiers,
   });
 
@@ -64,6 +64,6 @@ abstract class LanguageApi
   @GET("/language/payload/{identifier}")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     @Path("identifier") required List<String> identifiers,
-    @Header("dialects") Set<String>? dialects,
+    @Query("dialects") List<String>? dialects,
   });
 }

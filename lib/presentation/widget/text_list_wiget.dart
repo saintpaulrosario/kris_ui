@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' show Divider;
+import 'package:flutter/material.dart' show CircularProgressIndicator, Divider;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
@@ -28,8 +28,10 @@ class _TextListWidgetState extends State<TextListWidget> {
   @override
   void initState() {
     super.initState();
-    Set<String> scripts = context.read<ScriptBloc>().state.selections.toSet();
-    context.read<TranslationBloc>().add(
+
+    final scripts = context.read<ScriptBloc>().state.selections.toList();
+
+    context.read<WordBloc>().add(
       BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
     );
   }
@@ -40,15 +42,11 @@ class _TextListWidgetState extends State<TextListWidget> {
       ScriptBloc,
       BaseState<Script, w.Text, Content, Payload>
     >(
-      listenWhen: (previous, current) {
-        return previous.selections != current.selections;
-      },
+      listenWhen: (previous, current) =>
+          previous.selections != current.selections,
       listener: (context, state) {
-        Set<String> scripts = context
-            .read<ScriptBloc>()
-            .state
-            .selections
-            .toSet();
+        final scripts = state.selections.toList();
+
         context.read<WordBloc>().add(
           BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
         );
@@ -57,43 +55,43 @@ class _TextListWidgetState extends State<TextListWidget> {
           BlocSelector<
             WordBloc,
             BaseState<Word, w.Text, Content, Payload>,
-            ({Set<bool> fetching, Set<w.Text>? texts})
+            ({Set<String> fetching, Map<String, w.Text> texts})
           >(
             selector: (state) {
+              final identifiers = widget.identifiers.map((x) => x.sku).toSet();
+
               return (
-                fetching: {
-                  
-                },
-                texts: state.texts.entries
-                    .where(
-                      (x) => widget.identifiers
-                          .map((i) => i.sku)
-                          .toSet()
-                          .contains(x.key),
-                    )
-                    .map((x) => x.value)
-                    .toSet(),
+                fetching: state.fetching.where(identifiers.contains).toSet(),
+
+                texts: Map.fromEntries(
+                  state.texts.entries.where(
+                    (entry) => identifiers.contains(entry.key),
+                  ),
+                ),
               );
             },
             builder: (context, state) {
-              if (state.texts!.isEmpty) {
-                return Text("texts empty");
-              }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.texts!.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final text = state.texts!.elementAt(index);
-                      return TextWidget(text: text);
-                    },
-                  ),
-                ],
+              return ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: widget.identifiers.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final identifier = widget.identifiers[index];
+                  final text = state.texts[identifier.sku];
+
+                  if (state.fetching.contains(identifier.sku)) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  if (text == null) {
+                    return const SizedBox.shrink();
+                  }
+
+                  return Text(text.sku);
+
+                  // return TextWidget(text: text);
+                },
               );
             },
           ),

@@ -129,7 +129,7 @@ class _TranslationApi implements TranslationApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    Set<String>? scripts,
+    List<String>? scripts,
     required List<String> identifiers,
   }) async {
     final _extra = <String, dynamic>{};
@@ -203,7 +203,7 @@ class _TranslationApi implements TranslationApi {
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     required List<String> identifiers,
-    Set<String>? languages,
+    List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -278,7 +278,7 @@ class _TranslationApi implements TranslationApi {
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     required List<String> identifiers,
-    Set<String>? dialects,
+    List<String>? dialects,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -37,7 +37,7 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   @override
   @GET("/script/text/{identifier}")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    @Header("scripts") Set<String>? scripts,
+    @Header("scripts") List<String>? scripts,
     @Path("identifier") required List<String> identifiers,
   });
 
@@ -50,7 +50,7 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   @override
   @GET("/script/content/{identifier}")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Header("languages") Set<String>? languages,
+    @Header("languages") List<String>? languages,
     @Path("identifier") required List<String> identifiers,
   });
 
@@ -64,6 +64,6 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   @GET("/script/payload/{identifier}")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     @Path("identifier") required List<String> identifiers,
-    @Header("dialects") Set<String>? dialects,
+    @Header("dialects") List<String>? dialects,
   });
 }

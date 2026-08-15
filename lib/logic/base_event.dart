@@ -20,9 +20,9 @@ class BaseEvent {
   final int pageNumber;
   final int pageSize;
   final bool selected;
-  final Set<String>? scripts;
-  final Set<String>? languages;
-  final Set<String>? dialects;
+  final List<String>? scripts;
+  final List<String>? languages;
+  final List<String>? dialects;
 
   const BaseEvent._({
     required this.type,
@@ -43,9 +43,9 @@ class BaseEvent {
       pageSize: pageSize,
       identifier: Identifier.initial(),
       selected: false,
-      scripts: {},
-      dialects: {},
-      languages: {},
+      scripts: [],
+      dialects: [],
+      languages: [],
       identifiers: [],
     );
   }
@@ -57,9 +57,9 @@ class BaseEvent {
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      scripts: {},
-      dialects: {},
-      languages: {},
+      scripts: [],
+      dialects: [],
+      languages: [],
       identifiers: [],
     );
   }
@@ -71,16 +71,16 @@ class BaseEvent {
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      dialects: {},
-      languages: {},
-      scripts: {},
+      dialects: [],
+      languages: [],
+      scripts: [],
       identifiers: [],
     );
   }
 
   factory BaseEvent.texts({
     required List<Identifier> identifiers,
-    Set<String>? scripts,
+    List<String>? scripts,
   }) {
     return BaseEvent._(
       type: WordFetchType.texts,
@@ -88,8 +88,8 @@ class BaseEvent {
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      dialects: {},
-      languages: {},
+      dialects: [],
+      languages: [],
       scripts: scripts,
       identifier: Identifier.initial(),
     );
@@ -99,19 +99,19 @@ class BaseEvent {
     return BaseEvent._(
       type: WordFetchType.content,
       identifier: identifier,
-      languages: {},
+      languages: [],
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      scripts: {},
-      dialects: {},
+      scripts: [],
+      dialects: [],
       identifiers: [],
     );
   }
 
   factory BaseEvent.contents({
     required Identifier identifier,
-    required Set<String> languages,
+    required List<String> languages,
   }) {
     return BaseEvent._(
       type: WordFetchType.contents,
@@ -120,8 +120,8 @@ class BaseEvent {
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      scripts: {},
-      dialects: {},
+      scripts: [],
+      dialects: [],
       identifiers: [],
     );
   }
@@ -130,29 +130,29 @@ class BaseEvent {
     return BaseEvent._(
       type: WordFetchType.payload,
       identifier: identifier,
-      dialects: {},
-      scripts: {},
+      dialects: [],
+      scripts: [],
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      languages: {},
+      languages: [],
       identifiers: [],
     );
   }
 
   factory BaseEvent.payloads({
     required Identifier identifier,
-    required Set<String> dialects,
+    required List<String> dialects,
   }) {
     return BaseEvent._(
       type: WordFetchType.payloads,
       identifier: identifier,
       dialects: dialects,
-      scripts: {},
+      scripts: [],
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      languages: {},
+      languages: [],
       identifiers: [],
     );
   }
@@ -167,9 +167,9 @@ class BaseEvent {
       selected: selected,
       pageNumber: 0,
       pageSize: 25,
-      scripts: {},
-      dialects: {},
-      languages: {},
+      scripts: [],
+      dialects: [],
+      languages: [],
       identifiers: [],
     );
   }
@@ -184,9 +184,9 @@ class BaseEvent {
       selected: selected,
       pageNumber: 0,
       pageSize: 25,
-      scripts: {},
-      dialects: {},
-      languages: {},
+      scripts: [],
+      dialects: [],
+      languages: [],
       identifiers: identifiers,
     );
   }
