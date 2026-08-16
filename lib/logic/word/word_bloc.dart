@@ -191,6 +191,7 @@ class WordBloc
   Future<void> _fetchTexts(BaseEvent event, Emitter emit) async {
     emit(
       state.copyWith(
+        data: state.data,
         fetching:
             (state.fetching.toBuilder()
                   ..addAll(event.identifiers.map((x) => x.sku)))
@@ -218,7 +219,7 @@ class WordBloc
       },
       (List<Text> texts) {
         final data = state.texts.toBuilder();
-
+        // data.clear();
         for (final text in texts) {
           data[text.sku] = text;
         }

@@ -7,6 +7,8 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/presentation/widget/script/script_payload_list_widget.dart';
 
+import 'script_payload_widget.dart';
+
 class ScriptContentWidget extends StatefulWidget {
   final Identifier identifier;
   const ScriptContentWidget({super.key, required this.identifier});
@@ -45,7 +47,7 @@ class _ScriptContentWidgetState extends State<ScriptContentWidget> {
           return Text("content not found");
         }
 
-        return ScriptPayloadListWidget(identifiers: state.content!.payloads);
+        return ScriptPayloadWidget(identifier: state.content!.payloads.first);
       },
     );
   }

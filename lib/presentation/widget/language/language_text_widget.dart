@@ -9,6 +9,7 @@ import 'package:kris/model/text.dart' as w;
 import 'package:kris/presentation/widget/language/language_content_list_widget.dart';
 
 import '../../../logic/base_event.dart';
+import 'language_content_widget.dart';
 
 class LanguageTextWidget extends StatefulWidget {
   final Identifier identifier;
@@ -55,7 +56,7 @@ class _LanguageTextWidgetState extends State<LanguageTextWidget> {
           return const SizedBox.shrink();
         }
 
-        return LanguageContentListWidget(identifiers: state.text!.contents);
+        return LanguageContentWidget(identifier: state.text!.contents.first);
       },
     );
   }

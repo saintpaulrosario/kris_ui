@@ -6,6 +6,7 @@ import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/presentation/widget/dialect/dialect_payload_list_widget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_payload_widget.dart';
 
 class DialectContentWidget extends StatefulWidget {
   final Identifier identifier;
@@ -45,7 +46,7 @@ class _DialectContentWidgetState extends State<DialectContentWidget> {
           return Text("no content");
         }
 
-        return DialectPayloadListWidget(identifiers: state.content!.payloads);
+        return DialectPayloadWidget(identifier: state.content!.payloads.first);
       },
     );
   }

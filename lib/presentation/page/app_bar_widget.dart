@@ -157,23 +157,23 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                       selections: script.selections.toSet(),
                                     ),
 
-                                    // const SizedBox(width: 10),
+                                    const SizedBox(width: 10),
 
-                                    // MenuWidget(
-                                    //   maya: 'LANGUAGE',
-                                    //   label: 'language',
-                                    //   words: language.data.values.toList(),
-                                    //   selections: language.selections.toSet(),
-                                    // ),
-                                    // const SizedBox(width: 10),
+                                    MenuWidget(
+                                      maya: 'LANGUAGE',
+                                      label: 'language',
+                                      words: language.data.values.toList(),
+                                      selections: language.selections.toSet(),
+                                    ),
+                                    const SizedBox(width: 10),
 
-                                    // MenuWidget(
-                                    //   maya: 'DIALECT',
-                                    //   label: 'dialect',
-                                    //   words: dialect.data.values.toList(),
-                                    //   selections: dialect.selections.toSet(),
-                                    // ),
-                                    //const SizedBox(width: 10),
+                                    MenuWidget(
+                                      maya: 'DIALECT',
+                                      label: 'dialect',
+                                      words: dialect.data.values.toList(),
+                                      selections: dialect.selections.toSet(),
+                                    ),
+                                    const SizedBox(width: 10),
                                     Padding(
                                       padding: const EdgeInsets.all(8),
                                       child: OutlinedButton(

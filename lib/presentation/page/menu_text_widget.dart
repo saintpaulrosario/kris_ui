@@ -171,14 +171,13 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final identifier in text.contents)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: ScriptContentWidget(
-                          key: ValueKey(identifier.sku),
-                          identifier: identifier,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: ScriptContentWidget(
+                        key: ValueKey(text.contents.first.sku),
+                        identifier: text.contents.first,
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -188,14 +187,13 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final identifier in text.contents)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: LanguageContentWidget(
-                          key: ValueKey(identifier.sku),
-                          identifier: identifier,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: LanguageContentWidget(
+                        key: ValueKey(text.contents.first.sku),
+                        identifier: text.contents.first,
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -205,14 +203,13 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final identifier in text.contents)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: DialectContentWidget(
-                          key: ValueKey(identifier.sku),
-                          identifier: identifier,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: DialectContentWidget(
+                        key: ValueKey(text.contents.first.sku),
+                        identifier: text.contents.first,
                       ),
+                    ),
                   ],
                 ),
               ),
