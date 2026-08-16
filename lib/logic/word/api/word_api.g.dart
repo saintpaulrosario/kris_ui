@@ -130,7 +130,7 @@ class _WordApi implements WordApi {
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     List<String>? scripts,
-    required List<String> identifiers,
+    List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -204,7 +204,7 @@ class _WordApi implements WordApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? scripts,
     List<String>? languages,
   }) async {
@@ -283,13 +283,17 @@ class _WordApi implements WordApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? dialects,
+    List<String>? scripts,
+    List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'identifiers': identifiers,
       r'dialects': dialects,
+      r'scripts': scripts,
+      r'languages': languages,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -298,7 +302,7 @@ class _WordApi implements WordApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload/{identifier}',
+            '/word/payload',
             queryParameters: queryParameters,
             data: _data,
           )

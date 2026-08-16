@@ -40,5 +40,7 @@ abstract class BaseService<W, T, C, P> {
   Future<Either<ErrorResponse, List<P>>> retrievePayloads({
     required List<Identifier> identifiers,
     required List<String>? dialects,
+    required List<String>? scripts,
+    required List<String>? languages,
   });
 }

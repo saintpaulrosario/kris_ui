@@ -129,7 +129,7 @@ class _LanguageApi implements LanguageApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
@@ -141,7 +141,7 @@ class _LanguageApi implements LanguageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/language/text/${identifiers}',
+            '/language/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -202,7 +202,7 @@ class _LanguageApi implements LanguageApi {
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     List<String>? languages,
-    required List<String> identifiers,
+    List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'languages': languages};
@@ -213,7 +213,7 @@ class _LanguageApi implements LanguageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/language/content/${identifiers}',
+            '/language/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -275,11 +275,17 @@ class _LanguageApi implements LanguageApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? dialects,
+    List<String>? scripts,
+    List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'dialects': dialects};
+    final queryParameters = <String, dynamic>{
+      r'dialects': dialects,
+      r'scripts': scripts,
+      r'languages': languages,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -287,7 +293,7 @@ class _LanguageApi implements LanguageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/language/payload/${identifiers}',
+            '/language/payload',
             queryParameters: queryParameters,
             data: _data,
           )

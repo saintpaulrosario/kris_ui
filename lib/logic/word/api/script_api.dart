@@ -35,10 +35,10 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   });
 
   @override
-  @GET("/script/text/{identifier}")
+  @GET("/script/text")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    @Header("scripts") List<String>? scripts,
-    @Path("identifier") required List<String> identifiers,
+    @Query("scripts") List<String>? scripts,
+    @Query("identifier") List<String>? identifiers,
   });
 
   @override
@@ -48,10 +48,11 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   });
 
   @override
-  @GET("/script/content/{identifier}")
+  @GET("/script/content")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Header("languages") List<String>? languages,
-    @Path("identifier") required List<String> identifiers,
+    @Query("languages") List<String>? languages,
+    @Query("scripts") List<String>? scripts,
+    @Query("identifiers") List<String>? identifiers,
   });
 
   @override
@@ -61,9 +62,11 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   });
 
   @override
-  @GET("/script/payload/{identifier}")
+  @GET("/script/payload")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    @Path("identifier") required List<String> identifiers,
-    @Header("dialects") List<String>? dialects,
+    @Query("identifier", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+    @Query("scripts", encoded: true) List<String>? scripts,
+    @Query("languages", encoded: true) List<String>? languages,
   });
 }

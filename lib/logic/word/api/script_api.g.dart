@@ -130,19 +130,21 @@ class _ScriptApi implements ScriptApi {
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     List<String>? scripts,
-    required List<String> identifiers,
+    List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'scripts': scripts,
+      r'identifier': identifiers,
+    };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'scripts': scripts};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Text>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/script/text/${identifiers}',
+            '/script/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -203,19 +205,23 @@ class _ScriptApi implements ScriptApi {
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     List<String>? languages,
-    required List<String> identifiers,
+    List<String>? scripts,
+    List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'languages': languages,
+      r'scripts': scripts,
+      r'identifiers': identifiers,
+    };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'languages': languages};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/script/content/${identifiers}',
+            '/script/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -277,20 +283,26 @@ class _ScriptApi implements ScriptApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? dialects,
+    List<String>? scripts,
+    List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'identifier': identifiers,
+      r'dialects': dialects,
+      r'scripts': scripts,
+      r'languages': languages,
+    };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'dialects': dialects};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<ApiResult<List<Payload>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/script/payload/${identifiers}',
+            '/script/payload',
             queryParameters: queryParameters,
             data: _data,
           )

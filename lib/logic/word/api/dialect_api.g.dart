@@ -129,11 +129,14 @@ class _DialectApi implements DialectApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'scripts': scripts};
+    final queryParameters = <String, dynamic>{
+      r'identifier': identifiers,
+      r'scripts': scripts,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -141,7 +144,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/text/${identifiers}',
+            '/dialect/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -201,7 +204,7 @@ class _DialectApi implements DialectApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
@@ -213,7 +216,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/content/${identifiers}',
+            '/dialect/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -275,11 +278,18 @@ class _DialectApi implements DialectApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    required List<String> identifiers,
+    List<String>? identifiers,
     List<String>? dialects,
+    List<String>? scripts,
+    List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'dialects': dialects};
+    final queryParameters = <String, dynamic>{
+      r'identifier': identifiers,
+      r'dialects': dialects,
+      r'scripts': scripts,
+      r'languages': languages,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -287,7 +297,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/payload/${identifiers}',
+            '/dialect/payload',
             queryParameters: queryParameters,
             data: _data,
           )

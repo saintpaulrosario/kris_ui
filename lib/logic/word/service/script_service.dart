@@ -146,15 +146,6 @@ class ScriptService extends BaseService<Script, Text, Content, Payload> {
   }
 
   @override
-  Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
-    required List<Identifier> identifiers,
-    required List<String>? dialects,
-  }) {
-    // TODO: implement retrievePayloads
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either<ErrorResponse, List<Text>>> retrieveTexts({
     required List<Identifier> identifiers,
     required List<String>? scripts,
@@ -170,6 +161,17 @@ class ScriptService extends BaseService<Script, Text, Content, Payload> {
     required List<String>? languages,
   }) {
     // TODO: implement retrieveContents
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
+    required List<Identifier> identifiers,
+    required List<String>? dialects,
+    required List<String>? scripts,
+    required List<String>? languages,
+  }) {
+    // TODO: implement retrievePayloads
     throw UnimplementedError();
   }
 }

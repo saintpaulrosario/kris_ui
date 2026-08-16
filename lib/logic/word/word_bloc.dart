@@ -51,8 +51,7 @@ class WordBloc
           await _fetchContents(event, emit);
           break;
         case WordFetchType.payloads:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _fetchPayloads(event, emit);
         case WordFetchType.selects:
           // TODO: Handle this case.
           throw UnimplementedError();
@@ -365,5 +364,50 @@ class WordBloc
         },
       );
     }
+  }
+
+  Future<void> _fetchPayloads(BaseEvent event, Emitter emit) async {
+    final skus = event.identifiers.map((x) => x.sku).toList();
+
+    emit(
+      state.copyWith(
+        fetching: (state.fetching.toBuilder()..addAll(skus)).build(),
+      ),
+    );
+
+    final results = await _service.retrievePayloads(
+      identifiers: event.identifiers,
+      scripts: event.scripts,
+      languages: event.languages,
+      dialects: event.dialects,
+    );
+
+    results.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            errors:
+                (state.errors.toBuilder()
+                      ..addAll({for (final sku in skus) sku: error}))
+                    .build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+          ),
+        );
+      },
+      (List<Payload> payloads) {
+        final data = state.payloads.toBuilder();
+
+        for (final payload in payloads) {
+          data[payload.sku] = payload;
+        }
+
+        emit(
+          state.copyWith(
+            payloads: data.build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+          ),
+        );
+      },
+    );
   }
 }

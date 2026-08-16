@@ -18,11 +18,13 @@ class TextWidget extends StatelessWidget {
         child: Row(
           children: [
             Expanded(child: ContentListWidget(identifiers: text.contents)),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: ScriptWidget(
-                key: ValueKey(text.script.sku),
-                identifier: text.script,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: ScriptWidget(
+                  key: ValueKey(text.script.sku),
+                  identifier: text.script,
+                ),
               ),
             ),
           ],

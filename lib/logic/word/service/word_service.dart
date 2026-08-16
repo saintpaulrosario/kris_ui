@@ -182,10 +182,34 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
   @override
   Future<Either<ErrorResponse, List<Payload>>> retrievePayloads({
     required List<Identifier> identifiers,
+    required List<String>? scripts,
+    required List<String>? languages,
     required List<String>? dialects,
-  }) {
-    // TODO: implement retrievePayloads
-    throw UnimplementedError();
+  }) async {
+    try {
+      List<String> skus = identifiers.map((x) => x.sku).toList();
+      final HttpResponse<ApiResult<List<Payload>>> httpResponse = await _api
+          .fetchPayloads(
+            identifiers: skus,
+            scripts: scripts,
+            languages: languages,
+          );
+      ApiResult<List<Payload>> apiResult = httpResponse.data;
+      if (HttpStatus.ok == httpResponse.response.statusCode) {
+        final List<Payload> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
   }
 
   @override

@@ -142,19 +142,21 @@ class BaseEvent {
   }
 
   factory BaseEvent.payloads({
-    required Identifier identifier,
+    required List<Identifier> identifiers,
     required List<String> dialects,
+    required List<String> scripts,
+    required List<String> languages,
   }) {
     return BaseEvent._(
       type: WordFetchType.payloads,
-      identifier: identifier,
+      identifier: Identifier.initial(),
       dialects: dialects,
-      scripts: [],
+      scripts: scripts,
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      languages: [],
-      identifiers: [],
+      languages: languages,
+      identifiers: identifiers,
     );
   }
 
