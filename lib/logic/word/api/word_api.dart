@@ -38,7 +38,7 @@ abstract class WordApi implements BaseApi<Dialect, Text, Content, Payload> {
   @GET("/word/text")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     @Query("scripts", encoded: true) List<String>? scripts,
-    @Query("identifiers") required List<String> identifiers,
+    @Query("identifiers", encoded: true) required List<String> identifiers,
   });
 
   @override
@@ -48,10 +48,10 @@ abstract class WordApi implements BaseApi<Dialect, Text, Content, Payload> {
   });
 
   @override
-  @GET("/word/content/{identifier}")
+  @GET("/word/content")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Path("identifier") required List<String> identifiers,
-    @Query("languages") List<String>? languages,
+    @Query("identifier", encoded: true) required List<String> identifiers,
+    @Query("languages", encoded: true) List<String>? languages,
   });
 
   @override
@@ -63,7 +63,7 @@ abstract class WordApi implements BaseApi<Dialect, Text, Content, Payload> {
   @override
   @GET("/word/payload/{identifier}")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    @Path("identifier") required List<String> identifiers,
-    @Query("dialects") List<String>? dialects,
+    @Query("identifiers", encoded: true) required List<String> identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
   });
 }

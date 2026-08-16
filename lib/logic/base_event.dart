@@ -110,19 +110,19 @@ class BaseEvent {
   }
 
   factory BaseEvent.contents({
-    required Identifier identifier,
+    required List<Identifier> identifiers,
     required List<String> languages,
   }) {
     return BaseEvent._(
       type: WordFetchType.contents,
-      identifier: identifier,
+      identifier: Identifier.initial(),
       languages: languages,
       pageNumber: 0,
       pageSize: 25,
       selected: false,
       scripts: [],
       dialects: [],
-      identifiers: [],
+      identifiers: identifiers,
     );
   }
 

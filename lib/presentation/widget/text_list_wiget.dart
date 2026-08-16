@@ -85,12 +85,10 @@ class _TextListWidgetState extends State<TextListWidget> {
                   }
 
                   if (text == null) {
-                    return const SizedBox.shrink();
+                    return Text("text not found");
                   }
 
-                  return Text(text.sku);
-
-                  // return TextWidget(text: text);
+                  return TextWidget(text: text);
                 },
               );
             },

@@ -208,7 +208,10 @@ class _WordApi implements WordApi {
     List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'languages': languages};
+    final queryParameters = <String, dynamic>{
+      r'identifier': identifiers,
+      r'languages': languages,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -216,7 +219,7 @@ class _WordApi implements WordApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/content/${identifiers}',
+            '/word/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -282,7 +285,10 @@ class _WordApi implements WordApi {
     List<String>? dialects,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'dialects': dialects};
+    final queryParameters = <String, dynamic>{
+      r'identifiers': identifiers,
+      r'dialects': dialects,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -290,7 +296,7 @@ class _WordApi implements WordApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload/${identifiers}',
+            '/word/payload/{identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
