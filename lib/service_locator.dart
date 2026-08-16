@@ -105,7 +105,23 @@ void setupLocator() {
 ///------------------------------------------------------------
 
 void _registerApis() {
-  getIt.registerLazySingleton<Dio>(() => Dio());
+  getIt.registerLazySingleton<Dio>(() {
+    final dio = Dio();
+
+    dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+        error: true,
+      ),
+    );
+
+    return dio;
+  });
+
   final dio = getIt<Dio>();
   //String baseUrl = "http://192.168.12.59:8080";
   final baseUrl = properties['KRIS_BASE_URL']!;
@@ -146,5 +162,5 @@ void _registerServices() {
 
   getIt.registerLazySingleton<LanguageService>(() => LanguageService());
 
-   getIt.registerLazySingleton<DialectService>(() => DialectService());
+  getIt.registerLazySingleton<DialectService>(() => DialectService());
 }

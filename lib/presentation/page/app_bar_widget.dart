@@ -31,16 +31,16 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     super.initState();
 
     context.read<ScriptBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
+      BaseEvent.fetch(pageNumber: 0, pageSize: 50),
     );
 
-    context.read<LanguageBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-    );
+    // context.read<LanguageBloc>().add(
+    //   BaseEvent.fetch(pageNumber: 0, pageSize: 50),
+    // );
 
-    context.read<DialectBloc>().add(
-      BaseEvent.fetch(pageNumber: 0, pageSize: 10),
-    );
+    // context.read<DialectBloc>().add(
+    //   BaseEvent.fetch(pageNumber: 0, pageSize: 50),
+    // );
   }
 
   @override
@@ -157,26 +157,23 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                       selections: script.selections.toSet(),
                                     ),
 
-                                    const SizedBox(width: 10),
+                                    // const SizedBox(width: 10),
 
-                                    MenuWidget(
-                                      maya: 'LANGUAGE',
-                                      label: 'language',
-                                      words: language.data.values.toList(),
-                                      selections: language.selections.toSet(),
-                                    ),
+                                    // MenuWidget(
+                                    //   maya: 'LANGUAGE',
+                                    //   label: 'language',
+                                    //   words: language.data.values.toList(),
+                                    //   selections: language.selections.toSet(),
+                                    // ),
+                                    // const SizedBox(width: 10),
 
-                                    const SizedBox(width: 10),
-
-                                    MenuWidget(
-                                      maya: 'DIALECT',
-                                      label: 'dialect',
-                                      words: dialect.data.values.toList(),
-                                      selections: dialect.selections.toSet(),
-                                    ),
-
-                                    const SizedBox(width: 10),
-
+                                    // MenuWidget(
+                                    //   maya: 'DIALECT',
+                                    //   label: 'dialect',
+                                    //   words: dialect.data.values.toList(),
+                                    //   selections: dialect.selections.toSet(),
+                                    // ),
+                                    //const SizedBox(width: 10),
                                     Padding(
                                       padding: const EdgeInsets.all(8),
                                       child: OutlinedButton(
