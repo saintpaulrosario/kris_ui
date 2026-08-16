@@ -24,7 +24,7 @@ class TextListWidget extends StatefulWidget {
 }
 
 class _TextListWidgetState extends State<TextListWidget> {
-  void _fetchContents(BuildContext context) {
+  void _fetchTexts(BuildContext context) {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
@@ -37,7 +37,7 @@ class _TextListWidgetState extends State<TextListWidget> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchContents(context);
+      _fetchTexts(context);
     });
   }
 
@@ -50,7 +50,7 @@ class _TextListWidgetState extends State<TextListWidget> {
       listenWhen: (previous, current) =>
           previous.selections != current.selections,
       listener: (context, state) {
-        _fetchContents(context);
+        _fetchTexts(context);
       },
       child:
           BlocSelector<
@@ -72,20 +72,24 @@ class _TextListWidgetState extends State<TextListWidget> {
               );
             },
             builder: (context, state) {
-              return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: state.texts.values.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final text = state.texts.values.elementAt(index);
+              return Column(
+                children: [
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.texts.values.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final text = state.texts.values.elementAt(index);
 
-                  if (state.fetching.contains(text.sku)) {
-                    return const CircularProgressIndicator();
-                  }
+                      if (state.fetching.contains(text.sku)) {
+                        return const CircularProgressIndicator();
+                      }
 
-                  return TextWidget(text: text);
-                },
+                      return TextWidget(text: text);
+                    },
+                  ),
+                ],
               );
             },
           ),

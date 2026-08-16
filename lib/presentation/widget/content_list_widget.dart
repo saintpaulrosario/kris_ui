@@ -45,8 +45,9 @@ class _ContentListWidgetState extends State<ContentListWidget> {
   @override
   void initState() {
     super.initState();
-    _fetchContents(context);
-    // Initial fetch
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchContents(context);
+    });
   }
 
   @override
@@ -108,7 +109,7 @@ class _ContentListWidgetState extends State<ContentListWidget> {
                         return const CircularProgressIndicator();
                       }
 
-                      return Text("hbkbkjb");
+                      return Text(content.sku);
                     },
                   ),
                 ],
