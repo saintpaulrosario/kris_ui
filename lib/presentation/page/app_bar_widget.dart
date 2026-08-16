@@ -29,6 +29,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<ScriptBloc>().add(
       BaseEvent.fetch(pageNumber: 0, pageSize: 10),
     );
@@ -44,140 +45,123 @@ class _AppBarWidgetState extends State<AppBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    MediaQuery.sizeOf(context);
+
     return AppBar(
       backgroundColor: Colors.white,
 
       actions: [
-        Text("john"),
-        Visibility(
-          visible: true,
-          child: IconButton(
-            icon: const Icon(Icons.login),
-            color: Colors.black,
-            onPressed: () {
-              showDialog(
-                context: context,
-                useSafeArea: true,
-                builder: (ctx) => Dialog(
-                  insetPadding: const EdgeInsets.all(16),
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SizedBox(
-                    width: size.width * 0,
-                    height: size.height * 0.8,
-                    child: const AuthenticationPage(),
-                  ),
-                ),
-              );
-            },
-          ),
+        const Text('john', style: TextStyle(color: Colors.black)),
+
+        IconButton(
+          icon: const Icon(Icons.login),
+          color: Colors.black,
+          onPressed: () {
+            _showAuthenticationDialog(context);
+          },
         ),
 
-        Visibility(
-          visible: true,
-          child: IconButton(
-            icon: const Icon(Icons.logout),
-            color: Colors.black,
-            onPressed: () {
-              // TODO logout
-            },
-          ),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          color: Colors.black,
+          onPressed: () {
+            // TODO logout
+          },
         ),
 
         IconButton(
           icon: const Icon(Icons.search),
           color: Colors.black,
           onPressed: () {
-            // Add your search functionality here
+            // TODO search
           },
         ),
+
         Badge(
-          label: const Text("4"),
+          label: const Text('4'),
           child: IconButton(
             icon: const Icon(Icons.notifications),
             color: Colors.black,
             onPressed: () {
-              //context.go('/notifications');
+              // TODO notifications
             },
           ),
         ),
-        Visibility(
-          visible: true,
-          child: IconButton(
-            icon: const Icon(Icons.mail_outline),
-            color: Colors.black,
-            onPressed: () {
-              // Navigate to messages
-            },
-          ),
+
+        IconButton(
+          icon: const Icon(Icons.mail_outline),
+          color: Colors.black,
+          onPressed: () {
+            // TODO messages
+          },
         ),
       ],
 
       flexibleSpace: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
+        builder: (context, constraints) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo
+              // -------------------------------------------------
+              // LOGO
+              // -------------------------------------------------
               SizedBox(
                 height: constraints.maxHeight * 0.75,
                 width: constraints.maxWidth,
                 child: Center(
                   child: Image.asset(
-                    "images/app_logo.png",
+                    'images/app_logo.png',
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
 
-              // Menus
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-
-                child:
-                    BlocSelector<
-                      ScriptBloc,
-                      BaseState<Script, w.Text, Content, Payload>,
-                      BaseState<Script, w.Text, Content, Payload>
-                    >(
-                      selector: (state) {
-                        return state;
-                      },
-                      builder: (context, script) {
-                        return BlocSelector<
-                          LanguageBloc,
-                          BaseState<Language, w.Text, Content, Payload>,
-                          BaseState<Language, w.Text, Content, Payload>
-                        >(
-                          selector: (state) {
-                            return state;
-                          },
-                          builder: (context, language) {
-                            return BlocSelector<
-                              DialectBloc,
-                              BaseState<Dialect, w.Text, Content, Payload>,
-                              BaseState<Dialect, w.Text, Content, Payload>
-                            >(
-                              selector: (state) {
-                                return state;
-                              },
-                              builder: (context, dialect) {
-                                return Row(
+              // -------------------------------------------------
+              // MENUS
+              // -------------------------------------------------
+              BlocSelector<
+                ScriptBloc,
+                BaseState<Script, w.Text, Content, Payload>,
+                BaseState<Script, w.Text, Content, Payload>
+              >(
+                selector: (state) => state,
+                builder: (context, script) {
+                  return BlocSelector<
+                    LanguageBloc,
+                    BaseState<Language, w.Text, Content, Payload>,
+                    BaseState<Language, w.Text, Content, Payload>
+                  >(
+                    selector: (state) => state,
+                    builder: (context, language) {
+                      return BlocSelector<
+                        DialectBloc,
+                        BaseState<Dialect, w.Text, Content, Payload>,
+                        BaseState<Dialect, w.Text, Content, Payload>
+                      >(
+                        selector: (state) => state,
+                        builder: (context, dialect) {
+                          return Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minWidth: constraints.maxWidth,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
                                     MenuWidget(
-                                      maya: "SCRIPT",
-                                      label: "script",
+                                      maya: 'SCRIPT',
+                                      label: 'script',
                                       words: script.data.values.toList(),
                                       selections: script.selections.toSet(),
                                     ),
+
                                     const SizedBox(width: 10),
 
                                     MenuWidget(
-                                      maya: "LANGUAGE",
-                                      label: "language",
+                                      maya: 'LANGUAGE',
+                                      label: 'language',
                                       words: language.data.values.toList(),
                                       selections: language.selections.toSet(),
                                     ),
@@ -185,38 +169,33 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                                     const SizedBox(width: 10),
 
                                     MenuWidget(
-                                      maya: "DIALECT",
-                                      label: "dialect",
+                                      maya: 'DIALECT',
+                                      label: 'dialect',
                                       words: dialect.data.values.toList(),
                                       selections: dialect.selections.toSet(),
                                     ),
 
+                                    const SizedBox(width: 10),
+
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8),
                                       child: OutlinedButton(
                                         onPressed: () {
-                                          // context.read<TranslationBloc>().add(
-                                          //   BaseEvent.fetch(
-                                          //     scripts: script.selections
-                                          //         .toSet(),
-                                          //     languages: language.selections
-                                          //         .toSet(),
-                                          //     dialects: dialect.selections
-                                          //         .toSet(),
-                                          //   ),
-                                          // );
+                                          // Submit
                                         },
-                                        child: const Text("submit"),
+                                        child: const Text('submit'),
                                       ),
                                     ),
                                   ],
-                                );
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ],
           );
@@ -226,25 +205,20 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   }
 
   void _showAuthenticationDialog(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
 
     showDialog(
       context: context,
-
       builder: (context) {
         return Dialog(
           insetPadding: const EdgeInsets.all(16),
-
           clipBehavior: Clip.antiAlias,
-
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-
           child: SizedBox(
             width: size.width * 0.5,
             height: size.height * 0.5,
-
             child: const AuthenticationPage(),
           ),
         );
