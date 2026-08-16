@@ -48,7 +48,7 @@ class WordBloc
           await _fetchTexts(event, emit);
           break;
         case WordFetchType.contents:
-          _fetchContents(event, emit);
+          await _fetchContents(event, emit);
           break;
         case WordFetchType.payloads:
           // TODO: Handle this case.

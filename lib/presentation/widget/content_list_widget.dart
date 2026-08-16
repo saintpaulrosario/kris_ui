@@ -91,20 +91,27 @@ class _ContentListWidgetState extends State<ContentListWidget> {
               );
             },
             builder: (context, state) {
-              return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: state.contents.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final content = state.contents.values.elementAt(index);
+              if (state.contents.isEmpty) {
+                return Text("no content");
+              }
+              return Column(
+                children: [
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.contents.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final content = state.contents.values.elementAt(index);
 
-                  if (state.fetching.contains(content.sku)) {
-                    return const CircularProgressIndicator();
-                  }
+                      if (state.fetching.contains(content.sku)) {
+                        return const CircularProgressIndicator();
+                      }
 
-                  return Text("hbkbkjb");
-                },
+                      return Text("hbkbkjb");
+                    },
+                  ),
+                ],
               );
             },
           ),

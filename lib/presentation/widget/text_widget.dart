@@ -17,7 +17,7 @@ class TextWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Row(
           children: [
-            ContentListWidget(identifiers: text.contents),
+            Expanded(child: ContentListWidget(identifiers: text.contents)),
             // Padding(
             //   padding: const EdgeInsets.all(8),
             //   child: ScriptWidget(
