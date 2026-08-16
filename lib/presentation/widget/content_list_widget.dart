@@ -109,7 +109,7 @@ class _ContentListWidgetState extends State<ContentListWidget> {
                         return const CircularProgressIndicator();
                       }
 
-                      return Text(content.sku);
+                      return ContentWidget(content: content);
                     },
                   ),
                 ],
