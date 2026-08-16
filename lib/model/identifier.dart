@@ -41,6 +41,16 @@ class Identifier extends Audit {
     );
   }
 
+  @override
+  int get hashCode => Object.hash(sku, ordinal);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Identifier && other.sku == sku && other.ordinal == ordinal;
+  }
+
   factory Identifier.fromJson(Map<String, dynamic> json) {
     return _$IdentifierFromJson(json);
   }

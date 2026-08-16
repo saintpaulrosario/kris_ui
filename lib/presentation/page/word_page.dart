@@ -20,7 +20,8 @@ class WordPage extends StatefulWidget {
   State<WordPage> createState() => _WordPageState();
 }
 
-class _WordPageState extends State<WordPage> {
+class _WordPageState extends State<WordPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -31,6 +32,7 @@ class _WordPageState extends State<WordPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocSelector<
       TranslationBloc,
       BaseState<Translation, w.Text, Content, Payload>,
@@ -61,4 +63,7 @@ class _WordPageState extends State<WordPage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

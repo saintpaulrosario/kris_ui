@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/base_event.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/word.dart';
 
-import '../../logic/word/dialect_bloc.dart';
-import '../../logic/word/language_bloc.dart';
-import '../../logic/word/script_bloc.dart';
 import 'menu_text_widget.dart';
 
 class MenuWidget extends StatefulWidget {
   final String maya;
   final String label;
   final List<Word> words;
-  final Set<String> selections;
+  final Set<Identifier> selections;
+
+  final void Function(Identifier identifier, bool selected) onSelectionChanged;
 
   const MenuWidget({
     super.key,
@@ -21,6 +18,7 @@ class MenuWidget extends StatefulWidget {
     required this.label,
     required this.words,
     required this.selections,
+    required this.onSelectionChanged,
   });
 
   @override
@@ -44,7 +42,7 @@ class _MenuWidgetState extends State<MenuWidget> {
       menuChildren: [
         SizedBox(
           width: 320,
-          height: MediaQuery.of(context).size.height * .5,
+          height: MediaQuery.sizeOf(context).height * 0.5,
           child: Material(
             elevation: 4,
             color: Colors.white,
@@ -58,9 +56,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                 itemBuilder: (context, index) {
                   final word = widget.words[index];
 
-                  final texts = word.texts.toList();
-
-                  final Identifier wordIdentifier = Identifier(
+                  final wordIdentifier = Identifier(
                     sku: word.sku,
                     ordinal: word.ordinal,
                     createdDate: word.createdDate,
@@ -69,42 +65,26 @@ class _MenuWidgetState extends State<MenuWidget> {
                     lastModifiedBy: word.lastModifiedBy,
                     version: word.version,
                   );
-                  // todo send word as selected
+
+                  final texts = word.texts.toList();
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (index > 0) const Divider(height: 1, thickness: 1),
 
-                      ...texts.map((Identifier identifier) {
+                      ...texts.map((identifier) {
                         return MenuTextWidget(
                           identifier: identifier,
-                          selected: widget.selections.contains(
-                            wordIdentifier.sku,
-                          ),
+
+                          // Selection belongs to the WORD
+                          selected: widget.selections.contains(wordIdentifier),
+
                           maya: widget.maya,
+
                           onChanged: (selected) {
-                            if (widget.maya == 'SCRIPT') {
-                              context.read<ScriptBloc>().add(
-                                BaseEvent.select(
-                                  identifier: wordIdentifier,
-                                  selected: selected,
-                                ),
-                              );
-                            } else if (widget.maya == 'DIALECT') {
-                              context.read<DialectBloc>().add(
-                                BaseEvent.select(
-                                  identifier: wordIdentifier,
-                                  selected: selected,
-                                ),
-                              );
-                            } else {
-                              context.read<LanguageBloc>().add(
-                                BaseEvent.select(
-                                  identifier: wordIdentifier,
-                                  selected: selected,
-                                ),
-                              );
-                            }
+                            // Send the WORD identifier
+                            widget.onSelectionChanged(wordIdentifier, selected);
                           },
                         );
                       }),
@@ -144,7 +124,6 @@ class _MenuWidgetState extends State<MenuWidget> {
                     widget.label,
                     style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
-
                   Icon(
                     controller.isOpen
                         ? Icons.arrow_drop_up

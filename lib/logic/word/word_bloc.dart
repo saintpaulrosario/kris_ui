@@ -201,7 +201,7 @@ class WordBloc
 
     final results = await _service.retrieveTexts(
       identifiers: event.identifiers,
-      scripts: event.scripts,
+      scripts: event.scripts!.map((x) => x.sku).toList(),
     );
 
     results.fold(
@@ -248,8 +248,8 @@ class WordBloc
 
     final results = await _service.retrieveContents(
       identifiers: event.identifiers,
-      scripts: event.scripts,
-      languages: event.languages,
+      scripts: event.scripts!.map((x) => x.sku).toList(),
+      languages: event.languages!.map((x) => x.sku).toList(),
     );
 
     results.fold(
@@ -378,9 +378,9 @@ class WordBloc
 
     final results = await _service.retrievePayloads(
       identifiers: event.identifiers,
-      scripts: event.scripts,
-      languages: event.languages,
-      dialects: event.dialects,
+      scripts: event.scripts!.map((x) => x.sku).toList(),
+      languages: event.languages!.map((x) => x.sku).toList(),
+      dialects: event.dialects!.map((x) => x.sku).toList(),
     );
 
     results.fold(

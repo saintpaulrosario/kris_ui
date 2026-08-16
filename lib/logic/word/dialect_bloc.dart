@@ -53,7 +53,7 @@ class DialectBloc
           throw UnimplementedError();
         case WordFetchType.selects:
           // TODO: Handle this case.
-          throw UnimplementedError();
+          _selects(event, emit);
       }
     });
   }
@@ -282,6 +282,18 @@ class DialectBloc
       selections.add(event.identifier.sku);
     }
 
+    emit(state.copyWith(selections: selections.build()));
+  }
+
+  Future<void> _selects(BaseEvent event, Emitter<BaseState> emit) async {
+    final selections = state.selections.toBuilder();
+    for (final id in event.identifiers) {
+      if (event.selected == false) {
+        selections.remove(id);
+      } else {
+        selections.add(id);
+      }
+    }
     emit(state.copyWith(selections: selections.build()));
   }
 }

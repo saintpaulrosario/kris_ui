@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:kris/model/identifier.dart';
 
 import '../response/error_response.dart';
 import '../response/page_result.dart';
@@ -11,7 +12,7 @@ class BaseState<W, T, C, P> {
   final BuiltMap<String, T> texts;
   final BuiltMap<String, C> contents;
   final BuiltMap<String, P> payloads;
-  final BuiltSet<String> selections;
+  final BuiltSet<Identifier> selections;
 
   final int pageNumber;
   final int pageSize;
@@ -40,7 +41,7 @@ class BaseState<W, T, C, P> {
       payloads: BuiltMap<String, P>(),
       pageNumber: 0,
       pageSize: 10,
-      selections: BuiltSet<String>(),
+      selections: BuiltSet<Identifier>(),
     );
   }
 
@@ -48,7 +49,7 @@ class BaseState<W, T, C, P> {
     BuiltMap<String, ErrorResponse>? errors,
     BuiltMap<String, W>? data,
     BuiltSet<String>? fetching,
-    BuiltSet<String>? selections,
+    BuiltSet<Identifier>? selections,
     BuiltMap<int, PageResult<W>>? pages,
     BuiltMap<String, T>? texts,
     BuiltMap<String, C>? contents,

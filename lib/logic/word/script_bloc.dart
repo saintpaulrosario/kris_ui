@@ -52,7 +52,7 @@ class ScriptBloc
           throw UnimplementedError();
         case WordFetchType.selects:
           // TODO: Handle this case.
-          throw UnimplementedError();
+          _selects(event, emit);
       }
     });
   }
@@ -275,12 +275,24 @@ class ScriptBloc
   Future<void> _select(BaseEvent event, Emitter<BaseState> emit) async {
     final selections = state.selections.toBuilder();
 
-    if (event.selected == false) {
-      selections.remove(event.identifier.sku);
+    if (event.selected) {
+      selections.add(event.identifier);
     } else {
-      selections.add(event.identifier.sku);
+      selections.remove(event.identifier);
     }
 
+    emit(state.copyWith(selections: selections.build()));
+  }
+
+  Future<void> _selects(BaseEvent event, Emitter<BaseState> emit) async {
+    final selections = state.selections.toBuilder();
+    for (final id in event.identifiers) {
+      if (event.selected == false) {
+        selections.remove(id);
+      } else {
+        selections.add(id);
+      }
+    }
     emit(state.copyWith(selections: selections.build()));
   }
 }

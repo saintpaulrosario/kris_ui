@@ -20,9 +20,9 @@ class BaseEvent {
   final int pageNumber;
   final int pageSize;
   final bool selected;
-  final List<String>? scripts;
-  final List<String>? languages;
-  final List<String>? dialects;
+  final List<Identifier>? scripts;
+  final List<Identifier>? languages;
+  final List<Identifier>? dialects;
 
   const BaseEvent._({
     required this.type,
@@ -80,7 +80,7 @@ class BaseEvent {
 
   factory BaseEvent.texts({
     required List<Identifier> identifiers,
-    List<String>? scripts,
+    List<Identifier>? scripts,
   }) {
     return BaseEvent._(
       type: WordFetchType.texts,
@@ -111,8 +111,8 @@ class BaseEvent {
 
   factory BaseEvent.contents({
     required List<Identifier> identifiers,
-    required List<String> scripts,
-    required List<String> languages,
+    required List<Identifier> scripts,
+    required List<Identifier> languages,
   }) {
     return BaseEvent._(
       type: WordFetchType.contents,
@@ -143,9 +143,9 @@ class BaseEvent {
 
   factory BaseEvent.payloads({
     required List<Identifier> identifiers,
-    required List<String> dialects,
-    required List<String> scripts,
-    required List<String> languages,
+    required List<Identifier> dialects,
+    required List<Identifier> scripts,
+    required List<Identifier> languages,
   }) {
     return BaseEvent._(
       type: WordFetchType.payloads,

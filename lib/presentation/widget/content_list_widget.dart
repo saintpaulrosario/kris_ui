@@ -52,70 +52,48 @@ class _ContentListWidgetState extends State<ContentListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<ScriptBloc, BaseState<Script, w.Text, Content, Payload>>(
-          listenWhen: (previous, current) =>
-              previous.selections != current.selections,
-          listener: (context, state) {
-            _fetchContents(context);
-          },
-        ),
-        BlocListener<
-          LanguageBloc,
-          BaseState<Language, w.Text, Content, Payload>
-        >(
-          listenWhen: (previous, current) =>
-              previous.selections != current.selections,
-          listener: (context, state) {
-            _fetchContents(context);
-          },
-        ),
-      ],
-      child:
-          BlocSelector<
-            WordBloc,
-            BaseState<Word, w.Text, Content, Payload>,
-            ({Set<String> fetching, Map<String, Content> contents})
-          >(
-            selector: (state) {
-              final identifiers = widget.identifiers.map((x) => x.sku).toSet();
+    return BlocSelector<
+      WordBloc,
+      BaseState<Word, w.Text, Content, Payload>,
+      ({Set<String> fetching, Map<String, Content> contents})
+    >(
+      selector: (state) {
+        final identifiers = widget.identifiers.map((x) => x.sku).toSet();
 
-              return (
-                fetching: state.fetching.where(identifiers.contains).toSet(),
+        return (
+          fetching: state.fetching.where(identifiers.contains).toSet(),
 
-                contents: Map.fromEntries(
-                  state.contents.entries.where(
-                    (entry) => identifiers.contains(entry.key),
-                  ),
-                ),
-              );
-            },
-            builder: (context, state) {
-              if (state.contents.isEmpty) {
-                return Text("no content");
-              }
-              return Column(
-                children: [
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.contents.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final content = state.contents.values.elementAt(index);
-
-                      if (state.fetching.contains(content.sku)) {
-                        return const CircularProgressIndicator();
-                      }
-
-                      return ContentWidget(content: content);
-                    },
-                  ),
-                ],
-              );
-            },
+          contents: Map.fromEntries(
+            state.contents.entries.where(
+              (entry) => identifiers.contains(entry.key),
+            ),
           ),
+        );
+      },
+      builder: (context, state) {
+        if (state.contents.isEmpty) {
+          return Text("no content");
+        }
+        return Column(
+          children: [
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: state.contents.length,
+              separatorBuilder: (_, _) => const Divider(height: 1),
+              itemBuilder: (context, index) {
+                final content = state.contents.values.elementAt(index);
+
+                if (state.fetching.contains(content.sku)) {
+                  return const CircularProgressIndicator();
+                }
+
+                return ContentWidget(content: content);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

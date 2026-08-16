@@ -43,56 +43,45 @@ class _TextListWidgetState extends State<TextListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<
-      ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>
+    return BlocSelector<
+      WordBloc,
+      BaseState<Word, w.Text, Content, Payload>,
+      ({Set<String> fetching, Map<String, w.Text> texts})
     >(
-      listenWhen: (previous, current) =>
-          previous.selections != current.selections,
-      listener: (context, state) {
-        _fetchTexts(context);
-      },
-      child:
-          BlocSelector<
-            WordBloc,
-            BaseState<Word, w.Text, Content, Payload>,
-            ({Set<String> fetching, Map<String, w.Text> texts})
-          >(
-            selector: (state) {
-              final identifiers = widget.identifiers.map((x) => x.sku).toSet();
+      selector: (state) {
+        final identifiers = widget.identifiers.map((x) => x.sku).toSet();
 
-              return (
-                fetching: state.fetching.where(identifiers.contains).toSet(),
+        return (
+          fetching: state.fetching.where(identifiers.contains).toSet(),
 
-                texts: Map.fromEntries(
-                  state.texts.entries.where(
-                    (entry) => identifiers.contains(entry.key),
-                  ),
-                ),
-              );
-            },
-            builder: (context, state) {
-              return Column(
-                children: [
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.texts.values.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final text = state.texts.values.elementAt(index);
-
-                      if (state.fetching.contains(text.sku)) {
-                        return const CircularProgressIndicator();
-                      }
-
-                      return TextWidget(text: text);
-                    },
-                  ),
-                ],
-              );
-            },
+          texts: Map.fromEntries(
+            state.texts.entries.where(
+              (entry) => identifiers.contains(entry.key),
+            ),
           ),
+        );
+      },
+      builder: (context, state) {
+        return Column(
+          children: [
+            ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: state.texts.values.length,
+              separatorBuilder: (_, _) => const Divider(height: 1),
+              itemBuilder: (context, index) {
+                final text = state.texts.values.elementAt(index);
+
+                if (state.fetching.contains(text.sku)) {
+                  return const CircularProgressIndicator();
+                }
+
+                return TextWidget(text: text);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

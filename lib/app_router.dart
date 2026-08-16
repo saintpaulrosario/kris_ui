@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kris/model/account.dart';
-import 'package:kris/presentation/page/payload_page.dart';
 
 import 'feature/presentation/page/authentication_page.dart';
 import 'model/identifier.dart';
@@ -81,7 +80,7 @@ final GoRouter appRouter = GoRouter(
               createdBy: Account.initial(),
               lastModifiedBy: Account.initial(),
             );
-            return PayloadPage(key: Key(sku), identifier: identifier);
+            return Text("");
           },
         ),
 

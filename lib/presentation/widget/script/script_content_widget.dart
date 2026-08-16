@@ -5,7 +5,6 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/presentation/widget/script/script_payload_list_widget.dart';
 
 import 'script_payload_widget.dart';
 
