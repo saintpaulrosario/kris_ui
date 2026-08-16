@@ -50,7 +50,8 @@ abstract class WordApi implements BaseApi<Dialect, Text, Content, Payload> {
   @override
   @GET("/word/content")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Query("identifier", encoded: true) required List<String> identifiers,
+    @Query("identifiers", encoded: true) required List<String> identifiers,
+    @Query("scripts", encoded: true) List<String>? scripts,
     @Query("languages", encoded: true) List<String>? languages,
   });
 

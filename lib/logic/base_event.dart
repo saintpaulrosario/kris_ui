@@ -111,6 +111,7 @@ class BaseEvent {
 
   factory BaseEvent.contents({
     required List<Identifier> identifiers,
+    required List<String> scripts,
     required List<String> languages,
   }) {
     return BaseEvent._(
@@ -120,7 +121,7 @@ class BaseEvent {
       pageNumber: 0,
       pageSize: 25,
       selected: false,
-      scripts: [],
+      scripts: scripts,
       dialects: [],
       identifiers: identifiers,
     );

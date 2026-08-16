@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
@@ -46,8 +48,8 @@ class WordBloc
           await _fetchTexts(event, emit);
           break;
         case WordFetchType.contents:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          _fetchContents(event, emit);
+          break;
         case WordFetchType.payloads:
           // TODO: Handle this case.
           throw UnimplementedError();
@@ -229,6 +231,50 @@ class WordBloc
                 (state.fetching.toBuilder()
                       ..removeAll(event.identifiers.map((x) => x.sku)))
                     .build(),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _fetchContents(BaseEvent event, Emitter emit) async {
+    final skus = event.identifiers.map((x) => x.sku).toList();
+
+    emit(
+      state.copyWith(
+        fetching: (state.fetching.toBuilder()..addAll(skus)).build(),
+      ),
+    );
+
+    final results = await _service.retrieveContents(
+      identifiers: event.identifiers,
+      scripts: event.scripts,
+      languages: event.languages,
+    );
+
+    results.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            errors:
+                (state.errors.toBuilder()
+                      ..addAll({for (final sku in skus) sku: error}))
+                    .build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+          ),
+        );
+      },
+      (List<Content> contents) {
+        final data = state.contents.toBuilder();
+
+        for (final content in contents) {
+          data[content.sku] = content;
+        }
+
+        emit(
+          state.copyWith(
+            contents: data.build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
           ),
         );
       },

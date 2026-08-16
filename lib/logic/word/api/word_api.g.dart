@@ -205,11 +205,13 @@ class _WordApi implements WordApi {
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     required List<String> identifiers,
+    List<String>? scripts,
     List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'identifier': identifiers,
+      r'identifiers': identifiers,
+      r'scripts': scripts,
       r'languages': languages,
     };
     queryParameters.removeWhere((k, v) => v == null);

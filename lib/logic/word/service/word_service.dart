@@ -150,10 +150,33 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
   @override
   Future<Either<ErrorResponse, List<Content>>> retrieveContents({
     required List<Identifier> identifiers,
+    required List<String>? scripts,
     required List<String>? languages,
-  }) {
-    // TODO: implement retrieveContents
-    throw UnimplementedError();
+  }) async {
+    try {
+      List<String> skus = identifiers.map((x) => x.sku).toList();
+      final HttpResponse<ApiResult<List<Content>>> httpResponse = await _api
+          .fetchContents(
+            identifiers: skus,
+            scripts: scripts,
+            languages: languages,
+          );
+      ApiResult<List<Content>> apiResult = httpResponse.data;
+      if (HttpStatus.ok == httpResponse.response.statusCode) {
+        final List<Content> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
   }
 
   @override
@@ -170,10 +193,10 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
     required List<Identifier> identifiers,
     required List<String>? scripts,
   }) async {
-    List<String> skus = identifiers.map((x) => x.sku).toList();
-    final HttpResponse<ApiResult<List<Text>>> httpResponse = await _api
-        .fetchTexts(identifiers: skus, scripts: scripts);
     try {
+      List<String> skus = identifiers.map((x) => x.sku).toList();
+      final HttpResponse<ApiResult<List<Text>>> httpResponse = await _api
+          .fetchTexts(identifiers: skus, scripts: scripts);
       ApiResult<List<Text>> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
         final List<Text> payload = apiResult.payload;

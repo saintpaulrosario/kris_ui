@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
@@ -25,15 +24,21 @@ class TextListWidget extends StatefulWidget {
 }
 
 class _TextListWidgetState extends State<TextListWidget> {
-  @override
-  void initState() {
-    super.initState();
-
+  void _fetchContents(BuildContext context) {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
       BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchContents(context);
+    });
   }
 
   @override
@@ -45,11 +50,7 @@ class _TextListWidgetState extends State<TextListWidget> {
       listenWhen: (previous, current) =>
           previous.selections != current.selections,
       listener: (context, state) {
-        final scripts = state.selections.toList();
-
-        context.read<WordBloc>().add(
-          BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
-        );
+        _fetchContents(context);
       },
       child:
           BlocSelector<
@@ -74,18 +75,13 @@ class _TextListWidgetState extends State<TextListWidget> {
               return ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.identifiers.length,
+                itemCount: state.texts.values.length,
                 separatorBuilder: (_, _) => const Divider(height: 1),
                 itemBuilder: (context, index) {
-                  final identifier = widget.identifiers[index];
-                  final text = state.texts[identifier.sku];
+                  final text = state.texts.values.elementAt(index);
 
-                  if (state.fetching.contains(identifier.sku)) {
+                  if (state.fetching.contains(text.sku)) {
                     return const CircularProgressIndicator();
-                  }
-
-                  if (text == null) {
-                    return Text("text not found");
                   }
 
                   return TextWidget(text: text);

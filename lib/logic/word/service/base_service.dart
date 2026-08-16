@@ -33,6 +33,7 @@ abstract class BaseService<W, T, C, P> {
 
   Future<Either<ErrorResponse, List<C>>> retrieveContents({
     required List<Identifier> identifiers,
+    required List<String>? scripts,
     required List<String>? languages,
   });
 

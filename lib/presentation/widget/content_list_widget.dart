@@ -5,8 +5,6 @@ import 'package:kris/presentation/widget/content_wiget.dart';
 
 import '../../model/identifier.dart';
 
-import 'package:flutter/material.dart' show CircularProgressIndicator, Divider;
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
@@ -14,7 +12,6 @@ import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/word.dart';
@@ -32,35 +29,48 @@ class ContentListWidget extends StatefulWidget {
 }
 
 class _ContentListWidgetState extends State<ContentListWidget> {
-  @override
-  void initState() {
-    super.initState();
-
+  void _fetchContents(BuildContext context) {
     final languages = context.read<LanguageBloc>().state.selections.toList();
+    final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
-      BaseEvent.contents(identifiers: widget.identifiers, languages: languages),
+      BaseEvent.contents(
+        identifiers: widget.identifiers,
+        languages: languages,
+        scripts: scripts,
+      ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlocListener<
-      LanguageBloc,
-      BaseState<Language, w.Text, Content, Payload>
-    >(
-      listenWhen: (previous, current) =>
-          previous.selections != current.selections,
-      listener: (context, state) {
-        final languages = state.selections.toList();
+  void initState() {
+    super.initState();
+    _fetchContents(context);
+    // Initial fetch
+  }
 
-        context.read<WordBloc>().add(
-          BaseEvent.contents(
-            identifiers: widget.identifiers,
-            languages: languages,
-          ),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ScriptBloc, BaseState<Script, w.Text, Content, Payload>>(
+          listenWhen: (previous, current) =>
+              previous.selections != current.selections,
+          listener: (context, state) {
+            _fetchContents(context);
+          },
+        ),
+        BlocListener<
+          LanguageBloc,
+          BaseState<Language, w.Text, Content, Payload>
+        >(
+          listenWhen: (previous, current) =>
+              previous.selections != current.selections,
+          listener: (context, state) {
+            _fetchContents(context);
+          },
+        ),
+      ],
       child:
           BlocSelector<
             WordBloc,
@@ -84,21 +94,16 @@ class _ContentListWidgetState extends State<ContentListWidget> {
               return ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: widget.identifiers.length,
+                itemCount: state.contents.length,
                 separatorBuilder: (_, _) => const Divider(height: 1),
                 itemBuilder: (context, index) {
-                  final identifier = widget.identifiers[index];
-                  final content = state.contents[identifier.sku];
+                  final content = state.contents.values.elementAt(index);
 
-                  if (state.fetching.contains(identifier.sku)) {
+                  if (state.fetching.contains(content.sku)) {
                     return const CircularProgressIndicator();
                   }
 
-                  if (content == null) {
-                    return Text("content not found");
-                  }
-
-                  return Text(content.sku);
+                  return Text("hbkbkjb");
                 },
               );
             },
