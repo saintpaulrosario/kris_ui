@@ -43,8 +43,8 @@ class _MenuWidgetState extends State<MenuWidget>
 
       menuChildren: [
         SizedBox(
-          width: 320,
-          height: MediaQuery.sizeOf(context).height * 0.5,
+          width: MediaQuery.sizeOf(context).width * 0.15,
+          height: MediaQuery.sizeOf(context).height * 0.25,
           child: Material(
             elevation: 4,
             color: Colors.white,
