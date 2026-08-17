@@ -25,7 +25,8 @@ class MenuWidget extends StatefulWidget {
   State<MenuWidget> createState() => _MenuWidgetState();
 }
 
-class _MenuWidgetState extends State<MenuWidget> {
+class _MenuWidgetState extends State<MenuWidget>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -36,6 +37,7 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MenuAnchor(
       alignmentOffset: const Offset(0, 5),
 
@@ -138,4 +140,7 @@ class _MenuWidgetState extends State<MenuWidget> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

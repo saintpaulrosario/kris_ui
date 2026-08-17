@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+
+import 'package:kris/logic/word/dialect_bloc.dart';
+import 'package:kris/logic/word/language_bloc.dart';
+import 'package:kris/logic/word/script_bloc.dart';
+
 import 'package:kris/model/content.dart';
 import 'package:kris/model/dialect.dart';
+import 'package:kris/model/identifier.dart';
+import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
+
 import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
 import 'package:kris/presentation/widget/language/language_content_widget.dart';
 import 'package:kris/presentation/widget/script/script_content_widget.dart';
 
-import '../../logic/base_event.dart';
-import '../../logic/word/dialect_bloc.dart';
-import '../../logic/word/language_bloc.dart';
-import '../../logic/word/script_bloc.dart';
-import '../../model/identifier.dart';
-import '../../model/language.dart';
 import 'package:kris/model/text.dart' as w;
+
+import '../../model/script.dart';
 
 class MenuTextWidget extends StatefulWidget {
   final Identifier identifier;
@@ -66,25 +72,17 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
       return BlocSelector<
         LanguageBloc,
         BaseState<Language, w.Text, Content, Payload>,
-        ({bool fetching, w.Text? text})
+        w.Text?
       >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.texts[widget.identifier.sku],
-        ),
-
-        builder: (context, state) {
-          if (state.fetching) {
+        selector: (state) {
+          return state.texts[widget.identifier.sku];
+        },
+        builder: (context, text) {
+          if (text == null) {
             return const Padding(
               padding: EdgeInsets.all(8),
               child: Center(child: CircularProgressIndicator()),
             );
-          }
-
-          final text = state.text;
-
-          if (text == null) {
-            return const SizedBox.shrink();
           }
 
           return _buildMenuText(text);
@@ -96,25 +94,17 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
       return BlocSelector<
         DialectBloc,
         BaseState<Dialect, w.Text, Content, Payload>,
-        ({bool fetching, w.Text? text})
+        w.Text?
       >(
-        selector: (state) => (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.texts[widget.identifier.sku],
-        ),
-
-        builder: (context, state) {
-          if (state.fetching) {
+        selector: (state) {
+          return state.texts[widget.identifier.sku];
+        },
+        builder: (context, text) {
+          if (text == null) {
             return const Padding(
               padding: EdgeInsets.all(8),
               child: Center(child: CircularProgressIndicator()),
             );
-          }
-
-          final text = state.text;
-
-          if (text == null) {
-            return const SizedBox.shrink();
           }
 
           return _buildMenuText(text);
@@ -122,24 +112,20 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
       );
     }
 
-    return BlocSelector<ScriptBloc, BaseState, ({bool fetching, w.Text? text})>(
-      selector: (state) => (
-        fetching: state.fetching.contains(widget.identifier.sku),
-        text: state.texts[widget.identifier.sku],
-      ),
-
-      builder: (context, state) {
-        if (state.fetching) {
+    return BlocSelector<
+      ScriptBloc,
+      BaseState<Script, w.Text, Content, Payload>,
+      w.Text?
+    >(
+      selector: (state) {
+        return state.texts[widget.identifier.sku];
+      },
+      builder: (context, text) {
+        if (text == null) {
           return const Padding(
             padding: EdgeInsets.all(8),
             child: Center(child: CircularProgressIndicator()),
           );
-        }
-
-        final text = state.text;
-
-        if (text == null) {
-          return const SizedBox.shrink();
         }
 
         return _buildMenuText(text);
@@ -148,12 +134,12 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
   }
 
   Card _buildMenuText(w.Text text) {
+    final content = text.contents.first;
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-
       child: Padding(
         padding: const EdgeInsets.all(8),
-
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,49 +154,34 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
 
             if (widget.maya == 'SCRIPT')
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: ScriptContentWidget(
-                        key: ValueKey(text.contents.first.sku),
-                        identifier: text.contents.first,
-                      ),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: ScriptContentWidget(
+                    key: ValueKey(content.sku),
+                    identifier: content,
+                  ),
                 ),
               ),
 
             if (widget.maya == 'LANGUAGE')
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: LanguageContentWidget(
-                        key: ValueKey(text.contents.first.sku),
-                        identifier: text.contents.first,
-                      ),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: LanguageContentWidget(
+                    key: ValueKey(content.sku),
+                    identifier: content,
+                  ),
                 ),
               ),
 
             if (widget.maya == 'DIALECT')
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: DialectContentWidget(
-                        key: ValueKey(text.contents.first.sku),
-                        identifier: text.contents.first,
-                      ),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: DialectContentWidget(
+                    key: ValueKey(content.sku),
+                    identifier: content,
+                  ),
                 ),
               ),
           ],
