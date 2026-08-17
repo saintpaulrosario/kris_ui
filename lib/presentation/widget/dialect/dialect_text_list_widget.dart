@@ -10,21 +10,23 @@ class DialectTextListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: identifiers.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final identifier = identifiers.elementAt(index);
-            return DialectTextWidget(identifier: identifier);
-          },
-        ),
-      ],
+    if (identifiers.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: identifiers.length,
+      separatorBuilder: (_, _) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final identifier = identifiers[index];
+
+        return DialectTextWidget(
+          key: ValueKey(identifier.sku),
+          identifier: identifier,
+        );
+      },
     );
   }
 }

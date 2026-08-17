@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/dialect/dialect_payload_widget.dart';
 
 import '../../../model/identifier.dart';
+import 'dialect_payload_widget.dart';
 
 class DialectPayloadListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -11,19 +11,15 @@ class DialectPayloadListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: identifiers.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final identifier = identifiers.elementAt(index);
-            return DialectPayloadWidget(identifier: identifier);
-          },
-        ),
+        for (int i = 0; i < identifiers.length; i++) ...[
+          if (i > 0) const Divider(height: 1),
+
+          DialectPayloadWidget(
+            key: ValueKey(identifiers[i].sku),
+            identifier: identifiers[i],
+          ),
+        ],
       ],
     );
   }

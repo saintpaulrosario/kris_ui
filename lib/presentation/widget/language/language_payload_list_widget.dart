@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/language/language_payload_widget.dart';
 
 import '../../../model/identifier.dart';
+import 'language_payload_widget.dart';
 
 class LanguagePayloadListWidget extends StatelessWidget {
   final List<Identifier> identifiers;
@@ -10,21 +10,23 @@ class LanguagePayloadListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: identifiers.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final identifier = identifiers.elementAt(index);
-            return LanguagePayloadWidget(identifier: identifier);
-          },
-        ),
-      ],
+    if (identifiers.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: identifiers.length,
+      separatorBuilder: (_, _) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final identifier = identifiers[index];
+
+        return LanguagePayloadWidget(
+          key: ValueKey(identifier.sku),
+          identifier: identifier,
+        );
+      },
     );
   }
 }

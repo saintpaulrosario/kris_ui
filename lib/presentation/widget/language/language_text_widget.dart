@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart' show Divider, CircularProgressIndicator;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
+
+import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
-
+import 'package:kris/model/language.dart';
+import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
-import 'package:kris/presentation/widget/language/language_content_list_widget.dart';
 
-import '../../../logic/base_event.dart';
 import 'language_content_widget.dart';
 
 class LanguageTextWidget extends StatefulWidget {
@@ -20,10 +22,15 @@ class LanguageTextWidget extends StatefulWidget {
   State<LanguageTextWidget> createState() => _LanguageTextWidgetState();
 }
 
-class _LanguageTextWidgetState extends State<LanguageTextWidget> {
+class _LanguageTextWidgetState extends State<LanguageTextWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
+
     context.read<LanguageBloc>().add(
       BaseEvent.text(identifier: widget.identifier),
     );
@@ -31,32 +38,29 @@ class _LanguageTextWidgetState extends State<LanguageTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return BlocSelector<
       LanguageBloc,
-      BaseState,
-      ({bool fetching, w.Text? text})
+      BaseState<Language, w.Text, Content, Payload>,
+      w.Text?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.texts[widget.identifier.sku],
-        );
+        return state.texts[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching) {
+      builder: (context, text) {
+        if (text == null) {
           return const SizedBox(
             height: 40,
             child: Center(child: CircularProgressIndicator()),
           );
         }
 
-        final text = state.text;
-
-        if (text == null) {
+        if (text.contents.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        return LanguageContentWidget(identifier: state.text!.contents.first);
+        return LanguageContentWidget(identifier: text.contents.first);
       },
     );
   }

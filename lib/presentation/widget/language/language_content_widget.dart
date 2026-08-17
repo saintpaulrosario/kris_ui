@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
+
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/presentation/widget/language/language_payload_list_widget.dart';
+import 'package:kris/model/language.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart' as w;
+
+import 'language_payload_list_widget.dart';
 
 class LanguageContentWidget extends StatefulWidget {
   final Identifier identifier;
+
   const LanguageContentWidget({super.key, required this.identifier});
 
   @override
   State<LanguageContentWidget> createState() => _LanguageContentWidgetState();
 }
 
-class _LanguageContentWidgetState extends State<LanguageContentWidget> {
+class _LanguageContentWidgetState extends State<LanguageContentWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
+
     context.read<LanguageBloc>().add(
       BaseEvent.content(identifier: widget.identifier),
     );
@@ -26,26 +38,29 @@ class _LanguageContentWidgetState extends State<LanguageContentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return BlocSelector<
       LanguageBloc,
-      BaseState,
-      ({bool fetching, Content? content})
+      BaseState<Language, w.Text, Content, Payload>,
+      Content?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        );
+        return state.contents[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching) {
-          return CircularProgressIndicator();
-        }
-        if (state.content == null) {
-          return Text("no content");
+      builder: (context, content) {
+        if (content == null) {
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
-        return LanguagePayloadListWidget(identifiers: state.content!.payloads);
+        if (content.payloads.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return LanguagePayloadListWidget(identifiers: content.payloads);
       },
     );
   }

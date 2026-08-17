@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
+
+import 'package:kris/model/content.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
-
-import '../../../logic/base_event.dart';
-import '../../../logic/base_state.dart';
-import '../../../model/content.dart';
-import '../../../model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
 
 class LanguagePayloadWidget extends StatefulWidget {
@@ -22,8 +23,12 @@ class LanguagePayloadWidget extends StatefulWidget {
 class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
     with AutomaticKeepAliveClientMixin {
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
+
     context.read<LanguageBloc>().add(
       BaseEvent.payload(identifier: widget.identifier),
     );
@@ -32,36 +37,31 @@ class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return BlocSelector<
       LanguageBloc,
       BaseState<Language, w.Text, Content, Payload>,
-      ({bool fetching, Payload? payload})
+      Payload?
     >(
-      selector: (state) => (
-        fetching: state.fetching.contains(widget.identifier.sku),
-        payload: state.payloads[widget.identifier.sku],
-      ),
-
-      builder: (context, state) {
-        if (state.fetching) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state.payload == null) {
-          return const Text("Payload was not fetched");
+      selector: (state) {
+        return state.payloads[widget.identifier.sku];
+      },
+      builder: (context, payload) {
+        if (payload == null) {
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
         return Text(
-          state.payload!.value,
+          payload.value,
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          key: ValueKey(state.payload!.sku),
+          key: ValueKey(payload.sku),
         );
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

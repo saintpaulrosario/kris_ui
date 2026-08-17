@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
+
 import 'package:kris/model/content.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/presentation/widget/dialect/dialect_payload_list_widget.dart';
-import 'package:kris/presentation/widget/dialect/dialect_payload_widget.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart' as w;
+
+import 'dialect_payload_list_widget.dart';
 
 class DialectContentWidget extends StatefulWidget {
   final Identifier identifier;
+
   const DialectContentWidget({super.key, required this.identifier});
 
   @override
@@ -20,6 +26,7 @@ class _DialectContentWidgetState extends State<DialectContentWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<DialectBloc>().add(
       BaseEvent.content(identifier: widget.identifier),
     );
@@ -29,24 +36,18 @@ class _DialectContentWidgetState extends State<DialectContentWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<
       DialectBloc,
-      BaseState,
-      ({bool fetching, Content? content})
+      BaseState<Dialect, w.Text, Content, Payload>,
+      Content?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          content: state.contents[widget.identifier.sku],
-        );
+        return state.contents[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching) {
-          return CircularProgressIndicator();
-        }
-        if (state.content == null) {
-          return Text("no content");
+      builder: (context, content) {
+        if (content == null) {
+          return const Center(child: CircularProgressIndicator());
         }
 
-        return DialectPayloadWidget(identifier: state.content!.payloads.first);
+        return DialectPayloadListWidget(identifiers: content.payloads);
       },
     );
   }

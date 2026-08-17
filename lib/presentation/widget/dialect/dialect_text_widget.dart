@@ -1,14 +1,17 @@
-import 'package:flutter/material.dart' show Divider, CircularProgressIndicator;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
+
+import 'package:kris/model/content.dart';
+import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
-
+import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
-import 'package:kris/presentation/widget/dialect/dialect_content_list_widget.dart';
 
-import '../../../logic/base_event.dart';
+import 'dialect_content_list_widget.dart';
 
 class DialectTextWidget extends StatefulWidget {
   final Identifier identifier;
@@ -23,6 +26,7 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
   @override
   void initState() {
     super.initState();
+
     context.read<DialectBloc>().add(
       BaseEvent.text(identifier: widget.identifier),
     );
@@ -32,25 +36,18 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<
       DialectBloc,
-      BaseState,
-      ({bool fetching, w.Text? text})
+      BaseState<Dialect, w.Text, Content, Payload>,
+      w.Text?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.texts[widget.identifier.sku],
-        );
+        return state.texts[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching) {
-          return Center(child: CircularProgressIndicator());
+      builder: (context, text) {
+        if (text == null) {
+          return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.text == null) {
-          return const Text("no text");
-        }
-
-        return DialectContentListWidget(identifiers: state.text!.contents);
+        return DialectContentListWidget(identifiers: text.contents);
       },
     );
   }

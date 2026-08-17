@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/language_bloc.dart';
+
+import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/presentation/widget/language/language_text_list_widget.dart';
-
-import '../../../model/content.dart';
 import 'package:kris/model/text.dart' as w;
+
+import 'language_text_list_widget.dart';
 
 class LanguageWidget extends StatefulWidget {
   final Identifier identifier;
@@ -24,9 +26,11 @@ class _LanguageWidgetState extends State<LanguageWidget>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
+
     context.read<LanguageBloc>().add(
       BaseEvent.identifier(identifier: widget.identifier),
     );
@@ -39,20 +43,20 @@ class _LanguageWidgetState extends State<LanguageWidget>
     return BlocSelector<
       LanguageBloc,
       BaseState<Language, w.Text, Content, Payload>,
-      ({bool fetching, Language? language})
+      Language?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          language: state.data[widget.identifier.sku],
-        );
+        return state.data[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching || state.language == null) {
-          return const CircularProgressIndicator();
+      builder: (context, language) {
+        if (language == null) {
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
-        return LanguageTextListWidget(identifiers: state.language!.texts);
+        return LanguageTextListWidget(identifiers: language.texts);
       },
     );
   }
