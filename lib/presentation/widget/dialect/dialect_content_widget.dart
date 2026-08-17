@@ -22,7 +22,8 @@ class DialectContentWidget extends StatefulWidget {
   State<DialectContentWidget> createState() => _DialectContentWidgetState();
 }
 
-class _DialectContentWidgetState extends State<DialectContentWidget> {
+class _DialectContentWidgetState extends State<DialectContentWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -44,11 +45,21 @@ class _DialectContentWidgetState extends State<DialectContentWidget> {
       },
       builder: (context, content) {
         if (content == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (content.payloads.isEmpty) {
+          return const SizedBox.shrink();
         }
 
         return DialectPayloadListWidget(identifiers: content.payloads);
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

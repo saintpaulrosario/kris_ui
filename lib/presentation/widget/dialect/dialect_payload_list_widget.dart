@@ -10,17 +10,23 @@ class DialectPayloadListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (int i = 0; i < identifiers.length; i++) ...[
-          if (i > 0) const Divider(height: 1),
+    if (identifiers.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-          DialectPayloadWidget(
-            key: ValueKey(identifiers[i].sku),
-            identifier: identifiers[i],
-          ),
-        ],
-      ],
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: identifiers.length,
+      separatorBuilder: (_, _) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final identifier = identifiers[index];
+
+        return DialectPayloadWidget(
+          key: ValueKey(identifier.sku),
+          identifier: identifier,
+        );
+      },
     );
   }
 }

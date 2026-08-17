@@ -48,7 +48,10 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
       },
       builder: (context, payload) {
         if (payload == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
         return Text(
@@ -56,6 +59,7 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
+          key: ValueKey(payload.sku),
         );
       },
     );

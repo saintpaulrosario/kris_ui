@@ -10,6 +10,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
 
 import 'dialect_content_list_widget.dart';
 
@@ -22,7 +23,8 @@ class DialectTextWidget extends StatefulWidget {
   State<DialectTextWidget> createState() => _DialectTextWidgetState();
 }
 
-class _DialectTextWidgetState extends State<DialectTextWidget> {
+class _DialectTextWidgetState extends State<DialectTextWidget>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -34,6 +36,7 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocSelector<
       DialectBloc,
       BaseState<Dialect, w.Text, Content, Payload>,
@@ -44,11 +47,17 @@ class _DialectTextWidgetState extends State<DialectTextWidget> {
       },
       builder: (context, text) {
         if (text == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
-        return DialectContentListWidget(identifiers: text.contents);
+        return DialectContentWidget(identifier: text.contents.first);
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

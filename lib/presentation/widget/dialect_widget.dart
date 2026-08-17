@@ -50,7 +50,10 @@ class _DialectWidgetState extends State<DialectWidget>
       },
       builder: (context, dialect) {
         if (dialect == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
         return DialectTextListWidget(identifiers: dialect.texts);
