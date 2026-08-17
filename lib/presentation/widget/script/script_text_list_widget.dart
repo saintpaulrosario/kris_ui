@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/script/script_text_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../model/identifier.dart';
+import 'package:kris/model/identifier.dart';
 
-class ScriptTextListWidget extends StatelessWidget {
+import 'script_text_widget.dart';
+
+class ScriptTextListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
 
   const ScriptTextListWidget({super.key, required this.identifiers});
 
   @override
+  State<ScriptTextListWidget> createState() => _ScriptTextListWidgetState();
+}
+
+class _ScriptTextListWidgetState extends State<ScriptTextListWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (_, _) => Divider(),
-          itemCount: identifiers.length,
-          itemBuilder: (_, index) {
-            final identifier = identifiers.elementAt(index);
-            return ScriptTextWidget(identifier: identifier);
-          },
-        ),
-      ],
+    super.build(context);
+
+    if (widget.identifiers.isEmpty) {
+      return const Text('No script texts');
+    }
+
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.identifiers.length,
+      separatorBuilder: (_, _) {
+        return const Divider(height: 1);
+      },
+      itemBuilder: (context, index) {
+        final identifier = widget.identifiers[index];
+
+        return ScriptTextWidget(
+          key: ValueKey('script-text-${identifier.sku}'),
+          identifier: identifier,
+        );
+      },
     );
   }
 }

@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
+
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
-import 'package:kris/presentation/widget/script/script_content_list_widget.dart';
+
+import 'script_content_list_widget.dart';
 
 class ScriptTextWidget extends StatefulWidget {
   final Identifier identifier;
+
   const ScriptTextWidget({super.key, required this.identifier});
 
   @override
   State<ScriptTextWidget> createState() => _ScriptTextWidgetState();
 }
 
-class _ScriptTextWidgetState extends State<ScriptTextWidget> {
+class _ScriptTextWidgetState extends State<ScriptTextWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -30,25 +38,25 @@ class _ScriptTextWidgetState extends State<ScriptTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return BlocSelector<
       ScriptBloc,
       BaseState<Script, w.Text, Content, Payload>,
-      ({bool fetching, w.Text? text})
+      w.Text?
     >(
       selector: (state) {
-        return (
-          fetching: state.fetching.contains(widget.identifier.sku),
-          text: state.texts[widget.identifier.sku],
-        );
+        return state.texts[widget.identifier.sku];
       },
-      builder: (context, state) {
-        if (state.fetching) {
-          return CircularProgressIndicator();
+      builder: (context, text) {
+        if (text == null) {
+          return const Center(child: CircularProgressIndicator());
         }
-        if (state.text == null) {
-          return Text("no script");
-        }
-        return ScriptContentListWidget(identifiers: state.text!.contents);
+
+        return ScriptContentListWidget(
+          key: ValueKey('script-content-list-${text.sku}'),
+          identifiers: text.contents,
+        );
       },
     );
   }
