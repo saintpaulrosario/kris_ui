@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart' show CircularProgressIndicator, Divider;
-import 'package:flutter/widgets.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
+
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
@@ -24,7 +26,18 @@ class TextListWidget extends StatefulWidget {
 }
 
 class _TextListWidgetState extends State<TextListWidget> {
-  void _fetchTexts(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      _fetchTexts();
+    });
+  }
+
+  void _fetchTexts() {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
@@ -33,53 +46,35 @@ class _TextListWidgetState extends State<TextListWidget> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchTexts(context);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocSelector<
       WordBloc,
       BaseState<Word, w.Text, Content, Payload>,
-      ({Set<String> fetching, Map<String, w.Text> texts})
+      BuiltMap<String, w.Text>
     >(
       selector: (state) {
-        final identifiers = widget.identifiers.map((x) => x.sku).toSet();
+        final identifiers = widget.identifiers
+            .map((identifier) => identifier.sku)
+            .toSet();
 
-        return (
-          fetching: state.fetching.where(identifiers.contains).toSet(),
+        final result = state.texts.toBuilder();
 
-          texts: Map.fromEntries(
-            state.texts.entries.where(
-              (entry) => identifiers.contains(entry.key),
-            ),
-          ),
-        );
+        // Keep only the requested identifiers.
+        result.removeWhere((key, value) => !identifiers.contains(key));
+
+        return result.build();
       },
-      builder: (context, state) {
-        return Column(
-          children: [
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: state.texts.values.length,
-              separatorBuilder: (_, _) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final text = state.texts.values.elementAt(index);
+      builder: (context, texts) {
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: texts.length,
+          separatorBuilder: (_, _) => const Divider(height: 1),
+          itemBuilder: (context, index) {
+            final text = texts.values.elementAt(index);
 
-                if (state.fetching.contains(text.sku)) {
-                  return const CircularProgressIndicator();
-                }
-
-                return TextWidget(text: text);
-              },
-            ),
-          ],
+            return TextWidget(key: ValueKey(text.sku), text: text);
+          },
         );
       },
     );

@@ -34,15 +34,41 @@ class _ScriptMenuState extends State<ScriptMenu> {
     return BlocSelector<
       ScriptBloc,
       BaseState<Script, w.Text, Content, Payload>,
-      ({BuiltMap<String, Script> data, BuiltSet<Identifier> selections})
+      BuiltMap<String, Script>
     >(
-      selector: (state) => (data: state.data, selections: state.selections),
-      builder: (context, state) {
+      // This widget now only listens to data.
+      //
+      // Selecting an item changes `selections`, not `data`,
+      // so this selector will NOT rebuild because of selection changes.
+      selector: (state) => state.data,
+      builder: (context, data) {
+        return _ScriptMenuSelection(words: data.values.toList());
+      },
+    );
+  }
+}
+
+class _ScriptMenuSelection extends StatelessWidget {
+  final List<Script> words;
+
+  const _ScriptMenuSelection({required this.words});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocSelector<
+      ScriptBloc,
+      BaseState<Script, w.Text, Content, Payload>,
+      BuiltSet<Identifier>
+    >(
+      // This widget only listens to selections.
+      selector: (state) => state.selections,
+      builder: (context, selections) {
         return MenuWidget(
+          key: const ValueKey('script-menu'),
           maya: 'SCRIPT',
           label: 'script',
-          words: state.data.values.toList(),
-          selections: state.selections.toSet(),
+          words: words,
+          selections: selections.toSet(),
           onSelectionChanged: (identifier, selected) {
             context.read<ScriptBloc>().add(
               BaseEvent.select(identifier: identifier, selected: selected),

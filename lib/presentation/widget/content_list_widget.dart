@@ -1,23 +1,20 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
-import 'package:kris/logic/word/language_bloc.dart';
-import 'package:kris/model/language.dart';
-import 'package:kris/presentation/widget/content_wiget.dart';
-
-import '../../model/identifier.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
+
 import 'package:kris/model/content.dart';
+import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/script.dart';
 import 'package:kris/model/word.dart';
 
 import '../../model/text.dart' as w;
-import 'text_widget.dart';
+import 'content_wiget.dart';
 
 class ContentListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
@@ -29,8 +26,20 @@ class ContentListWidget extends StatefulWidget {
 }
 
 class _ContentListWidgetState extends State<ContentListWidget> {
-  void _fetchContents(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      _fetchContents();
+    });
+  }
+
+  void _fetchContents() {
     final languages = context.read<LanguageBloc>().state.selections.toList();
+
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
@@ -43,55 +52,36 @@ class _ContentListWidgetState extends State<ContentListWidget> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchContents(context);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocSelector<
       WordBloc,
       BaseState<Word, w.Text, Content, Payload>,
-      ({Set<String> fetching, Map<String, Content> contents})
+      BuiltMap<String, Content>
     >(
       selector: (state) {
-        final identifiers = widget.identifiers.map((x) => x.sku).toSet();
+        final identifiers = widget.identifiers
+            .map((identifier) => identifier.sku)
+            .toSet();
 
-        return (
-          fetching: state.fetching.where(identifiers.contains).toSet(),
-
-          contents: Map.fromEntries(
-            state.contents.entries.where(
-              (entry) => identifiers.contains(entry.key),
-            ),
-          ),
-        );
+        return state.contents.rebuild((builder) {
+          builder.removeWhere((key, value) => !identifiers.contains(key));
+        });
       },
-      builder: (context, state) {
-        if (state.contents.isEmpty) {
-          return Text("no content");
+      builder: (context, contents) {
+        if (contents.isEmpty) {
+          return const SizedBox.shrink();
         }
-        return Column(
-          children: [
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: state.contents.length,
-              separatorBuilder: (_, _) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final content = state.contents.values.elementAt(index);
 
-                if (state.fetching.contains(content.sku)) {
-                  return const CircularProgressIndicator();
-                }
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: contents.length,
+          separatorBuilder: (_, _) => const Divider(height: 1),
+          itemBuilder: (context, index) {
+            final content = contents.values.elementAt(index);
 
-                return ContentWidget(content: content);
-              },
-            ),
-          ],
+            return ContentWidget(key: ValueKey(content.sku), content: content);
+          },
         );
       },
     );

@@ -43,7 +43,10 @@ class _WordPageState extends State<WordPage>
       },
       builder: (context, state) {
         if (state == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
         }
 
         return LayoutBuilder(

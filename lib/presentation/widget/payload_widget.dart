@@ -12,19 +12,31 @@ class PayloadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: SoundListWidget(identifiers: payload.sounds)),
+        Expanded(
+          child: SoundListWidget(
+            key: ValueKey('sound-${payload.sku}'),
+            identifiers: payload.sounds,
+          ),
+        ),
+
         Expanded(
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
-            key: ValueKey(payload.sku),
+            key: ValueKey('value-${payload.sku}'),
           ),
         ),
 
-        Expanded(child: DialectListWidget(identifiers: payload.dialects)),
+        Expanded(
+          child: DialectListWidget(
+            key: ValueKey('dialect-${payload.sku}'),
+            identifiers: payload.dialects,
+          ),
+        ),
       ],
     );
   }
