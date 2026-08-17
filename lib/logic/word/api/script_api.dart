@@ -18,8 +18,9 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
   @override
   @GET("/script")
   Future<HttpResponse<ApiResult<PageResult<Script>>>> fetchAll({
-    @Query("page") required int page,
-    @Query("size") required int size,
+    @Query("page") int? page,
+    @Query("size") int? size,
+    @Query("scripts") List<String>? scripts,
   });
 
   @override

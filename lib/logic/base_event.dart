@@ -17,8 +17,8 @@ class BaseEvent {
   final WordFetchType type;
   final Identifier identifier;
   final List<Identifier> identifiers;
-  final int pageNumber;
-  final int pageSize;
+  final int ? pageNumber;
+  final int ? pageSize;
   final bool selected;
   final List<Identifier>? scripts;
   final List<Identifier>? languages;
@@ -36,14 +36,18 @@ class BaseEvent {
     this.languages,
   });
 
-  factory BaseEvent.fetch({required int pageNumber, required int pageSize}) {
+  factory BaseEvent.fetch({
+    int? pageNumber,
+    int? pageSize,
+    List<Identifier>? scripts,
+  }) {
     return BaseEvent._(
       type: WordFetchType.page,
       pageNumber: pageNumber,
       pageSize: pageSize,
       identifier: Identifier.initial(),
       selected: false,
-      scripts: [],
+      scripts: scripts,
       dialects: [],
       languages: [],
       identifiers: [],

@@ -68,8 +68,11 @@ class ScriptBloc
       ),
     );
 
+    int number = event.pageNumber ?? state.pageNumber;
+    int size = event.pageSize ?? state.pageSize;
+
     final Either<ErrorResponse, PageResult<Script>> results = await _service
-        .retrieve(page: event.pageNumber, size: event.pageSize);
+        .retrieve(page: number, size: size);
 
     results.match(
       (ErrorResponse error) {

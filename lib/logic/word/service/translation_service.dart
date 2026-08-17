@@ -20,12 +20,13 @@ class TranslationService
 
   @override
   Future<Either<ErrorResponse, PageResult<Translation>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Translation>>> httpResponse =
-          await _api.fetchAll(page: page, size: size);
+          await _api.fetchAll(page: page, size: size,scripts: scripts);
 
       ApiResult<PageResult<Translation>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {

@@ -19,8 +19,9 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
 
   @override
   Future<Either<ErrorResponse, PageResult<Dialect>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Dialect>>> httpResponse =

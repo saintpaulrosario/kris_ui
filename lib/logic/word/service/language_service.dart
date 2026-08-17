@@ -19,8 +19,9 @@ class LanguageService extends BaseService<Language, Text, Content, Payload> {
 
   @override
   Future<Either<ErrorResponse, PageResult<Language>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Language>>> httpResponse =

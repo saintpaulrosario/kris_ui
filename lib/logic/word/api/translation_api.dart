@@ -18,8 +18,9 @@ abstract class TranslationApi
   @override
   @GET("/translation")
   Future<HttpResponse<ApiResult<PageResult<Translation>>>> fetchAll({
-    @Query("page") required int page,
-    @Query("size") required int size,
+    @Query("page") int? page,
+    @Query("size") int? size,
+    @Query("scripts") List<String>? scripts,
   });
 
   @override

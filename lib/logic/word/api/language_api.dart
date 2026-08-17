@@ -18,8 +18,10 @@ abstract class LanguageApi
   @override
   @GET("/language")
   Future<HttpResponse<ApiResult<PageResult<Language>>>> fetchAll({
-    @Query("page") required int page,
-    @Query("size") required int size,
+    @Query("page") int? page,
+    @Query("size") int? size,
+
+    @Query("scripts") List<String>? scripts,
   });
 
   @override

@@ -19,8 +19,9 @@ class ScriptService extends BaseService<Script, Text, Content, Payload> {
 
   @override
   Future<Either<ErrorResponse, PageResult<Script>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Script>>> httpResponse =

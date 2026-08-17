@@ -6,8 +6,9 @@ import '../../../response/page_result.dart';
 
 abstract class BaseService<W, T, C, P> {
   Future<Either<ErrorResponse, PageResult<W>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   });
 
   Future<Either<ErrorResponse, W>> retrieveWord({

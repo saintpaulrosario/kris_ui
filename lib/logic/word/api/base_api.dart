@@ -5,8 +5,9 @@ import '../../../response/page_result.dart';
 
 abstract interface class BaseApi<W, T, C, P> {
   Future<HttpResponse<ApiResult<PageResult<W>>>> fetchAll({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   });
 
   Future<HttpResponse<ApiResult<W>>> fetch({required String identifier});

@@ -21,12 +21,13 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
 
   @override
   Future<Either<ErrorResponse, PageResult<Word>>> retrieve({
-    required int page,
-    required int size,
+    int? page,
+    int? size,
+    List<String>? scripts,
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Word>>> httpResponse = await _api
-          .fetchAll(page: page, size: size);
+          .fetchAll(page: page, size: size, scripts: scripts);
 
       ApiResult<PageResult<Word>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {

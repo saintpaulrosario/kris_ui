@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/script_bloc.dart';
+import 'package:kris/logic/word/translation_bloc.dart';
+import 'package:kris/logic/word/word_bloc.dart';
+import 'package:kris/presentation/menu/dialect_menu.dart';
+import 'package:kris/presentation/menu/language_menu.dart';
 import 'package:kris/presentation/menu/script_menu.dart';
 
 import '../../feature/presentation/page/authentication_page.dart';
@@ -87,22 +91,21 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const ScriptMenu(),
+                  const LanguageMenu(),
+                  const DialectMenu(),
 
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: OutlinedButton(
                       onPressed: () {
-                        final selections = context
+                        final scripts = context
                             .read<ScriptBloc>()
                             .state
                             .selections
                             .toList();
 
-                        context.read<ScriptBloc>().add(
-                          BaseEvent.selects(
-                            identifiers: selections,
-                            selected: true,
-                          ),
+                        context.read<TranslationBloc>().add(
+                          BaseEvent.fetch(scripts: scripts),
                         );
                       },
                       child: const Text('submit'),

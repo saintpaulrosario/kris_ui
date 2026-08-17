@@ -17,8 +17,9 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
   @override
   @GET("/dialect")
   Future<HttpResponse<ApiResult<PageResult<Dialect>>>> fetchAll({
-    @Query("page") required int page,
-    @Query("size") required int size,
+    @Query("page") int? page,
+    @Query("size") int? size,
+    @Query("scripts") List<String>? scripts,
   });
 
   @override
