@@ -36,16 +36,20 @@ class _SoundWidgetState extends State<SoundWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () async {
-        try {
-          final bytes = Uint8List.fromList(base64Decode(widget.sound.content));
-          await player.play(BytesSource(bytes));
-        } catch (e) {
-          debugPrint("Audio playback error: $e");
-        }
-      },
-      child: const Icon(Icons.volume_up),
+    return Flexible(
+      child: TextButton(
+        onPressed: () async {
+          try {
+            final bytes = Uint8List.fromList(
+              base64Decode(widget.sound.content),
+            );
+            await player.play(BytesSource(bytes));
+          } catch (e) {
+            debugPrint("Audio playback error: $e");
+          }
+        },
+        child: const Icon(Icons.volume_up),
+      ),
     );
   }
 }
