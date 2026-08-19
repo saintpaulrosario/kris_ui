@@ -55,31 +55,33 @@ class _ImageListWidgetState extends State<ImageListWidget>
       return const SizedBox(child: Icon(Icons.image_not_supported));
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final availableHeight = constraints.hasBoundedHeight
-            ? constraints.maxHeight
-            : _defaultHeight;
+    return BlocSelector<
+      MediumBloc,
+      MediumState<Medium>,
+      BuiltMap<String, Medium>
+    >(
+      selector: (state) {
+        final identifiers = widget.identifiers
+            .map((identifier) => identifier.sku)
+            .toSet();
 
-        final carouselHeight = identifiers.length > 1
-            ? (availableHeight - _indicatorHeight).clamp(0.0, double.infinity)
-            : availableHeight;
+        return state.data.rebuild((builder) {
+          builder.removeWhere((key, value) => !identifiers.contains(key));
+        });
+      },
+      builder: (context, state) {
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final availableHeight = constraints.hasBoundedHeight
+                ? constraints.maxHeight
+                : _defaultHeight;
 
-        return BlocSelector<
-          MediumBloc,
-          MediumState<Medium>,
-          BuiltMap<String, Medium>
-        >(
-          selector: (state) {
-            final identifiers = widget.identifiers
-                .map((identifier) => identifier.sku)
-                .toSet();
-
-            return state.data.rebuild((builder) {
-              builder.removeWhere((key, value) => !identifiers.contains(key));
-            });
-          },
-          builder: (context, state) {
+            final carouselHeight = identifiers.length > 1
+                ? (availableHeight - _indicatorHeight).clamp(
+                    0.0,
+                    double.infinity,
+                  )
+                : availableHeight;
             return Column(
               children: [
                 CarouselSlider.builder(
