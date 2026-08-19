@@ -110,16 +110,18 @@ void _registerApis() {
   getIt.registerLazySingleton<Dio>(() {
     final dio = Dio();
 
-    dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-        responseBody: true,
-        error: true,
-      ),
-    );
+    // dio.interceptors.add(
+    //   LogInterceptor(
+    //     request: true,
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseHeader: true,
+    //     responseBody: true,
+    //     error: true,
+    //     requestUrl: true,
+    //     responseUrl: true
+    //   ),
+    // );
 
     return dio;
   });

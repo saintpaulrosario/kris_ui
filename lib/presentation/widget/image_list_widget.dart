@@ -19,7 +19,8 @@ class ImageListWidget extends StatefulWidget {
   State<ImageListWidget> createState() => _ImageListWidgetState();
 }
 
-class _ImageListWidgetState extends State<ImageListWidget> {
+class _ImageListWidgetState extends State<ImageListWidget>
+    with AutomaticKeepAliveClientMixin {
   static const int _maxIndicators = 5;
   static const double _defaultHeight = 150;
   static const double _indicatorHeight = 10;
@@ -47,6 +48,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final identifiers = widget.identifiers;
 
     if (identifiers.isEmpty) {
@@ -95,7 +97,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
                             ),
                           );
                         }
-                        Medium image = state[identifiers.elementAt(index)]!;
+                        Medium image = state[identifiers.elementAt(index).sku]!;
                         return ImageWidget(
                           key: ValueKey(identifiers[index].sku),
                           image: image,
@@ -174,4 +176,7 @@ class _ImageListWidgetState extends State<ImageListWidget> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
