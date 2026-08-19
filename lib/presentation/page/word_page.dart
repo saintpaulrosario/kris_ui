@@ -22,12 +22,20 @@ class WordPage extends StatefulWidget {
 
 class _WordPageState extends State<WordPage>
     with AutomaticKeepAliveClientMixin {
+  late ScrollController _scrollController;
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     context.read<TranslationBloc>().add(
       BaseEvent.fetch(pageNumber: 0, pageSize: 50),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,15 +59,21 @@ class _WordPageState extends State<WordPage>
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            return ListView.separated(
-              shrinkWrap: true,
-              itemCount: state.content.length,
-              separatorBuilder: (context, index) => Divider(),
-              itemBuilder: (context, index) {
-                Word word = state.content.elementAt(index);
+            return Scrollbar(
+              thumbVisibility: true,
+              thickness: 21,
+              controller: _scrollController,
+              interactive: true,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: state.content.length,
+                separatorBuilder: (context, index) => Divider(),
+                itemBuilder: (context, index) {
+                  Word word = state.content.elementAt(index);
 
-                return WordWidget(word: word);
-              },
+                  return WordWidget(word: word);
+                },
+              ),
             );
           },
         );
