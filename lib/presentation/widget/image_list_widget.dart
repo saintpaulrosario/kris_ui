@@ -1,6 +1,12 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/logic/medium/bloc/medium_bloc.dart';
+import 'package:kris/logic/medium/medium_state.dart';
+import 'package:kris/model/medium.dart';
 import 'package:kris/presentation/widget/image_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../model/identifier.dart';
 
@@ -19,6 +25,14 @@ class _ImageListWidgetState extends State<ImageListWidget> {
   static const double _indicatorHeight = 10;
 
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    context.read<MediumBloc>().add(
+      MediumEventFetchIdentifiers(identifiers: widget.identifiers),
+    );
+    super.initState();
+  }
 
   @override
   void didUpdateWidget(covariant ImageListWidget oldWidget) {
@@ -49,41 +63,71 @@ class _ImageListWidgetState extends State<ImageListWidget> {
             ? (availableHeight - _indicatorHeight).clamp(0.0, double.infinity)
             : availableHeight;
 
-        return Column(
-          children: [
-            CarouselSlider.builder(
-              itemCount: identifiers.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                return ImageWidget(
-                  key: ValueKey(identifiers[index].sku),
-                  imageIdentifier: identifiers[index],
-                );
-              },
-              options: CarouselOptions(
-                height: carouselHeight,
-                viewportFraction: 1.0,
-                enlargeCenterPage: false,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (index, reason) {
-                  if (!mounted) {
-                    return;
-                  }
+        return BlocSelector<
+          MediumBloc,
+          MediumState<Medium>,
+          BuiltMap<String, Medium>
+        >(
+          selector: (state) {
+            final identifiers = widget.identifiers
+                .map((identifier) => identifier.sku)
+                .toSet();
 
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-            ),
+            return state.data.rebuild((builder) {
+              builder.removeWhere((key, value) => !identifiers.contains(key));
+            });
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                CarouselSlider.builder(
+                  itemCount: widget.identifiers.length,
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                        if (!state.containsKey(
+                          identifiers.elementAt(index).sku,
+                        )) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: const DecoratedBox(
+                              decoration: BoxDecoration(color: Colors.white),
+                            ),
+                          );
+                        }
+                        Medium image = state[identifiers.elementAt(index)]!;
+                        return ImageWidget(
+                          key: ValueKey(identifiers[index].sku),
+                          image: image,
+                        );
+                      },
+                  options: CarouselOptions(
+                    height: carouselHeight,
+                    viewportFraction: 1.0,
+                    enlargeCenterPage: false,
+                    enableInfiniteScroll: false,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index, reason) {
+                      if (!mounted) {
+                        return;
+                      }
 
-            if (identifiers.length > 1) ...[
-              SizedBox(
-                height: _indicatorHeight - 1,
-                child: _buildIndicators(context),
-              ),
-            ],
-          ],
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                  ),
+                ),
+
+                if (identifiers.length > 1) ...[
+                  SizedBox(
+                    height: _indicatorHeight - 1,
+                    child: _buildIndicators(context),
+                  ),
+                ],
+              ],
+            );
+          },
         );
       },
     );

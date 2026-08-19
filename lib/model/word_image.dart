@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/medium.dart';
 
 import 'account.dart';
+import 'identifier.dart';
 
 part 'word_image.g.dart';
 
@@ -15,9 +16,9 @@ part 'word_image.g.dart';
 class WordImage extends Medium {
   WordImage({
     required super.content,
-    required super.contentType,
+    required super.type,
     required super.size,
-    required super.description,
+    required super.descriptions,
     required super.tags,
     required super.sku,
     required super.version,
@@ -26,14 +27,16 @@ class WordImage extends Medium {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+
+    required super.checkSum,
   });
 
   factory WordImage.initial() {
     return WordImage(
       content: '',
-      contentType: '',
+      type: '',
       size: 0,
-      description: '',
+      descriptions: [],
       tags: [],
       sku: '',
       version: 0,
@@ -42,6 +45,7 @@ class WordImage extends Medium {
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
+      checkSum: '',
     );
   }
 

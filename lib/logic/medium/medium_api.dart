@@ -10,14 +10,14 @@ part 'medium_api.g.dart';
 abstract class MediumApi {
   factory MediumApi(Dio dio, {String baseUrl}) = _MediumApi;
 
-  @GET("/image/{identifier}")
+  @GET("/medium/{identifier}")
   Future<HttpResponse<ApiResult<Medium>>> fetch({
     @Path("identifier") required String identifier,
     @Query("sku", encoded: true) required bool sku,
     @Query("ordinal", encoded: true) required bool ordinal,
   });
 
-  @GET("/image")
+  @GET("/medium")
   Future<HttpResponse<ApiResult<List<Medium>>>> fetchAll({
     @Query("identifiers", encoded: true) List<String>? identifiers,
   });

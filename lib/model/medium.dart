@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kris/model/identifier.dart';
 
 import 'account.dart';
+import 'identifier.dart';
 
 part 'medium.g.dart';
 
@@ -17,22 +17,25 @@ class Medium extends Identifier {
   final String content;
 
   @JsonKey(disallowNullValue: false, defaultValue: '')
-  final String contentType;
-
-  @JsonKey(disallowNullValue: false, defaultValue: 0)
-  final int size;
+  final String type;
 
   @JsonKey(disallowNullValue: false, defaultValue: '')
-  final String description;
+  final String checkSum;
 
-  @JsonKey(disallowNullValue: false, defaultValue: <String>[])
-  final List<String> tags;
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
+  final num size;
+
+  @JsonKey(disallowNullValue: false, defaultValue: <Identifier>[])
+  final List<Identifier> descriptions;
+
+  @JsonKey(disallowNullValue: false, defaultValue: <Identifier>[])
+  final List<Identifier> tags;
 
   const Medium({
     required this.content,
-    required this.contentType,
+    required this.type,
     required this.size,
-    required this.description,
+    required this.descriptions,
     required this.tags,
     required super.sku,
     required super.version,
@@ -41,14 +44,15 @@ class Medium extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required this.checkSum,
   });
 
   factory Medium.initial() {
     return Medium(
       content: '',
-      contentType: '',
+      type: '',
       size: 0,
-      description: '',
+      descriptions: [],
       tags: [],
       sku: '',
       version: 0,
@@ -57,6 +61,7 @@ class Medium extends Identifier {
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
+      checkSum: '',
     );
   }
 

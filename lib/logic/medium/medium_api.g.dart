@@ -35,7 +35,7 @@ class _MediumApi implements MediumApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image/${identifier}',
+            '/medium/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -69,7 +69,7 @@ class _MediumApi implements MediumApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image',
+            '/medium',
             queryParameters: queryParameters,
             data: _data,
           )
