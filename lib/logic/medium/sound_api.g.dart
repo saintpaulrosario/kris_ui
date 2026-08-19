@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'image_api.dart';
+part of 'sound_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'image_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _ImageApi implements ImageApi {
-  _ImageApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _SoundApi implements SoundApi {
+  _SoundApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -35,7 +35,7 @@ class _ImageApi implements ImageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image/${identifier}',
+            '/sound/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -57,7 +57,7 @@ class _ImageApi implements ImageApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<dynamic>>> retrieveAll({
+  Future<HttpResponse<ApiResult<dynamic>>> retrieveByIdentifiers({
     List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
@@ -69,7 +69,7 @@ class _ImageApi implements ImageApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/image',
+            '/sound',
             queryParameters: queryParameters,
             data: _data,
           )

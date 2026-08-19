@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'image_api.dart';
+part of 'medium_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'image_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _ImageApi implements ImageApi {
-  _ImageApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _MediumApi implements MediumApi {
+  _MediumApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -22,7 +22,7 @@ class _ImageApi implements ImageApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<dynamic>>> retrieve({
+  Future<HttpResponse<ApiResult<Medium>>> fetch({
     required String identifier,
     required bool sku,
     required bool ordinal,
@@ -31,7 +31,7 @@ class _ImageApi implements ImageApi {
     final queryParameters = <String, dynamic>{r'sku': sku, r'ordinal': ordinal};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<dynamic>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Medium>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -42,11 +42,11 @@ class _ImageApi implements ImageApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<dynamic> _value;
+    late ApiResult<Medium> _value;
     try {
-      _value = ApiResult<dynamic>.fromJson(
+      _value = ApiResult<Medium>.fromJson(
         _result.data!,
-        (json) => json as dynamic,
+        (json) => Medium.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -57,7 +57,7 @@ class _ImageApi implements ImageApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<dynamic>>> retrieveAll({
+  Future<HttpResponse<ApiResult<List<Medium>>>> fetchAll({
     List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
@@ -65,7 +65,7 @@ class _ImageApi implements ImageApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<dynamic>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Medium>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -76,11 +76,17 @@ class _ImageApi implements ImageApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<dynamic> _value;
+    late ApiResult<List<Medium>> _value;
     try {
-      _value = ApiResult<dynamic>.fromJson(
+      _value = ApiResult<List<Medium>>.fromJson(
         _result.data!,
-        (json) => json as dynamic,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Medium>(
+                    (i) => Medium.fromJson(i as Map<String, dynamic>),
+                  )
+                  .toList()
+            : List.empty(),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

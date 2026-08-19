@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kris/logic/medium/medium_api.dart';
+import 'package:kris/logic/medium/service/medium_service.dart';
 
 import 'package:kris/logic/word/api/dialect_api.dart';
 import 'package:kris/logic/word/api/language_api.dart';
@@ -145,6 +147,10 @@ void _registerApis() {
   getIt.registerLazySingleton<LanguageApi>(
     () => LanguageApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<MediumApi>(
+    () => MediumApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -153,6 +159,8 @@ void _registerApis() {
 
 void _registerServices() {
   getIt.registerLazySingleton<ImageService<WordImage>>(() => ImageService());
+
+  getIt.registerLazySingleton<MediumService>(() => MediumService());
 
   getIt.registerLazySingleton<WordService>(() => WordService());
 

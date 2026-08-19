@@ -1,18 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:kris/logic/medium/medium_state.dart';
+import 'package:kris/logic/medium/service/medium_service.dart';
+import 'package:kris/model/identifier.dart';
 
 import '../../../model/medium.dart';
-import '../../../model/word_image.dart';
 import '../../../response/error_response.dart';
 import '../../../service_locator.dart';
-import '../image_service.dart';
 
 part 'medium_event.dart';
 
-class MediumBloc extends Bloc<MediumEvent, MediumState> {
-  final ImageService<WordImage> _imageService =
-      getIt<ImageService<WordImage>>();
+class MediumBloc extends Bloc<MediumEvent, MediumState<Medium>> {
+  final MediumService _service = getIt<MediumService>();
 
   MediumBloc() : super(MediumState.initial()) {
     on<MediumEventFetch>((event, emit) async {
@@ -24,7 +23,7 @@ class MediumBloc extends Bloc<MediumEvent, MediumState> {
           ),
         );
 
-        final Either<ErrorResponse, WordImage> result = await _imageService
+        final Either<ErrorResponse, Medium> result = await _service
             .retriveBySku(event.sku);
 
         result.fold(
@@ -51,6 +50,46 @@ class MediumBloc extends Bloc<MediumEvent, MediumState> {
           },
         );
       }
+    });
+
+    on<MediumEventFetchIdentifiers>((event, emit) async {
+      final skus = event.identifiers.map((x) => x.sku).toList();
+
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..addAll(skus)).build(),
+        ),
+      );
+
+      final results = await _service.fetch(identifiers: skus);
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors:
+                  (state.errors.toBuilder()
+                        ..addAll({for (final sku in skus) sku: error}))
+                      .build(),
+              fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+            ),
+          );
+        },
+        (List<Medium> mediums) {
+          final data = state.data.toBuilder();
+
+          for (final item in mediums) {
+            data[item.sku] = item;
+          }
+
+          emit(
+            state.copyWith(
+              data: data.build(),
+              fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+            ),
+          );
+        },
+      );
     });
   }
 }

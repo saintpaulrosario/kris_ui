@@ -8,6 +8,12 @@ class MediumEventFetch extends MediumEvent {
   MediumEventFetch({required this.sku});
 }
 
+class MediumEventFetchIdentifiers extends MediumEvent {
+  final List<Identifier> identifiers;
+
+  MediumEventFetchIdentifiers({required this.identifiers});
+}
+
 class MediumEventSelected extends MediumEvent {
   final Medium medium;
 
