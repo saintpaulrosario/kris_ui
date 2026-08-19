@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kris/presentation/widget/sound_wiget.dart';
 
 import '../../model/identifier.dart';
 
@@ -13,15 +14,12 @@ class SoundListWidget extends StatelessWidget {
       return const Icon(Icons.volume_off);
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (final identifier in identifiers)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: SoundListWidget(identifiers: identifiers),
-          ),
-      ],
+    return ListView.separated(
+      separatorBuilder: ((context, index) => Divider()),
+      itemCount: identifiers.length,
+      itemBuilder: (context, index) {
+        return SoundWidget(identifier: identifiers.elementAt(index));
+      },
     );
   }
 }
