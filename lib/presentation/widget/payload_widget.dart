@@ -20,7 +20,6 @@ class PayloadWidget extends StatelessWidget {
             identifiers: payload.sounds,
           ),
         ),
-
         Expanded(
           child: Text(
             payload.value,

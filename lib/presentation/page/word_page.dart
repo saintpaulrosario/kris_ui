@@ -57,14 +57,15 @@ class _WordPageState extends State<WordPage>
           );
         }
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            return Scrollbar(
-              thumbVisibility: true,
-              thickness: 21,
-              controller: _scrollController,
-              interactive: true,
-              child: ListView.separated(
+        return Scrollbar(
+          controller: _scrollController,
+          trackVisibility: true,
+          thumbVisibility: true,
+          thickness: 9,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return ListView.separated(
+                controller: _scrollController,
                 shrinkWrap: true,
                 itemCount: state.content.length,
                 separatorBuilder: (context, index) => Divider(),
@@ -73,9 +74,9 @@ class _WordPageState extends State<WordPage>
 
                   return WordWidget(word: word);
                 },
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
