@@ -11,6 +11,7 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/language.dart';
+import 'package:kris/presentation/widget/definition/defintion_list_widget.dart';
 
 import '../../model/trait.dart';
 import 'language/language_list_widget.dart';
@@ -26,13 +27,8 @@ class TraitWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: Text("trai")),
-        // Expanded(
-        //   child: LanguageListWidget(
-        //     key: ValueKey(trait.sku),
-        //     identifiers: trait.languages,
-        //   ),
-        // ),
+        Expanded(child: DefinitionListWidget(identifiers: trait.definitions)),
+        Expanded(child: Text("example")),
       ],
     );
   }
