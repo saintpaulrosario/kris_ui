@@ -22,6 +22,7 @@ abstract class TranslationApi
     @Query("page") int? page,
     @Query("size") int? size,
     @Query("scripts") List<String>? scripts,
+    @Query("identifiers") List<String>? identifiers,
   });
 
   @override

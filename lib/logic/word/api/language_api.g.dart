@@ -25,12 +25,14 @@ class _LanguageApi implements LanguageApi {
   Future<HttpResponse<ApiResult<PageResult<Language>>>> fetchAll({
     int? page,
     int? size,
+    List<String>? identifiers,
     List<String>? scripts,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'size': size,
+      r'identifiers': identifiers,
       r'scripts': scripts,
     };
     queryParameters.removeWhere((k, v) => v == null);

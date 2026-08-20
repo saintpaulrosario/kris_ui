@@ -42,6 +42,7 @@ class BaseEvent {
     int? pageNumber,
     int? pageSize,
     List<Identifier>? scripts,
+    List<Identifier>? identifiers,
   }) {
     return BaseEvent._(
       type: WordFetchType.page,
@@ -52,7 +53,7 @@ class BaseEvent {
       scripts: scripts,
       dialects: [],
       languages: [],
-      identifiers: [],
+      identifiers: identifiers ?? [],
     );
   }
 

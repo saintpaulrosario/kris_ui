@@ -8,6 +8,7 @@ abstract interface class BaseApi<W, T, C, P, S> {
     int? page,
     int? size,
     List<String>? scripts,
+    List<String>? identifiers,
   });
 
   Future<HttpResponse<ApiResult<W>>> fetch({required String identifier});

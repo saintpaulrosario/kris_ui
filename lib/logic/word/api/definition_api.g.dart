@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dialect_api.dart';
+part of 'definition_api.dart';
 
 // dart format off
 
@@ -10,8 +10,8 @@ part of 'dialect_api.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main,avoid_redundant_argument_values
 
-class _DialectApi implements DialectApi {
-  _DialectApi(this._dio, {this.baseUrl, this.errorLogger}) {
+class _DefinitionApi implements DefinitionApi {
+  _DefinitionApi(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://127.0.0.1:8074';
   }
 
@@ -22,7 +22,7 @@ class _DialectApi implements DialectApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<PageResult<Dialect>>>> fetchAll({
+  Future<HttpResponse<ApiResult<PageResult<Definition>>>> fetchAll({
     int? page,
     int? size,
     List<String>? scripts,
@@ -39,11 +39,11 @@ class _DialectApi implements DialectApi {
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options =
-        _setStreamType<HttpResponse<ApiResult<PageResult<Dialect>>>>(
+        _setStreamType<HttpResponse<ApiResult<PageResult<Definition>>>>(
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/dialect',
+                '/word',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -52,13 +52,13 @@ class _DialectApi implements DialectApi {
               ),
         );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<PageResult<Dialect>> _value;
+    late ApiResult<PageResult<Definition>> _value;
     try {
-      _value = ApiResult<PageResult<Dialect>>.fromJson(
+      _value = ApiResult<PageResult<Definition>>.fromJson(
         _result.data!,
-        (json) => PageResult<Dialect>.fromJson(
+        (json) => PageResult<Definition>.fromJson(
           json as Map<String, dynamic>,
-          (json) => Dialect.fromJson(json as Map<String, dynamic>),
+          (json) => Definition.fromJson(json as Map<String, dynamic>),
         ),
       );
     } on Object catch (e, s) {
@@ -70,29 +70,29 @@ class _DialectApi implements DialectApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Dialect>>> fetch({
+  Future<HttpResponse<ApiResult<Definition>>> fetch({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Dialect>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Definition>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/${identifier}',
+            '/word/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Dialect> _value;
+    late ApiResult<Definition> _value;
     try {
-      _value = ApiResult<Dialect>.fromJson(
+      _value = ApiResult<Definition>.fromJson(
         _result.data!,
-        (json) => Dialect.fromJson(json as Map<String, dynamic>),
+        (json) => Definition.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -114,7 +114,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/text/${identifier}',
+            '/word/text/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -137,13 +137,13 @@ class _DialectApi implements DialectApi {
 
   @override
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    List<String>? identifiers,
     List<String>? scripts,
+    List<String>? identifiers,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'identifier': identifiers,
       r'scripts': scripts,
+      r'identifiers': identifiers,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -152,7 +152,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/text',
+            '/word/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -189,7 +189,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/content/${identifier}',
+            '/word/content/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -213,10 +213,15 @@ class _DialectApi implements DialectApi {
   @override
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     List<String>? identifiers,
+    List<String>? scripts,
     List<String>? languages,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'languages': languages};
+    final queryParameters = <String, dynamic>{
+      r'identifiers': identifiers,
+      r'scripts': scripts,
+      r'languages': languages,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -224,7 +229,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/content',
+            '/word/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -263,7 +268,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/payload/${identifier}',
+            '/word/payload/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -293,7 +298,7 @@ class _DialectApi implements DialectApi {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'identifier': identifiers,
+      r'identifiers': identifiers,
       r'dialects': dialects,
       r'scripts': scripts,
       r'languages': languages,
@@ -305,7 +310,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/payload',
+            '/word/payload',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -349,7 +354,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/trait',
+            '/word/trait',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -386,7 +391,7 @@ class _DialectApi implements DialectApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/dialect/trait/${identifier}',
+            '/word/trait/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

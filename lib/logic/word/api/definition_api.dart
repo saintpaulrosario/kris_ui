@@ -1,86 +1,88 @@
 import 'package:dio/dio.dart';
 import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/language.dart';
+import 'package:kris/model/definition.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
-import 'package:kris/response/page_result.dart';
+
 import 'package:retrofit/retrofit.dart';
 import '../../../response/api_result.dart';
+import '../../../response/page_result.dart';
 
-part 'language_api.g.dart';
+part 'definition_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
-abstract class LanguageApi
-    implements BaseApi<Language, Text, Content, Payload, Trait> {
-  factory LanguageApi(Dio dio, {String baseUrl}) = _LanguageApi;
+abstract class DefinitionApi
+    implements BaseApi<Definition, Text, Content, Payload, Trait> {
+  factory DefinitionApi(Dio dio, {String baseUrl}) = _DefinitionApi;
 
   @override
-  @GET("/language")
-  Future<HttpResponse<ApiResult<PageResult<Language>>>> fetchAll({
+  @GET("/word")
+  Future<HttpResponse<ApiResult<PageResult<Definition>>>> fetchAll({
     @Query("page") int? page,
     @Query("size") int? size,
-    @Query("identifiers") List<String>? identifiers,
     @Query("scripts") List<String>? scripts,
+    @Query("identifiers") List<String>? identifiers,
   });
 
   @override
-  @GET("/language/{identifier}")
-  Future<HttpResponse<ApiResult<Language>>> fetch({
+  @GET("/word/{identifier}")
+  Future<HttpResponse<ApiResult<Definition>>> fetch({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/language/text/{identifier}")
+  @GET("/word/text/{identifier}")
   Future<HttpResponse<ApiResult<Text>>> fetchText({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/language/text")
+  @GET("/word/text")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
-    @Path("identifier") List<String>? identifiers,
-    @Query("scripts") List<String>? scripts,
+    @Query("scripts", encoded: true) List<String>? scripts,
+    @Query("identifiers", encoded: true) List<String>? identifiers,
   });
 
   @override
-  @GET("/language/content/{identifier}")
+  @GET("/word/content/{identifier}")
   Future<HttpResponse<ApiResult<Content>>> fetchContent({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/language/content")
+  @GET("/word/content")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
-    @Query("languages") List<String>? languages,
-    @Path("identifier") List<String>? identifiers,
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("scripts", encoded: true) List<String>? scripts,
+    @Query("languages", encoded: true) List<String>? languages,
   });
 
   @override
-  @GET("/language/payload/{identifier}")
+  @GET("/word/payload/{identifier}")
   Future<HttpResponse<ApiResult<Payload>>> fetchPayload({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/language/payload")
+  @GET("/word/payload")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
-    @Path("identifier") List<String>? identifiers,
-    @Query("dialects") List<String>? dialects,
-    @Query("scripts") List<String>? scripts,
-    @Query("languages") List<String>? languages,
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+    @Query("scripts", encoded: true) List<String>? scripts,
+    @Query("languages", encoded: true) List<String>? languages,
   });
 
   @override
-  @GET("/language/trait")
+  @GET("/word/trait")
   Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
   });
 
   @override
-  @GET("/language/trait/{identifier}")
+  @GET("/word/trait/{identifier}")
   Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
