@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
+import 'package:kris/presentation/widget/trait_list_widget.dart';
 
 class PayloadWidget extends StatelessWidget {
   final Payload payload;
@@ -14,6 +15,7 @@ class PayloadWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Expanded(child: TraitListWidget(identifiers: payload.traits)),
         Expanded(
           child: SoundListWidget(
             key: ValueKey('sound-${payload.sku}'),

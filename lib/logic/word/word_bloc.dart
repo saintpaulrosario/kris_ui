@@ -57,11 +57,10 @@ class WordBloc
           // TODO: Handle this case.
           throw UnimplementedError();
         case WordFetchType.trait:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _fetchTrait(event, emit);
+
         case WordFetchType.traits:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _fetchTraits(event, emit);
       }
     });
   }

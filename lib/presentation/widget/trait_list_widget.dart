@@ -31,12 +31,13 @@ class _TraitListWidgetState extends State<TraitListWidget> {
   @override
   void initState() {
     super.initState();
+    if (widget.identifiers.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-
-      _fetchContents();
-    });
+        _fetchContents();
+      });
+    }
   }
 
   void _fetchContents() {
@@ -49,6 +50,9 @@ class _TraitListWidgetState extends State<TraitListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.identifiers.isEmpty) {
+      return SizedBox.shrink();
+    }
     return BlocSelector<
       WordBloc,
       BaseState<Word, w.Text, Content, Payload, Trait>,

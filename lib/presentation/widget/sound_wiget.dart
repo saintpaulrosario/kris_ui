@@ -5,7 +5,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
-import 'package:kris/logic/medium/medium_state.dart';
 import 'package:kris/model/medium.dart';
 
 import '../../model/sound.dart';
@@ -19,7 +18,8 @@ class SoundWidget extends StatefulWidget {
   State<SoundWidget> createState() => _SoundWidgetState();
 }
 
-class _SoundWidgetState extends State<SoundWidget> {
+class _SoundWidgetState extends State<SoundWidget>
+    with AutomaticKeepAliveClientMixin {
   late final AudioPlayer player;
 
   @override
@@ -36,6 +36,8 @@ class _SoundWidgetState extends State<SoundWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return TextButton(
       onPressed: () async {
         try {
@@ -48,4 +50,7 @@ class _SoundWidgetState extends State<SoundWidget> {
       child: const Icon(Icons.volume_up),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

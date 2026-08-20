@@ -21,6 +21,8 @@ class Payload extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> sounds;
 
+  final List<Identifier> traits;
+
   const Payload({
     required super.sku,
     required super.version,
@@ -32,6 +34,7 @@ class Payload extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.sounds,
+    required this.traits,
   });
 
   factory Payload.initial() {
@@ -46,6 +49,7 @@ class Payload extends Identifier {
       value: '',
       dialects: [],
       sounds: [],
+      traits: [],
     );
   }
 
