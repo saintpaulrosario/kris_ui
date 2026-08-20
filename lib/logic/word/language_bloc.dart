@@ -8,13 +8,15 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/model/trait.dart';
 
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
 class LanguageBloc
-    extends Bloc<BaseEvent, BaseState<Language, Text, Content, Payload>> {
+    extends
+        Bloc<BaseEvent, BaseState<Language, Text, Content, Payload, Trait>> {
   final _service = getIt<LanguageService>();
 
   LanguageBloc() : super(BaseState.initial()) {
@@ -54,6 +56,12 @@ class LanguageBloc
           // TODO: Handle this case.
           _selects(event, emit);
           break;
+        case WordFetchType.trait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.traits:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }
@@ -276,10 +284,7 @@ class LanguageBloc
     }
   }
 
-  Future<void> _select(
-    BaseEvent event,
-    Emitter<BaseState<Language, Text, Content, Payload>> emit,
-  ) async {
+  Future<void> _select(BaseEvent event, emit) async {
     final selections = state.selections.toBuilder();
 
     if (event.selected == false) {

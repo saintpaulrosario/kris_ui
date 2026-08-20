@@ -4,6 +4,7 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../response/api_result.dart';
@@ -12,7 +13,7 @@ part 'language_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class LanguageApi
-    implements BaseApi<Language, Text, Content, Payload> {
+    implements BaseApi<Language, Text, Content, Payload, Trait> {
   factory LanguageApi(Dio dio, {String baseUrl}) = _LanguageApi;
 
   @override
@@ -69,5 +70,18 @@ abstract class LanguageApi
     @Query("dialects") List<String>? dialects,
     @Query("scripts") List<String>? scripts,
     @Query("languages") List<String>? languages,
+  });
+
+  @override
+  @GET("/language/trait")
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+  });
+
+  @override
+  @GET("/language/trait/{identifier}")
+  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+    @Path("identifier") required String identifier,
   });
 }

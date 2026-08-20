@@ -8,6 +8,7 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
 import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
@@ -16,7 +17,7 @@ import 'package:retrofit/dio.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
-class WordService extends BaseService<Word, Text, Content, Payload> {
+class WordService extends BaseService<Word, Text, Content, Payload, Trait> {
   final WordApi _api = getIt<WordApi>();
 
   @override
@@ -225,6 +226,59 @@ class WordService extends BaseService<Word, Text, Content, Payload> {
       ApiResult<List<Text>> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
         final List<Text> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+    required Identifier identifier,
+  }) async {
+    try {
+      final HttpResponse<ApiResult<Trait>> httpResponse = await _api.fetchTrait(
+        identifier: identifier.sku,
+      );
+      ApiResult<Trait> apiResult = httpResponse.data;
+      if (HttpStatus.ok == httpResponse.response.statusCode) {
+        final Trait payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+    required List<Identifier> identifiers,
+    required List<String>? dialects,
+  }) async {
+    try {
+      List<String> skus = identifiers.map((x) => x.sku).toList();
+      final HttpResponse<ApiResult<List<Trait>>> httpResponse = await _api
+          .fetchTraits(identifiers: skus, dialects: dialects);
+      ApiResult<List<Trait>> apiResult = httpResponse.data;
+      if (HttpStatus.ok == httpResponse.response.statusCode) {
+        final List<Trait> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

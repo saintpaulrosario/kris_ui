@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/text.dart' as w;
 
@@ -43,7 +44,7 @@ class _WordPageState extends State<WordPage>
     super.build(context);
     return BlocSelector<
       TranslationBloc,
-      BaseState<Translation, w.Text, Content, Payload>,
+      BaseState<Translation, w.Text, Trait, Payload, Trait>,
       PageResult<Translation>?
     >(
       selector: (state) {

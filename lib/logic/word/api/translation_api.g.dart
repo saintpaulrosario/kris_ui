@@ -176,14 +176,14 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Content>>> fetchContent({
+  Future<HttpResponse<ApiResult<Trait>>> fetchContent({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Content>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Trait>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -194,11 +194,11 @@ class _TranslationApi implements TranslationApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Content> _value;
+    late ApiResult<Trait> _value;
     try {
-      _value = ApiResult<Content>.fromJson(
+      _value = ApiResult<Trait>.fromJson(
         _result.data!,
-        (json) => Content.fromJson(json as Map<String, dynamic>),
+        (json) => Trait.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -209,7 +209,7 @@ class _TranslationApi implements TranslationApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchContents({
     List<String>? identifiers,
     List<String>? languages,
     List<String>? scripts,
@@ -223,7 +223,7 @@ class _TranslationApi implements TranslationApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Content>>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Trait>>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -234,15 +234,13 @@ class _TranslationApi implements TranslationApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Content>> _value;
+    late ApiResult<List<Trait>> _value;
     try {
-      _value = ApiResult<List<Content>>.fromJson(
+      _value = ApiResult<List<Trait>>.fromJson(
         _result.data!,
         (json) => json is List<dynamic>
             ? json
-                  .map<Content>(
-                    (i) => Content.fromJson(i as Map<String, dynamic>),
-                  )
+                  .map<Trait>((i) => Trait.fromJson(i as Map<String, dynamic>))
                   .toList()
             : List.empty(),
       );
@@ -326,6 +324,81 @@ class _TranslationApi implements TranslationApi {
                   )
                   .toList()
             : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+    List<String>? identifiers,
+    List<String>? dialects,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'identifiers': identifiers,
+      r'dialects': dialects,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<List<Trait>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/translation/trait',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<List<Trait>> _value;
+    try {
+      _value = ApiResult<List<Trait>>.fromJson(
+        _result.data!,
+        (json) => json is List<dynamic>
+            ? json
+                  .map<Trait>((i) => Trait.fromJson(i as Map<String, dynamic>))
+                  .toList()
+            : List.empty(),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+    required String identifier,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<Trait>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/translation/trait/${identifier}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<Trait> _value;
+    try {
+      _value = ApiResult<Trait>.fromJson(
+        _result.data!,
+        (json) => Trait.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

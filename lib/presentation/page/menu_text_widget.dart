@@ -13,6 +13,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
 
 import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
 import 'package:kris/presentation/widget/language/language_content_widget.dart';
@@ -71,7 +72,7 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
     if (widget.maya == 'LANGUAGE') {
       return BlocSelector<
         LanguageBloc,
-        BaseState<Language, w.Text, Content, Payload>,
+        BaseState<Language, w.Text, Content, Payload, Trait>,
         w.Text?
       >(
         selector: (state) {
@@ -93,7 +94,7 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
     if (widget.maya == 'DIALECT') {
       return BlocSelector<
         DialectBloc,
-        BaseState<Dialect, w.Text, Content, Payload>,
+        BaseState<Dialect, w.Text, Content, Payload, Trait>,
         w.Text?
       >(
         selector: (state) {
@@ -114,7 +115,7 @@ class _MenuTextWidgetState extends State<MenuTextWidget>
 
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       w.Text?
     >(
       selector: (state) {

@@ -5,6 +5,7 @@ import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 import '../../logic/base_state.dart';
 import '../../model/content.dart';
@@ -33,7 +34,7 @@ class _ScriptMenuState extends State<ScriptMenu> {
   Widget build(BuildContext context) {
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       BuiltMap<String, Script>
     >(
       // This widget now only listens to data.
@@ -57,7 +58,7 @@ class _ScriptMenuSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       BuiltSet<Identifier>
     >(
       // This widget only listens to selections.

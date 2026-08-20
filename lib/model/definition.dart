@@ -1,48 +1,47 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/account.dart';
+import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
 
-part 'content.g.dart';
+part 'definition.g.dart';
 
 @JsonSerializable(
-  genericArgumentFactories: true,
   includeIfNull: true,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
   checked: true,
 )
-class Content extends Identifier {
+class Definition extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> languages;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> payloads;
-
-  const Content({
+  final List<Identifier> traits;
+  const Definition({
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.languages,
+    required super.texts,
+    required this.traits,
+    //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.payloads,
+    required super.images,
   });
 
-  factory Content.initial() {
-    return Content(
+  factory Definition.initial() {
+    return Definition(
       sku: '',
       version: 0,
-      ordinal: -1,
+      ordinal: 0,
+      texts: [],
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
-      languages: [],
-      payloads: [],
+      traits: [],
+      images: [],
     );
   }
 
@@ -53,11 +52,12 @@ class Content extends Identifier {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Content && other.sku == sku && other.ordinal == ordinal;
+    return other is Definition && other.sku == sku && other.ordinal == ordinal;
   }
 
-  factory Content.fromJson(Map<String, dynamic> json) => _$ContentFromJson(json);
+  factory Definition.fromJson(Map<String, dynamic> json) =>
+      _$DefinitionFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+  Map<String, dynamic> toJson() => _$DefinitionToJson(this);
 }

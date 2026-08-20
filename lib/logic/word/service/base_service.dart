@@ -4,7 +4,7 @@ import 'package:kris/model/identifier.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
-abstract class BaseService<W, T, C, P> {
+abstract class BaseService<W, T, C, P, S> {
   Future<Either<ErrorResponse, PageResult<W>>> retrieve({
     int? page,
     int? size,
@@ -43,5 +43,14 @@ abstract class BaseService<W, T, C, P> {
     required List<String>? dialects,
     required List<String>? scripts,
     required List<String>? languages,
+  });
+
+  Future<Either<ErrorResponse, List<S>>> retrieveTraits({
+    required List<Identifier> identifiers,
+    required List<String>? dialects,
+  });
+
+  Future<Either<ErrorResponse, S>> retrieveTrait({
+    required Identifier identifier,
   });
 }

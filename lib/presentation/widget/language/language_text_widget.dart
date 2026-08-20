@@ -10,6 +10,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 import 'language_content_widget.dart';
 
@@ -42,7 +43,7 @@ class _LanguageTextWidgetState extends State<LanguageTextWidget>
 
     return BlocSelector<
       LanguageBloc,
-      BaseState<Language, w.Text, Content, Payload>,
+      BaseState<Language, w.Text, Content, Payload, Trait>,
       w.Text?
     >(
       selector: (state) {

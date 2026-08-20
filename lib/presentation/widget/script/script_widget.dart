@@ -10,6 +10,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 import 'script_text_list_widget.dart';
 
@@ -42,7 +43,7 @@ class _ScriptWidgetState extends State<ScriptWidget>
 
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       Script?
     >(
       selector: (state) {

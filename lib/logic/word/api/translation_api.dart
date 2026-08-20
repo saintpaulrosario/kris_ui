@@ -3,6 +3,7 @@ import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../model/translation.dart';
@@ -12,7 +13,7 @@ part 'translation_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class TranslationApi
-    implements BaseApi<Translation, Text, Content, Payload> {
+    implements BaseApi<Translation, Text, Trait, Payload, Trait> {
   factory TranslationApi(Dio dio, {String baseUrl}) = _TranslationApi;
 
   @override
@@ -44,13 +45,13 @@ abstract class TranslationApi
 
   @override
   @GET("/translation/content/{identifier}")
-  Future<HttpResponse<ApiResult<Content>>> fetchContent({
+  Future<HttpResponse<ApiResult<Trait>>> fetchContent({
     @Path("identifier") required String identifier,
   });
 
   @override
   @GET("/translation/content")
-  Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchContents({
     @Query("identifiers") List<String>? identifiers,
     @Query("languages") List<String>? languages,
     @Query("scripts") List<String>? scripts,
@@ -69,5 +70,18 @@ abstract class TranslationApi
     @Query("dialects", encoded: true) List<String>? dialects,
     @Query("scripts", encoded: true) List<String>? scripts,
     @Query("languages", encoded: true) List<String>? languages,
+  });
+
+  @override
+  @GET("/translation/trait")
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+  });
+
+  @override
+  @GET("/translation/trait/{identifier}")
+  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+    @Path("identifier") required String identifier,
   });
 }

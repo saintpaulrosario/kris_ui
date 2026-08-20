@@ -8,13 +8,14 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/model/trait.dart';
 
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
 class DialectBloc
-    extends Bloc<BaseEvent, BaseState<Dialect, Text, Content, Payload>> {
+    extends Bloc<BaseEvent, BaseState<Dialect, Text, Content, Payload, Trait>> {
   final _service = getIt<DialectService>();
 
   DialectBloc() : super(BaseState.initial()) {
@@ -54,6 +55,12 @@ class DialectBloc
         case WordFetchType.selects:
           // TODO: Handle this case.
           _selects(event, emit);
+        case WordFetchType.trait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.traits:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }
@@ -69,7 +76,7 @@ class DialectBloc
       ),
     );
 
-        int number = event.pageNumber ?? state.pageNumber;
+    int number = event.pageNumber ?? state.pageNumber;
     int size = event.pageSize ?? state.pageSize;
 
     final Either<ErrorResponse, PageResult<Dialect>> results = await _service

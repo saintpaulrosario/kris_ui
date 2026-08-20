@@ -7,6 +7,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';
@@ -14,7 +15,8 @@ import 'package:retrofit/dio.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
-class DialectService extends BaseService<Dialect, Text, Content, Payload> {
+class DialectService
+    extends BaseService<Dialect, Text, Content, Payload, Trait> {
   final DialectApi _api = getIt<DialectApi>();
 
   @override
@@ -173,6 +175,23 @@ class DialectService extends BaseService<Dialect, Text, Content, Payload> {
     required List<String>? languages,
   }) {
     // TODO: implement retrievePayloads
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+    required Identifier identifier,
+  }) {
+    // TODO: implement retrieveTrait
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+    required List<Identifier> identifiers,
+    required List<String>? dialects,
+  }) {
+    // TODO: implement retrieveTraits
     throw UnimplementedError();
   }
 }

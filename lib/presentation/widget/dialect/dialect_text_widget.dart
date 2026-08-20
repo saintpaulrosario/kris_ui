@@ -10,6 +10,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
 
 import 'dialect_content_list_widget.dart';
@@ -39,7 +40,7 @@ class _DialectTextWidgetState extends State<DialectTextWidget>
     super.build(context);
     return BlocSelector<
       DialectBloc,
-      BaseState<Dialect, w.Text, Content, Payload>,
+      BaseState<Dialect, w.Text, Content, Payload, Trait>,
       w.Text?
     >(
       selector: (state) {

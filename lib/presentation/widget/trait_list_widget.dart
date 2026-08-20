@@ -4,29 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
-import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/script.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
+import 'package:kris/presentation/widget/trait_widget.dart';
 
+import '../../model/content.dart';
 import '../../model/text.dart' as w;
-import 'text_widget.dart';
+import 'content_wiget.dart';
 
-class TextListWidget extends StatefulWidget {
+class TraitListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
 
-  const TextListWidget({super.key, required this.identifiers});
+  const TraitListWidget({super.key, required this.identifiers});
 
   @override
-  State<TextListWidget> createState() => _TextListWidgetState();
+  State<TraitListWidget> createState() => _TraitListWidgetState();
 }
 
-class _TextListWidgetState extends State<TextListWidget> {
+class _TraitListWidgetState extends State<TraitListWidget> {
   @override
   void initState() {
     super.initState();
@@ -34,15 +35,15 @@ class _TextListWidgetState extends State<TextListWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
-      _fetchTexts();
+      _fetchContents();
     });
   }
 
-  void _fetchTexts() {
-    final scripts = context.read<ScriptBloc>().state.selections.toList();
+  void _fetchContents() {
+    final dialects = context.read<DialectBloc>().state.selections.toList();
 
     context.read<WordBloc>().add(
-      BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
+      BaseEvent.traits(identifiers: widget.identifiers, dialects: dialects),
     );
   }
 
@@ -51,30 +52,31 @@ class _TextListWidgetState extends State<TextListWidget> {
     return BlocSelector<
       WordBloc,
       BaseState<Word, w.Text, Content, Payload, Trait>,
-      BuiltMap<String, w.Text>
+      BuiltMap<String, Trait>
     >(
       selector: (state) {
         final identifiers = widget.identifiers
             .map((identifier) => identifier.sku)
             .toSet();
 
-        final result = state.texts.toBuilder();
-
-        // Keep only the requested identifiers.
-        result.removeWhere((key, value) => !identifiers.contains(key));
-
-        return result.build();
+        return state.traits.rebuild((builder) {
+          builder.removeWhere((key, value) => !identifiers.contains(key));
+        });
       },
-      builder: (context, texts) {
+      builder: (context, contents) {
+        if (contents.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: texts.length,
+          itemCount: contents.length,
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
-            final text = texts.values.elementAt(index);
+            final trait = contents.values.elementAt(index);
 
-            return TextWidget(key: ValueKey(text.sku), text: text);
+            return TraitWidget(key: ValueKey(trait.sku), trait: trait);
           },
         );
       },

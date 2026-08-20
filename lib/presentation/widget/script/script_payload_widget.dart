@@ -10,6 +10,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 class ScriptPayloadWidget extends StatefulWidget {
   final Identifier identifier;
@@ -40,7 +41,7 @@ class _ScriptPayloadWidgetState extends State<ScriptPayloadWidget>
 
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       Payload?
     >(
       selector: (state) {

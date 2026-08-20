@@ -3,7 +3,7 @@ import 'package:retrofit/dio.dart';
 import '../../../response/api_result.dart';
 import '../../../response/page_result.dart';
 
-abstract interface class BaseApi<W, T, C, P> {
+abstract interface class BaseApi<W, T, C, P, S> {
   Future<HttpResponse<ApiResult<PageResult<W>>>> fetchAll({
     int? page,
     int? size,
@@ -34,4 +34,11 @@ abstract interface class BaseApi<W, T, C, P> {
     List<String>? languages,
     List<String>? scripts,
   });
+
+  Future<HttpResponse<ApiResult<List<S>>>> fetchTraits({
+    List<String>? identifiers,
+    List<String>? dialects,
+  });
+
+  Future<HttpResponse<ApiResult<S>>> fetchTrait({required String identifier});
 }

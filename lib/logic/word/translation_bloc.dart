@@ -5,6 +5,7 @@ import 'package:kris/logic/word/service/translation_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 
 import 'package:fpdart/fpdart.dart';
@@ -14,7 +15,8 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
 class TranslationBloc
-    extends Bloc<BaseEvent, BaseState<Translation, Text, Content, Payload>> {
+    extends
+        Bloc<BaseEvent, BaseState<Translation, Text, Trait, Payload, Trait>> {
   final _service = getIt<TranslationService>();
 
   TranslationBloc() : super(BaseState.initial()) {
@@ -52,6 +54,12 @@ class TranslationBloc
           // TODO: Handle this case.
           throw UnimplementedError();
         case WordFetchType.selects:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.trait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.traits:
           // TODO: Handle this case.
           throw UnimplementedError();
       }

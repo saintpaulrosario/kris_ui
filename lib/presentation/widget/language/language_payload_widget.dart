@@ -10,6 +10,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 class LanguagePayloadWidget extends StatefulWidget {
   final Identifier identifier;
@@ -40,7 +41,7 @@ class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
 
     return BlocSelector<
       LanguageBloc,
-      BaseState<Language, w.Text, Content, Payload>,
+      BaseState<Language, w.Text, Content, Payload, Trait>,
       Payload?
     >(
       selector: (state) {

@@ -7,6 +7,7 @@ import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 import '../../logic/base_state.dart';
 import '../../model/content.dart';
@@ -35,7 +36,7 @@ class _DialectMenuState extends State<DialectMenu> {
   Widget build(BuildContext context) {
     return BlocSelector<
       DialectBloc,
-      BaseState<Dialect, w.Text, Content, Payload>,
+      BaseState<Dialect, w.Text, Content, Payload, Trait>,
       BuiltMap<String, Dialect>
     >(
       // This widget now only listens to data.
@@ -59,7 +60,7 @@ class _DialectMenuSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<
       ScriptBloc,
-      BaseState<Script, w.Text, Content, Payload>,
+      BaseState<Script, w.Text, Content, Payload, Trait>,
       BuiltSet<Identifier>
     >(
       // This widget only listens to selections.

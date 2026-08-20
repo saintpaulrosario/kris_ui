@@ -6,6 +6,7 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
 
 import 'package:fpdart/fpdart.dart';
@@ -16,7 +17,7 @@ import '../../../service_locator.dart';
 import 'service/word_service.dart';
 
 class WordBloc
-    extends Bloc<BaseEvent, BaseState<Word, Text, Content, Payload>> {
+    extends Bloc<BaseEvent, BaseState<Word, Text, Content, Payload, Trait>> {
   final _service = getIt<WordService>();
 
   WordBloc() : super(BaseState.initial()) {
@@ -53,6 +54,12 @@ class WordBloc
         case WordFetchType.payloads:
           await _fetchPayloads(event, emit);
         case WordFetchType.selects:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.trait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.traits:
           // TODO: Handle this case.
           throw UnimplementedError();
       }
@@ -408,6 +415,92 @@ class WordBloc
         emit(
           state.copyWith(
             payloads: data.build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _fetchTrait(BaseEvent event, Emitter emit) async {
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
+
+      final results = await _service.retrieveTrait(
+        identifier: event.identifier,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          emit(
+            state.copyWith(
+              traits: (state.traits.toBuilder()..[word.sku] = word).build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> _fetchTraits(BaseEvent event, Emitter emit) async {
+    final skus = event.identifiers.map((x) => x.sku).toList();
+
+    emit(
+      state.copyWith(
+        fetching: (state.fetching.toBuilder()..addAll(skus)).build(),
+      ),
+    );
+
+    final results = await _service.retrieveTraits(
+      identifiers: event.identifiers,
+      dialects: event.dialects!.map((x) => x.sku).toList(),
+    );
+
+    results.fold(
+      (error) {
+        emit(
+          state.copyWith(
+            errors:
+                (state.errors.toBuilder()
+                      ..addAll({for (final sku in skus) sku: error}))
+                    .build(),
+            fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
+          ),
+        );
+      },
+      (List<Trait> payloads) {
+        final data = state.traits.toBuilder();
+
+        for (final payload in payloads) {
+          data[payload.sku] = payload;
+        }
+
+        emit(
+          state.copyWith(
+            traits: data.build(),
             fetching: (state.fetching.toBuilder()..removeAll(skus)).build(),
           ),
         );

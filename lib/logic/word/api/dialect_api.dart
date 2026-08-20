@@ -5,13 +5,15 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../../model/trait.dart';
 import '../../../response/api_result.dart';
 import '../../../response/page_result.dart';
 
 part 'dialect_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
-abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
+abstract class DialectApi
+    implements BaseApi<Dialect, Text, Content, Payload, Trait> {
   factory DialectApi(Dio dio, {String baseUrl}) = _DialectApi;
 
   @override
@@ -67,5 +69,18 @@ abstract class DialectApi implements BaseApi<Dialect, Text, Content, Payload> {
     @Query("dialects", encoded: true) List<String>? dialects,
     @Query("scripts", encoded: true) List<String>? scripts,
     @Query("languages", encoded: true) List<String>? languages,
+  });
+
+  @override
+  @GET("/dialect/trait")
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+  });
+
+  @override
+  @GET("/dialect/trait/{identifier}")
+  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+    @Path("identifier") required String identifier,
   });
 }

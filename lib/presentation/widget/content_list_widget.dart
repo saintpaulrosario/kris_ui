@@ -11,6 +11,7 @@ import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
 
 import '../../model/text.dart' as w;
@@ -55,7 +56,7 @@ class _ContentListWidgetState extends State<ContentListWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<
       WordBloc,
-      BaseState<Word, w.Text, Content, Payload>,
+      BaseState<Word, w.Text, Content, Payload, Trait>,
       BuiltMap<String, Content>
     >(
       selector: (state) {

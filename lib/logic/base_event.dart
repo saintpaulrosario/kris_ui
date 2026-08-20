@@ -11,14 +11,16 @@ enum WordFetchType {
   payloads,
   select,
   selects,
+  trait,
+  traits,
 }
 
 class BaseEvent {
   final WordFetchType type;
   final Identifier identifier;
   final List<Identifier> identifiers;
-  final int ? pageNumber;
-  final int ? pageSize;
+  final int? pageNumber;
+  final int? pageSize;
   final bool selected;
   final List<Identifier>? scripts;
   final List<Identifier>? languages;
@@ -160,6 +162,37 @@ class BaseEvent {
       pageSize: 25,
       selected: false,
       languages: languages,
+      identifiers: identifiers,
+    );
+  }
+
+  factory BaseEvent.trait({required Identifier identifier}) {
+    return BaseEvent._(
+      type: WordFetchType.payload,
+      identifier: identifier,
+      dialects: [],
+      scripts: [],
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      languages: [],
+      identifiers: [],
+    );
+  }
+
+  factory BaseEvent.traits({
+    required List<Identifier> identifiers,
+    required List<Identifier> dialects,
+  }) {
+    return BaseEvent._(
+      type: WordFetchType.payloads,
+      identifier: Identifier.initial(),
+      dialects: dialects,
+      scripts: [],
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      languages: [],
       identifiers: identifiers,
     );
   }

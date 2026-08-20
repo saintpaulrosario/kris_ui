@@ -3,6 +3,7 @@ import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 
 import 'package:retrofit/retrofit.dart';
 import '../../../model/script.dart';
@@ -12,7 +13,8 @@ import '../../../response/page_result.dart';
 part 'script_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
-abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
+abstract class ScriptApi
+    implements BaseApi<Script, Text, Content, Payload, Trait> {
   factory ScriptApi(Dio dio, {String baseUrl}) = _ScriptApi;
 
   @override
@@ -69,5 +71,18 @@ abstract class ScriptApi implements BaseApi<Script, Text, Content, Payload> {
     @Query("dialects", encoded: true) List<String>? dialects,
     @Query("scripts", encoded: true) List<String>? scripts,
     @Query("languages", encoded: true) List<String>? languages,
+  });
+
+  @override
+  @GET("/script/trait")
+  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+    @Query("identifiers", encoded: true) List<String>? identifiers,
+    @Query("dialects", encoded: true) List<String>? dialects,
+  });
+
+  @override
+  @GET("/script/trait/{identifier}")
+  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+    @Path("identifier") required String identifier,
   });
 }

@@ -10,6 +10,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
 
 import 'dialect_payload_list_widget.dart';
 
@@ -35,9 +36,10 @@ class _DialectContentWidgetState extends State<DialectContentWidget>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocSelector<
       DialectBloc,
-      BaseState<Dialect, w.Text, Content, Payload>,
+      BaseState<Dialect, w.Text, Content, Payload, Trait>,
       Content?
     >(
       selector: (state) {

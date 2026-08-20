@@ -8,13 +8,14 @@ import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/model/trait.dart';
 
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
 class ScriptBloc
-    extends Bloc<BaseEvent, BaseState<Script, Text, Content, Payload>> {
+    extends Bloc<BaseEvent, BaseState<Script, Text, Content, Payload, Trait>> {
   final _service = getIt<ScriptService>();
 
   ScriptBloc() : super(BaseState.initial()) {
@@ -53,6 +54,12 @@ class ScriptBloc
         case WordFetchType.selects:
           // TODO: Handle this case.
           _selects(event, emit);
+        case WordFetchType.trait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
+        case WordFetchType.traits:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }

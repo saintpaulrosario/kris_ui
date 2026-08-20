@@ -6,6 +6,7 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
+import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
@@ -15,7 +16,7 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
 class TranslationService
-    extends BaseService<Translation, Text, Content, Payload> {
+    extends BaseService<Translation, Text, Trait, Payload, Trait> {
   final TranslationApi _api = getIt<TranslationApi>();
 
   @override
@@ -26,7 +27,7 @@ class TranslationService
   }) async {
     try {
       final HttpResponse<ApiResult<PageResult<Translation>>> httpResponse =
-          await _api.fetchAll(page: page, size: size,scripts: scripts);
+          await _api.fetchAll(page: page, size: size, scripts: scripts);
 
       ApiResult<PageResult<Translation>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
@@ -98,15 +99,16 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Content>> retrieveContent({
+  Future<Either<ErrorResponse, Trait>> retrieveContent({
     required Identifier identifier,
   }) async {
-    final HttpResponse<ApiResult<Content>> httpResponse = await _api
-        .fetchContent(identifier: identifier.sku);
+    final HttpResponse<ApiResult<Trait>> httpResponse = await _api.fetchContent(
+      identifier: identifier.sku,
+    );
     try {
-      ApiResult<Content> apiResult = httpResponse.data;
+      ApiResult<Trait> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final Content payload = apiResult.payload;
+        final Trait payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -157,7 +159,7 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, List<Content>>> retrieveContents({
+  Future<Either<ErrorResponse, List<Trait>>> retrieveContents({
     required List<Identifier> identifiers,
     required List<String>? scripts,
     required List<String>? languages,
@@ -174,6 +176,23 @@ class TranslationService
     required List<String>? languages,
   }) {
     // TODO: implement retrievePayloads
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+    required Identifier identifier,
+  }) {
+    // TODO: implement retrieveTrait
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+    required List<Identifier> identifiers,
+    required List<String>? dialects,
+  }) {
+    // TODO: implement retrieveTraits
     throw UnimplementedError();
   }
 }
