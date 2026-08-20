@@ -26,7 +26,7 @@ class TraitWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: Text(trait.sku)),
+        Expanded(child: Text("trai")),
         // Expanded(
         //   child: LanguageListWidget(
         //     key: ValueKey(trait.sku),

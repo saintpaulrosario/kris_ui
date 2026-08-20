@@ -168,7 +168,7 @@ class BaseEvent {
 
   factory BaseEvent.trait({required Identifier identifier}) {
     return BaseEvent._(
-      type: WordFetchType.payload,
+      type: WordFetchType.trait,
       identifier: identifier,
       dialects: [],
       scripts: [],
@@ -185,7 +185,7 @@ class BaseEvent {
     required List<Identifier> dialects,
   }) {
     return BaseEvent._(
-      type: WordFetchType.payloads,
+      type: WordFetchType.traits,
       identifier: Identifier.initial(),
       dialects: dialects,
       scripts: [],

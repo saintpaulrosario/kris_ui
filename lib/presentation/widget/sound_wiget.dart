@@ -24,8 +24,8 @@ class _SoundWidgetState extends State<SoundWidget>
 
   @override
   void initState() {
-    player = AudioPlayer(playerId: widget.sound.sku);
     super.initState();
+    player = AudioPlayer();
   }
 
   @override

@@ -53,6 +53,7 @@ class _TraitListWidgetState extends State<TraitListWidget> {
     if (widget.identifiers.isEmpty) {
       return SizedBox.shrink();
     }
+
     return BlocSelector<
       WordBloc,
       BaseState<Word, w.Text, Content, Payload, Trait>,

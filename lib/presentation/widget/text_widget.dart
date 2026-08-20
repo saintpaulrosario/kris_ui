@@ -16,9 +16,16 @@ class TextWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(child: ContentListWidget(identifiers: text.contents)),
             Expanded(
+              flex: 6,
+              child: ContentListWidget(identifiers: text.contents),
+            ),
+            Expanded(
+              flex: 1,
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: ScriptWidget(

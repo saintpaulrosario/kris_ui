@@ -42,6 +42,11 @@ class Identifier extends Audit {
   }
 
   @override
+  String toString() {
+    return 'Identifier(sku: $sku)';
+  }
+
+  @override
   int get hashCode => Object.hash(sku, ordinal);
 
   @override

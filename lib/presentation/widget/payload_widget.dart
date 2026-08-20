@@ -13,26 +13,30 @@ class PayloadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(child: TraitListWidget(identifiers: payload.traits)),
         Expanded(
+          flex: 1,
           child: SoundListWidget(
             key: ValueKey('sound-${payload.sku}'),
             identifiers: payload.sounds,
           ),
         ),
         Expanded(
+          flex: 3,
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+            overflow: TextOverflow.visible,
             key: ValueKey('value-${payload.sku}'),
           ),
         ),
 
         Expanded(
+          flex: 1,
           child: DialectListWidget(
             key: ValueKey('dialect-${payload.sku}'),
             identifiers: payload.dialects,
