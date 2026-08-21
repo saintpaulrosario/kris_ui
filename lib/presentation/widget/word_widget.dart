@@ -25,7 +25,7 @@ class WordWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 7,
+            flex: 10,
             child: TextListWidget(
               key: ValueKey('${word.sku}-texts'),
               identifiers: word.texts,

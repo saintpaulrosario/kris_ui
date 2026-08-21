@@ -27,8 +27,11 @@ class TraitWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(child: DefinitionListWidget(identifiers: trait.definitions)),
-        Expanded(child: Text("example")),
+        Expanded(
+          flex: 5,
+          child: DefinitionListWidget(identifiers: trait.definitions),
+        ),
+        Expanded(flex: 3, child: Text("example")),
       ],
     );
   }

@@ -13,12 +13,12 @@ class ContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          flex: 5,
+          flex: 12,
           child: PayloadListWidget(
             key: ValueKey(content.sku),
             identifiers: content.payloads,

@@ -17,7 +17,7 @@ class PayloadWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(child: TraitListWidget(identifiers: payload.traits)),
+        Expanded(flex: 15, child: TraitListWidget(identifiers: payload.traits)),
         Expanded(
           flex: 1,
           child: SoundListWidget(
@@ -26,7 +26,7 @@ class PayloadWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 3,
+          flex: 4,
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
