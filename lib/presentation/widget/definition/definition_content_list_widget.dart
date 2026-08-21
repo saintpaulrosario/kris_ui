@@ -34,11 +34,13 @@ class _DefinitionContentListWidgetState
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    if (widget.identifiers.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-      _fetchContents();
-    });
+        _fetchContents();
+      });
+    }
   }
 
   void _fetchContents() {
@@ -46,7 +48,7 @@ class _DefinitionContentListWidgetState
 
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
-    context.read<WordBloc>().add(
+    context.read<DefinitionBloc>().add(
       BaseEvent.contents(
         identifiers: widget.identifiers,
         languages: languages,

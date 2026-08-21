@@ -33,12 +33,13 @@ class _DefinitionPayloadListWidgetState
   @override
   void initState() {
     super.initState();
+    if (widget.identifiers.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-
-      _fetchPayloads();
-    });
+        _fetchPayloads();
+      });
+    }
   }
 
   void _fetchPayloads() {

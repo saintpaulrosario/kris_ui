@@ -19,7 +19,8 @@ import '../../../service_locator.dart';
 import 'service/word_service.dart';
 
 class DefinitionBloc
-    extends Bloc<BaseEvent, BaseState<Definition, Text, Content, Payload, Trait>> {
+    extends
+        Bloc<BaseEvent, BaseState<Definition, Text, Content, Payload, Trait>> {
   final _service = getIt<DefinitionService>();
 
   DefinitionBloc() : super(BaseState.initial()) {
@@ -80,9 +81,15 @@ class DefinitionBloc
 
     int number = event.pageNumber ?? state.pageNumber;
     int size = event.pageSize ?? state.pageSize;
-
+    List<String> scripts = event.scripts!.map((x) => x.sku).toList();
+    List<String> skus = event.identifiers.map((x) => x.sku).toList();
     final Either<ErrorResponse, PageResult<Definition>> results = await _service
-        .retrieve(page: number, size: size);
+        .retrieve(
+          page: number,
+          size: size,
+          scripts: scripts,
+          identifiers: skus,
+        );
 
     results.match(
       (ErrorResponse error) {

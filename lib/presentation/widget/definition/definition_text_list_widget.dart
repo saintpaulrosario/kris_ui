@@ -32,17 +32,19 @@ class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    if (widget.identifiers.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-      _fetchTexts();
-    });
+        _fetchTexts();
+      });
+    }
   }
 
   void _fetchTexts() {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
-    context.read<WordBloc>().add(
+    context.read<DefinitionBloc>().add(
       BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
     );
   }
