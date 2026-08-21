@@ -13,6 +13,7 @@ import '../../logic/base_state.dart';
 
 import '../../model/word.dart';
 import '../../response/page_result.dart';
+import '../widget/pagination_widget.dart';
 
 class WordPage extends StatefulWidget {
   const WordPage({super.key});
@@ -58,26 +59,39 @@ class _WordPageState extends State<WordPage>
           );
         }
 
-        return Scrollbar(
-          controller: _scrollController,
-          trackVisibility: true,
-          thumbVisibility: true,
-          thickness: 9,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return ListView.separated(
+        return Column(
+          children: [
+            Expanded(
+              child: Scrollbar(
                 controller: _scrollController,
-                shrinkWrap: true,
-                itemCount: state.content.length,
-                separatorBuilder: (context, index) => Divider(),
-                itemBuilder: (context, index) {
-                  Word word = state.content.elementAt(index);
+                trackVisibility: true,
+                thumbVisibility: true,
+                thickness: 14,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return ListView.separated(
+                      controller: _scrollController,
 
-                  return WordWidget(word: word);
-                },
-              );
-            },
-          ),
+                      itemCount: state.content.length,
+                      separatorBuilder: (context, index) => Divider(),
+                      itemBuilder: (context, index) {
+                        Word word = state.content.elementAt(index);
+
+                        return WordWidget(word: word);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PaginationWidget(pages: state),
+              ),
+            ),
+          ],
         );
       },
     );
