@@ -24,6 +24,10 @@ class PayloadWidget extends StatelessWidget {
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
         Expanded(
+          flex: 12,
+          child: DialectListWidget(identifiers: payload.dialects),
+        ),
+        Expanded(
           flex: 1,
           child: SoundListWidget(
             key: ValueKey('sound-${payload.sku}'),
@@ -31,7 +35,7 @@ class PayloadWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          flex: 8,
+          flex: 4,
           child: Text(
             payload.value,
             textAlign: TextAlign.center,

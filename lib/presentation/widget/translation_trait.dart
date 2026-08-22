@@ -15,11 +15,7 @@ class TranslationTraitWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          flex: 5,
-          child: DefinitionListWidget(identifiers: trait.definitions),
-        ),
-        Expanded(flex: 3, child: Text("example")),
+        Expanded(child: DefinitionListWidget(identifiers: trait.definitions)),
       ],
     );
   }
