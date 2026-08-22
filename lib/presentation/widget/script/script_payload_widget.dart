@@ -58,12 +58,15 @@ class _ScriptPayloadWidgetState extends State<ScriptPayloadWidget>
             : [payload.audios.first];
         return Row(
           children: [
-            SoundListWidget(identifiers: audios),
-            Text(
-              payload.value,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
+            Expanded(flex: 1, child: SoundListWidget(identifiers: audios)),
+            Expanded(
+              flex: 6,
+              child: Text(
+                payload.value,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+              ),
             ),
           ],
         );
