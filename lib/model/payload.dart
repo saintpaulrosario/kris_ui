@@ -19,7 +19,7 @@ class Payload extends Identifier {
   final List<Identifier> dialects;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> sounds;
+  final List<Identifier> audios;
 
   final List<Identifier> traits;
 
@@ -33,7 +33,7 @@ class Payload extends Identifier {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.sounds,
+    required this.audios,
     required this.traits,
   });
 
@@ -48,7 +48,7 @@ class Payload extends Identifier {
       lastModifiedBy: Account.initial(),
       value: '',
       dialects: [],
-      sounds: [],
+      audios: [],
       traits: [],
     );
   }

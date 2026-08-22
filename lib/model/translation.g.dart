@@ -25,8 +25,8 @@ Translation _$TranslationFromJson(Map json) => $checkedCreate(
                 .toList() ??
             [],
       ),
-      languages: $checkedConvert(
-        'languages',
+      images: $checkedConvert(
+        'images',
         (v) =>
             (v as List<dynamic>?)
                 ?.map(
@@ -56,17 +56,6 @@ Translation _$TranslationFromJson(Map json) => $checkedCreate(
             ? null
             : Account.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
-      images: $checkedConvert(
-        'images',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
-      ),
     );
     return val;
   },
@@ -83,5 +72,4 @@ Map<String, dynamic> _$TranslationToJson(Translation instance) =>
       'ordinal': instance.ordinal,
       'texts': instance.texts.map((e) => e.toJson()).toList(),
       'images': instance.images.map((e) => e.toJson()).toList(),
-      'languages': instance.languages.map((e) => e.toJson()).toList(),
     };

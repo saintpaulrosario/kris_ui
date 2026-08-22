@@ -15,19 +15,18 @@ part 'translation.g.dart';
 )
 class Translation extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> languages;
+  final List<Identifier> images;
+
   const Translation({
     required super.sku,
     required super.version,
     required super.ordinal,
     required super.texts,
-    required this.languages,
-    //required this.examples,
+    required this.images,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.images,
   });
 
   factory Translation.initial() {
@@ -40,7 +39,6 @@ class Translation extends Word {
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
-      languages: [],
       images: [],
     );
   }

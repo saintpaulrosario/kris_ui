@@ -53,16 +53,6 @@ Script _$ScriptFromJson(Map json) => $checkedCreate('Script', json, (
           ? null
           : Account.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
   );
   return val;
 });
@@ -76,6 +66,5 @@ Map<String, dynamic> _$ScriptToJson(Script instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'texts': instance.texts.map((e) => e.toJson()).toList(),
-  'images': instance.images.map((e) => e.toJson()).toList(),
   'languages': instance.languages.map((e) => e.toJson()).toList(),
 };

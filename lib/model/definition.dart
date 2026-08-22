@@ -27,7 +27,6 @@ class Definition extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.images,
   });
 
   factory Definition.initial() {
@@ -41,7 +40,6 @@ class Definition extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       traits: [],
-      images: [],
     );
   }
 

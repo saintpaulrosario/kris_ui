@@ -43,16 +43,6 @@ Word _$WordFromJson(Map json) => $checkedCreate('Word', json, (
               .toList() ??
           [],
     ),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
   );
   return val;
 });
@@ -66,5 +56,4 @@ Map<String, dynamic> _$WordToJson(Word instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'texts': instance.texts.map((e) => e.toJson()).toList(),
-  'images': instance.images.map((e) => e.toJson()).toList(),
 };

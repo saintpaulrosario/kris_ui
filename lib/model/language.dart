@@ -29,7 +29,6 @@ class Language extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required super.images,
     required this.dialects,
   });
 
@@ -44,7 +43,6 @@ class Language extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       scripts: [],
-      images: [],
       dialects: [],
     );
   }

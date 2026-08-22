@@ -44,8 +44,8 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
           ? null
           : Account.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
-    sounds: $checkedConvert(
-      'sounds',
+    audios: $checkedConvert(
+      'audios',
       (v) =>
           (v as List<dynamic>?)
               ?.map(
@@ -74,6 +74,6 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'value': instance.value,
   'dialects': instance.dialects.map((e) => e.toJson()).toList(),
-  'sounds': instance.sounds.map((e) => e.toJson()).toList(),
+  'audios': instance.audios.map((e) => e.toJson()).toList(),
   'traits': instance.traits.map((e) => e.toJson()).toList(),
 };

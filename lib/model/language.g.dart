@@ -53,16 +53,6 @@ Language _$LanguageFromJson(Map json) => $checkedCreate('Language', json, (
           ? null
           : Account.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
-    images: $checkedConvert(
-      'images',
-      (v) =>
-          (v as List<dynamic>?)
-              ?.map(
-                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-              )
-              .toList() ??
-          [],
-    ),
     dialects: $checkedConvert(
       'dialects',
       (v) => (v as List<dynamic>)
@@ -82,7 +72,6 @@ Map<String, dynamic> _$LanguageToJson(Language instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'texts': instance.texts.map((e) => e.toJson()).toList(),
-  'images': instance.images.map((e) => e.toJson()).toList(),
   'scripts': instance.scripts.map((e) => e.toJson()).toList(),
   'dialects': instance.dialects.map((e) => e.toJson()).toList(),
 };

@@ -22,7 +22,7 @@ class DefinitionPayloadWidget extends StatelessWidget {
           flex: 1,
           child: SoundListWidget(
             key: ValueKey('sound-${payload.sku}'),
-            identifiers: payload.sounds,
+            identifiers: payload.audios,
           ),
         ),
         Expanded(

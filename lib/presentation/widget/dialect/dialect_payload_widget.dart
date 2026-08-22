@@ -11,6 +11,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
+import 'package:kris/presentation/widget/sound_list_wiget.dart';
 
 class DialectPayloadWidget extends StatefulWidget {
   final Identifier identifier;
@@ -55,12 +56,21 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
           );
         }
 
-        return Text(
-          payload.value,
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          key: ValueKey(payload.sku),
+        final List<Identifier> audios = payload.audios.isEmpty
+            ? []
+            : [payload.audios.first];
+
+        return Row(
+          children: [
+            SoundListWidget(identifiers: audios),
+            Text(
+              payload.value,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              key: ValueKey(payload.sku),
+            ),
+          ],
         );
       },
     );

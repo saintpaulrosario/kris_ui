@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/account.dart';
 import 'package:kris/model/identifier.dart';
 
-
 part 'word.g.dart';
 
 @JsonSerializable(
@@ -17,9 +16,6 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> texts;
 
-   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> images;
-
   const Word({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -29,7 +25,6 @@ class Word extends Identifier {
     required super.version,
     required super.ordinal,
     required this.texts,
-    required this.images,
   });
 
   factory Word.initial() {
@@ -42,7 +37,6 @@ class Word extends Identifier {
       version: 0,
       ordinal: 0,
       texts: [],
-      images: [],
     );
   }
 

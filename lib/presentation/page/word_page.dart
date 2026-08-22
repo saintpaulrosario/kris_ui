@@ -75,9 +75,11 @@ class _WordPageState extends State<WordPage>
                       itemCount: state.content.length,
                       separatorBuilder: (context, index) => Divider(),
                       itemBuilder: (context, index) {
-                        Word word = state.content.elementAt(index);
+                        Translation translation = state.content.elementAt(
+                          index,
+                        );
 
-                        return WordWidget(word: word);
+                        return WordWidget(translation: translation);
                       },
                     );
                   },

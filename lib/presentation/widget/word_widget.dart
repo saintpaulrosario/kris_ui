@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/word.dart';
+import 'package:kris/model/translation.dart';
 
 import 'image_list_widget.dart';
 import 'text_list_wiget.dart';
 
 class WordWidget extends StatelessWidget {
-  final Word word;
+  final Translation translation;
 
-  const WordWidget({super.key, required this.word});
+  const WordWidget({super.key, required this.translation});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: ValueKey(word.sku),
+      key: ValueKey(translation.sku),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -20,15 +20,15 @@ class WordWidget extends StatelessWidget {
           Expanded(
             flex: 1,
             child: ImageListWidget(
-              key: ValueKey('${word.sku}-images'),
-              identifiers: word.images,
+              key: ValueKey('${translation.sku}-images'),
+              identifiers: translation.images,
             ),
           ),
           Expanded(
             flex: 10,
             child: TextListWidget(
-              key: ValueKey('${word.sku}-texts'),
-              identifiers: word.texts,
+              key: ValueKey('${translation.sku}-texts'),
+              identifiers: translation.texts,
             ),
           ),
         ],
