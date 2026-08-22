@@ -8,6 +8,7 @@ part 'trait.g.dart';
 @JsonSerializable(
   genericArgumentFactories: true,
   includeIfNull: true,
+  disallowUnrecognizedKeys: false,
   ignoreUnannotated: false,
   explicitToJson: true,
   anyMap: true,
@@ -20,6 +21,9 @@ class Trait extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier payload;
 
+  @JsonKey(disallowNullValue: false)
+  final Identifier? dialect;
+
   const Trait({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -30,6 +34,7 @@ class Trait extends Identifier {
     required super.ordinal,
     required this.definitions,
     required this.payload,
+    required this.dialect,
   });
 
   factory Trait.initial() {
@@ -43,6 +48,7 @@ class Trait extends Identifier {
       ordinal: 0,
       definitions: [],
       payload: Payload.initial(),
+      dialect: Identifier.initial(),
     );
   }
 

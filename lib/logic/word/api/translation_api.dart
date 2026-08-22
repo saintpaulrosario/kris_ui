@@ -13,7 +13,7 @@ part 'translation_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class TranslationApi
-    implements BaseApi<Translation, Text, Trait, Payload, Trait> {
+    implements BaseApi<Translation, Text, Content, Payload, Trait> {
   factory TranslationApi(Dio dio, {String baseUrl}) = _TranslationApi;
 
   @override
@@ -46,13 +46,13 @@ abstract class TranslationApi
 
   @override
   @GET("/translation/content/{identifier}")
-  Future<HttpResponse<ApiResult<Trait>>> fetchContent({
+  Future<HttpResponse<ApiResult<Content>>> fetchContent({
     @Path("identifier") required String identifier,
   });
 
   @override
   @GET("/translation/content")
-  Future<HttpResponse<ApiResult<List<Trait>>>> fetchContents({
+  Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     @Query("identifiers") List<String>? identifiers,
     @Query("languages") List<String>? languages,
     @Query("scripts") List<String>? scripts,

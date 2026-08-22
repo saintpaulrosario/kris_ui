@@ -45,7 +45,7 @@ class _WordPageState extends State<WordPage>
     super.build(context);
     return BlocSelector<
       TranslationBloc,
-      BaseState<Translation, w.Text, Trait, Payload, Trait>,
+      BaseState<Translation, w.Text, Content, Payload, Trait>,
       PageResult<Translation>?
     >(
       selector: (state) {

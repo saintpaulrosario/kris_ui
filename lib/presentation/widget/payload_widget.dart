@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
+import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
 import 'package:kris/presentation/widget/trait_list_widget.dart';
 
@@ -17,7 +18,11 @@ class PayloadWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(flex: 12, child: TraitListWidget(identifiers: payload.traits)),
+        // definition
+        Expanded(
+          flex: 12,
+          child: TranslationTraitListWidget(identifiers: payload.traits),
+        ),
         Expanded(
           flex: 1,
           child: SoundListWidget(

@@ -16,7 +16,7 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
 class TranslationService
-    extends BaseService<Translation, Text, Trait, Payload, Trait> {
+    extends BaseService<Translation, Text, Content, Payload, Trait> {
   final TranslationApi _api = getIt<TranslationApi>();
 
   @override
@@ -99,16 +99,15 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Trait>> retrieveContent({
+  Future<Either<ErrorResponse, Content>> retrieveContent({
     required Identifier identifier,
   }) async {
-    final HttpResponse<ApiResult<Trait>> httpResponse = await _api.fetchContent(
-      identifier: identifier.sku,
-    );
+    final HttpResponse<ApiResult<Content>> httpResponse = await _api
+        .fetchContent(identifier: identifier.sku);
     try {
-      ApiResult<Trait> apiResult = httpResponse.data;
+      ApiResult<Content> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final Trait payload = apiResult.payload;
+        final Content payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -159,7 +158,7 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, List<Trait>>> retrieveContents({
+  Future<Either<ErrorResponse, List<Content>>> retrieveContents({
     required List<Identifier> identifiers,
     required List<String>? scripts,
     required List<String>? languages,
@@ -191,8 +190,28 @@ class TranslationService
   Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
     required List<Identifier> identifiers,
     required List<String>? dialects,
-  }) {
-    // TODO: implement retrieveTraits
-    throw UnimplementedError();
+  }) async {
+    try {
+      final List<String> ids = identifiers.map((x) => x.sku).toList();
+      final HttpResponse<ApiResult<List<Trait>>> httpResponse = await _api
+          .fetchTraits(identifiers: ids, dialects: dialects);
+      ApiResult<List<Trait>> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final List<Trait> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    } finally {
+      // log
+    }
   }
 }
