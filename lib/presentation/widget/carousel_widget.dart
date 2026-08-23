@@ -66,9 +66,7 @@ class _CarouselWidgetState extends State<CarouselWidget>
   Widget _buildIndicators(BuildContext context) {
     final total = widget.items.length;
 
-    final count = total;
-
-    int start = _currentIndex - (total ~/ 2);
+    int start = _currentIndex;
 
     if (start < 0) {
       start = 0;
@@ -80,7 +78,7 @@ class _CarouselWidgetState extends State<CarouselWidget>
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(count, (index) {
+      children: List.generate(total, (index) {
         final actualIndex = start + index;
 
         return _buildDot(context, actualIndex);

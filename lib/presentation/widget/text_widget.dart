@@ -21,7 +21,7 @@ class TextWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 9,
+              flex: 12,
               child: ContentListWidget(identifiers: text.contents),
             ),
             Expanded(
