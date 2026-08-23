@@ -95,10 +95,7 @@ final GoRouter appRouter = GoRouter(
       parentNavigatorKey: _rootNav,
       path: routeAuthentication,
       name: routeAuthentication,
-      builder: (_, _) => BlocProvider(
-        create: (context) => UserAccountBloc(),
-        child: const AuthenticationPage(),
-      ),
+      builder: (_, _) => const AuthenticationPage(),
     ),
   ],
 );

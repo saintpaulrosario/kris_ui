@@ -35,9 +35,8 @@ class AuthenticationScreen extends StatelessWidget {
                     accessToken: state.authenticateResponse.accessToken,
                   ),
                 );
-                //GoRouter.of(context).push(routeHome);
+
                 GoRouter.of(context).pop();
-                // Navigator.of(context).pop();
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

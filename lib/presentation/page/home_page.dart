@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => LanguageBloc()),
         BlocProvider(create: (context) => DialectBloc()),
         BlocProvider(create: (context) => DefinitionBloc()),
-        BlocProvider(create: (context) => UserAccountBloc()),
       ],
       child: Scaffold(
         appBar: AppBarWidget(),
