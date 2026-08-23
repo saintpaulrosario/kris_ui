@@ -79,7 +79,12 @@ class _WordPageState extends State<WordPage>
                           index,
                         );
 
-                        return WordWidget(translation: translation);
+                        return Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: Flexible(
+                            child: WordWidget(translation: translation),
+                          ),
+                        );
                       },
                     );
                   },

@@ -31,6 +31,10 @@ class WordWidget extends StatelessWidget {
               identifiers: translation.texts,
             ),
           ),
+          Flexible(
+            flex: 1,
+            child: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark)),
+          ),
         ],
       ),
     );
