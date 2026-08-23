@@ -49,18 +49,24 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   ),
                 ),
 
-                IconButton(
-                  icon: const Icon(Icons.login),
-                  color: Colors.black,
-                  onPressed: () {
-                    _showAuthenticationDialog(context);
-                  },
+                Visibility(
+                  visible: !state.authenticated,
+                  child: IconButton(
+                    icon: const Icon(Icons.login),
+                    color: Colors.black,
+                    onPressed: () {
+                      _showAuthenticationDialog(context);
+                    },
+                  ),
                 ),
 
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  color: Colors.black,
-                  onPressed: () {},
+                Visibility(
+                  visible: state.authenticated,
+                  child: IconButton(
+                    icon: const Icon(Icons.logout),
+                    color: Colors.black,
+                    onPressed: () {},
+                  ),
                 ),
 
                 IconButton(
@@ -69,12 +75,15 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   onPressed: () {},
                 ),
 
-                Badge(
-                  label: const Text('4'),
-                  child: IconButton(
-                    icon: const Icon(Icons.notifications),
-                    color: Colors.black,
-                    onPressed: () {},
+                Visibility(
+                  visible: state.authenticated,
+                  child: Badge(
+                    label: const Text('4'),
+                    child: IconButton(
+                      icon: const Icon(Icons.notifications),
+                      color: Colors.black,
+                      onPressed: () {},
+                    ),
                   ),
                 ),
 

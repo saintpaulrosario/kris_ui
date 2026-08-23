@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 import 'package:kris/feature/authentication/model/authenticate_request.dart';
 import 'package:meta/meta.dart';
 
@@ -13,6 +14,7 @@ part 'authenticate_state.dart';
 
 class AuthenticateBloc extends Bloc<AuthenticateEvent, AuthenticateState> {
   final AuthService _service = getIt<AuthService>();
+  final UserAccountBloc _accountBloc = getIt<UserAccountBloc>();
 
   AuthenticateBloc() : super(AuthenticateState.initial()) {
     on<AuthenticateEvent>((event, emit) async {

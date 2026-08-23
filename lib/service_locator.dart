@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 import 'package:kris/feature/authentication/api/authentication_api.dart';
 import 'package:kris/feature/authentication/logic/authenticate/authenticate_service.dart';
 import 'package:kris/logic/medium/medium_api.dart';
@@ -189,4 +190,8 @@ void _registerServices() {
   getIt.registerLazySingleton<DefinitionService>(() => DefinitionService());
 
   getIt.registerLazySingleton<AuthService>(() => AuthService());
+
+  // bloc
+
+  getIt.registerLazySingleton<UserAccountBloc>(() => UserAccountBloc());
 }
