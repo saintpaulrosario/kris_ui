@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
+import 'package:kris/feature/authentication/logic/authenticate/bloc/authenticate_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
@@ -31,6 +33,8 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => LanguageBloc()),
         BlocProvider(create: (context) => DialectBloc()),
         BlocProvider(create: (context) => DefinitionBloc()),
+        BlocProvider(create: (context) => UserAccountBloc()),
+        BlocProvider(create: (context) => AuthenticateBloc()),
       ],
       child: Scaffold(
         appBar: AppBarWidget(),

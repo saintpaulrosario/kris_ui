@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/script_bloc.dart';
@@ -33,41 +34,58 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       backgroundColor: Colors.white,
 
       actions: [
-        const Text('john', style: TextStyle(color: Colors.black)),
-
-        IconButton(
-          icon: const Icon(Icons.login),
-          color: Colors.black,
-          onPressed: () {
-            _showAuthenticationDialog(context);
+        BlocSelector<UserAccountBloc, UserAccountState, UserAccountState>(
+          selector: (state) {
+            return state;
           },
-        ),
+          builder: (context, state) {
+            return Row(
+              children: [
+                Visibility(
+                  visible: state.authenticated,
+                  child: const Text(
+                    'john',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
 
-        IconButton(
-          icon: const Icon(Icons.logout),
-          color: Colors.black,
-          onPressed: () {},
-        ),
+                IconButton(
+                  icon: const Icon(Icons.login),
+                  color: Colors.black,
+                  onPressed: () {
+                    _showAuthenticationDialog(context);
+                  },
+                ),
 
-        IconButton(
-          icon: const Icon(Icons.search),
-          color: Colors.black,
-          onPressed: () {},
-        ),
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  color: Colors.black,
+                  onPressed: () {},
+                ),
 
-        Badge(
-          label: const Text('4'),
-          child: IconButton(
-            icon: const Icon(Icons.notifications),
-            color: Colors.black,
-            onPressed: () {},
-          ),
-        ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  color: Colors.black,
+                  onPressed: () {},
+                ),
 
-        IconButton(
-          icon: const Icon(Icons.mail_outline),
-          color: Colors.black,
-          onPressed: () {},
+                Badge(
+                  label: const Text('4'),
+                  child: IconButton(
+                    icon: const Icon(Icons.notifications),
+                    color: Colors.black,
+                    onPressed: () {},
+                  ),
+                ),
+
+                IconButton(
+                  icon: const Icon(Icons.mail_outline),
+                  color: Colors.black,
+                  onPressed: () {},
+                ),
+              ],
+            );
+          },
         ),
       ],
 

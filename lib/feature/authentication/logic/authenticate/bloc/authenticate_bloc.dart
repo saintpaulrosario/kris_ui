@@ -39,6 +39,7 @@ class AuthenticateBloc extends Bloc<AuthenticateEvent, AuthenticateState> {
             state.copyWith(
               fetching: false,
               success: true,
+              authenticateResponse: right,
               message: "authenticate success",
             ),
           );

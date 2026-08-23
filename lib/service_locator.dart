@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:kris/feature/authentication/api/authentication_api.dart';
+import 'package:kris/feature/authentication/logic/authenticate/authenticate_service.dart';
 import 'package:kris/logic/medium/medium_api.dart';
 import 'package:kris/logic/medium/service/medium_service.dart';
 import 'package:kris/logic/word/api/definition_api.dart';
@@ -159,6 +161,10 @@ void _registerApis() {
   getIt.registerLazySingleton<MediumApi>(
     () => MediumApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<AuthenticationApi>(
+    () => AuthenticationApi(dio, baseUrl: baseUrl),
+  );
 }
 
 ///------------------------------------------------------------
@@ -181,4 +187,6 @@ void _registerServices() {
   getIt.registerLazySingleton<DialectService>(() => DialectService());
 
   getIt.registerLazySingleton<DefinitionService>(() => DefinitionService());
+
+  getIt.registerLazySingleton<AuthService>(() => AuthService());
 }
