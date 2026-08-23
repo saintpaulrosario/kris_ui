@@ -4,7 +4,7 @@ import 'package:kris/model/word.dart';
 
 import 'identifier.dart';
 
-part 'definition.g.dart';
+part 'example.g.dart';
 
 @JsonSerializable(
   includeIfNull: true,
@@ -13,34 +13,28 @@ part 'definition.g.dart';
   anyMap: true,
   checked: true,
 )
-class Definition extends Word {
+class Example extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> traits;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> examples;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> translations;
-
-  
-
-  const Definition({
+  final List<Identifier> images;
+  const Example({
     required super.sku,
     required super.version,
     required super.ordinal,
     required super.texts,
     required this.traits,
-    required this.examples,
+    //required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.translations,
+    required this.images,
   });
 
-  factory Definition.initial() {
-    return Definition(
+  factory Example.initial() {
+    return Example(
       sku: '',
       version: 0,
       ordinal: 0,
@@ -50,8 +44,7 @@ class Definition extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       traits: [],
-      examples: [],
-      translations: [],
+      images: [],
     );
   }
 
@@ -62,12 +55,12 @@ class Definition extends Word {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Definition && other.sku == sku && other.ordinal == ordinal;
+    return other is Example && other.sku == sku && other.ordinal == ordinal;
   }
 
-  factory Definition.fromJson(Map<String, dynamic> json) =>
-      _$DefinitionFromJson(json);
+  factory Example.fromJson(Map<String, dynamic> json) =>
+      _$ExampleFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$DefinitionToJson(this);
+  Map<String, dynamic> toJson() => _$ExampleToJson(this);
 }
