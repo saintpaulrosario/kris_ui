@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CarouselWidget extends StatefulWidget {
   final List<Widget> items;
@@ -10,12 +9,14 @@ class CarouselWidget extends StatefulWidget {
   State<CarouselWidget> createState() => _CarouselWidgetState();
 }
 
-class _CarouselWidgetState extends State<CarouselWidget> {
+class _CarouselWidgetState extends State<CarouselWidget>
+    with AutomaticKeepAliveClientMixin {
   static const double _defaultHeight = 150;
   static const double _indicatorHeight = 10;
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableHeight = constraints.hasBoundedHeight
@@ -103,4 +104,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

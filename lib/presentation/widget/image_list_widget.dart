@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
 import 'package:kris/logic/medium/medium_state.dart';
 import 'package:kris/model/medium.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
 import 'package:kris/presentation/widget/image_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -70,112 +71,11 @@ class _ImageListWidgetState extends State<ImageListWidget>
         });
       },
       builder: (context, state) {
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final availableHeight = constraints.hasBoundedHeight
-                ? constraints.maxHeight
-                : _defaultHeight;
-
-            final carouselHeight = identifiers.length > 1
-                ? (availableHeight - _indicatorHeight).clamp(
-                    0.0,
-                    double.infinity,
-                  )
-                : availableHeight;
-            return Column(
-              children: [
-                CarouselSlider.builder(
-                  itemCount: widget.identifiers.length,
-                  itemBuilder:
-                      (BuildContext context, int index, int realIndex) {
-                        if (!state.containsKey(
-                          identifiers.elementAt(index).sku,
-                        )) {
-                          return Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
-                            child: const DecoratedBox(
-                              decoration: BoxDecoration(color: Colors.white),
-                            ),
-                          );
-                        }
-                        Medium image = state[identifiers.elementAt(index).sku]!;
-                        return ImageWidget(
-                          key: ValueKey(identifiers[index].sku),
-                          image: image,
-                        );
-                      },
-                  options: CarouselOptions(
-                    height: carouselHeight,
-                    viewportFraction: 1.0,
-                    enlargeCenterPage: false,
-                    enableInfiniteScroll: false,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index, reason) {
-                      if (!mounted) {
-                        return;
-                      }
-
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                ),
-
-                if (identifiers.length > 1) ...[
-                  SizedBox(
-                    height: _indicatorHeight - 1,
-                    child: _buildIndicators(context),
-                  ),
-                ],
-              ],
-            );
-          },
-        );
+        List<ImageWidget> items = state.values
+            .map((x) => ImageWidget(image: x))
+            .toList();
+        return CarouselWidget(items: items);
       },
-    );
-  }
-
-  Widget _buildIndicators(BuildContext context) {
-    final total = widget.identifiers.length;
-
-    final count = total > _maxIndicators ? _maxIndicators : total;
-
-    int start = _currentIndex - (count ~/ 2);
-
-    if (start < 0) {
-      start = 0;
-    }
-
-    if (start > total - count) {
-      start = total - count;
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(count, (index) {
-        final actualIndex = start + index;
-
-        return _buildDot(context, actualIndex);
-      }),
-    );
-  }
-
-  Widget _buildDot(BuildContext context, int index) {
-    final selected = index == _currentIndex;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: selected ? 10 : 6,
-        height: selected ? 6 : 4,
-        decoration: BoxDecoration(
-          color: selected ? Theme.of(context).colorScheme.primary : Colors.grey,
-          shape: BoxShape.rectangle,
-        ),
-      ),
     );
   }
 
