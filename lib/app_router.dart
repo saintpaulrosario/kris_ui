@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 import 'package:kris/model/account.dart';
 
 import 'feature/presentation/page/authentication_page.dart';
@@ -16,7 +18,7 @@ const routeAncestry = '/ancestry';
 const routeProfile = '/profile/:alias';
 const routeWord = '/word';
 const routeWordInfo = '/info/:sku';
-const routeWordDetail = '/:sku';
+const routeWordDetail = 'word/:sku';
 const routePayloadDetail = '/payload/:sku';
 
 // ---------------------
@@ -92,8 +94,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       parentNavigatorKey: _rootNav,
       path: routeAuthentication,
-      name: "authentication",
-      builder: (_, _) => const AuthenticationPage(),
+      name: routeAuthentication,
+      builder: (_, _) => BlocProvider(
+        create: (context) => UserAccountBloc(),
+        child: const AuthenticationPage(),
+      ),
     ),
   ],
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
@@ -10,6 +11,7 @@ import 'package:kris/presentation/menu/dialect_menu.dart';
 import 'package:kris/presentation/menu/language_menu.dart';
 import 'package:kris/presentation/menu/script_menu.dart';
 
+import '../../app_router.dart';
 import '../../feature/presentation/page/authentication_page.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
@@ -41,13 +43,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           builder: (context, state) {
             return Row(
               children: [
-                Visibility(
-                  visible: state.authenticated,
-                  child: const Text(
-                    'john',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
+                if (state.authenticated)
+                  const Text('john', style: TextStyle(color: Colors.black)),
 
                 Visibility(
                   visible: !state.authenticated,
@@ -55,7 +52,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                     icon: const Icon(Icons.login),
                     color: Colors.black,
                     onPressed: () {
-                      _showAuthenticationDialog(context);
+                      GoRouter.of(context).push(routeAuthentication);
+                      // _showAuthenticationDialog(context: context);
                     },
                   ),
                 ),
@@ -147,7 +145,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     );
   }
 
-  void _showAuthenticationDialog(BuildContext context) {
+  void _showAuthenticationDialog({required BuildContext context}) {
     final size = MediaQuery.sizeOf(context);
 
     showDialog(
