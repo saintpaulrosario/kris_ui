@@ -111,7 +111,10 @@ class _CarouselWidgetState extends State<CarouselWidget>
       children: List.generate(count, (index) {
         final actualIndex = start + index;
 
-        return _buildDot(context, actualIndex, currentIndex);
+        return GestureDetector(
+          onTap: () => _currentIndex.value = index,
+          child: _buildDot(context, actualIndex, currentIndex),
+        );
       }),
     );
   }
