@@ -21,6 +21,9 @@ class Trait extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier dialect;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> audios;
+
   const Trait({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -31,7 +34,7 @@ class Trait extends Identifier {
     required super.ordinal,
     required this.payload,
     required this.dialect,
-    Object? key,
+    required this.audios,
   });
 
   factory Trait.initial() {
@@ -45,6 +48,7 @@ class Trait extends Identifier {
       ordinal: 0,
       payload: Payload.initial(),
       dialect: Identifier.initial(),
+      audios: [],
     );
   }
 

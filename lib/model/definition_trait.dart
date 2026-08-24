@@ -39,6 +39,7 @@ class DefinitionTrait extends Trait {
     required this.type,
     required this.examples,
     required this.translations,
+    required super.audios,
   });
 
   factory DefinitionTrait.initial() {
@@ -56,6 +57,7 @@ class DefinitionTrait extends Trait {
       type: Identifier.initial(),
       examples: [],
       translations: [],
+      audios: [],
     );
   }
 

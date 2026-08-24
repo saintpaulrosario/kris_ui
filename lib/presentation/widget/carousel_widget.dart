@@ -13,7 +13,15 @@ class _CarouselWidgetState extends State<CarouselWidget>
     with AutomaticKeepAliveClientMixin {
   static const double _defaultHeight = 150;
   static const double _indicatorHeight = 10;
-  int _currentIndex = 0;
+  static const int _maxIndicators = 5;
+  late final ValueNotifier<int> _currentIndex;
+
+  @override
+  void initState() {
+    _currentIndex = ValueNotifier<int>(0);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -40,54 +48,56 @@ class _CarouselWidgetState extends State<CarouselWidget>
                 enableInfiniteScroll: false,
                 scrollDirection: Axis.horizontal,
                 onPageChanged: (index, reason) {
-                  if (!mounted) {
-                    return;
-                  }
-
-                  setState(() {
-                    _currentIndex = index;
-                  });
+                  _currentIndex.value = index;
                 },
               ),
             ),
 
-            if (widget.items.length > 1) ...[
+            if (widget.items.length > 1)
               SizedBox(
                 height: _indicatorHeight - 1,
-                child: _buildIndicators(context),
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _currentIndex,
+                  builder: (context, currentIndex, child) {
+                    return _buildIndicators(
+                      context,
+                      currentIndex,
+                      widget.items.length,
+                    );
+                  },
+                ),
               ),
-            ],
           ],
         );
       },
     );
   }
 
-  Widget _buildIndicators(BuildContext context) {
-    final total = widget.items.length;
+  Widget _buildIndicators(BuildContext context, int currentIndex, int total) {
+    final count = total > _maxIndicators ? _maxIndicators : total;
 
-    int start = _currentIndex;
+    int start = currentIndex - (count ~/ 2);
 
     if (start < 0) {
       start = 0;
     }
 
-    if (start > total) {
-      start = total - 1;
+    if (start > total - count) {
+      start = total - count;
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(total, (index) {
+      children: List.generate(count, (index) {
         final actualIndex = start + index;
 
-        return _buildDot(context, actualIndex);
+        return _buildDot(context, actualIndex, currentIndex);
       }),
     );
   }
 
-  Widget _buildDot(BuildContext context, int index) {
-    final selected = index == _currentIndex;
+  Widget _buildDot(BuildContext context, int index, int currentIndex) {
+    final selected = index == currentIndex;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),

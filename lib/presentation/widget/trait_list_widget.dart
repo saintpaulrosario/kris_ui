@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
-import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/identifier.dart';
@@ -16,7 +15,6 @@ import 'package:kris/presentation/widget/trait_widget.dart';
 
 import '../../model/content.dart';
 import '../../model/text.dart' as w;
-import 'content_wiget.dart';
 
 class TraitListWidget extends StatefulWidget {
   final List<Identifier> identifiers;

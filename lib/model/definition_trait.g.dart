@@ -69,6 +69,16 @@ DefinitionTrait _$DefinitionTraitFromJson(
           .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
     ),
+    audios: $checkedConvert(
+      'audios',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
+    ),
   );
   return val;
 });
@@ -84,6 +94,7 @@ Map<String, dynamic> _$DefinitionTraitToJson(DefinitionTrait instance) =>
       'ordinal': instance.ordinal,
       'payload': instance.payload.toJson(),
       'dialect': instance.dialect.toJson(),
+      'audios': instance.audios.map((e) => e.toJson()).toList(),
       'traits': instance.traits.map((e) => e.toJson()).toList(),
       'type': instance.type?.toJson(),
       'examples': instance.examples.map((e) => e.toJson()).toList(),

@@ -30,6 +30,7 @@ class ExampleTrait extends Trait {
     required this.definitions,
     required super.payload,
     required super.dialect,
+    required super.audios,
   });
 
   factory ExampleTrait.initial() {
@@ -44,6 +45,7 @@ class ExampleTrait extends Trait {
       definitions: [],
       payload: Payload.initial(),
       dialect: Identifier.initial(),
+      audios: [],
     );
   }
 

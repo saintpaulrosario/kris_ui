@@ -3,22 +3,18 @@ import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kris/logic/medium/bloc/medium_bloc.dart';
 import 'package:kris/model/medium.dart';
 
-import '../../model/sound.dart';
-
-class SoundWidget extends StatefulWidget {
+class AudioWidget extends StatefulWidget {
   final Medium sound;
 
-  const SoundWidget({super.key, required this.sound});
+  const AudioWidget({super.key, required this.sound});
 
   @override
-  State<SoundWidget> createState() => _SoundWidgetState();
+  State<AudioWidget> createState() => _AudioWidgetState();
 }
 
-class _SoundWidgetState extends State<SoundWidget>
+class _AudioWidgetState extends State<AudioWidget>
     with AutomaticKeepAliveClientMixin {
   late final AudioPlayer player;
 

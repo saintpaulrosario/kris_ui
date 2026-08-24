@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:kris/model/translation_trait.dart';
 
 import 'package:kris/presentation/widget/definition/defintion_list_widget.dart';
+import 'package:kris/presentation/widget/trait_widget.dart';
 
-class TranslationTraitWidget extends StatelessWidget {
+class TranslationTraitWidget extends TraitWidget {
+  @override
   final TranslationTrait trait;
 
-  const TranslationTraitWidget({super.key, required this.trait});
+  const TranslationTraitWidget({super.key, required this.trait})
+    : super(trait: trait);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,7 @@ class TranslationTraitWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(child: DefinitionListWidget(identifiers: trait.definitions)),
+        Expanded(child: super.build(context)),
       ],
     );
   }

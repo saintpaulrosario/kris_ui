@@ -11,7 +11,7 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/sound_list_wiget.dart';
+import 'package:kris/presentation/widget/audio_list_wiget.dart';
 
 class ScriptPayloadWidget extends StatefulWidget {
   final Identifier identifier;

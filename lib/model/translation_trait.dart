@@ -30,6 +30,7 @@ class TranslationTrait extends Trait {
     required this.definitions,
     required super.dialect,
     required super.payload,
+    required super.audios,
   });
 
   factory TranslationTrait.initial() {
@@ -44,6 +45,7 @@ class TranslationTrait extends Trait {
       definitions: [],
       payload: Payload.initial(),
       dialect: Identifier.initial(),
+      audios: [],
     );
   }
 
