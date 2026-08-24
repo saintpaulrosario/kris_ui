@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/logic/word/service/example_service.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/definition.dart';
 import 'package:kris/model/example.dart';
+import 'package:kris/model/example_trait.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
@@ -17,7 +16,11 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
 class ExampleBloc
-    extends Bloc<BaseEvent, BaseState<Example, Text, Content, Payload, Trait>> {
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<Example, Text, Content, Payload, ExampleTrait>
+        > {
   final _service = getIt<ExampleService>();
 
   ExampleBloc() : super(BaseState.initial()) {
@@ -496,7 +499,7 @@ class ExampleBloc
           ),
         );
       },
-      (List<Trait> payloads) {
+      (List<ExampleTrait> payloads) {
         final data = state.traits.toBuilder();
 
         for (final payload in payloads) {

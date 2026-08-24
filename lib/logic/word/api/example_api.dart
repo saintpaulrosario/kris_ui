@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/definition.dart';
 import 'package:kris/model/example.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
 
 import 'package:retrofit/retrofit.dart';
+import '../../../model/example_trait.dart';
 import '../../../response/api_result.dart';
 import '../../../response/page_result.dart';
 
@@ -15,7 +15,7 @@ part 'example_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class ExampleApi
-    implements BaseApi<Example, Text, Content, Payload, Trait> {
+    implements BaseApi<Example, Text, Content, Payload, ExampleTrait> {
   factory ExampleApi(Dio dio, {String baseUrl}) = _ExampleApi;
 
   @override
@@ -77,14 +77,14 @@ abstract class ExampleApi
 
   @override
   @GET("/word/trait")
-  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+  Future<HttpResponse<ApiResult<List<ExampleTrait>>>> fetchTraits({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
   });
 
   @override
   @GET("/word/trait/{identifier}")
-  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+  Future<HttpResponse<ApiResult<ExampleTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
 }

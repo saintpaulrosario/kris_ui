@@ -18,11 +18,12 @@ import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';
 
+import '../../../model/example_trait.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
 class ExampleService
-    extends BaseService<Example, Text, Content, Payload, Trait> {
+    extends BaseService<Example, Text, Content, Payload, ExampleTrait> {
   final ExampleApi _api = getIt<ExampleApi>();
 
   @override
@@ -253,16 +254,15 @@ class ExampleService
   }
 
   @override
-  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+  Future<Either<ErrorResponse, ExampleTrait>> retrieveTrait({
     required Identifier identifier,
   }) async {
     try {
-      final HttpResponse<ApiResult<Trait>> httpResponse = await _api.fetchTrait(
-        identifier: identifier.sku,
-      );
-      ApiResult<Trait> apiResult = httpResponse.data;
+      final HttpResponse<ApiResult<ExampleTrait>> httpResponse = await _api
+          .fetchTrait(identifier: identifier.sku);
+      ApiResult<ExampleTrait> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
-        final Trait payload = apiResult.payload;
+        final ExampleTrait payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -279,17 +279,17 @@ class ExampleService
   }
 
   @override
-  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+  Future<Either<ErrorResponse, List<ExampleTrait>>> retrieveTraits({
     required List<Identifier> identifiers,
     required List<String>? dialects,
   }) async {
     try {
       List<String> skus = identifiers.map((x) => x.sku).toList();
-      final HttpResponse<ApiResult<List<Trait>>> httpResponse = await _api
-          .fetchTraits(identifiers: skus, dialects: dialects);
-      ApiResult<List<Trait>> apiResult = httpResponse.data;
+      final HttpResponse<ApiResult<List<ExampleTrait>>> httpResponse =
+          await _api.fetchTraits(identifiers: skus, dialects: dialects);
+      ApiResult<List<ExampleTrait>> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
-        final List<Trait> payload = apiResult.payload;
+        final List<ExampleTrait> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

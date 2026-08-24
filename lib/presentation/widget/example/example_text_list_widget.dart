@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/example_bloc.dart';
+import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
+import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
-import 'package:kris/model/example.dart';
-import 'package:kris/model/example_trait.dart';
+import 'package:kris/model/definition.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
@@ -43,7 +43,7 @@ class _ExampleTextListWidgetState extends State<ExampleTextListWidget> {
   void _fetchTexts() {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
-    context.read<ExampleBloc>().add(
+    context.read<DefinitionBloc>().add(
       BaseEvent.texts(identifiers: widget.identifiers, scripts: scripts),
     );
   }
@@ -51,8 +51,8 @@ class _ExampleTextListWidgetState extends State<ExampleTextListWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      ExampleBloc,
-      BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
+      DefinitionBloc,
+      BaseState<Definition, w.Text, Content, Payload, Trait>,
       BuiltMap<String, w.Text>
     >(
       selector: (state) {

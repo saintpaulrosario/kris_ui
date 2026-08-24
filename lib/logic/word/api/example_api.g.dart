@@ -338,7 +338,7 @@ class _ExampleApi implements ExampleApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+  Future<HttpResponse<ApiResult<List<ExampleTrait>>>> fetchTraits({
     List<String>? identifiers,
     List<String>? dialects,
   }) async {
@@ -350,24 +350,29 @@ class _ExampleApi implements ExampleApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Trait>>>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/word/trait',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
+    final _options =
+        _setStreamType<HttpResponse<ApiResult<List<ExampleTrait>>>>(
+          Options(method: 'GET', headers: _headers, extra: _extra)
+              .compose(
+                _dio.options,
+                '/word/trait',
+                queryParameters: queryParameters,
+                data: _data,
+              )
+              .copyWith(
+                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
+              ),
+        );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Trait>> _value;
+    late ApiResult<List<ExampleTrait>> _value;
     try {
-      _value = ApiResult<List<Trait>>.fromJson(
+      _value = ApiResult<List<ExampleTrait>>.fromJson(
         _result.data!,
         (json) => json is List<dynamic>
             ? json
-                  .map<Trait>((i) => Trait.fromJson(i as Map<String, dynamic>))
+                  .map<ExampleTrait>(
+                    (i) => ExampleTrait.fromJson(i as Map<String, dynamic>),
+                  )
                   .toList()
             : List.empty(),
       );
@@ -380,14 +385,14 @@ class _ExampleApi implements ExampleApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+  Future<HttpResponse<ApiResult<ExampleTrait>>> fetchTrait({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Trait>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<ExampleTrait>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -398,11 +403,11 @@ class _ExampleApi implements ExampleApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Trait> _value;
+    late ApiResult<ExampleTrait> _value;
     try {
-      _value = ApiResult<Trait>.fromJson(
+      _value = ApiResult<ExampleTrait>.fromJson(
         _result.data!,
-        (json) => Trait.fromJson(json as Map<String, dynamic>),
+        (json) => ExampleTrait.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

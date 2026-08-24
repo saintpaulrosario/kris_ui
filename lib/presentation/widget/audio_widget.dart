@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:kris/model/medium.dart';
 
 class AudioWidget extends StatefulWidget {
-  final Medium sound;
+  final Medium audio;
 
-  const AudioWidget({super.key, required this.sound});
+  const AudioWidget({super.key, required this.audio});
 
   @override
   State<AudioWidget> createState() => _AudioWidgetState();
@@ -37,7 +37,7 @@ class _AudioWidgetState extends State<AudioWidget>
     return TextButton(
       onPressed: () async {
         try {
-          final bytes = Uint8List.fromList(base64Decode(widget.sound.content));
+          final bytes = Uint8List.fromList(base64Decode(widget.audio.content));
           await player.play(BytesSource(bytes));
         } catch (e) {
           debugPrint("Audio playback error: $e");

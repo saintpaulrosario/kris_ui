@@ -8,7 +8,6 @@ import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/example_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
@@ -16,9 +15,7 @@ import 'package:kris/model/example.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/definition/definition_payload_list_widget.dart';
 
-import '../../../model/example_trait.dart';
 import '../../../model/text.dart' as w;
 import 'example_content_widget.dart';
 
@@ -64,7 +61,7 @@ class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<
       ExampleBloc,
-      BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
+      BaseState<Example, w.Text, Content, Payload, Trait>,
       BuiltMap<String, Content>
     >(
       selector: (state) {

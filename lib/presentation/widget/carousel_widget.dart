@@ -23,6 +23,26 @@ class _CarouselWidgetState extends State<CarouselWidget>
   }
 
   @override
+  void dispose() {
+    _currentIndex.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant CarouselWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.items.isEmpty) {
+      _currentIndex.value = 0;
+    } else if (_currentIndex.value >= widget.items.length) {
+      _currentIndex.value = widget.items.length - 1;
+    }
+
+    // Only fetch when the identifiers actually changed.
+    if (widget.items != oldWidget.items && widget.items.isNotEmpty) {}
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return LayoutBuilder(

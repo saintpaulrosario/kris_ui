@@ -5,38 +5,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
-import 'package:kris/logic/word/example_bloc.dart';
-import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
-
-import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/definition_trait.dart';
 import 'package:kris/model/example.dart';
+import 'package:kris/model/example_trait.dart';
+
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/definition/definition_payload_list_widget.dart';
+import 'package:kris/presentation/screen/example/example_widget.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
+import 'package:kris/presentation/widget/definition/definition_widget.dart';
 
-import '../../../model/example_trait.dart';
+import '../../../logic/word/example_bloc.dart' show ExampleBloc;
+import '../../../model/content.dart';
 import '../../../model/text.dart' as w;
-import 'example_content_widget.dart';
 
-class ExampleContentListWidget extends StatefulWidget {
+class ExampleListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
 
-  const ExampleContentListWidget({super.key, required this.identifiers});
+  const ExampleListWidget({super.key, required this.identifiers});
 
   @override
-  State<ExampleContentListWidget> createState() =>
-      _ExampleContentListWidgetState();
+  State<ExampleListWidget> createState() => _ExampleListWidgetState();
 }
 
-class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
+class _ExampleListWidgetState extends State<ExampleListWidget> {
   @override
   void initState() {
     super.initState();
-
     if (widget.identifiers.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
@@ -47,32 +44,30 @@ class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
   }
 
   void _fetchContents() {
-    final languages = context.read<LanguageBloc>().state.selections.toList();
-
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
     context.read<ExampleBloc>().add(
-      BaseEvent.contents(
-        identifiers: widget.identifiers,
-        languages: languages,
-        scripts: scripts,
-      ),
+      BaseEvent.fetch(identifiers: widget.identifiers, scripts: scripts),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.identifiers.isEmpty) {
+      return SizedBox.shrink();
+    }
+
     return BlocSelector<
       ExampleBloc,
       BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
-      BuiltMap<String, Content>
+      BuiltMap<String, Example>
     >(
       selector: (state) {
         final identifiers = widget.identifiers
             .map((identifier) => identifier.sku)
             .toSet();
 
-        return state.contents.rebuild((builder) {
+        return state.data.rebuild((builder) {
           builder.removeWhere((key, value) => !identifiers.contains(key));
         });
       },
@@ -81,20 +76,11 @@ class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: state.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final content = state.values.elementAt(index);
+        List<ExampleWidget> items = state.values
+            .map((definition) => ExampleWidget(example: definition))
+            .toList();
 
-            return ExampleContentWidget(
-              key: ValueKey(content.sku),
-              content: content,
-            );
-          },
-        );
+        return CarouselWidget(items: items);
       },
     );
   }

@@ -5,57 +5,57 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
-import 'package:kris/logic/word/example_bloc.dart';
+import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
-import 'package:kris/model/example.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/definition/definition_payload_list_widget.dart';
+import 'package:kris/model/word.dart';
 
-import '../../../model/example_trait.dart';
 import '../../../model/text.dart' as w;
-import 'example_content_widget.dart';
+import 'example_payload_widget.dart';
 
-class ExampleContentListWidget extends StatefulWidget {
+class ExamplePayloadListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
 
-  const ExampleContentListWidget({super.key, required this.identifiers});
+  const ExamplePayloadListWidget({super.key, required this.identifiers});
 
   @override
-  State<ExampleContentListWidget> createState() =>
-      _ExampleContentListWidgetState();
+  State<ExamplePayloadListWidget> createState() =>
+      _ExamplePayloadListWidgetState();
 }
 
-class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
+class _ExamplePayloadListWidgetState extends State<ExamplePayloadListWidget> {
   @override
   void initState() {
     super.initState();
-
     if (widget.identifiers.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
 
-        _fetchContents();
+        _fetchPayloads();
       });
     }
   }
 
-  void _fetchContents() {
-    final languages = context.read<LanguageBloc>().state.selections.toList();
-
+  void _fetchPayloads() {
     final scripts = context.read<ScriptBloc>().state.selections.toList();
 
-    context.read<ExampleBloc>().add(
-      BaseEvent.contents(
+    final languages = context.read<LanguageBloc>().state.selections.toList();
+
+    final dialects = context.read<DialectBloc>().state.selections.toList();
+
+    context.read<DefinitionBloc>().add(
+      BaseEvent.payloads(
         identifiers: widget.identifiers,
         languages: languages,
         scripts: scripts,
+        dialects: dialects,
       ),
     );
   }
@@ -63,35 +63,35 @@ class _ExampleContentListWidgetState extends State<ExampleContentListWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      ExampleBloc,
-      BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
-      BuiltMap<String, Content>
+      DefinitionBloc,
+      BaseState<Definition, w.Text, Content, Payload, Trait>,
+      BuiltMap<String, Payload>
     >(
       selector: (state) {
-        final identifiers = widget.identifiers
-            .map((identifier) => identifier.sku)
-            .toSet();
+        final identifiers = widget.identifiers.map((e) => e.sku).toSet();
 
-        return state.contents.rebuild((builder) {
-          builder.removeWhere((key, value) => !identifiers.contains(key));
-        });
+        final result = state.payloads.toBuilder();
+
+        result.removeWhere((key, value) => !identifiers.contains(key));
+
+        return result.build();
       },
-      builder: (context, state) {
-        if (state.isEmpty) {
+      builder: (context, payloads) {
+        if (payloads.isEmpty) {
           return const SizedBox.shrink();
         }
 
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: state.length,
+          itemCount: payloads.length,
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
-            final content = state.values.elementAt(index);
+            final payload = payloads.values.elementAt(index);
 
-            return ExampleContentWidget(
-              key: ValueKey(content.sku),
-              content: content,
+            return ExamplePayloadWidget(
+              key: ValueKey(payload.sku),
+              payload: payload,
             );
           },
         );

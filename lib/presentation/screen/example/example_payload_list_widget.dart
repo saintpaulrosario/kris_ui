@@ -6,12 +6,15 @@ import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
+import 'package:kris/logic/word/example_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/example.dart';
+import 'package:kris/model/example_trait.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
@@ -50,7 +53,7 @@ class _ExamplePayloadListWidgetState extends State<ExamplePayloadListWidget> {
 
     final dialects = context.read<DialectBloc>().state.selections.toList();
 
-    context.read<DefinitionBloc>().add(
+    context.read<ExampleBloc>().add(
       BaseEvent.payloads(
         identifiers: widget.identifiers,
         languages: languages,
@@ -63,8 +66,8 @@ class _ExamplePayloadListWidgetState extends State<ExamplePayloadListWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<
-      DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, Trait>,
+      ExampleBloc,
+      BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
       BuiltMap<String, Payload>
     >(
       selector: (state) {
