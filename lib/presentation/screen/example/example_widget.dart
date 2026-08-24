@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/example.dart';
 
-import 'definition_text_list_widget.dart';
+import 'example_text_list_widget.dart';
 
-class DefinitionWidget extends StatelessWidget {
-  final Definition definition;
+class ExampleWidget extends StatelessWidget {
+  final Example example;
 
-  const DefinitionWidget({super.key, required this.definition});
+  const ExampleWidget({super.key, required this.example});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      key: ValueKey(definition.sku),
+      key: ValueKey(example.sku),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             flex: 7,
-            child: DefinitionTextListWidget(
-              key: ValueKey('${definition.sku}-texts'),
-              identifiers: definition.texts,
+            child: ExampleTextListWidget(
+              key: ValueKey('${example.sku}-texts'),
+              identifiers: example.texts,
             ),
           ),
         ],

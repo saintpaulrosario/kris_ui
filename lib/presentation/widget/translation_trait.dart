@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kris/model/translation_trait.dart';
 
 import 'package:kris/presentation/widget/definition/defintion_list_widget.dart';
 
-import '../../model/trait.dart';
-
 class TranslationTraitWidget extends StatelessWidget {
-  final Trait trait;
+  final TranslationTrait trait;
 
   const TranslationTraitWidget({super.key, required this.trait});
 

@@ -12,11 +12,12 @@ import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';
 
+import '../../../model/translation_trait.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
 class TranslationService
-    extends BaseService<Translation, Text, Content, Payload, Trait> {
+    extends BaseService<Translation, Text, Content, Payload, TranslationTrait> {
   final TranslationApi _api = getIt<TranslationApi>();
 
   @override
@@ -179,7 +180,7 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+  Future<Either<ErrorResponse, TranslationTrait>> retrieveTrait({
     required Identifier identifier,
   }) {
     // TODO: implement retrieveTrait
@@ -187,17 +188,17 @@ class TranslationService
   }
 
   @override
-  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+  Future<Either<ErrorResponse, List<TranslationTrait>>> retrieveTraits({
     required List<Identifier> identifiers,
     required List<String>? dialects,
   }) async {
     try {
       final List<String> ids = identifiers.map((x) => x.sku).toList();
-      final HttpResponse<ApiResult<List<Trait>>> httpResponse = await _api
-          .fetchTraits(identifiers: ids, dialects: dialects);
-      ApiResult<List<Trait>> apiResult = httpResponse.data;
+      final HttpResponse<ApiResult<List<TranslationTrait>>> httpResponse =
+          await _api.fetchTraits(identifiers: ids, dialects: dialects);
+      ApiResult<List<TranslationTrait>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final List<Trait> payload = apiResult.payload;
+        final List<TranslationTrait> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

@@ -2,8 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/account.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
 
-part 'trait.g.dart';
+part 'example_trait.g.dart';
 
 @JsonSerializable(
   genericArgumentFactories: true,
@@ -14,14 +15,11 @@ part 'trait.g.dart';
   anyMap: true,
   checked: true,
 )
-class Trait extends Identifier {
-  @JsonKey(disallowNullValue: false)
-  final Identifier payload;
+class ExampleTrait extends Trait {
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> definitions;
 
-  @JsonKey(disallowNullValue: false)
-  final Identifier dialect;
-
-  const Trait({
+  const ExampleTrait({
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
@@ -29,13 +27,13 @@ class Trait extends Identifier {
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.payload,
-    required this.dialect,
-    Object? key,
+    required this.definitions,
+    required super.payload,
+    required super.dialect,
   });
 
-  factory Trait.initial() {
-    return Trait(
+  factory ExampleTrait.initial() {
+    return ExampleTrait(
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
@@ -43,15 +41,16 @@ class Trait extends Identifier {
       sku: '',
       version: 0,
       ordinal: 0,
+      definitions: [],
       payload: Payload.initial(),
       dialect: Identifier.initial(),
     );
   }
 
-  factory Trait.fromJson(Map<String, dynamic> json) {
-    return _$TraitFromJson(json);
+  factory ExampleTrait.fromJson(Map<String, dynamic> json) {
+    return _$ExampleTraitFromJson(json);
   }
 
   @override
-  Map<String, dynamic> toJson() => _$TraitToJson(this);
+  Map<String, dynamic> toJson() => _$ExampleTraitToJson(this);
 }

@@ -16,11 +16,12 @@ import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';
 
+import '../../../model/definition_trait.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 
 class DefinitionService
-    extends BaseService<Definition, Text, Content, Payload, Trait> {
+    extends BaseService<Definition, Text, Content, Payload, DefinitionTrait> {
   final DefinitionApi _api = getIt<DefinitionApi>();
 
   @override
@@ -251,16 +252,16 @@ class DefinitionService
   }
 
   @override
-  Future<Either<ErrorResponse, Trait>> retrieveTrait({
+  Future<Either<ErrorResponse, DefinitionTrait>> retrieveTrait({
     required Identifier identifier,
   }) async {
     try {
-      final HttpResponse<ApiResult<Trait>> httpResponse = await _api.fetchTrait(
+      final HttpResponse<ApiResult<DefinitionTrait>> httpResponse = await _api.fetchTrait(
         identifier: identifier.sku,
       );
-      ApiResult<Trait> apiResult = httpResponse.data;
+      ApiResult<DefinitionTrait> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
-        final Trait payload = apiResult.payload;
+        final DefinitionTrait payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
@@ -277,17 +278,17 @@ class DefinitionService
   }
 
   @override
-  Future<Either<ErrorResponse, List<Trait>>> retrieveTraits({
+  Future<Either<ErrorResponse, List<DefinitionTrait>>> retrieveTraits({
     required List<Identifier> identifiers,
     required List<String>? dialects,
   }) async {
     try {
       List<String> skus = identifiers.map((x) => x.sku).toList();
-      final HttpResponse<ApiResult<List<Trait>>> httpResponse = await _api
-          .fetchTraits(identifiers: skus, dialects: dialects);
-      ApiResult<List<Trait>> apiResult = httpResponse.data;
+      final HttpResponse<ApiResult<List<DefinitionTrait>>> httpResponse =
+          await _api.fetchTraits(identifiers: skus, dialects: dialects);
+      ApiResult<List<DefinitionTrait>> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
-        final List<Trait> payload = apiResult.payload;
+        final List<DefinitionTrait> payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

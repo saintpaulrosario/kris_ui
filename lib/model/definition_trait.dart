@@ -2,8 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:kris/model/account.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
 
-part 'trait.g.dart';
+part 'definition_trait.g.dart';
 
 @JsonSerializable(
   genericArgumentFactories: true,
@@ -14,14 +15,16 @@ part 'trait.g.dart';
   anyMap: true,
   checked: true,
 )
-class Trait extends Identifier {
-  @JsonKey(disallowNullValue: false)
-  final Identifier payload;
+class DefinitionTrait extends Trait {
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> traits;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier dialect;
+  final Identifier? type;
+  final List<Identifier> examples;
+  final List<Identifier> translations;
 
-  const Trait({
+  const DefinitionTrait({
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
@@ -29,13 +32,17 @@ class Trait extends Identifier {
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.payload,
-    required this.dialect,
-    Object? key,
+
+    required super.dialect,
+    required super.payload,
+    required this.traits,
+    required this.type,
+    required this.examples,
+    required this.translations,
   });
 
-  factory Trait.initial() {
-    return Trait(
+  factory DefinitionTrait.initial() {
+    return DefinitionTrait(
       createdDate: DateTime.now(),
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
@@ -45,13 +52,17 @@ class Trait extends Identifier {
       ordinal: 0,
       payload: Payload.initial(),
       dialect: Identifier.initial(),
+      traits: [],
+      type: Identifier.initial(),
+      examples: [],
+      translations: [],
     );
   }
 
-  factory Trait.fromJson(Map<String, dynamic> json) {
-    return _$TraitFromJson(json);
+  factory DefinitionTrait.fromJson(Map<String, dynamic> json) {
+    return _$DefinitionTraitFromJson(json);
   }
 
   @override
-  Map<String, dynamic> toJson() => _$TraitToJson(this);
+  Map<String, dynamic> toJson() => _$DefinitionTraitToJson(this);
 }

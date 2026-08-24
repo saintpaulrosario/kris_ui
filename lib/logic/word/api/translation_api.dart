@@ -7,13 +7,14 @@ import 'package:kris/model/trait.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../model/translation.dart';
+import '../../../model/translation_trait.dart';
 import '../../../response/api_result.dart';
 
 part 'translation_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class TranslationApi
-    implements BaseApi<Translation, Text, Content, Payload, Trait> {
+    implements BaseApi<Translation, Text, Content, Payload, TranslationTrait> {
   factory TranslationApi(Dio dio, {String baseUrl}) = _TranslationApi;
 
   @override
@@ -75,14 +76,14 @@ abstract class TranslationApi
 
   @override
   @GET("/translation/trait")
-  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+  Future<HttpResponse<ApiResult<List<TranslationTrait>>>> fetchTraits({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
   });
 
   @override
   @GET("/translation/trait/{identifier}")
-  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+  Future<HttpResponse<ApiResult<TranslationTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
 }

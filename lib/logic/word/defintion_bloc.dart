@@ -16,11 +16,15 @@ import 'package:fpdart/fpdart.dart';
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
+import '../../model/definition_trait.dart';
 import 'service/word_service.dart';
 
 class DefinitionBloc
     extends
-        Bloc<BaseEvent, BaseState<Definition, Text, Content, Payload, Trait>> {
+        Bloc<
+          BaseEvent,
+          BaseState<Definition, Text, Content, Payload, DefinitionTrait>
+        > {
   final _service = getIt<DefinitionService>();
 
   DefinitionBloc() : super(BaseState.initial()) {
@@ -499,7 +503,7 @@ class DefinitionBloc
           ),
         );
       },
-      (List<Trait> payloads) {
+      (List<DefinitionTrait> payloads) {
         final data = state.traits.toBuilder();
 
         for (final payload in payloads) {

@@ -9,6 +9,7 @@ import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/definition_trait.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
@@ -59,7 +60,7 @@ class _DefinitionListWidgetState extends State<DefinitionListWidget> {
 
     return BlocSelector<
       DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, Trait>,
+      BaseState<Definition, w.Text, Content, Payload, DefinitionTrait>,
       BuiltMap<String, Definition>
     >(
       selector: (state) {

@@ -7,6 +7,7 @@ import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
 
 import 'package:retrofit/retrofit.dart';
+import '../../../model/definition_trait.dart';
 import '../../../response/api_result.dart';
 import '../../../response/page_result.dart';
 
@@ -14,7 +15,7 @@ part 'definition_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
 abstract class DefinitionApi
-    implements BaseApi<Definition, Text, Content, Payload, Trait> {
+    implements BaseApi<Definition, Text, Content, Payload, DefinitionTrait> {
   factory DefinitionApi(Dio dio, {String baseUrl}) = _DefinitionApi;
 
   @override
@@ -76,14 +77,14 @@ abstract class DefinitionApi
 
   @override
   @GET("/word/trait")
-  Future<HttpResponse<ApiResult<List<Trait>>>> fetchTraits({
+  Future<HttpResponse<ApiResult<List<DefinitionTrait>>>> fetchTraits({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
   });
 
   @override
   @GET("/word/trait/{identifier}")
-  Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
+  Future<HttpResponse<ApiResult<DefinitionTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
 }

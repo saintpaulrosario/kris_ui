@@ -9,6 +9,7 @@ import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:kris/model/translation_trait.dart';
 
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
@@ -16,7 +17,10 @@ import '../../../service_locator.dart';
 
 class TranslationBloc
     extends
-        Bloc<BaseEvent, BaseState<Translation, Text, Content, Payload, Trait>> {
+        Bloc<
+          BaseEvent,
+          BaseState<Translation, Text, Content, Payload, TranslationTrait>
+        > {
   final _service = getIt<TranslationService>();
 
   TranslationBloc() : super(BaseState.initial()) {
@@ -357,7 +361,7 @@ class TranslationBloc
           ),
         );
       },
-      (List<Trait> payloads) {
+      (List<TranslationTrait> payloads) {
         final data = state.traits.toBuilder();
 
         for (final payload in payloads) {

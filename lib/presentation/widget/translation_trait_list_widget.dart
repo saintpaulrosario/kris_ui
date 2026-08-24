@@ -15,6 +15,7 @@ import 'package:kris/presentation/widget/translation_trait.dart';
 
 import '../../model/content.dart';
 import '../../model/text.dart' as w;
+import '../../model/translation_trait.dart';
 
 class TranslationTraitListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
@@ -56,8 +57,8 @@ class _TranslationTraitListWidgetState
 
     return BlocSelector<
       TranslationBloc,
-      BaseState<Translation, w.Text, Content, Payload, Trait>,
-      BuiltMap<String, Trait>
+      BaseState<Translation, w.Text, Content, Payload, TranslationTrait>,
+      BuiltMap<String, TranslationTrait>
     >(
       selector: (state) {
         final identifiers = widget.identifiers

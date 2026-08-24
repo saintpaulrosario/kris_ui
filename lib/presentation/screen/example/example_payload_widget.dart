@@ -5,10 +5,10 @@ import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 import 'package:kris/presentation/widget/sound_list_wiget.dart';
 import 'package:kris/presentation/widget/trait_list_widget.dart';
 
-class DefinitionPayloadWidget extends StatelessWidget {
+class ExamplePayloadWidget extends StatelessWidget {
   final Payload payload;
 
-  const DefinitionPayloadWidget({super.key, required this.payload});
+  const ExamplePayloadWidget({super.key, required this.payload});
 
   @override
   Widget build(BuildContext context) {
