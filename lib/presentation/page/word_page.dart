@@ -11,7 +11,6 @@ import 'package:kris/presentation/widget/word_widget.dart';
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 
-import '../../model/word.dart';
 import '../../response/page_result.dart';
 import '../widget/pagination_widget.dart';
 

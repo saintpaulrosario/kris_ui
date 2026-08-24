@@ -8,14 +8,12 @@ import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
-import 'package:kris/model/word.dart';
 
 import '../../../model/text.dart' as w;
 import 'example_payload_widget.dart';

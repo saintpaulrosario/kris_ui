@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:retrofit/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../response/api_result.dart';

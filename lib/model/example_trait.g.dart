@@ -51,7 +51,9 @@ ExampleTrait _$ExampleTraitFromJson(Map json) => $checkedCreate(
       ),
       dialect: $checkedConvert(
         'dialect',
-        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+        (v) => v == null
+            ? null
+            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
       audios: $checkedConvert(
         'audios',
@@ -79,7 +81,7 @@ Map<String, dynamic> _$ExampleTraitToJson(ExampleTrait instance) =>
       'sku': instance.sku,
       'ordinal': instance.ordinal,
       'payload': instance.payload.toJson(),
-      'dialect': instance.dialect.toJson(),
+      'dialect': instance.dialect?.toJson(),
       'audios': instance.audios.map((e) => e.toJson()).toList(),
       'definitions': instance.definitions.map((e) => e.toJson()).toList(),
     };

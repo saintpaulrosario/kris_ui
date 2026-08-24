@@ -13,7 +13,6 @@ import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
 import 'package:kris/presentation/widget/dialect/dialect_content_widget.dart';
 
-import 'dialect_content_list_widget.dart';
 
 class DialectTextWidget extends StatefulWidget {
   final Identifier identifier;

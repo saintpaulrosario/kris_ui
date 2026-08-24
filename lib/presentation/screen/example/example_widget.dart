@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/definition.dart';
 import 'package:kris/model/example.dart';
 
 import 'example_text_list_widget.dart';

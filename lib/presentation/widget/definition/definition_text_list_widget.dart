@@ -12,7 +12,6 @@ import 'package:kris/model/definition.dart';
 import 'package:kris/model/definition_trait.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
 
 import '../../../model/text.dart' as w;
 import 'definition_text_widget.dart';

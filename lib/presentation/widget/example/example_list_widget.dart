@@ -4,10 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/model/definition.dart';
-import 'package:kris/model/definition_trait.dart';
 import 'package:kris/model/example.dart';
 import 'package:kris/model/example_trait.dart';
 
@@ -15,7 +12,6 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/screen/example/example_widget.dart';
 import 'package:kris/presentation/widget/carousel_widget.dart';
-import 'package:kris/presentation/widget/definition/definition_widget.dart';
 
 import '../../../logic/word/example_bloc.dart' show ExampleBloc;
 import '../../../model/content.dart';

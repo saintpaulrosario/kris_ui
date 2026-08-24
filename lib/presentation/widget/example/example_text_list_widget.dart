@@ -6,7 +6,6 @@ import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';

@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:kris/logic/base_event.dart';
@@ -8,8 +7,6 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
-import 'package:kris/model/word.dart';
 
 import 'package:fpdart/fpdart.dart';
 
@@ -17,7 +14,6 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import '../../model/definition_trait.dart';
-import 'service/word_service.dart';
 
 class DefinitionBloc
     extends

@@ -39,7 +39,9 @@ Trait _$TraitFromJson(Map json) => $checkedCreate('Trait', json, (
     ),
     dialect: $checkedConvert(
       'dialect',
-      (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     audios: $checkedConvert(
       'audios',
@@ -64,6 +66,6 @@ Map<String, dynamic> _$TraitToJson(Trait instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'payload': instance.payload.toJson(),
-  'dialect': instance.dialect.toJson(),
+  'dialect': instance.dialect?.toJson(),
   'audios': instance.audios.map((e) => e.toJson()).toList(),
 };

@@ -5,7 +5,6 @@ import 'package:kris/logic/word/service/translation_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 
 import 'package:fpdart/fpdart.dart';

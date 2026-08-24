@@ -10,11 +10,8 @@ import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
-import 'package:kris/model/dialect.dart';
 import 'package:kris/model/identifier.dart';
-import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/script.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
 

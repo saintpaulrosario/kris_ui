@@ -465,7 +465,7 @@ class WordBloc
   }
 
   Future<void> _fetchTraits(BaseEvent event, Emitter emit) async {
-    final skus = event.identifiers!.map((x) => x.sku).toList();
+    final skus = event.identifiers.map((x) => x.sku).toList();
 
     emit(
       state.copyWith(
@@ -474,7 +474,7 @@ class WordBloc
     );
 
     final results = await _service.retrieveTraits(
-      identifiers: event.identifiers!,
+      identifiers: event.identifiers,
       dialects: event.dialects!.map((x) => x.sku).toList(),
     );
 

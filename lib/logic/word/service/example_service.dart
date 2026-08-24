@@ -2,18 +2,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:kris/logic/word/api/definition_api.dart';
 import 'package:kris/logic/word/api/example_api.dart';
-import 'package:kris/logic/word/api/word_api.dart';
 import 'package:kris/logic/word/service/base_service.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/definition.dart';
 import 'package:kris/model/example.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
-import 'package:kris/model/word.dart';
 import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
 import 'package:retrofit/dio.dart';

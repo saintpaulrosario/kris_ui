@@ -7,7 +7,6 @@ import 'package:kris/model/example.dart';
 import 'package:kris/model/example_trait.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
 
 import 'package:fpdart/fpdart.dart';
 

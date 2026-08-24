@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/language_bloc.dart';
-import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/language.dart';
 import 'package:kris/model/text.dart' as w;
@@ -12,7 +11,6 @@ import 'package:kris/model/trait.dart';
 import '../../logic/base_state.dart';
 import '../../model/content.dart';
 import '../../model/payload.dart';
-import '../../model/script.dart';
 import '../page/menu_widget.dart';
 
 class LanguageMenu extends StatefulWidget {

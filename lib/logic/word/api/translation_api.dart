@@ -3,7 +3,6 @@ import 'package:kris/logic/word/api/base_api.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../model/translation.dart';

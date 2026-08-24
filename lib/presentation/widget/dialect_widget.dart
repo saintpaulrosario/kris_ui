@@ -15,7 +15,7 @@ import 'package:kris/model/trait.dart';
 import 'dialect/dialect_widget.dart';
 
 class DialectWidget extends StatefulWidget {
-  final Identifier identifier;
+  final Identifier? identifier;
 
   const DialectWidget({super.key, required this.identifier});
 
@@ -31,15 +31,20 @@ class _DialectWidgetState extends State<DialectWidget>
   @override
   void initState() {
     super.initState();
-
-    context.read<DialectBloc>().add(
-      BaseEvent.identifier(identifier: widget.identifier),
-    );
+    if (widget.identifier != null) {
+      context.read<DialectBloc>().add(
+        BaseEvent.identifier(identifier: widget.identifier!),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    if (widget.identifier == null) {
+      return SizedBox.shrink();
+    }
 
     return BlocSelector<
       DialectBloc,
@@ -47,7 +52,7 @@ class _DialectWidgetState extends State<DialectWidget>
       Dialect?
     >(
       selector: (state) {
-        return state.data[widget.identifier.sku];
+        return state.data[widget.identifier!.sku];
       },
       builder: (context, dialect) {
         if (dialect == null) {

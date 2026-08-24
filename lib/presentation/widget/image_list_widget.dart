@@ -1,5 +1,4 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
@@ -7,7 +6,6 @@ import 'package:kris/logic/medium/medium_state.dart';
 import 'package:kris/model/medium.dart';
 import 'package:kris/presentation/widget/carousel_widget.dart';
 import 'package:kris/presentation/widget/image_widget.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../model/identifier.dart';
 

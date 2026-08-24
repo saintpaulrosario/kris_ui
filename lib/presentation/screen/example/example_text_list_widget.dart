@@ -12,7 +12,6 @@ import 'package:kris/model/example.dart';
 import 'package:kris/model/example_trait.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
 
 import '../../../model/text.dart' as w;
 import 'example_text_widget.dart';

@@ -21,7 +21,11 @@ class DefinitionTrait extends Trait {
 
   @JsonKey(disallowNullValue: false)
   final Identifier? type;
+
+    @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> examples;
+
+    @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> translations;
 
   const DefinitionTrait({

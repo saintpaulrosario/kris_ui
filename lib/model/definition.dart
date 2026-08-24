@@ -17,8 +17,6 @@ class Definition extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> traits;
 
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> examples;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> translations;
@@ -31,7 +29,6 @@ class Definition extends Word {
     required super.ordinal,
     required super.texts,
     required this.traits,
-    required this.examples,
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
@@ -50,7 +47,6 @@ class Definition extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       traits: [],
-      examples: [],
       translations: [],
     );
   }

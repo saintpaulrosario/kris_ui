@@ -36,17 +36,6 @@ Definition _$DefinitionFromJson(Map json) => $checkedCreate(
                 .toList() ??
             [],
       ),
-      examples: $checkedConvert(
-        'examples',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
-      ),
       createdDate: $checkedConvert(
         'createdDate',
         (v) => DateTime.parse(v as String),
@@ -94,6 +83,5 @@ Map<String, dynamic> _$DefinitionToJson(Definition instance) =>
       'ordinal': instance.ordinal,
       'texts': instance.texts.map((e) => e.toJson()).toList(),
       'traits': instance.traits.map((e) => e.toJson()).toList(),
-      'examples': instance.examples.map((e) => e.toJson()).toList(),
       'translations': instance.translations.map((e) => e.toJson()).toList(),
     };

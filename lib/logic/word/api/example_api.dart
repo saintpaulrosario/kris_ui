@@ -4,7 +4,6 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/example.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
 
 import 'package:retrofit/retrofit.dart';
 import '../../../model/example_trait.dart';

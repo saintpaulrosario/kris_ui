@@ -6,7 +6,6 @@ import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/presentation/menu/dialect_menu.dart';
 import 'package:kris/presentation/menu/language_menu.dart';
 import 'package:kris/presentation/menu/script_menu.dart';

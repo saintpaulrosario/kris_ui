@@ -6,7 +6,6 @@ import 'package:kris/model/content.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
-import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/response/api_result.dart';
 import 'package:kris/service_locator.dart';
