@@ -9,7 +9,6 @@ import 'package:kris/logic/word/translation_bloc.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/presentation/widget/translation_trait.dart';
 

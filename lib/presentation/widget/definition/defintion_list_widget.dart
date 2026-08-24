@@ -5,19 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
-import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 import 'package:kris/model/definition.dart';
 import 'package:kris/model/definition_trait.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
-import 'package:kris/model/word.dart';
 import 'package:kris/presentation/widget/carousel_widget.dart';
 import 'package:kris/presentation/widget/definition/definition_widget.dart';
-import 'package:kris/presentation/widget/trait_widget.dart';
 
 import '../../../model/content.dart';
 import '../../../model/text.dart' as w;

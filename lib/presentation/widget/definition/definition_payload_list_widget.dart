@@ -8,15 +8,13 @@ import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
-import 'package:kris/logic/word/word_bloc.dart';
 
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
-import 'package:kris/model/trait.dart';
-import 'package:kris/model/word.dart';
 
+import '../../../model/definition_trait.dart';
 import '../../../model/text.dart' as w;
 import 'definition_payload_widget.dart';
 
@@ -65,7 +63,7 @@ class _DefinitionPayloadListWidgetState
   Widget build(BuildContext context) {
     return BlocSelector<
       DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, Trait>,
+      BaseState<Definition, w.Text, Content, Payload, DefinitionTrait>,
       BuiltMap<String, Payload>
     >(
       selector: (state) {
