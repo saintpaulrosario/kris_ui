@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kris/model/definition_trait.dart';
+import 'package:kris/model/example_trait.dart';
 
 class ExampleTraitWidget extends StatelessWidget {
-  final DefinitionTrait trait;
+  final ExampleTrait trait;
 
   const ExampleTraitWidget({super.key, required this.trait});
 

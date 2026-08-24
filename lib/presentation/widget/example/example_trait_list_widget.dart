@@ -6,11 +6,15 @@ import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
+import 'package:kris/logic/word/example_bloc.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/example.dart';
+import 'package:kris/model/example_trait.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
+import 'package:kris/presentation/widget/example/example_trait_widget.dart';
 import 'package:kris/presentation/widget/trait_widget.dart';
 
 import '../../../model/content.dart';
@@ -22,8 +26,7 @@ class ExampleTraitListWidget extends StatefulWidget {
   const ExampleTraitListWidget({super.key, required this.identifiers});
 
   @override
-  State<ExampleTraitListWidget> createState() =>
-      _ExampleTraitListWidgetState();
+  State<ExampleTraitListWidget> createState() => _ExampleTraitListWidgetState();
 }
 
 class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
@@ -42,7 +45,7 @@ class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
   void _fetchContents() {
     final dialects = context.read<DialectBloc>().state.selections.toList();
 
-    context.read<DefinitionBloc>().add(
+    context.read<ExampleBloc>().add(
       BaseEvent.traits(identifiers: widget.identifiers, dialects: dialects),
     );
   }
@@ -54,9 +57,9 @@ class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
     }
 
     return BlocSelector<
-      DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, Trait>,
-      BuiltMap<String, Trait>
+      ExampleBloc,
+      BaseState<Example, w.Text, Content, Payload, ExampleTrait>,
+      BuiltMap<String, ExampleTrait>
     >(
       selector: (state) {
         final identifiers = widget.identifiers
@@ -80,7 +83,7 @@ class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
           itemBuilder: (context, index) {
             final trait = contents.values.elementAt(index);
 
-            return TraitWidget(key: ValueKey(trait.sku), trait: trait);
+            return ExampleTraitWidget(key: ValueKey(trait.sku), trait: trait);
           },
         );
       },

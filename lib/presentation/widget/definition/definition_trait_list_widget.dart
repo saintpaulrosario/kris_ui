@@ -7,10 +7,12 @@ import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/dialect_bloc.dart';
 import 'package:kris/model/definition.dart';
+import 'package:kris/model/definition_trait.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
+import 'package:kris/presentation/widget/definition/definition_trait_widget.dart';
 import 'package:kris/presentation/widget/trait_widget.dart';
 
 import '../../../model/content.dart';
@@ -55,8 +57,8 @@ class _DefinitionTraitListWidgetState extends State<DefinitionTraitListWidget> {
 
     return BlocSelector<
       DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, Trait>,
-      BuiltMap<String, Trait>
+      BaseState<Definition, w.Text, Content, Payload, DefinitionTrait>,
+      BuiltMap<String, DefinitionTrait>
     >(
       selector: (state) {
         final identifiers = widget.identifiers
@@ -80,7 +82,10 @@ class _DefinitionTraitListWidgetState extends State<DefinitionTraitListWidget> {
           itemBuilder: (context, index) {
             final trait = contents.values.elementAt(index);
 
-            return TraitWidget(key: ValueKey(trait.sku), trait: trait);
+            return DefinitionTraitWidget(
+              key: ValueKey(trait.sku),
+              trait: trait,
+            );
           },
         );
       },
