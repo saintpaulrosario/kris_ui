@@ -36,7 +36,6 @@ class DefinitionTrait extends Trait {
     required super.sku,
     required super.version,
     required super.ordinal,
-
     required super.dialect,
     required super.payload,
     required this.traits,

@@ -72,11 +72,13 @@ class _ExampleListWidgetState extends State<ExampleListWidget> {
           return const SizedBox.shrink();
         }
 
-        List<ExampleWidget> items = state.values
-            .map((definition) => ExampleWidget(example: definition))
-            .toList();
+        return Text("data");
 
-        return CarouselWidget(items: items);
+        // List<ExampleWidget> items = state.values
+        //     .map((definition) => ExampleWidget(example: definition))
+        //     .toList();
+
+        // return CarouselWidget(items: items);
       },
     );
   }

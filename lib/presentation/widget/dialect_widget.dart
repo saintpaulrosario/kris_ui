@@ -31,20 +31,15 @@ class _DialectWidgetState extends State<DialectWidget>
   @override
   void initState() {
     super.initState();
-    if (widget.identifier != null) {
-      context.read<DialectBloc>().add(
-        BaseEvent.identifier(identifier: widget.identifier!),
-      );
-    }
+
+    context.read<DialectBloc>().add(
+      BaseEvent.identifier(identifier: widget.identifier!),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
-    if (widget.identifier == null) {
-      return SizedBox.shrink();
-    }
 
     return BlocSelector<
       DialectBloc,

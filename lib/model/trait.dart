@@ -19,7 +19,7 @@ class Trait extends Identifier {
   final Identifier payload;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier ? dialect;
+  final Identifier dialect;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> audios;
