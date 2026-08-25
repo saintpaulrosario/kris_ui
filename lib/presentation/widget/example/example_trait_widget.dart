@@ -10,7 +10,7 @@ class ExampleTraitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Expanded(flex: 3, child: Text("example"))],
+      children: [Expanded(flex: 3, child: Text(trait.sku))],
     );
   }
 }

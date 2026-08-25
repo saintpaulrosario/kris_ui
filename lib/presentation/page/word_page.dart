@@ -80,7 +80,7 @@ class _WordPageState extends State<WordPage>
 
                         return Padding(
                           padding: const EdgeInsets.all(25.0),
-                          child: Flexible(
+                          child: Expanded(
                             child: WordWidget(translation: translation),
                           ),
                         );

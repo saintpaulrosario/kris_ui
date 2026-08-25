@@ -14,13 +14,10 @@ class TraitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(flex: 1, child: DialectWidget(identifier: trait.dialect)),
-        Expanded(
-          flex: 1,
-          child: SoundListWidget(
-            key: ValueKey('sound-${trait.sku}'),
-            identifiers: trait.audios,
-          ),
+        // Expanded(flex: 1, child: DialectWidget(identifier: trait.dialect)),
+        SoundListWidget(
+          key: ValueKey('sound-${trait.sku}'),
+          identifiers: trait.audios,
         ),
       ],
     );

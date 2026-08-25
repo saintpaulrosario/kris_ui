@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kris/model/definition_trait.dart';
+import 'package:kris/presentation/widget/dialect_widget.dart';
 import 'package:kris/presentation/widget/example/example_list_widget.dart';
 import 'package:kris/presentation/widget/trait_widget.dart';
 
