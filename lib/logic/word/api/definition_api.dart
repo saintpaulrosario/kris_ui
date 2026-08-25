@@ -18,7 +18,7 @@ abstract class DefinitionApi
   factory DefinitionApi(Dio dio, {String baseUrl}) = _DefinitionApi;
 
   @override
-  @GET("/word")
+  @GET("/definition")
   Future<HttpResponse<ApiResult<PageResult<Definition>>>> fetchAll({
     @Query("page") int? page,
     @Query("size") int? size,
@@ -27,32 +27,32 @@ abstract class DefinitionApi
   });
 
   @override
-  @GET("/word/{identifier}")
+  @GET("/definition/{identifier}")
   Future<HttpResponse<ApiResult<Definition>>> fetch({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/word/text/{identifier}")
+  @GET("/definition/text/{identifier}")
   Future<HttpResponse<ApiResult<Text>>> fetchText({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/word/text")
+  @GET("/definition/text")
   Future<HttpResponse<ApiResult<List<Text>>>> fetchTexts({
     @Query("scripts", encoded: true) List<String>? scripts,
     @Query("identifiers", encoded: true) List<String>? identifiers,
   });
 
   @override
-  @GET("/word/content/{identifier}")
+  @GET("/definition/content/{identifier}")
   Future<HttpResponse<ApiResult<Content>>> fetchContent({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/word/content")
+  @GET("/definition/content")
   Future<HttpResponse<ApiResult<List<Content>>>> fetchContents({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("scripts", encoded: true) List<String>? scripts,
@@ -60,13 +60,13 @@ abstract class DefinitionApi
   });
 
   @override
-  @GET("/word/payload/{identifier}")
+  @GET("/definition/payload/{identifier}")
   Future<HttpResponse<ApiResult<Payload>>> fetchPayload({
     @Path("identifier") required String identifier,
   });
 
   @override
-  @GET("/word/payload")
+  @GET("/definition/payload")
   Future<HttpResponse<ApiResult<List<Payload>>>> fetchPayloads({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
@@ -75,14 +75,14 @@ abstract class DefinitionApi
   });
 
   @override
-  @GET("/word/trait")
+  @GET("/definition/trait")
   Future<HttpResponse<ApiResult<List<DefinitionTrait>>>> fetchTraits({
     @Query("identifiers", encoded: true) List<String>? identifiers,
     @Query("dialects", encoded: true) List<String>? dialects,
   });
 
   @override
-  @GET("/word/trait/{identifier}")
+  @GET("/definition/trait/{identifier}")
   Future<HttpResponse<ApiResult<DefinitionTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });

@@ -253,9 +253,8 @@ class DefinitionService
     required Identifier identifier,
   }) async {
     try {
-      final HttpResponse<ApiResult<DefinitionTrait>> httpResponse = await _api.fetchTrait(
-        identifier: identifier.sku,
-      );
+      final HttpResponse<ApiResult<DefinitionTrait>> httpResponse = await _api
+          .fetchTrait(identifier: identifier.sku);
       ApiResult<DefinitionTrait> apiResult = httpResponse.data;
       if (HttpStatus.ok == httpResponse.response.statusCode) {
         final DefinitionTrait payload = apiResult.payload;
@@ -283,8 +282,9 @@ class DefinitionService
       List<String> skus = identifiers.map((x) => x.sku).toList();
       final HttpResponse<ApiResult<List<DefinitionTrait>>> httpResponse =
           await _api.fetchTraits(identifiers: skus, dialects: dialects);
-      ApiResult<List<DefinitionTrait>> apiResult = httpResponse.data;
+
       if (HttpStatus.ok == httpResponse.response.statusCode) {
+        ApiResult<List<DefinitionTrait>> apiResult = httpResponse.data;
         final List<DefinitionTrait> payload = apiResult.payload;
         return right(payload);
       } else {

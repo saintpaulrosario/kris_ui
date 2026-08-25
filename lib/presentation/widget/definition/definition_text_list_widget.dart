@@ -30,14 +30,14 @@ class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
   @override
   void initState() {
     super.initState();
+    _fetchTexts();
+    // if (widget.identifiers.isNotEmpty) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     if (!mounted) return;
 
-    if (widget.identifiers.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-
-        _fetchTexts();
-      });
-    }
+    //     _fetchTexts();
+    //   });
+    // }
   }
 
   void _fetchTexts() {
@@ -67,15 +67,15 @@ class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
 
         return result.build();
       },
-      builder: (context, texts) {
+      builder: (context, state) {
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: texts.length,
+          itemCount: state.length,
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
-            final text = texts.values.elementAt(index);
-
+            final text = state.values.elementAt(index);
+            //return Text(text.toString());
             return DefinitionTextWidget(key: ValueKey(text.sku), text: text);
           },
         );

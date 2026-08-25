@@ -43,7 +43,7 @@ class _DefinitionApi implements DefinitionApi {
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/word',
+                '/definition',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -81,7 +81,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/${identifier}',
+            '/definition/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -114,7 +114,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/text/${identifier}',
+            '/definition/text/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -152,7 +152,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/text',
+            '/definition/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -189,7 +189,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/content/${identifier}',
+            '/definition/content/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -229,7 +229,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/content',
+            '/definition/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -268,7 +268,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload/${identifier}',
+            '/definition/payload/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -310,7 +310,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload',
+            '/definition/payload',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -355,7 +355,7 @@ class _DefinitionApi implements DefinitionApi {
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/word/trait',
+                '/definition/trait',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -396,7 +396,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/trait/${identifier}',
+            '/definition/trait/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
