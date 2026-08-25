@@ -10,21 +10,10 @@ class ExampleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      key: ValueKey(example.sku),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("data"),
-          // Expanded(
-          //   flex: 7,
-          //   child: ExampleTextListWidget(
-          //     key: ValueKey('${example.sku}-texts'),
-          //     identifiers: example.texts,
-          //   ),
-          // ),
-        ],
+    return Expanded(
+      child: ExampleTextListWidget(
+        key: ValueKey('${example.sku}-texts'),
+        identifiers: example.texts,
       ),
     );
   }

@@ -45,7 +45,6 @@ class ExampleBloc
           await _fetchPayload(event, emit);
           break;
         case WordFetchType.select:
-          // TODO: Handle this case.
           throw UnimplementedError();
         case WordFetchType.texts:
           await _fetchTexts(event, emit);
@@ -55,14 +54,17 @@ class ExampleBloc
           break;
         case WordFetchType.payloads:
           await _fetchPayloads(event, emit);
+          break;
         case WordFetchType.selects:
           // TODO: Handle this case.
           throw UnimplementedError();
         case WordFetchType.trait:
           await _fetchTrait(event, emit);
+          break;
 
         case WordFetchType.traits:
           await _fetchTraits(event, emit);
+          break;
       }
     });
   }

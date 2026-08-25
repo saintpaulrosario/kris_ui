@@ -43,7 +43,7 @@ class _ExampleApi implements ExampleApi {
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/word',
+                '/example',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -81,7 +81,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/${identifier}',
+            '/example/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -114,7 +114,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/text/${identifier}',
+            '/example/text/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -152,7 +152,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/text',
+            '/example/text',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -189,7 +189,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/content/${identifier}',
+            '/example/content/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -229,7 +229,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/content',
+            '/example/content',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -268,7 +268,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload/${identifier}',
+            '/example/payload/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -310,7 +310,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/payload',
+            '/example/payload',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -355,7 +355,7 @@ class _ExampleApi implements ExampleApi {
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/word/trait',
+                '/example/trait',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -396,7 +396,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/word/trait/${identifier}',
+            '/example/trait/${identifier}',
             queryParameters: queryParameters,
             data: _data,
           )

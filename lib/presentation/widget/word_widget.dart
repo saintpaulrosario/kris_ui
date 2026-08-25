@@ -11,32 +11,29 @@ class WordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      key: ValueKey(translation.sku),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 1,
-            child: ImageListWidget(
-              key: ValueKey('${translation.sku}-images'),
-              identifiers: translation.images,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          flex: 1,
+          child: ImageListWidget(
+            key: ValueKey('${translation.sku}-images'),
+            identifiers: translation.images,
           ),
-          Expanded(
-            flex: 10,
-            child: TextListWidget(
-              key: ValueKey('${translation.sku}-texts'),
-              identifiers: translation.texts,
-            ),
+        ),
+        Expanded(
+          flex: 10,
+          child: TextListWidget(
+            key: ValueKey('${translation.sku}-texts'),
+            identifiers: translation.texts,
           ),
-          Flexible(
-            flex: 1,
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark)),
-          ),
-        ],
-      ),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.bookmark)),
+        ),
+      ],
     );
   }
 }

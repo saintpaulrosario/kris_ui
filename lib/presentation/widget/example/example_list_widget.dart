@@ -72,11 +72,20 @@ class _ExampleListWidgetState extends State<ExampleListWidget> {
           return const SizedBox.shrink();
         }
 
-        List<ExampleWidget> items = state.values
-            .map((definition) => ExampleWidget(example: definition))
-            .toList();
+        return ExampleWidget(example: state.values.first);
 
-        return CarouselWidget(items: items);
+        // List<ExampleWidget> items = state.values
+        //     .map((definition) => ExampleWidget(example: definition))
+        //     .toList();
+
+        // return ListView.separated(
+        //   itemBuilder: (_, index) {
+        //     return Text("data");
+        //     //return ExampleWidget(example: state.values.elementAt(index));
+        //   },
+        //   separatorBuilder: (_, _) => Divider(),
+        //   itemCount: state.length,
+        // );
       },
     );
   }
