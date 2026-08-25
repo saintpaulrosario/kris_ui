@@ -87,10 +87,12 @@ class _ExamplePayloadListWidgetState extends State<ExamplePayloadListWidget> {
           itemBuilder: (context, index) {
             final payload = payloads.values.elementAt(index);
 
-            return ExamplePayloadWidget(
-              key: ValueKey(payload.sku),
-              payload: payload,
-            );
+            return Text("data");
+
+            // return ExamplePayloadWidget(
+            //   key: ValueKey(payload.sku),
+            //   payload: payload,
+            // );
           },
         );
       },

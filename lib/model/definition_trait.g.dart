@@ -42,36 +42,8 @@ DefinitionTrait _$DefinitionTraitFromJson(Map json) => $checkedCreate(
         'payload',
         (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
-      traits: $checkedConvert(
-        'traits',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
-      ),
-      type: $checkedConvert(
-        'type',
-        (v) => v == null
-            ? null
-            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
-      ),
       examples: $checkedConvert(
         'examples',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
-      ),
-      translations: $checkedConvert(
-        'translations',
         (v) =>
             (v as List<dynamic>?)
                 ?.map(
@@ -109,8 +81,5 @@ Map<String, dynamic> _$DefinitionTraitToJson(DefinitionTrait instance) =>
       'payload': instance.payload.toJson(),
       'dialect': instance.dialect.toJson(),
       'audios': instance.audios.map((e) => e.toJson()).toList(),
-      'traits': instance.traits.map((e) => e.toJson()).toList(),
-      'type': instance.type?.toJson(),
       'examples': instance.examples.map((e) => e.toJson()).toList(),
-      'translations': instance.translations.map((e) => e.toJson()).toList(),
     };

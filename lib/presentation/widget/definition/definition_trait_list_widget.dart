@@ -79,7 +79,6 @@ class _DefinitionTraitListWidgetState extends State<DefinitionTraitListWidget> {
           separatorBuilder: (_, _) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final trait = contents.values.elementAt(index);
-
             return DefinitionTraitWidget(
               key: ValueKey(trait.sku),
               trait: trait,

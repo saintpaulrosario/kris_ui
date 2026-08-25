@@ -17,16 +17,7 @@ part 'definition_trait.g.dart';
 )
 class DefinitionTrait extends Trait {
   @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> traits;
-
-  @JsonKey(disallowNullValue: false)
-  final Identifier? type;
-
-    @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> examples;
-
-    @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> translations;
 
   const DefinitionTrait({
     required super.createdDate,
@@ -38,10 +29,7 @@ class DefinitionTrait extends Trait {
     required super.ordinal,
     required super.dialect,
     required super.payload,
-    required this.traits,
-    required this.type,
     required this.examples,
-    required this.translations,
     required super.audios,
   });
 
@@ -56,10 +44,7 @@ class DefinitionTrait extends Trait {
       ordinal: 0,
       payload: Payload.initial(),
       dialect: Identifier.initial(),
-      traits: [],
-      type: Identifier.initial(),
       examples: [],
-      translations: [],
       audios: [],
     );
   }

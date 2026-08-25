@@ -16,13 +16,14 @@ class ExampleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 7,
-            child: ExampleTextListWidget(
-              key: ValueKey('${example.sku}-texts'),
-              identifiers: example.texts,
-            ),
-          ),
+          Text("data"),
+          // Expanded(
+          //   flex: 7,
+          //   child: ExampleTextListWidget(
+          //     key: ValueKey('${example.sku}-texts'),
+          //     identifiers: example.texts,
+          //   ),
+          // ),
         ],
       ),
     );

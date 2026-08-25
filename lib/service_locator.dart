@@ -9,11 +9,13 @@ import 'package:kris/logic/medium/service/medium_service.dart';
 import 'package:kris/logic/word/api/definition_api.dart';
 
 import 'package:kris/logic/word/api/dialect_api.dart';
+import 'package:kris/logic/word/api/example_api.dart';
 import 'package:kris/logic/word/api/language_api.dart';
 import 'package:kris/logic/word/api/script_api.dart';
 import 'package:kris/logic/word/api/translation_api.dart';
 import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/logic/word/service/dialect_service.dart';
+import 'package:kris/logic/word/service/example_service.dart';
 import 'package:kris/logic/word/service/language_service.dart';
 import 'package:kris/logic/word/service/script_service.dart';
 import 'package:kris/logic/word/service/translation_service.dart';
@@ -159,6 +161,10 @@ void _registerApis() {
     () => DefinitionApi(dio, baseUrl: baseUrl),
   );
 
+  getIt.registerLazySingleton<ExampleApi>(
+    () => ExampleApi(dio, baseUrl: baseUrl),
+  );
+
   getIt.registerLazySingleton<MediumApi>(
     () => MediumApi(dio, baseUrl: baseUrl),
   );
@@ -188,6 +194,8 @@ void _registerServices() {
   getIt.registerLazySingleton<DialectService>(() => DialectService());
 
   getIt.registerLazySingleton<DefinitionService>(() => DefinitionService());
+
+  getIt.registerLazySingleton<ExampleService>(() => ExampleService());
 
   getIt.registerLazySingleton<AuthService>(() => AuthService());
 

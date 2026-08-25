@@ -6,22 +6,14 @@ import 'package:kris/presentation/widget/trait_widget.dart';
 class DefinitionTraitWidget extends TraitWidget {
   final DefinitionTrait trait;
 
-  const DefinitionTraitWidget({super.key, required this.trait}) : super(trait: trait);
+  const DefinitionTraitWidget({super.key, required this.trait})
+    : super(trait: trait);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 3,
-          child: ExampleListWidget(identifiers: trait.examples),
-        ),
-        Expanded(
-          flex: 3,
-          child: ExampleListWidget(identifiers: trait.examples),
-        ),
-      ],
+      children: [ExampleListWidget(identifiers: trait.examples)],
     );
   }
 }

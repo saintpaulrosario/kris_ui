@@ -76,7 +76,8 @@ class _DefinitionListWidgetState extends State<DefinitionListWidget> {
             .map((definition) => ExampleWidget(example: definition))
             .toList();
 
-        return CarouselWidget(items: items);
+        return Text(state.toString());
+        //return CarouselWidget(items: items);
       },
     );
   }
