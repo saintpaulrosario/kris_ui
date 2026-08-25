@@ -18,7 +18,7 @@ class ContentWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          flex: 9,
+          flex: 12,
           child: PayloadListWidget(
             key: ValueKey(content.sku),
             identifiers: content.payloads,

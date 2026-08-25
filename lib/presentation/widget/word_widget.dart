@@ -16,14 +16,14 @@ class WordWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          flex: 1,
+          flex: 10,
           child: ImageListWidget(
             key: ValueKey('${translation.sku}-images'),
             identifiers: translation.images,
           ),
         ),
         Expanded(
-          flex: 10,
+          flex: 40,
           child: TextListWidget(
             key: ValueKey('${translation.sku}-texts'),
             identifiers: translation.texts,

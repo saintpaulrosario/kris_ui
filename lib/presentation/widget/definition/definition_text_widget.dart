@@ -20,7 +20,6 @@ class DefinitionTextWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 6,
               child: DefinitionContentListWidget(identifiers: text.contents),
             ),
           ],

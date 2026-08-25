@@ -21,17 +21,14 @@ class TextWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 12,
+              flex: 15,
               child: ContentListWidget(identifiers: text.contents),
             ),
             Expanded(
               flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: ScriptWidget(
-                  key: ValueKey(text.script.sku),
-                  identifier: text.script,
-                ),
+              child: ScriptWidget(
+                key: ValueKey(text.script.sku),
+                identifier: text.script,
               ),
             ),
           ],
