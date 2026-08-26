@@ -31,6 +31,8 @@ class DefinitionTrait extends Trait {
     required super.payload,
     required this.examples,
     required super.audios,
+    required super.language,
+    required super.row,
   });
 
   factory DefinitionTrait.initial() {
@@ -46,6 +48,8 @@ class DefinitionTrait extends Trait {
       dialect: Identifier.initial(),
       examples: [],
       audios: [],
+      language: Identifier.initial(),
+      row: 0,
     );
   }
 

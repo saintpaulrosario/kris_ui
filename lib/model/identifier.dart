@@ -13,11 +13,12 @@ part 'identifier.g.dart';
   checked: true,
 )
 class Identifier extends Audit {
-  @JsonKey(disallowNullValue: false, defaultValue: '')
+  @JsonKey(disallowNullValue: true)
   final String sku;
 
-  @JsonKey(disallowNullValue: false, defaultValue: 0)
+  @JsonKey(disallowNullValue: true)
   final int ordinal;
+
 
   const Identifier({
     required this.sku,

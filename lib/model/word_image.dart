@@ -29,6 +29,7 @@ class WordImage extends Medium {
     required super.lastModifiedBy,
 
     required super.checkSum,
+    required super.rows,
   });
 
   factory WordImage.initial() {
@@ -46,6 +47,7 @@ class WordImage extends Medium {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       checkSum: '',
+      rows: [],
     );
   }
 

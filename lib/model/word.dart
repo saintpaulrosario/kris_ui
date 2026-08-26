@@ -16,6 +16,9 @@ class Word extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> texts;
 
+    @JsonKey(disallowNullValue: true)
+  final List<int> rows;
+
   const Word({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -25,6 +28,7 @@ class Word extends Identifier {
     required super.version,
     required super.ordinal,
     required this.texts,
+    required this.rows,
   });
 
   factory Word.initial() {
@@ -37,6 +41,7 @@ class Word extends Identifier {
       version: 0,
       ordinal: 0,
       texts: [],
+      rows: [],
     );
   }
 

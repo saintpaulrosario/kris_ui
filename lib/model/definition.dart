@@ -33,7 +33,7 @@ class Definition extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.translations,
+    required this.translations, required super.rows,
   });
 
   factory Definition.initial() {
@@ -47,7 +47,7 @@ class Definition extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       traits: [],
-      translations: [],
+      translations: [], rows: [],
     );
   }
 

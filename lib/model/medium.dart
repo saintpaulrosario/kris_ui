@@ -31,6 +31,8 @@ class Medium extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: <Identifier>[])
   final List<Identifier> tags;
 
+  final List<int> rows;
+
   const Medium({
     required this.content,
     required this.type,
@@ -45,6 +47,7 @@ class Medium extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.checkSum,
+    required this.rows,
   });
 
   factory Medium.initial() {
@@ -62,6 +65,7 @@ class Medium extends Identifier {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       checkSum: '',
+      rows: [],
     );
   }
 

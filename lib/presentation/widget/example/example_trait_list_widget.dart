@@ -11,6 +11,7 @@ import 'package:kris/model/example_trait.dart';
 
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
 import 'package:kris/presentation/widget/example/example_trait_widget.dart';
 
 import '../../../model/content.dart';
@@ -66,22 +67,16 @@ class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
           builder.removeWhere((key, value) => !identifiers.contains(key));
         });
       },
-      builder: (context, contents) {
-        if (contents.isEmpty) {
+      builder: (context, state) {
+        if (state.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: contents.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final trait = contents.values.elementAt(index);
+        List<ExampleTraitWidget> items = state.values
+            .map((trait) => ExampleTraitWidget(trait: trait))
+            .toList();
 
-            return ExampleTraitWidget(key: ValueKey(trait.sku), trait: trait);
-          },
-        );
+        return CarouselWidget(items: items);
       },
     );
   }

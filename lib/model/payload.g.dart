@@ -9,10 +9,11 @@ part of 'payload.dart';
 Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
   $checkedConvert,
 ) {
+  $checkKeys(json, disallowNullValues: const ['sku', 'ordinal']);
   final val = Payload(
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+    sku: $checkedConvert('sku', (v) => v as String),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
     value: $checkedConvert('value', (v) => v as String? ?? ''),
     dialects: $checkedConvert(
       'dialects',
@@ -60,6 +61,17 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
           .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
     ),
+    rows: $checkedConvert(
+      'rows',
+      (v) =>
+          (v as List<dynamic>?)?.map((e) => (e as num).toInt()).toList() ?? [],
+    ),
+    language: $checkedConvert(
+      'language',
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
   );
   return val;
 });
@@ -74,6 +86,8 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'value': instance.value,
   'dialects': instance.dialects.map((e) => e.toJson()).toList(),
+  'language': instance.language?.toJson(),
   'audios': instance.audios.map((e) => e.toJson()).toList(),
   'traits': instance.traits.map((e) => e.toJson()).toList(),
+  'rows': instance.rows,
 };

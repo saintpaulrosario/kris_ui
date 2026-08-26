@@ -30,6 +30,7 @@ class Language extends Word {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.dialects,
+    required super.rows,
   });
 
   factory Language.initial() {
@@ -44,6 +45,7 @@ class Language extends Word {
       lastModifiedBy: Account.initial(),
       scripts: [],
       dialects: [],
+      rows: [],
     );
   }
 

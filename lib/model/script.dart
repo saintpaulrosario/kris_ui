@@ -26,7 +26,8 @@ class Script extends Word {
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
-    required super.lastModifiedBy
+    required super.lastModifiedBy,
+    required super.rows,
   });
 
   factory Script.initial() {
@@ -40,6 +41,7 @@ class Script extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       languages: [],
+      rows: [],
     );
   }
 

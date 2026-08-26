@@ -9,10 +9,11 @@ part of 'content.dart';
 Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
   $checkedConvert,
 ) {
+  $checkKeys(json, disallowNullValues: const ['sku', 'ordinal']);
   final val = Content(
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+    sku: $checkedConvert('sku', (v) => v as String),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
     languages: $checkedConvert(
       'languages',
       (v) =>
@@ -53,6 +54,11 @@ Content _$ContentFromJson(Map json) => $checkedCreate('Content', json, (
               .toList() ??
           [],
     ),
+    rows: $checkedConvert(
+      'rows',
+      (v) =>
+          (v as List<dynamic>?)?.map((e) => (e as num).toInt()).toList() ?? [],
+    ),
   );
   return val;
 });
@@ -67,4 +73,5 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'ordinal': instance.ordinal,
   'languages': instance.languages.map((e) => e.toJson()).toList(),
   'payloads': instance.payloads.map((e) => e.toJson()).toList(),
+  'rows': instance.rows,
 };

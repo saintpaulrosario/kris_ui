@@ -8,9 +8,10 @@ part of 'identifier.dart';
 
 Identifier _$IdentifierFromJson(Map json) =>
     $checkedCreate('Identifier', json, ($checkedConvert) {
+      $checkKeys(json, disallowNullValues: const ['sku', 'ordinal']);
       final val = Identifier(
-        sku: $checkedConvert('sku', (v) => v as String? ?? ''),
-        ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+        sku: $checkedConvert('sku', (v) => v as String),
+        ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
         createdDate: $checkedConvert(
           'createdDate',
           (v) => DateTime.parse(v as String),

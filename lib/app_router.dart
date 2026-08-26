@@ -53,15 +53,6 @@ final GoRouter appRouter = GoRouter(
           builder: (_, state) {
             final sku = state.pathParameters['sku']!;
 
-            Identifier identifier = Identifier(
-              sku: sku,
-              version: 0,
-              ordinal: 0,
-              createdDate: DateTime.now(),
-              lastModifiedDate: DateTime.now(),
-              createdBy: Account.initial(),
-              lastModifiedBy: Account.initial(),
-            );
             return Text("data");
           },
         ),
@@ -71,15 +62,6 @@ final GoRouter appRouter = GoRouter(
           builder: (_, state) {
             final sku = state.pathParameters['sku']!;
 
-            Identifier identifier = Identifier(
-              sku: sku,
-              version: 0,
-              ordinal: 0,
-              createdDate: DateTime.now(),
-              lastModifiedDate: DateTime.now(),
-              createdBy: Account.initial(),
-              lastModifiedBy: Account.initial(),
-            );
             return Text("");
           },
         ),

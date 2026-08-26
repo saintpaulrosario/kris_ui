@@ -20,6 +20,9 @@ class Content extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> payloads;
 
+    @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<int> rows;
+
   const Content({
     required super.sku,
     required super.version,
@@ -30,6 +33,7 @@ class Content extends Identifier {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.payloads,
+    required this.rows,
   });
 
   factory Content.initial() {
@@ -43,6 +47,7 @@ class Content extends Identifier {
       lastModifiedBy: Account.initial(),
       languages: [],
       payloads: [],
+      rows: [],
     );
   }
 
@@ -56,7 +61,8 @@ class Content extends Identifier {
     return other is Content && other.sku == sku && other.ordinal == ordinal;
   }
 
-  factory Content.fromJson(Map<String, dynamic> json) => _$ContentFromJson(json);
+  factory Content.fromJson(Map<String, dynamic> json) =>
+      _$ContentFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$ContentToJson(this);

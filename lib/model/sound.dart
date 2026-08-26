@@ -28,6 +28,7 @@ class Sound extends Medium {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.checkSum,
+    required super.rows,
   });
 
   factory Sound.initial() {
@@ -45,6 +46,7 @@ class Sound extends Medium {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       checkSum: '',
+      rows: [],
     );
   }
 

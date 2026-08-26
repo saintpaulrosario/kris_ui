@@ -10,6 +10,7 @@ ExampleTrait _$ExampleTraitFromJson(Map json) => $checkedCreate(
   'ExampleTrait',
   json,
   ($checkedConvert) {
+    $checkKeys(json, disallowNullValues: const ['sku', 'ordinal']);
     final val = ExampleTrait(
       createdDate: $checkedConvert(
         'createdDate',
@@ -31,9 +32,9 @@ ExampleTrait _$ExampleTraitFromJson(Map json) => $checkedCreate(
             ? null
             : Account.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
-      sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+      sku: $checkedConvert('sku', (v) => v as String),
       version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-      ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+      ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
       definitions: $checkedConvert(
         'definitions',
         (v) =>
@@ -64,6 +65,11 @@ ExampleTrait _$ExampleTraitFromJson(Map json) => $checkedCreate(
                 .toList() ??
             [],
       ),
+      language: $checkedConvert(
+        'language',
+        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+      ),
+      row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? 0),
     );
     return val;
   },
@@ -80,6 +86,8 @@ Map<String, dynamic> _$ExampleTraitToJson(ExampleTrait instance) =>
       'ordinal': instance.ordinal,
       'payload': instance.payload.toJson(),
       'dialect': instance.dialect.toJson(),
+      'language': instance.language.toJson(),
+      'row': instance.row,
       'audios': instance.audios.map((e) => e.toJson()).toList(),
       'definitions': instance.definitions.map((e) => e.toJson()).toList(),
     };

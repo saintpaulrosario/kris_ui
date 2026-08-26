@@ -9,10 +9,11 @@ part of 'dialect.dart';
 Dialect _$DialectFromJson(Map json) => $checkedCreate('Dialect', json, (
   $checkedConvert,
 ) {
+  $checkKeys(json, disallowNullValues: const ['sku', 'ordinal', 'rows']);
   final val = Dialect(
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+    sku: $checkedConvert('sku', (v) => v as String),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
     texts: $checkedConvert(
       'texts',
       (v) =>
@@ -53,6 +54,10 @@ Dialect _$DialectFromJson(Map json) => $checkedCreate('Dialect', json, (
           ? null
           : Account.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
+    rows: $checkedConvert(
+      'rows',
+      (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+    ),
   );
   return val;
 });
@@ -66,5 +71,6 @@ Map<String, dynamic> _$DialectToJson(Dialect instance) => <String, dynamic>{
   'sku': instance.sku,
   'ordinal': instance.ordinal,
   'texts': instance.texts.map((e) => e.toJson()).toList(),
+  'rows': instance.rows,
   'languages': instance.languages.map((e) => e.toJson()).toList(),
 };

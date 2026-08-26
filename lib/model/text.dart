@@ -21,6 +21,9 @@ class Text extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> contents;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<int> rows;
+
   const Text({
     required super.sku,
     required super.version,
@@ -32,6 +35,7 @@ class Text extends Identifier {
     required this.script,
     required this.word,
     required this.contents,
+    required this.rows,
   });
 
   factory Text.initial() {
@@ -47,6 +51,7 @@ class Text extends Identifier {
       script: Identifier.initial(),
       word: Identifier.initial(),
       contents: [],
+      rows: [],
     );
   }
 

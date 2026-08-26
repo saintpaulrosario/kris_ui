@@ -15,13 +15,20 @@ part 'payload.g.dart';
 class Payload extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: '')
   final String value;
+
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> dialects;
+
+  @JsonKey(disallowNullValue: false)
+  final Identifier? language;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> audios;
 
   final List<Identifier> traits;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<int> rows;
 
   const Payload({
     required super.sku,
@@ -35,6 +42,8 @@ class Payload extends Identifier {
     required super.lastModifiedBy,
     required this.audios,
     required this.traits,
+    required this.rows,
+    required this.language,
   });
 
   factory Payload.initial() {
@@ -50,10 +59,10 @@ class Payload extends Identifier {
       dialects: [],
       audios: [],
       traits: [],
+      rows: [],
+      language: Identifier.initial(),
     );
   }
-
-
 
   @override
   int get hashCode => Object.hash(sku, ordinal);

@@ -9,6 +9,7 @@ part of 'sound.dart';
 Sound _$SoundFromJson(Map json) => $checkedCreate('Sound', json, (
   $checkedConvert,
 ) {
+  $checkKeys(json, disallowNullValues: const ['sku', 'ordinal']);
   final val = Sound(
     content: $checkedConvert('content', (v) => v as String? ?? ''),
     type: $checkedConvert('type', (v) => v as String? ?? ''),
@@ -33,9 +34,9 @@ Sound _$SoundFromJson(Map json) => $checkedCreate('Sound', json, (
               .toList() ??
           [],
     ),
-    sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+    sku: $checkedConvert('sku', (v) => v as String),
     version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-    ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+    ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
     createdDate: $checkedConvert(
       'createdDate',
       (v) => DateTime.parse(v as String),
@@ -57,6 +58,10 @@ Sound _$SoundFromJson(Map json) => $checkedCreate('Sound', json, (
           : Account.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     checkSum: $checkedConvert('checkSum', (v) => v as String? ?? ''),
+    rows: $checkedConvert(
+      'rows',
+      (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+    ),
   );
   return val;
 });
@@ -75,4 +80,5 @@ Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
   'size': instance.size,
   'descriptions': instance.descriptions.map((e) => e.toJson()).toList(),
   'tags': instance.tags.map((e) => e.toJson()).toList(),
+  'rows': instance.rows,
 };

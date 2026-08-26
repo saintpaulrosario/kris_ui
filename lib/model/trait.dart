@@ -21,6 +21,12 @@ class Trait extends Identifier {
   @JsonKey(disallowNullValue: false)
   final Identifier dialect;
 
+  @JsonKey(disallowNullValue: false)
+  final Identifier language;
+
+  @JsonKey(disallowNullValue: false, defaultValue: 0)
+  final int row;
+
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> audios;
 
@@ -35,6 +41,8 @@ class Trait extends Identifier {
     required this.payload,
     required this.dialect,
     required this.audios,
+    required this.language,
+    required this.row,
   });
 
   factory Trait.initial() {
@@ -49,6 +57,8 @@ class Trait extends Identifier {
       payload: Payload.initial(),
       dialect: Identifier.initial(),
       audios: [],
+      language: Identifier.initial(),
+      row: 0,
     );
   }
 

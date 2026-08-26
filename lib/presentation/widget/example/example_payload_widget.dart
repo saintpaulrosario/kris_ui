@@ -17,7 +17,7 @@ class ExamplePayloadWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(child: ExampleTraitListWidget(identifiers: payload.traits)),
+        // Expanded(child: ExampleTraitListWidget(identifiers: payload.traits)),
         Expanded(
           flex: 1,
           child: SoundListWidget(

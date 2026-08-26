@@ -10,10 +10,11 @@ Definition _$DefinitionFromJson(Map json) => $checkedCreate(
   'Definition',
   json,
   ($checkedConvert) {
+    $checkKeys(json, disallowNullValues: const ['sku', 'ordinal', 'rows']);
     final val = Definition(
-      sku: $checkedConvert('sku', (v) => v as String? ?? ''),
+      sku: $checkedConvert('sku', (v) => v as String),
       version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
-      ordinal: $checkedConvert('ordinal', (v) => (v as num?)?.toInt() ?? 0),
+      ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
       texts: $checkedConvert(
         'texts',
         (v) =>
@@ -67,6 +68,10 @@ Definition _$DefinitionFromJson(Map json) => $checkedCreate(
                 .toList() ??
             [],
       ),
+      rows: $checkedConvert(
+        'rows',
+        (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+      ),
     );
     return val;
   },
@@ -82,6 +87,7 @@ Map<String, dynamic> _$DefinitionToJson(Definition instance) =>
       'sku': instance.sku,
       'ordinal': instance.ordinal,
       'texts': instance.texts.map((e) => e.toJson()).toList(),
+      'rows': instance.rows,
       'traits': instance.traits.map((e) => e.toJson()).toList(),
       'translations': instance.translations.map((e) => e.toJson()).toList(),
     };

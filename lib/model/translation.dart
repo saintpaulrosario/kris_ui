@@ -27,6 +27,7 @@ class Translation extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
+    required super.rows,
   });
 
   factory Translation.initial() {
@@ -40,6 +41,7 @@ class Translation extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       images: [],
+      rows: [],
     );
   }
 

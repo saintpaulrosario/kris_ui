@@ -31,6 +31,7 @@ class Example extends Word {
     required super.createdBy,
     required super.lastModifiedBy,
     required this.images,
+    required super.rows,
   });
 
   factory Example.initial() {
@@ -45,6 +46,7 @@ class Example extends Word {
       lastModifiedBy: Account.initial(),
       traits: [],
       images: [],
+      rows: [],
     );
   }
 

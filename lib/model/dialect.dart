@@ -26,7 +26,7 @@ class Dialect extends Word {
     required super.createdDate,
     required super.lastModifiedDate,
     required super.createdBy,
-    required super.lastModifiedBy,
+    required super.lastModifiedBy, required super.rows,
   });
 
   factory Dialect.initial() {
@@ -39,7 +39,7 @@ class Dialect extends Word {
       lastModifiedDate: DateTime.now(),
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
-      languages: [],
+      languages: [], rows: [],
     );
   }
 
