@@ -13,6 +13,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import '../../model/text.dart' as w;
 import 'content_wiget.dart';
@@ -73,17 +74,11 @@ class _ContentListWidgetState extends State<ContentListWidget> {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: contents.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final content = contents.values.elementAt(index);
+        List<ContentWidget> items = contents.values
+            .map((item) => ContentWidget(content: item))
+            .toList();
 
-            return ContentWidget(key: ValueKey(content.sku), content: content);
-          },
-        );
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }
