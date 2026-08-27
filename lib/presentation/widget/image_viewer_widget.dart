@@ -41,7 +41,7 @@ class _ImageViewerWidgetState extends State<ImageViewerWidget> {
                       itemCount: widget.mediums.length,
                       options: CarouselOptions(
                         autoPlay: widget.autoPlay,
-                        height: 300,
+                        //height: 300,
                         viewportFraction: 1.0,
                         enlargeCenterPage: false,
                         enableInfiniteScroll: false,
@@ -84,7 +84,7 @@ class _ImageViewerWidgetState extends State<ImageViewerWidget> {
                                 offset: Offset(-value, 0),
                                 child: const Icon(
                                   Icons.arrow_back_ios,
-                                  color: Colors.white,
+                                  color: Colors.red,
                                   size: 32,
                                 ),
                               );
