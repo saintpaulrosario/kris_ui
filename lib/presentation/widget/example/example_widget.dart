@@ -16,7 +16,7 @@ class ExampleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
+          Flexible(
             flex: 7,
             child: ExampleTextListWidget(
               key: ValueKey('${definition.sku}-texts'),

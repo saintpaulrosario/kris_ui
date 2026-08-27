@@ -16,7 +16,7 @@ class DefinitionContentWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
+        Flexible(
           child: DefinitionPayloadListWidget(
             key: ValueKey(content.sku),
             identifiers: content.payloads,

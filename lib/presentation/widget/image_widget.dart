@@ -15,7 +15,7 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
       child: Image.memory(
         _decodeImage(image.content),
         fit: BoxFit.contain,

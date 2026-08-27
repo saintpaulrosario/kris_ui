@@ -12,18 +12,8 @@ class DefinitionTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: DefinitionContentListWidget(identifiers: text.contents),
-            ),
-          ],
-        ),
+      child: Flexible(
+        child: DefinitionContentListWidget(identifiers: text.contents),
       ),
     );
   }

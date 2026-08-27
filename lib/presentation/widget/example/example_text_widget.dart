@@ -19,7 +19,7 @@ class ExampleTextWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
+            Flexible(
               flex: 6,
               child: ExampleContentListWidget(identifiers: text.contents),
             ),

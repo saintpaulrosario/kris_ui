@@ -20,11 +20,11 @@ class TextWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
+            Flexible(
               flex: 10,
               child: ContentListWidget(identifiers: text.contents),
             ),
-            Expanded(
+            Flexible(
               flex: 1,
               child: ScriptWidget(
                 key: ValueKey(text.script.sku),

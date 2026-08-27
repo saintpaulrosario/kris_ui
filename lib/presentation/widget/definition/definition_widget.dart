@@ -10,17 +10,11 @@ class DefinitionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: DefinitionTextListWidget(
-            key: ValueKey('${definition.sku}-texts'),
-            identifiers: definition.texts,
-          ),
-        ),
-      ],
+    return Flexible(
+      child: DefinitionTextListWidget(
+        key: ValueKey('${definition.sku}-texts'),
+        identifiers: definition.texts,
+      ),
     );
   }
 }

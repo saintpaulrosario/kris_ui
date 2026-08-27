@@ -15,7 +15,7 @@ class TraitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
+        Flexible(
           child: SoundListWidget(
             key: ValueKey('sound-${trait.sku}'),
             identifiers: trait.audios,

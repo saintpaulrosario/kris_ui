@@ -17,18 +17,18 @@ class DefinitionPayloadWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Expanded(
+        Flexible(
           flex: 12,
           child: DefinitionTraitListWidget(identifiers: payload.traits),
         ),
-        Expanded(
+        Flexible(
           flex: 1,
           child: SoundListWidget(
             key: ValueKey('sound-${payload.sku}'),
             identifiers: payload.audios,
           ),
         ),
-        Expanded(
+        Flexible(
           flex: 5,
           child: Text(
             payload.value,
@@ -38,7 +38,7 @@ class DefinitionPayloadWidget extends StatelessWidget {
           ),
         ),
 
-        Expanded(
+        Flexible(
           flex: 5,
           child: DialectListWidget(identifiers: payload.dialects),
         ),

@@ -58,7 +58,7 @@ class _ImageViewerWidgetState extends State<ImageViewerWidget> {
                               minScale: 1,
                               maxScale: 5,
                               panEnabled: true,
-                              child: widget.mediums[index],
+                              child: Expanded(child: widget.mediums[index]),
                             );
                           },
                     ),
@@ -84,7 +84,7 @@ class _ImageViewerWidgetState extends State<ImageViewerWidget> {
                                 offset: Offset(-value, 0),
                                 child: const Icon(
                                   Icons.arrow_back_ios,
-                                  color: Colors.red,
+                                  color: Colors.green,
                                   size: 32,
                                 ),
                               );
@@ -114,7 +114,7 @@ class _ImageViewerWidgetState extends State<ImageViewerWidget> {
                                 offset: Offset(value, 0),
                                 child: const Icon(
                                   Icons.arrow_forward_ios,
-                                  color: Colors.white,
+                                  color: Colors.blue,
                                   size: 32,
                                 ),
                               );

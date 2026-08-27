@@ -23,11 +23,11 @@ class PayloadWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         // definition
-        Expanded(
+        Flexible(
           flex: 20,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
-        Expanded(
+        Flexible(
           flex: 4,
           child: Text(
             payload.value,
@@ -36,7 +36,7 @@ class PayloadWidget extends StatelessWidget {
             key: ValueKey('value-${payload.sku}'),
           ),
         ),
-        Expanded(flex: 2, child: LanguageListWidget(identifiers: languages)),
+        Flexible(flex: 2, child: LanguageListWidget(identifiers: languages)),
       ],
     );
   }

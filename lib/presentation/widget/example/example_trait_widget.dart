@@ -8,9 +8,6 @@ class ExampleTraitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Expanded(flex: 3, child: Text(trait.sku))],
-    );
+    return Flexible(flex: 3, child: Text(trait.sku));
   }
 }

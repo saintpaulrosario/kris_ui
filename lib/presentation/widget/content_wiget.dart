@@ -12,18 +12,9 @@ class ContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: PayloadListWidget(
-            key: ValueKey(content.sku),
-            identifiers: content.payloads,
-          ),
-        ),
-      ],
+    return PayloadListWidget(
+      key: ValueKey(content.sku),
+      identifiers: content.payloads,
     );
   }
 }

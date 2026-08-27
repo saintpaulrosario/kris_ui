@@ -19,11 +19,11 @@ class TranslationTraitWidget extends TraitWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
+        Flexible(
           flex: 7,
           child: DefinitionListWidget(identifiers: trait.definitions),
         ),
-        Expanded(flex: 1, child: super.build(context)),
+        Flexible(flex: 1, child: super.build(context)),
       ],
     );
   }
