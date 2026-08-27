@@ -1,17 +1,25 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kris/model/medium.dart';
 
-class ImageViewerWidget extends StatelessWidget {
-  final Medium image;
+class ImageViewerWidget extends StatefulWidget {
+  final List<Widget> mediums;
+  final bool autoPlay;
 
-  const ImageViewerWidget({super.key, required this.image});
+  const ImageViewerWidget({
+    super.key,
+    required this.mediums,
+    required this.autoPlay,
+  });
 
-  Uint8List _decodeImage(String payload) {
-    return Uint8List.fromList(base64Decode(payload));
-  }
+  @override
+  State<ImageViewerWidget> createState() => _ImageViewerWidgetState();
+}
+
+class _ImageViewerWidgetState extends State<ImageViewerWidget> {
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
+
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +32,99 @@ class ImageViewerWidget extends StatelessWidget {
             Expanded(
               flex: 3,
               child: Stack(
+                alignment: Alignment.center,
                 children: [
+                  // CAROUSEL
                   Center(
-                    child: Hero(
-                      tag: image.tags,
-                      child: InteractiveViewer(
-                        minScale: 1,
-                        maxScale: 5,
-                        panEnabled: true,
-                        child: Image.memory(
-                          _decodeImage(image.content),
-                          fit: BoxFit.contain,
-                        ),
+                    child: CarouselSlider.builder(
+                      carouselController: _carouselController,
+                      itemCount: widget.mediums.length,
+                      options: CarouselOptions(
+                        autoPlay: widget.autoPlay,
+                        height: 300,
+                        viewportFraction: 1.0,
+                        enlargeCenterPage: false,
+                        enableInfiniteScroll: false,
+                        scrollDirection: Axis.horizontal,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
                       ),
+                      itemBuilder:
+                          (BuildContext context, int index, int realIndex) {
+                            return InteractiveViewer(
+                              minScale: 1,
+                              maxScale: 5,
+                              panEnabled: true,
+                              child: widget.mediums[index],
+                            );
+                          },
                     ),
                   ),
 
+                  // PREVIOUS / BACK ARROW
+                  if (_currentIndex > 0)
+                    Positioned(
+                      left: 10,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        onTap: () {
+                          _carouselController.previousPage();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0, end: 8),
+                            duration: const Duration(milliseconds: 700),
+                            curve: Curves.easeInOut,
+                            builder: (context, value, child) {
+                              return Transform.translate(
+                                offset: Offset(-value, 0),
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  // NEXT ARROW
+                  if (_currentIndex < widget.mediums.length - 1)
+                    Positioned(
+                      right: 10,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        onTap: () {
+                          _carouselController.nextPage();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0, end: 8),
+                            duration: const Duration(milliseconds: 700),
+                            curve: Curves.easeInOut,
+                            builder: (context, value, child) {
+                              return Transform.translate(
+                                offset: Offset(value, 0),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  // CLOSE BUTTON
                   Positioned(
                     top: 10,
                     left: 10,
@@ -55,30 +140,6 @@ class ImageViewerWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-
-            // DESCRIPTION AREA
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.black87,
-                padding: const EdgeInsets.all(16),
-                child: ListView.builder(
-                  itemCount: image.descriptions.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        image.descriptions[index].sku,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    );
-                  },
-                ),
               ),
             ),
           ],

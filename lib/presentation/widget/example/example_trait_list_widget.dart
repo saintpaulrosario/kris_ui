@@ -76,7 +76,7 @@ class _ExampleTraitListWidgetState extends State<ExampleTraitListWidget> {
             .map((trait) => ExampleTraitWidget(trait: trait))
             .toList();
 
-        return CarouselWidget(items: items);
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }

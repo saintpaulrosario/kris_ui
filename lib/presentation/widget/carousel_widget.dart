@@ -1,32 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class CarouselWidget extends StatefulWidget {
+import 'image_viewer_widget.dart';
+
+class CarouselWidget extends StatelessWidget {
   final List<Widget> items;
-  const CarouselWidget({super.key, required this.items});
+  final bool autoPlay;
+  CarouselWidget({super.key, required this.items, required this.autoPlay});
 
-  @override
-  State<CarouselWidget> createState() => _CarouselWidgetState();
-}
-
-class _CarouselWidgetState extends State<CarouselWidget>
-    with AutomaticKeepAliveClientMixin {
   static const double _defaultHeight = 150;
   static const double _indicatorHeight = 10;
   static const int _maxIndicators = 5;
-  late final ValueNotifier<int> _currentIndex;
-
-  @override
-  void initState() {
-    _currentIndex = ValueNotifier<int>(0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _currentIndex.dispose();
-    super.dispose();
-  }
+  final ValueNotifier<int> _currentIndex = ValueNotifier(0);
 
   // @override
   // void didUpdateWidget(covariant CarouselWidget oldWidget) {
@@ -44,36 +29,45 @@ class _CarouselWidgetState extends State<CarouselWidget>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final availableHeight = constraints.hasBoundedHeight
             ? constraints.maxHeight
             : _defaultHeight;
 
-        final carouselHeight = widget.items.length > 1
+        final carouselHeight = items.length > 1
             ? (availableHeight - _indicatorHeight).clamp(0.0, double.infinity)
             : availableHeight;
         return Column(
           children: [
-            CarouselSlider.builder(
-              itemCount: widget.items.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                return widget.items.elementAt(index);
+            InkWell(
+              onTap: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        ImageViewerWidget(mediums: items, autoPlay: autoPlay),
+                  ),
+                ),
               },
-              options: CarouselOptions(
-                height: carouselHeight,
-                viewportFraction: 1.0,
-                enlargeCenterPage: false,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (index, reason) {
-                  _currentIndex.value = index;
+              child: CarouselSlider.builder(
+                itemCount: items.length,
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  return items.elementAt(index);
                 },
+                options: CarouselOptions(
+                  height: carouselHeight,
+                  viewportFraction: 1.0,
+                  enlargeCenterPage: false,
+                  enableInfiniteScroll: false,
+                  scrollDirection: Axis.horizontal,
+                  onPageChanged: (index, reason) {
+                    _currentIndex.value = index;
+                  },
+                ),
               ),
             ),
 
-            if (widget.items.length > 1)
+            if (items.length > 1)
               SizedBox(
                 height: _indicatorHeight - 1,
                 child: ValueListenableBuilder<int>(
@@ -82,7 +76,7 @@ class _CarouselWidgetState extends State<CarouselWidget>
                     return _buildIndicators(
                       context,
                       currentIndex,
-                      widget.items.length,
+                      items.length,
                     );
                   },
                 ),
@@ -135,7 +129,4 @@ class _CarouselWidgetState extends State<CarouselWidget>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

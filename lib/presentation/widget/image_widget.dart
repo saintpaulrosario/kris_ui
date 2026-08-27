@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:kris/model/medium.dart';
-import 'package:kris/presentation/widget/image_viewer_widget.dart';
 
 class ImageWidget extends StatelessWidget {
   final Medium image;
@@ -16,12 +15,7 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ImageViewerWidget(image: image)),
-        ),
-      },
+    return Expanded(
       child: Image.memory(
         _decodeImage(image.content),
         fit: BoxFit.contain,

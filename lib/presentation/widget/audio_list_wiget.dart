@@ -57,7 +57,7 @@ class _SoundListWidgetState extends State<SoundListWidget>
         List<AudioWidget> items = state.values
             .map((medium) => AudioWidget(audio: medium))
             .toList();
-        return CarouselWidget(items: items);
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }

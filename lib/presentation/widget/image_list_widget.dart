@@ -72,7 +72,7 @@ class _ImageListWidgetState extends State<ImageListWidget>
         List<ImageWidget> items = state.values
             .map((x) => ImageWidget(image: x))
             .toList();
-        return CarouselWidget(items: items);
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }
