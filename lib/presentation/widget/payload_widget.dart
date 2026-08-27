@@ -5,6 +5,8 @@ import 'package:kris/presentation/widget/language/language_list_widget.dart';
 import 'package:kris/presentation/widget/language/language_widget.dart';
 import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
 
+import '../../model/language.dart';
+
 class PayloadWidget extends StatelessWidget {
   final Payload payload;
 
@@ -12,6 +14,9 @@ class PayloadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languages = payload.language != null
+        ? [payload.language!]
+        : <Language>[];
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -19,7 +24,7 @@ class PayloadWidget extends StatelessWidget {
       children: [
         // definition
         Expanded(
-          flex: 45,
+          flex: 14,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
         Expanded(
@@ -31,7 +36,7 @@ class PayloadWidget extends StatelessWidget {
             key: ValueKey('value-${payload.sku}'),
           ),
         ),
-        //Expanded(flex: 1, child: Text("data")),
+        Expanded(flex: 2, child: LanguageListWidget(identifiers: languages)),
       ],
     );
   }
