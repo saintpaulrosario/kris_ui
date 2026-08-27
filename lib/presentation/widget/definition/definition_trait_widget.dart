@@ -14,7 +14,9 @@ class DefinitionTraitWidget extends TraitWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [ExampleListWidget(identifiers: trait.examples)],
+      children: [
+        Expanded(child: ExampleListWidget(identifiers: trait.examples)),
+      ],
     );
   }
 }

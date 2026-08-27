@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/language/language_list_widget.dart';
+import 'package:kris/presentation/widget/language/language_widget.dart';
 import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
 
 class PayloadWidget extends StatelessWidget {
@@ -29,6 +31,7 @@ class PayloadWidget extends StatelessWidget {
             key: ValueKey('value-${payload.sku}'),
           ),
         ),
+        //Expanded(flex: 1, child: Text("data")),
       ],
     );
   }
