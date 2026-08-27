@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/dialect_bloc.dart';
+
+import 'package:kris/model/content.dart';
+import 'package:kris/model/dialect.dart';
+import 'package:kris/model/identifier.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/text.dart' as w;
+import 'package:kris/model/trait.dart';
+
+import 'type_payload_list_widget.dart';
+
+class TypeContentWidget extends StatefulWidget {
+  final Identifier identifier;
+
+  const TypeContentWidget({super.key, required this.identifier});
+
+  @override
+  State<TypeContentWidget> createState() => _TypeContentWidgetState();
+}
+
+class _TypeContentWidgetState extends State<TypeContentWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<DialectBloc>().add(
+      BaseEvent.content(identifier: widget.identifier),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocSelector<
+      DialectBloc,
+      BaseState<Dialect, w.Text, Content, Payload, Trait>,
+      Content?
+    >(
+      selector: (state) {
+        return state.contents[widget.identifier.sku];
+      },
+      builder: (context, content) {
+        if (content == null) {
+          return const SizedBox(
+            height: 40,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (content.payloads.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return TypePayloadListWidget(identifiers: content.payloads);
+      },
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
