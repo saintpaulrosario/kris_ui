@@ -21,14 +21,6 @@ class TraitWidget extends StatelessWidget {
             identifiers: trait.audios,
           ),
         ),
-
-        Expanded(
-          flex: 1,
-          child: LanguageListWidget(
-            key: ValueKey(trait.sku),
-            identifiers: [trait.language],
-          ),
-        ),
       ],
     );
   }
