@@ -12,11 +12,6 @@ class DefinitionTraitWidget extends TraitWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(child: ExampleListWidget(identifiers: trait.examples)),
-      ],
-    );
+    return ExampleListWidget(identifiers: trait.examples);
   }
 }

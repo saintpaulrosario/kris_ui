@@ -56,7 +56,6 @@ class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
           );
         }
 
-
         final List<Identifier> audios = payload.audios.isEmpty
             ? []
             : [payload.audios.first];

@@ -15,14 +15,12 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Image.memory(
-        _decodeImage(image.content),
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return const Center(child: Icon(Icons.broken_image));
-        },
-      ),
+    return Image.memory(
+      _decodeImage(image.content),
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) {
+        return const Center(child: Icon(Icons.broken_image));
+      },
     );
   }
 }

@@ -32,11 +32,14 @@ class PayloadWidget extends StatelessWidget {
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
+            overflow: TextOverflow.clip,
             key: ValueKey('value-${payload.sku}'),
           ),
         ),
-        Flexible(flex: 2, child: LanguageListWidget(identifiers: languages)),
+        Flexible(
+          flex: 2,
+          child: LanguageListWidget(identifiers: languages),
+        ),
       ],
     );
   }

@@ -10,11 +10,9 @@ class DefinitionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: DefinitionTextListWidget(
-        key: ValueKey('${definition.sku}-texts'),
-        identifiers: definition.texts,
-      ),
+    return DefinitionTextListWidget(
+      key: ValueKey('${definition.sku}-texts'),
+      identifiers: definition.texts,
     );
   }
 }
