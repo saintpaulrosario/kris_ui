@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-import 'image_viewer_widget.dart';
+import 'viewer_widget.dart';
 
 class CarouselWidget extends StatelessWidget {
   final List<Widget> items;
@@ -45,7 +45,7 @@ class CarouselWidget extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) =>
-                        ImageViewerWidget(mediums: items, autoPlay: autoPlay),
+                        ViewerWidget(mediums: items, autoPlay: autoPlay),
                   ),
                 ),
               },
@@ -57,6 +57,9 @@ class CarouselWidget extends StatelessWidget {
                 options: CarouselOptions(
                   height: carouselHeight,
                   viewportFraction: 1.0,
+                  autoPlay: autoPlay,
+                  reverse: true,
+                  autoPlayInterval: const Duration(minutes: 1),
                   enlargeCenterPage: false,
                   enableInfiniteScroll: false,
                   scrollDirection: Axis.horizontal,
