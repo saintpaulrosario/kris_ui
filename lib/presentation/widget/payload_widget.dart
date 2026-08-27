@@ -24,7 +24,7 @@ class PayloadWidget extends StatelessWidget {
       children: [
         // definition
         Expanded(
-          flex: 14,
+          flex: 20,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
         Expanded(

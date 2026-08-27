@@ -60,7 +60,8 @@ Medium _$MediumFromJson(Map json) => $checkedCreate('Medium', json, (
     checkSum: $checkedConvert('checkSum', (v) => v as String? ?? ''),
     rows: $checkedConvert(
       'rows',
-      (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+      (v) =>
+          (v as List<dynamic>?)?.map((e) => (e as num).toInt()).toList() ?? [],
     ),
   );
   return val;

@@ -6,6 +6,7 @@ import 'identifier.dart';
 part 'medium.g.dart';
 
 @JsonSerializable(
+  //disallowUnrecognizedKeys: true,
   includeIfNull: false,
   ignoreUnannotated: false,
   explicitToJson: true,
@@ -31,6 +32,7 @@ class Medium extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: <Identifier>[])
   final List<Identifier> tags;
 
+  @JsonKey(disallowNullValue: false, defaultValue: <Identifier>[])
   final List<int> rows;
 
   const Medium({

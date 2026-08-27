@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/definition/definition_trait_list_widget.dart';
 import 'package:kris/presentation/widget/audio_list_wiget.dart';
+import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 
 class DefinitionPayloadWidget extends StatelessWidget {
   final Payload payload;
@@ -35,6 +36,11 @@ class DefinitionPayloadWidget extends StatelessWidget {
             overflow: TextOverflow.visible,
             key: ValueKey('value-${payload.sku}'),
           ),
+        ),
+
+        Expanded(
+          flex: 5,
+          child: DialectListWidget(identifiers: payload.dialects),
         ),
       ],
     );
