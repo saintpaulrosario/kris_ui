@@ -14,6 +14,7 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/word.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import '../../model/text.dart' as w;
 import 'payload_widget.dart';
@@ -72,22 +73,16 @@ class _PayloadListWidgetState extends State<PayloadListWidget> {
 
         return result.build();
       },
-      builder: (context, payloads) {
-        if (payloads.isEmpty) {
+      builder: (context, state) {
+        if (state.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: payloads.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final payload = payloads.values.elementAt(index);
+        List<PayloadWidget> items = state.values
+            .map((item) => PayloadWidget(payload: item))
+            .toList();
 
-            return PayloadWidget(key: ValueKey(payload.sku), payload: payload);
-          },
-        );
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }
