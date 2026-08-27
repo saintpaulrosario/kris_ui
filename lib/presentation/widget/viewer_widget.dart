@@ -21,107 +21,156 @@ class _ViewerWidgetState extends State<ViewerWidget> {
 
   int _currentIndex = 0;
 
+  late bool _isPlaying;
+  bool _showControls = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isPlaying = widget.autoPlay;
+  }
+
+  @override
+  void didUpdateWidget(covariant ViewerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.autoPlay != widget.autoPlay) {
+      _isPlaying = widget.autoPlay;
+
+      if (_isPlaying) {
+        _carouselController.startAutoPlay();
+      } else {
+        _carouselController.stopAutoPlay();
+      }
+    }
+  }
+
+  void _togglePlayPause() {
+    setState(() {
+      _isPlaying = !_isPlaying;
+    });
+
+    if (_isPlaying) {
+      _carouselController.startAutoPlay();
+    } else {
+      _carouselController.stopAutoPlay();
+    }
+  }
+
+  void _showControlsOnTap() {
+    setState(() {
+      _showControls = !_showControls;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Row(
-          children: [
-            // IMAGE AREA
-            Stack(
+        child: MouseRegion(
+          onEnter: (_) {
+            setState(() {
+              _showControls = true;
+            });
+          },
+          onExit: (_) {
+            setState(() {
+              _showControls = false;
+            });
+          },
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _showControlsOnTap,
+            child: Stack(
               alignment: Alignment.center,
               children: [
                 // CAROUSEL
-                Center(
-                  child: CarouselSlider.builder(
-                    carouselController: _carouselController,
-                    itemCount: widget.mediums.length,
-                    options: CarouselOptions(
-                      viewportFraction: 1.0,
-                      enlargeCenterPage: false,
-                      enableInfiniteScroll: true,
-                      autoPlayInterval: const Duration(seconds: 10),
-                      autoPlayAnimationDuration: const Duration(
-                        milliseconds: 800,
-                      ),
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      scrollDirection: Axis.horizontal,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _currentIndex = index;
-                        });
-                      },
+                CarouselSlider.builder(
+                  carouselController: _carouselController,
+                  itemCount: widget.mediums.length,
+                  options: CarouselOptions(
+                    autoPlay: widget.autoPlay,
+                    viewportFraction: 1.0,
+                    enlargeCenterPage: false,
+                    enableInfiniteScroll: widget.mediums.length > 1,
+                    autoPlayInterval: const Duration(seconds: 10),
+                    autoPlayAnimationDuration: const Duration(
+                      milliseconds: 800,
                     ),
-                    itemBuilder:
-                        (BuildContext context, int index, int realIndex) {
-                          return Expanded(
-                            child: InteractiveViewer(
-                              minScale: 1,
-                              maxScale: 5,
-                              panEnabled: true,
-                              child: widget.mediums[index],
-                            ),
-                          );
-                        },
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    scrollDirection: Axis.horizontal,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
                   ),
+                  itemBuilder:
+                      (BuildContext context, int index, int realIndex) {
+                        return InteractiveViewer(
+                          minScale: 1,
+                          maxScale: 5,
+                          panEnabled: true,
+                          child: widget.mediums[index],
+                        );
+                      },
                 ),
 
-                // PREVIOUS / BACK ARROW
-                if (_currentIndex > 0)
+                // PLAY / PAUSE BUTTON
+                if (widget.mediums.length > 1)
+                  Visibility(
+                    visible: _showControls,
+                    child: IconButton(
+                      iconSize: 64,
+                      color: Colors.white,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black54,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                      icon: Icon(
+                        _isPlaying
+                            ? Icons.pause_circle_filled
+                            : Icons.play_circle_filled,
+                      ),
+                      onPressed: _togglePlayPause,
+                    ),
+                  ),
+
+                // PREVIOUS BUTTON
+                if (widget.mediums.length > 1)
                   Positioned(
                     left: 10,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(30),
-                      onTap: () {
-                        _carouselController.previousPage();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: TweenAnimationBuilder<double>(
-                          tween: Tween(begin: 0, end: 8),
-                          duration: const Duration(milliseconds: 700),
-                          curve: Curves.easeInOut,
-                          builder: (context, value, child) {
-                            return Transform.translate(
-                              offset: Offset(-value, 0),
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.green,
-                                size: 32,
-                              ),
-                            );
-                          },
+                    child: Visibility(
+                      visible: _showControls,
+                      child: IconButton(
+                        onPressed: () {
+                          _carouselController.previousPage();
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 32,
                         ),
                       ),
                     ),
                   ),
 
-                // NEXT ARROW
-                if (_currentIndex < widget.mediums.length - 1)
+                // NEXT BUTTON
+                if (widget.mediums.length > 1)
                   Positioned(
                     right: 10,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(30),
-                      onTap: () {
-                        _carouselController.nextPage();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: TweenAnimationBuilder<double>(
-                          tween: Tween(begin: 0, end: 8),
-                          duration: const Duration(milliseconds: 700),
-                          curve: Curves.easeInOut,
-                          builder: (context, value, child) {
-                            return Transform.translate(
-                              offset: Offset(value, 0),
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.blue,
-                                size: 32,
-                              ),
-                            );
-                          },
+                    child: Visibility(
+                      visible: _showControls,
+                      child: IconButton(
+                        onPressed: () {
+                          _carouselController.nextPage();
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 32,
                         ),
                       ),
                     ),
@@ -144,7 +193,7 @@ class _ViewerWidgetState extends State<ViewerWidget> {
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
