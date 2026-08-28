@@ -15,6 +15,9 @@ class PayloadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
           flex: 5,
@@ -28,6 +31,11 @@ class PayloadWidget extends StatelessWidget {
             overflow: TextOverflow.clip,
             key: ValueKey('value-${payload.sku}'),
           ),
+        ),
+
+        Flexible(
+          flex: 5,
+          child: LanguageListWidget(identifiers: [?payload.language]),
         ),
       ],
     );

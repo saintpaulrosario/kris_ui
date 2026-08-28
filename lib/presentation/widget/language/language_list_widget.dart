@@ -11,6 +11,9 @@ class LanguageListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
         ListView.separated(
           physics: NeverScrollableScrollPhysics(),

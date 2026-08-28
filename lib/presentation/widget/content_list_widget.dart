@@ -74,17 +74,11 @@ class _ContentListWidgetState extends State<ContentListWidget> {
           return const SizedBox.shrink();
         }
 
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (content, index) {
-            return Flexible(
-              child: ContentWidget(content: state.values.elementAt(index)),
-            );
-          },
-          separatorBuilder: (_, __) => Divider(),
-          itemCount: state.length,
-        );
+        List<ContentWidget> items = state.values
+            .map((content) => ContentWidget(content: content))
+            .toList();
+
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }
