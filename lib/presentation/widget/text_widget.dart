@@ -18,11 +18,11 @@ class TextWidget extends StatelessWidget {
         child: Row(
           children: [
             Flexible(
-              flex: 30,
+              flex: 40,
               child: ContentListWidget(identifiers: text.contents),
             ),
             Flexible(
-              flex: 5,
+              flex: 10,
               child: ScriptWidget(
                 key: ValueKey(text.script.sku),
                 identifier: text.script,

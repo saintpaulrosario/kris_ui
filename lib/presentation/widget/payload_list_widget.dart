@@ -78,11 +78,14 @@ class _PayloadListWidgetState extends State<PayloadListWidget> {
           return const SizedBox.shrink();
         }
 
-        List<PayloadWidget> items = state.values
-            .map((item) => PayloadWidget(payload: item))
-            .toList();
-
-        return CarouselWidget(items: items, autoPlay: true);
+        return ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return PayloadWidget(payload: state.values.elementAt(index));
+          },
+          separatorBuilder: (_, __) => Divider(),
+          itemCount: state.length,
+        );
       },
     );
   }

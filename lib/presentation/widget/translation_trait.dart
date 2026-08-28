@@ -12,6 +12,11 @@ class TranslationTraitWidget extends TraitWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(child: super.build(context));
+    return Row(
+      children: [
+        Text("definition"),
+        Flexible(child: super.build(context)),
+      ],
+    );
   }
 }

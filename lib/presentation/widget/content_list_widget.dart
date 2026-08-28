@@ -69,16 +69,22 @@ class _ContentListWidgetState extends State<ContentListWidget> {
           builder.removeWhere((key, value) => !identifiers.contains(key));
         });
       },
-      builder: (context, contents) {
-        if (contents.isEmpty) {
+      builder: (context, state) {
+        if (state.isEmpty) {
           return const SizedBox.shrink();
         }
 
-        List<ContentWidget> items = contents.values
-            .map((item) => ContentWidget(content: item))
-            .toList();
-
-        return CarouselWidget(items: items, autoPlay: true);
+        return ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (content, index) {
+            return Flexible(
+              child: ContentWidget(content: state.values.elementAt(index)),
+            );
+          },
+          separatorBuilder: (_, __) => Divider(),
+          itemCount: state.length,
+        );
       },
     );
   }

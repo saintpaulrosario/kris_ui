@@ -96,16 +96,10 @@ class _WordPageState extends State<WordPage>
                                   identifiers: translation.images,
                                 ),
                               ),
+
                               Flexible(
                                 flex: 50,
-                                child: CarouselWidget(
-                                  items: [
-                                    TranslationWidget(translation: translation),
-                                    TranscriptionWdiget(),
-                                    TransliterationWdiget(),
-                                  ],
-                                  autoPlay: true,
-                                ),
+                                child: WordWidget(translation: translation),
                               ),
 
                               Flexible(
