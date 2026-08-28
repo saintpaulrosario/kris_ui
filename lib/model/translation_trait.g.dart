@@ -35,17 +35,6 @@ TranslationTrait _$TranslationTraitFromJson(Map json) => $checkedCreate(
       sku: $checkedConvert('sku', (v) => v as String),
       version: $checkedConvert('version', (v) => (v as num?)?.toInt() ?? 0),
       ordinal: $checkedConvert('ordinal', (v) => (v as num).toInt()),
-      definitions: $checkedConvert(
-        'definitions',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
-      ),
       dialect: $checkedConvert(
         'dialect',
         (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
@@ -89,5 +78,4 @@ Map<String, dynamic> _$TranslationTraitToJson(TranslationTrait instance) =>
       'language': instance.language.toJson(),
       'row': instance.row,
       'audios': instance.audios.map((e) => e.toJson()).toList(),
-      'definitions': instance.definitions.map((e) => e.toJson()).toList(),
     };

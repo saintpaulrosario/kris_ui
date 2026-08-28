@@ -61,6 +61,28 @@ Translation _$TranslationFromJson(Map json) => $checkedCreate(
         'rows',
         (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
       ),
+      examples: $checkedConvert(
+        'examples',
+        (v) =>
+            (v as List<dynamic>?)
+                ?.map(
+                  (e) =>
+                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList() ??
+            [],
+      ),
+      definitions: $checkedConvert(
+        'definitions',
+        (v) =>
+            (v as List<dynamic>?)
+                ?.map(
+                  (e) =>
+                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+                )
+                .toList() ??
+            [],
+      ),
     );
     return val;
   },
@@ -78,4 +100,6 @@ Map<String, dynamic> _$TranslationToJson(Translation instance) =>
       'texts': instance.texts.map((e) => e.toJson()).toList(),
       'rows': instance.rows,
       'images': instance.images.map((e) => e.toJson()).toList(),
+      'examples': instance.examples.map((e) => e.toJson()).toList(),
+      'definitions': instance.definitions.map((e) => e.toJson()).toList(),
     };

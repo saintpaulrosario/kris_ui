@@ -14,31 +14,20 @@ class PayloadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languages = payload.language != null
-        ? [payload.language!]
-        : <Language>[];
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        // definition
         Flexible(
-          flex: 20,
+          flex: 5,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
         Flexible(
-          flex: 4,
+          flex: 20,
           child: Text(
             payload.value,
             textAlign: TextAlign.center,
             overflow: TextOverflow.clip,
             key: ValueKey('value-${payload.sku}'),
           ),
-        ),
-        Flexible(
-          flex: 2,
-          child: LanguageListWidget(identifiers: languages),
         ),
       ],
     );

@@ -6,13 +6,18 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/text.dart' as w;
+import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import 'package:kris/presentation/widget/word_widget.dart';
 import '../../logic/base_event.dart';
 import '../../logic/base_state.dart';
 
 import '../../response/page_result.dart';
+import '../widget/image_list_widget.dart';
 import '../widget/pagination_widget.dart';
+import '../widget/transcription/transcription_wdiget.dart';
+import '../widget/translation/translation_widget.dart';
+import '../widget/transliteration/transcription_wdiget.dart';
 
 class WordPage extends StatefulWidget {
   const WordPage({super.key});
@@ -79,9 +84,38 @@ class _WordPageState extends State<WordPage>
                         );
 
                         return Padding(
-                          padding: const EdgeInsets.all(25.0),
-                          child: Expanded(
-                            child: WordWidget(translation: translation),
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                flex: 10,
+                                child: ImageListWidget(
+                                  key: ValueKey('${translation.sku}-images'),
+                                  identifiers: translation.images,
+                                ),
+                              ),
+                              Flexible(
+                                flex: 50,
+                                child: CarouselWidget(
+                                  items: [
+                                    TranslationWidget(translation: translation),
+                                    TranscriptionWdiget(),
+                                    TransliterationWdiget(),
+                                  ],
+                                  autoPlay: true,
+                                ),
+                              ),
+
+                              Flexible(
+                                flex: 1,
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.bookmark),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },

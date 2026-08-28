@@ -11,7 +11,9 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
+import 'package:kris/model/word.dart';
 
+import '../../../logic/word/word_bloc.dart';
 import 'type_payload_list_widget.dart';
 
 class TypeContentWidget extends StatefulWidget {
@@ -29,7 +31,7 @@ class _TypeContentWidgetState extends State<TypeContentWidget>
   void initState() {
     super.initState();
 
-    context.read<DialectBloc>().add(
+    context.read<WordBloc>().add(
       BaseEvent.content(identifier: widget.identifier),
     );
   }
@@ -38,8 +40,8 @@ class _TypeContentWidgetState extends State<TypeContentWidget>
   Widget build(BuildContext context) {
     super.build(context);
     return BlocSelector<
-      DialectBloc,
-      BaseState<Dialect, w.Text, Content, Payload, Trait>,
+      WordBloc,
+      BaseState<Word, w.Text, Content, Payload, Trait>,
       Content?
     >(
       selector: (state) {

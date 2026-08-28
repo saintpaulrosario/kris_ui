@@ -12,6 +12,7 @@ import 'package:kris/model/script.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
 import 'package:kris/presentation/widget/audio_list_wiget.dart';
+import 'package:kris/presentation/widget/script/script_trait_list_widget.dart';
 
 class ScriptPayloadWidget extends StatefulWidget {
   final Identifier identifier;
@@ -48,21 +49,17 @@ class _ScriptPayloadWidgetState extends State<ScriptPayloadWidget>
       selector: (state) {
         return state.payloads[widget.identifier.sku];
       },
-      builder: (context, payload) {
-        if (payload == null) {
+      builder: (context, state) {
+        if (state == null) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final List<Identifier> audios = payload.audios.isEmpty
-            ? []
-            : [payload.audios.first];
         return Row(
           children: [
-            Expanded(flex: 1, child: SoundListWidget(identifiers: audios)),
-            Expanded(
-              flex: 6,
+            Flexible(child: ScriptTraitListWidget(identifiers: state.audios)),
+            Flexible(
               child: Text(
-                payload.value,
+                state.value,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 3,

@@ -16,9 +16,6 @@ part 'translation_trait.g.dart';
   checked: true,
 )
 class TranslationTrait extends Trait {
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> definitions;
-
   const TranslationTrait({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -27,7 +24,6 @@ class TranslationTrait extends Trait {
     required super.sku,
     required super.version,
     required super.ordinal,
-    required this.definitions,
     required super.dialect,
     required super.payload,
     required super.audios,
@@ -44,7 +40,6 @@ class TranslationTrait extends Trait {
       sku: '',
       version: 0,
       ordinal: 0,
-      definitions: [],
       payload: Payload.initial(),
       dialect: Identifier.initial(),
       audios: [],

@@ -12,6 +12,7 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
 import 'package:kris/presentation/widget/audio_list_wiget.dart';
+import 'package:kris/presentation/widget/language/language_trait_list_widget.dart';
 
 class LanguagePayloadWidget extends StatefulWidget {
   final Identifier identifier;
@@ -56,13 +57,9 @@ class _LanguagePayloadWidgetState extends State<LanguagePayloadWidget>
           );
         }
 
-        final List<Identifier> audios = payload.audios.isEmpty
-            ? []
-            : [payload.audios.first];
-
         return Row(
           children: [
-            SoundListWidget(identifiers: audios),
+            LanguageTraitListWidget(identifiers: payload.traits),
             Text(
               payload.value,
               textAlign: TextAlign.center,

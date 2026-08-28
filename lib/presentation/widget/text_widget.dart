@@ -16,16 +16,13 @@ class TextWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(
-              flex: 10,
+              flex: 30,
               child: ContentListWidget(identifiers: text.contents),
             ),
             Flexible(
-              flex: 1,
+              flex: 5,
               child: ScriptWidget(
                 key: ValueKey(text.script.sku),
                 identifier: text.script,
