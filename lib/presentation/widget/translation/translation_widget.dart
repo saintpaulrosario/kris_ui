@@ -15,13 +15,13 @@ class TranslationWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            flex: 57,
+            flex: 55,
             child: TextListWidget(
               key: ValueKey('${translation.sku}-texts'),
               identifiers: translation.texts,
             ),
           ),
-          Flexible(flex: 3, child: Text("Translation")),
+          Flexible(flex: 5, child: Text("Translation")),
         ],
       ),
     );

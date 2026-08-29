@@ -83,34 +83,34 @@ class _WordPageState extends State<WordPage>
                           index,
                         );
 
-                        return Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 5,
-                                child: ImageListWidget(
-                                  key: ValueKey('${translation.sku}-images'),
-                                  identifiers: translation.images,
-                                ),
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              flex: 5,
+                              child: ImageListWidget(
+                                key: ValueKey('${translation.sku}-images'),
+                                identifiers: translation.images,
                               ),
+                            ),
 
-                              Flexible(
-                                flex: 60,
-                                child: WordWidget(translation: translation),
-                              ),
+                            Flexible(
+                              flex: 60,
+                              child: WordWidget(translation: translation),
+                            ),
 
-                              Flexible(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Flexible(
                                 flex: 1,
                                 child: IconButton(
                                   onPressed: () {},
                                   icon: Icon(Icons.bookmark),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     );
