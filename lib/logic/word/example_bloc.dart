@@ -65,6 +65,9 @@ class ExampleBloc
         case WordFetchType.traits:
           await _fetchTraits(event, emit);
           break;
+        case WordFetchType.wordTrait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }

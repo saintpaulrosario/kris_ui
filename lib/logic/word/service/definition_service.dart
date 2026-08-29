@@ -300,4 +300,28 @@ class DefinitionService
       return left(ErrorResponse(e.toString()));
     }
   }
+
+  Future<Either<ErrorResponse, List<Definition>>> retrieveByTranslation({
+    required Identifier identifier,
+  }) async {
+    final HttpResponse<ApiResult<List<Definition>>> httpResponse = await _api
+        .fetchByTranslationTrait(identifier: identifier.sku);
+    try {
+      ApiResult<List<Definition>> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final List<Definition> payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
 }

@@ -13,6 +13,7 @@ enum WordFetchType {
   selects,
   trait,
   traits,
+  wordTrait,
 }
 
 class BaseEvent {
@@ -170,6 +171,20 @@ class BaseEvent {
   factory BaseEvent.trait({required Identifier identifier}) {
     return BaseEvent._(
       type: WordFetchType.trait,
+      identifier: identifier,
+      dialects: [],
+      scripts: [],
+      pageNumber: 0,
+      pageSize: 25,
+      selected: false,
+      languages: [],
+      identifiers: [],
+    );
+  }
+
+  factory BaseEvent.wordTrait({required Identifier identifier}) {
+    return BaseEvent._(
+      type: WordFetchType.wordTrait,
       identifier: identifier,
       dialects: [],
       scripts: [],

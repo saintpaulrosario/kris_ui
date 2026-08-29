@@ -63,6 +63,9 @@ class TranslationBloc
           await _fetchTrait(event, emit);
         case WordFetchType.traits:
           await _fetchTraits(event, emit);
+        case WordFetchType.wordTrait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }

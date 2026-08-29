@@ -60,6 +60,9 @@ class ScriptBloc
         case WordFetchType.traits:
           // TODO: Handle this case.
           throw UnimplementedError();
+        case WordFetchType.wordTrait:
+          // TODO: Handle this case.
+          throw UnimplementedError();
       }
     });
   }

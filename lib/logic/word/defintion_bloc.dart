@@ -63,6 +63,8 @@ class DefinitionBloc
 
         case WordFetchType.traits:
           await _fetchTraits(event, emit);
+        case WordFetchType.wordTrait:
+          await _fetchWordTrait(event, emit);
       }
     });
   }
@@ -513,5 +515,53 @@ class DefinitionBloc
         );
       },
     );
+  }
+
+  Future<void> _fetchWordTrait(BaseEvent event, Emitter emit) async {
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
+
+      final results = await _service.retrieveByTranslation(
+        identifier: event.identifier,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (word) {
+          final data = state.data.toBuilder();
+
+          for (final definition in word) {
+            data[definition.sku] = definition;
+          }
+          emit(
+            state.copyWith(
+              data: data.build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+      );
+    }
   }
 }
