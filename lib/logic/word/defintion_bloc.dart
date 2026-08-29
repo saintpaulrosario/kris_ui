@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/definition_state.dart';
 import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
@@ -14,15 +16,10 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import '../../model/definition_trait.dart';
 
-class DefinitionBloc
-    extends
-        Bloc<
-          BaseEvent,
-          BaseState<Definition, Text, Content, Payload, DefinitionTrait>
-        > {
+class DefinitionBloc extends Bloc<BaseEvent, DefinitionState> {
   final _service = getIt<DefinitionService>();
 
-  DefinitionBloc() : super(BaseState.initial()) {
+  DefinitionBloc() : super(DefinitionState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -545,19 +542,33 @@ class DefinitionBloc
           );
         },
 
-        (word) {
-          final data = state.data.toBuilder();
+        (List<Definition> definitions) {
+          final word = state.word.rebuild((builder) {
+            for (final definition in definitions) {
+              builder[definition.sku] = definition;
+            }
+          });
 
-          for (final definition in word) {
-            data[definition.sku] = definition;
-          }
+          final wordTraitsDefinitions = state.wordTraitsDefinitions.rebuild((
+            builder,
+          ) {
+            final existing = builder[event.identifier.sku];
+
+            builder[event.identifier.sku] =
+                (existing ?? BuiltList<Definition>()).rebuild((
+                  definitionsBuilder,
+                ) {
+                  definitionsBuilder.addAll(definitions);
+                });
+          });
+
           emit(
             state.copyWith(
-              data: data.build(),
-
-              fetching:
-                  (state.fetching.toBuilder()..remove(event.identifier.sku))
-                      .build(),
+              word: word,
+              wordTraitsDefinitions: wordTraitsDefinitions,
+              fetching: state.fetching.rebuild(
+                (builder) => builder.remove(event.identifier.sku),
+              ),
             ),
           );
         },

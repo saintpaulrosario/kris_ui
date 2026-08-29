@@ -304,9 +304,9 @@ class DefinitionService
   Future<Either<ErrorResponse, List<Definition>>> retrieveByTranslation({
     required Identifier identifier,
   }) async {
-    final HttpResponse<ApiResult<List<Definition>>> httpResponse = await _api
-        .fetchByTranslationTrait(identifier: identifier.sku);
     try {
+      final HttpResponse<ApiResult<List<Definition>>> httpResponse = await _api
+          .fetchByTranslationTrait(identifier: identifier.sku);
       ApiResult<List<Definition>> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
         final List<Definition> payload = apiResult.payload;
