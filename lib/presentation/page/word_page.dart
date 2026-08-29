@@ -98,7 +98,7 @@ class _WordPageState extends State<WordPage>
                               ),
 
                               Flexible(
-                                flex: 55,
+                                flex: 60,
                                 child: WordWidget(translation: translation),
                               ),
 
