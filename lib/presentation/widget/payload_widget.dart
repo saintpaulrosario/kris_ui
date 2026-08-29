@@ -23,13 +23,17 @@ class PayloadWidget extends StatelessWidget {
           flex: 5,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
+
         Flexible(
-          flex: 20,
-          child: Text(
-            payload.value,
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.clip,
-            key: ValueKey('value-${payload.sku}'),
+          flex: 30,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Text(
+              payload.value,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.clip,
+              key: ValueKey('value-${payload.sku}'),
+            ),
           ),
         ),
 

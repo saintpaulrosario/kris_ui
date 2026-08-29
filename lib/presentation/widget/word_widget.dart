@@ -14,13 +14,17 @@ class WordWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TranslationWidget(translation: translation),
-        TranscriptionWdiget(),
-        TransliterationWdiget(),
-      ],
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TranslationWidget(translation: translation),
+          TranscriptionWdiget(),
+          TransliterationWdiget(),
+        ],
+      ),
     );
   }
 }

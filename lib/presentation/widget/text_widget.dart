@@ -13,23 +13,20 @@ class TextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Row(
-          children: [
-            Flexible(
-              flex: 40,
-              child: ContentListWidget(identifiers: text.contents),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 10,
+            child: ContentListWidget(identifiers: text.contents),
+          ),
+          Flexible(
+            flex: 1,
+            child: ScriptWidget(
+              key: ValueKey(text.script.sku),
+              identifier: text.script,
             ),
-            Flexible(
-              flex: 10,
-              child: ScriptWidget(
-                key: ValueKey(text.script.sku),
-                identifier: text.script,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

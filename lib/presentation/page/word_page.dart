@@ -90,7 +90,7 @@ class _WordPageState extends State<WordPage>
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Flexible(
-                                flex: 10,
+                                flex: 5,
                                 child: ImageListWidget(
                                   key: ValueKey('${translation.sku}-images'),
                                   identifiers: translation.images,
@@ -98,7 +98,7 @@ class _WordPageState extends State<WordPage>
                               ),
 
                               Flexible(
-                                flex: 50,
+                                flex: 55,
                                 child: WordWidget(translation: translation),
                               ),
 
