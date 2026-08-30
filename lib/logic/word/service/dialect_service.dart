@@ -194,4 +194,10 @@ class DialectService
     // TODO: implement retrieveTraits
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ErrorResponse, Dialect>> retrieveWordByTrait({required Identifier identifier}) {
+    // TODO: implement retrieveWordByTrait
+    throw UnimplementedError();
+  }
 }

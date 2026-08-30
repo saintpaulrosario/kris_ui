@@ -194,4 +194,10 @@ class LanguageService
     // TODO: implement retrieveTraits
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ErrorResponse, Language>> retrieveWordByTrait({required Identifier identifier}) {
+    // TODO: implement retrieveWordByTrait
+    throw UnimplementedError();
+  }
 }

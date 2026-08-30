@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
-import 'package:kris/logic/word/example_state.dart';
+import 'package:kris/logic/base_state.dart';
 import 'package:kris/logic/word/service/example_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/example.dart';
@@ -15,10 +14,15 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
-class ExampleBloc extends Bloc<BaseEvent, ExampleState> {
+class ExampleBloc
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<Example, Text, Content, Payload, ExampleTrait>
+        > {
   final _service = getIt<ExampleService>();
 
-  ExampleBloc() : super(ExampleState.initial()) {
+  ExampleBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -62,7 +66,7 @@ class ExampleBloc extends Bloc<BaseEvent, ExampleState> {
           await _fetchTraits(event, emit);
           break;
         case WordFetchType.wordTrait:
-          _fetchWordTrait(event, emit);
+          await _fetchWordTrait(event, emit);
       }
     });
   }
@@ -525,7 +529,7 @@ class ExampleBloc extends Bloc<BaseEvent, ExampleState> {
         ),
       );
 
-      final results = await _service.retrieveByTranslation(
+      final results = await _service.retrieveWordByTrait(
         identifier: event.identifier,
       );
 
@@ -546,10 +550,8 @@ class ExampleBloc extends Bloc<BaseEvent, ExampleState> {
         (Example example) {
           emit(
             state.copyWith(
-              word: (state.word.toBuilder()..[example.sku] = example).build(),
-              wordTraitsDefinitions:
-                  (state.wordTraits.toBuilder()
-                        ..[event.identifier.sku] = example)
+              wordTraits:
+                  (state.wordTraits.toBuilder()..[example.sku] = example)
                       .build(),
               fetching: state.fetching.rebuild(
                 (builder) => builder.remove(event.identifier.sku),

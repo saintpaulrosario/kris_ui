@@ -418,7 +418,7 @@ class _ExampleApi implements ExampleApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Example>>> fetchByDefinitionTrait({
+  Future<HttpResponse<ApiResult<Example>>> retrieveWordByTrait({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
@@ -429,7 +429,7 @@ class _ExampleApi implements ExampleApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/example/definition/trait/{identifier}',
+            '/example/trait/{identifier}/example',
             queryParameters: queryParameters,
             data: _data,
           )

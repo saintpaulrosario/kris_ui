@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/definition_state.dart';
 import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/definition.dart';
@@ -16,10 +15,15 @@ import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 import '../../model/definition_trait.dart';
 
-class DefinitionBloc extends Bloc<BaseEvent, DefinitionState> {
+class DefinitionBloc
+    extends
+        Bloc<
+          BaseEvent,
+          BaseState<Definition, Text, Content, Payload, DefinitionTrait>
+        > {
   final _service = getIt<DefinitionService>();
 
-  DefinitionBloc() : super(DefinitionState.initial()) {
+  DefinitionBloc() : super(BaseState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -524,7 +528,7 @@ class DefinitionBloc extends Bloc<BaseEvent, DefinitionState> {
         ),
       );
 
-      final results = await _service.retrieveByTranslation(
+      final results = await _service.retrieveWordByTrait(
         identifier: event.identifier,
       );
 
@@ -545,12 +549,10 @@ class DefinitionBloc extends Bloc<BaseEvent, DefinitionState> {
         (Definition definition) {
           emit(
             state.copyWith(
-              word: (state.word.toBuilder()..[definition.sku] = definition)
-                  .build(),
-              wordTraitsDefinitions:
-                  (state.wordTraits.toBuilder()
-                        ..[event.identifier.sku] = definition)
+              wordTraits:
+                  (state.wordTraits.toBuilder()..[definition.sku] = definition)
                       .build(),
+
               fetching: state.fetching.rebuild(
                 (builder) => builder.remove(event.identifier.sku),
               ),

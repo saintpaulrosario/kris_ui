@@ -214,4 +214,29 @@ class TranslationService
       // log
     }
   }
+
+  @override
+  Future<Either<ErrorResponse, Translation>> retrieveWordByTrait({
+    required Identifier identifier,
+  }) async {
+    try {
+      final HttpResponse<ApiResult<Translation>> httpResponse = await _api
+          .retrieveWordByTrait(identifier: identifier.sku);
+      ApiResult<Translation?> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final Translation? payload = apiResult.payload;
+        return right(payload!);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
 }

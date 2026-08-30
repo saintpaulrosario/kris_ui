@@ -84,4 +84,10 @@ abstract class DialectApi
   Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
+
+  @override
+  @GET("/dialect/trait/{identifier}/dialect")
+  Future<HttpResponse<ApiResult<Dialect>>> retrieveWordByTrait({
+    required String identifier,
+  });
 }

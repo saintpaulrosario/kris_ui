@@ -293,4 +293,12 @@ class WordService extends BaseService<Word, Text, Content, Payload, Trait> {
       return left(ErrorResponse(e.toString()));
     }
   }
+
+  @override
+  Future<Either<ErrorResponse, Word>> retrieveWordByTrait({
+    required Identifier identifier,
+  }) {
+    // TODO: implement retrieveWordByTrait
+    throw UnimplementedError();
+  }
 }

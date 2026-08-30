@@ -53,4 +53,8 @@ abstract class BaseService<W, T, C, P, S> {
   Future<Either<ErrorResponse, S>> retrieveTrait({
     required Identifier identifier,
   });
+
+  Future<Either<ErrorResponse, W>> retrieveWordByTrait({
+    required Identifier identifier,
+  });
 }

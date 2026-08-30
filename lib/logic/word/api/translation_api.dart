@@ -85,4 +85,10 @@ abstract class TranslationApi
   Future<HttpResponse<ApiResult<TranslationTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
+
+  @override
+  @GET("/translation/trait/{identifier}/translation")
+  Future<HttpResponse<ApiResult<Translation>>> retrieveWordByTrait({
+    required String identifier,
+  });
 }

@@ -11,23 +11,27 @@ abstract interface class BaseApi<W, T, C, P, S> {
     List<String>? identifiers,
   });
 
-  Future<HttpResponse<ApiResult<W>>> fetch({required String identifier});
+  Future<HttpResponse<ApiResult<W?>>> fetch({required String identifier});
 
-  Future<HttpResponse<ApiResult<T>>> fetchText({required String identifier});
+  Future<HttpResponse<ApiResult<T?>>> fetchText({required String identifier});
 
   Future<HttpResponse<ApiResult<List<T>>>> fetchTexts({
     List<String>? identifiers,
     List<String>? scripts,
   });
 
-  Future<HttpResponse<ApiResult<C>>> fetchContent({required String identifier});
+  Future<HttpResponse<ApiResult<C?>>> fetchContent({
+    required String identifier,
+  });
 
   Future<HttpResponse<ApiResult<List<C>>>> fetchContents({
     List<String>? identifiers,
     List<String>? languages,
   });
 
-  Future<HttpResponse<ApiResult<P>>> fetchPayload({required String identifier});
+  Future<HttpResponse<ApiResult<P?>>> fetchPayload({
+    required String identifier,
+  });
 
   Future<HttpResponse<ApiResult<List<P>>>> fetchPayloads({
     List<String>? identifiers,
@@ -41,5 +45,9 @@ abstract interface class BaseApi<W, T, C, P, S> {
     List<String>? dialects,
   });
 
-  Future<HttpResponse<ApiResult<S>>> fetchTrait({required String identifier});
+  Future<HttpResponse<ApiResult<S?>>> fetchTrait({required String identifier});
+
+  Future<HttpResponse<ApiResult<W>>> retrieveWordByTrait({
+    required String identifier,
+  });
 }

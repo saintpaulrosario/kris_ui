@@ -15,6 +15,8 @@ class BaseState<W, T, C, P, S> {
   final BuiltMap<String, S> traits;
   final BuiltSet<Identifier> selections;
 
+  final BuiltMap<String, W> wordTraits;
+
   final int pageNumber;
   final int pageSize;
 
@@ -30,6 +32,7 @@ class BaseState<W, T, C, P, S> {
     required this.pageSize,
     required this.selections,
     required this.traits,
+    required this.wordTraits,
   });
 
   factory BaseState.initial() {
@@ -45,6 +48,7 @@ class BaseState<W, T, C, P, S> {
       pageSize: 10,
       selections: BuiltSet<Identifier>(),
       traits: BuiltMap<String, S>(),
+      wordTraits: BuiltMap<String, W>(),
     );
   }
 
@@ -60,6 +64,7 @@ class BaseState<W, T, C, P, S> {
     BuiltMap<String, S>? traits,
     int? pageNumber,
     int? pageSize,
+    BuiltMap<String, W>? wordTraits,
   }) {
     return BaseState<W, T, C, P, S>(
       errors: errors ?? this.errors,
@@ -73,6 +78,7 @@ class BaseState<W, T, C, P, S> {
       pageSize: pageSize ?? this.pageSize,
       selections: selections ?? this.selections,
       traits: traits ?? this.traits,
+      wordTraits: wordTraits ?? this.wordTraits,
     );
   }
 }

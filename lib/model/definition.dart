@@ -20,6 +20,9 @@ class Definition extends Word {
   @JsonKey(disallowNullValue: false)
   final Identifier translation;
 
+  @JsonKey(disallowNullValue: false)
+  final Identifier example;
+
   const Definition({
     required super.sku,
     required super.version,
@@ -32,6 +35,7 @@ class Definition extends Word {
     required super.lastModifiedBy,
     required this.translation,
     required super.rows,
+    required this.example,
   });
 
   factory Definition.initial() {
@@ -47,6 +51,7 @@ class Definition extends Word {
       traits: [],
       translation: Identifier.initial(),
       rows: [],
+      example: Identifier.initial(),
     );
   }
 

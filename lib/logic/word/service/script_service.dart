@@ -193,4 +193,12 @@ class ScriptService extends BaseService<Script, Text, Content, Payload, Trait> {
     // TODO: implement retrieveTraits
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<ErrorResponse, Script>> retrieveWordByTrait({
+    required Identifier identifier,
+  }) {
+    // TODO: implement retrieveWordByTrait
+    throw UnimplementedError();
+  }
 }

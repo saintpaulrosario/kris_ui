@@ -22,7 +22,7 @@ class _WordApi implements WordApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ApiResult<PageResult<Dialect>>>> fetchAll({
+  Future<HttpResponse<ApiResult<PageResult<Word>>>> fetchAll({
     int? page,
     int? size,
     List<String>? scripts,
@@ -38,27 +38,24 @@ class _WordApi implements WordApi {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options =
-        _setStreamType<HttpResponse<ApiResult<PageResult<Dialect>>>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
-              .compose(
-                _dio.options,
-                '/word',
-                queryParameters: queryParameters,
-                data: _data,
-              )
-              .copyWith(
-                baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl),
-              ),
-        );
+    final _options = _setStreamType<HttpResponse<ApiResult<PageResult<Word>>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/word',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<PageResult<Dialect>> _value;
+    late ApiResult<PageResult<Word>> _value;
     try {
-      _value = ApiResult<PageResult<Dialect>>.fromJson(
+      _value = ApiResult<PageResult<Word>>.fromJson(
         _result.data!,
-        (json) => PageResult<Dialect>.fromJson(
+        (json) => PageResult<Word>.fromJson(
           json as Map<String, dynamic>,
-          (json) => Dialect.fromJson(json as Map<String, dynamic>),
+          (json) => Word.fromJson(json as Map<String, dynamic>),
         ),
       );
     } on Object catch (e, s) {
@@ -70,14 +67,14 @@ class _WordApi implements WordApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Dialect>>> fetch({
+  Future<HttpResponse<ApiResult<Word>>> fetch({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<Dialect>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Word>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -88,11 +85,11 @@ class _WordApi implements WordApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<Dialect> _value;
+    late ApiResult<Word> _value;
     try {
-      _value = ApiResult<Dialect>.fromJson(
+      _value = ApiResult<Word>.fromJson(
         _result.data!,
-        (json) => Dialect.fromJson(json as Map<String, dynamic>),
+        (json) => Word.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -403,6 +400,39 @@ class _WordApi implements WordApi {
       _value = ApiResult<Trait>.fromJson(
         _result.data!,
         (json) => Trait.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResult<Word>>> retrieveWordByTrait({
+    required String identifier,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<ApiResult<Word>>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/word/trait/{identifier}/word',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApiResult<Word> _value;
+    try {
+      _value = ApiResult<Word>.fromJson(
+        _result.data!,
+        (json) => Word.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

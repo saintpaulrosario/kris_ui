@@ -418,7 +418,7 @@ class _DefinitionApi implements DefinitionApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<Definition>>> fetchByTranslationTrait({
+  Future<HttpResponse<ApiResult<Definition>>> retrieveWordByTrait({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
@@ -429,7 +429,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/definition/translation/trait/${identifier}',
+            '/definition/trait/{identifier}/definition',
             queryParameters: queryParameters,
             data: _data,
           )

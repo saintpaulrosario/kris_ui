@@ -86,4 +86,10 @@ abstract class ScriptApi
   Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
+
+  @override
+  @GET("/script/trait/{identifier}/script")
+  Future<HttpResponse<ApiResult<Script>>> retrieveWordByTrait({
+    required String identifier,
+  });
 }

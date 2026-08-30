@@ -5,6 +5,7 @@ import 'package:kris/model/dialect.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
+import 'package:kris/model/word.dart';
 
 import 'package:retrofit/retrofit.dart';
 import '../../../response/api_result.dart';
@@ -13,13 +14,12 @@ import '../../../response/page_result.dart';
 part 'word_api.g.dart';
 
 @RestApi(baseUrl: "http://127.0.0.1:8074")
-abstract class WordApi
-    implements BaseApi<Dialect, Text, Content, Payload, Trait> {
+abstract class WordApi implements BaseApi<Word, Text, Content, Payload, Trait> {
   factory WordApi(Dio dio, {String baseUrl}) = _WordApi;
 
   @override
   @GET("/word")
-  Future<HttpResponse<ApiResult<PageResult<Dialect>>>> fetchAll({
+  Future<HttpResponse<ApiResult<PageResult<Word>>>> fetchAll({
     @Query("page") int? page,
     @Query("size") int? size,
     @Query("scripts") List<String>? scripts,
@@ -28,7 +28,7 @@ abstract class WordApi
 
   @override
   @GET("/word/{identifier}")
-  Future<HttpResponse<ApiResult<Dialect>>> fetch({
+  Future<HttpResponse<ApiResult<Word>>> fetch({
     @Path("identifier") required String identifier,
   });
 
@@ -85,5 +85,11 @@ abstract class WordApi
   @GET("/word/trait/{identifier}")
   Future<HttpResponse<ApiResult<Trait>>> fetchTrait({
     @Path("identifier") required String identifier,
+  });
+
+  @override
+  @GET("/word/trait/{identifier}/word")
+  Future<HttpResponse<ApiResult<Word>>> retrieveWordByTrait({
+    required String identifier,
   });
 }
