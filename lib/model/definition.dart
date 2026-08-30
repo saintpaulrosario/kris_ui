@@ -18,10 +18,10 @@ class Definition extends Word {
   final List<Identifier> traits;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier translation;
+  final Identifier? translation;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier example;
+  final Identifier? example;
 
   const Definition({
     required super.sku,

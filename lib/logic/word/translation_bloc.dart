@@ -64,8 +64,7 @@ class TranslationBloc
         case WordFetchType.traits:
           await _fetchTraits(event, emit);
         case WordFetchType.wordTrait:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          await _fetchWordTrait(event, emit);
       }
     });
   }
@@ -378,5 +377,51 @@ class TranslationBloc
         );
       },
     );
+  }
+
+  Future<void> _fetchWordTrait(BaseEvent event, Emitter emit) async {
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
+
+      final results = await _service.retrieveWordByTrait(
+        identifier: event.identifier,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (Translation translation) {
+          emit(
+            state.copyWith(
+              wordTraits:
+                  (state.wordTraits.toBuilder()
+                        ..[event.identifier.sku] = translation)
+                      .build(),
+
+              fetching: state.fetching.rebuild(
+                (builder) => builder.remove(event.identifier.sku),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

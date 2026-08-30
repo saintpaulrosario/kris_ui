@@ -429,7 +429,7 @@ class _TranslationApi implements TranslationApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/translation/trait/{identifier}/translation',
+            '/translation/trait/${identifier}/translation',
             queryParameters: queryParameters,
             data: _data,
           )

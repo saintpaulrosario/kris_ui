@@ -56,7 +56,12 @@ class _DefinitionTraitWidgetState extends State<DefinitionTraitWidget> {
           return const SizedBox.shrink();
         }
 
-        return ExampleListWidget(identifiers: [definition.example]);
+        if (definition.example == null) {
+          return Text("no ex");
+        }
+        //return Text("data");
+
+        return ExampleListWidget(identifiers: [?definition.example]);
       },
     );
   }

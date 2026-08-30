@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kris/model/account.dart';
 
 import 'feature/presentation/page/authentication_page.dart';
-import 'model/identifier.dart';
 import 'presentation/page/home_page.dart';
 import 'presentation/page/word_page.dart';
 

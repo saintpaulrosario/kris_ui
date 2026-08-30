@@ -222,10 +222,10 @@ class TranslationService
     try {
       final HttpResponse<ApiResult<Translation>> httpResponse = await _api
           .retrieveWordByTrait(identifier: identifier.sku);
-      ApiResult<Translation?> apiResult = httpResponse.data;
+      ApiResult<Translation> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final Translation? payload = apiResult.payload;
-        return right(payload!);
+        final Translation payload = apiResult.payload;
+        return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(
           httpResponse.response.data,

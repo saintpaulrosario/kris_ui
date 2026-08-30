@@ -90,6 +90,6 @@ abstract class DefinitionApi
   @override
   @GET("/definition/trait/{identifier}/definition")
   Future<HttpResponse<ApiResult<Definition>>> retrieveWordByTrait({
-    required String identifier,
+    @Path("identifier") required String identifier,
   });
 }

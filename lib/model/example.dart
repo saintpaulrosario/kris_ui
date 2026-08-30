@@ -21,7 +21,7 @@ class Example extends Word {
   final List<Identifier> images;
 
   @JsonKey(disallowNullValue: false)
-  final Identifier translation;
+  final Identifier definition;
   const Example({
     required super.sku,
     required super.version,
@@ -35,7 +35,7 @@ class Example extends Word {
     required super.lastModifiedBy,
     required this.images,
     required super.rows,
-    required this.translation,
+    required this.definition,
   });
 
   factory Example.initial() {
@@ -51,7 +51,7 @@ class Example extends Word {
       traits: [],
       images: [],
       rows: [],
-      translation: Identifier.initial(),
+      definition: Identifier.initial(),
     );
   }
 

@@ -68,8 +68,8 @@ Example _$ExampleFromJson(Map json) => $checkedCreate('Example', json, (
       'rows',
       (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
     ),
-    translation: $checkedConvert(
-      'translation',
+    definition: $checkedConvert(
+      'definition',
       (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
   );
@@ -88,5 +88,5 @@ Map<String, dynamic> _$ExampleToJson(Example instance) => <String, dynamic>{
   'rows': instance.rows,
   'traits': instance.traits.map((e) => e.toJson()).toList(),
   'images': instance.images.map((e) => e.toJson()).toList(),
-  'translation': instance.translation.toJson(),
+  'definition': instance.definition.toJson(),
 };

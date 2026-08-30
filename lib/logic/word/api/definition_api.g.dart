@@ -429,7 +429,7 @@ class _DefinitionApi implements DefinitionApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/definition/trait/{identifier}/definition',
+            '/definition/trait/${identifier}/definition',
             queryParameters: queryParameters,
             data: _data,
           )

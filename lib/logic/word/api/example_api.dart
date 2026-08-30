@@ -90,6 +90,6 @@ abstract class ExampleApi
   @override
   @GET("/example/trait/{identifier}/example")
   Future<HttpResponse<ApiResult<Example>>> retrieveWordByTrait({
-    required String identifier,
+    @Path("identifier") required String identifier,
   });
 }

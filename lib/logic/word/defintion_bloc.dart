@@ -550,7 +550,8 @@ class DefinitionBloc
           emit(
             state.copyWith(
               wordTraits:
-                  (state.wordTraits.toBuilder()..[definition.sku] = definition)
+                  (state.wordTraits.toBuilder()
+                        ..[event.identifier.sku] = definition)
                       .build(),
 
               fetching: state.fetching.rebuild(

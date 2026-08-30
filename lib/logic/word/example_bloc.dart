@@ -551,7 +551,8 @@ class ExampleBloc
           emit(
             state.copyWith(
               wordTraits:
-                  (state.wordTraits.toBuilder()..[example.sku] = example)
+                  (state.wordTraits.toBuilder()
+                        ..[event.identifier.sku] = example)
                       .build(),
               fetching: state.fetching.rebuild(
                 (builder) => builder.remove(event.identifier.sku),

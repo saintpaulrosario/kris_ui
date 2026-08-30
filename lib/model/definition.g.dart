@@ -59,11 +59,19 @@ Definition _$DefinitionFromJson(Map json) => $checkedCreate(
       ),
       translation: $checkedConvert(
         'translation',
-        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+        (v) => v == null
+            ? null
+            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
       rows: $checkedConvert(
         'rows',
         (v) => (v as List<dynamic>).map((e) => (e as num).toInt()).toList(),
+      ),
+      example: $checkedConvert(
+        'example',
+        (v) => v == null
+            ? null
+            : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
     );
     return val;
@@ -82,5 +90,6 @@ Map<String, dynamic> _$DefinitionToJson(Definition instance) =>
       'texts': instance.texts.map((e) => e.toJson()).toList(),
       'rows': instance.rows,
       'traits': instance.traits.map((e) => e.toJson()).toList(),
-      'translation': instance.translation.toJson(),
+      'translation': instance.translation?.toJson(),
+      'example': instance.example?.toJson(),
     };
