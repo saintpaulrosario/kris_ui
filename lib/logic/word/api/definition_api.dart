@@ -88,7 +88,7 @@ abstract class DefinitionApi
   });
 
   @GET("/definition/translation/trait/{identifier}")
-  Future<HttpResponse<ApiResult<List<Definition>>>> fetchByTranslationTrait({
+  Future<HttpResponse<ApiResult<Definition>>> fetchByTranslationTrait({
     @Path("identifier") required String identifier,
   });
 }

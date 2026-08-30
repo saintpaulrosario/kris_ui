@@ -17,11 +17,8 @@ class Translation extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> images;
 
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> examples;
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> definitions;
+  @JsonKey(disallowNullValue: false)
+  final Identifier? definition;
 
   const Translation({
     required super.sku,
@@ -34,8 +31,7 @@ class Translation extends Word {
     required super.createdBy,
     required super.lastModifiedBy,
     required super.rows,
-    required this.examples,
-    required this.definitions,
+    required this.definition,
   });
 
   factory Translation.initial() {
@@ -50,8 +46,7 @@ class Translation extends Word {
       lastModifiedBy: Account.initial(),
       images: [],
       rows: [],
-      examples: [],
-      definitions: [],
+      definition: Identifier.initial(),
     );
   }
 

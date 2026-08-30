@@ -1,4 +1,6 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:kris/model/example.dart';
+import 'package:kris/model/example_trait.dart';
 
 import '../../model/content.dart';
 import '../../model/definition.dart';
@@ -11,12 +13,12 @@ import '../../response/error_response.dart';
 import '../../response/page_result.dart';
 import '../base_state.dart';
 
-class DefinitionState
-    extends BaseState<Definition, Text, Content, Payload, DefinitionTrait> {
-  final BuiltMap<String, Definition> wordTraits;
+class ExampleState
+    extends BaseState<Example, Text, Content, Payload, ExampleTrait> {
+  final BuiltMap<String, Example> wordTraits;
   final BuiltMap<String, Word> word;
 
-  DefinitionState({
+  ExampleState({
     required super.errors,
     required super.fetching,
     required super.data,
@@ -32,40 +34,40 @@ class DefinitionState
     required this.word,
   });
 
-  DefinitionState.initial()
-    : wordTraits = BuiltMap<String, Definition>(),
+  ExampleState.initial()
+    : wordTraits = BuiltMap<String, Example>(),
       word = BuiltMap<String, Word>(),
       super(
         errors: BuiltMap<String, ErrorResponse>(),
-        data: BuiltMap<String, Definition>(),
+        data: BuiltMap<String, Example>(),
         fetching: BuiltSet<String>(),
-        pages: BuiltMap<int, PageResult<Definition>>(),
+        pages: BuiltMap<int, PageResult<Example>>(),
         texts: BuiltMap<String, Text>(),
         contents: BuiltMap<String, Content>(),
         payloads: BuiltMap<String, Payload>(),
         pageNumber: 0,
         pageSize: 10,
         selections: BuiltSet<Identifier>(),
-        traits: BuiltMap<String, DefinitionTrait>(),
+        traits: BuiltMap<String, ExampleTrait>(),
       );
 
   @override
-  DefinitionState copyWith({
+  ExampleState copyWith({
     BuiltMap<String, ErrorResponse>? errors,
-    BuiltMap<String, Definition>? data,
+    BuiltMap<String, Example>? data,
     BuiltSet<String>? fetching,
     BuiltSet<Identifier>? selections,
-    BuiltMap<int, PageResult<Definition>>? pages,
+    BuiltMap<int, PageResult<Example>>? pages,
     BuiltMap<String, Text>? texts,
     BuiltMap<String, Content>? contents,
     BuiltMap<String, Payload>? payloads,
-    BuiltMap<String, DefinitionTrait>? traits,
-    BuiltMap<String, Definition>? wordTraitsDefinitions,
+    BuiltMap<String, ExampleTrait>? traits,
+    BuiltMap<String, Example>? wordTraitsDefinitions,
     BuiltMap<String, Word>? word,
     int? pageNumber,
     int? pageSize,
   }) {
-    return DefinitionState(
+    return ExampleState(
       errors: errors ?? this.errors,
       data: data ?? this.data,
       fetching: fetching ?? this.fetching,

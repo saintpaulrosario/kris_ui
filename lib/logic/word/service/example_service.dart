@@ -299,4 +299,28 @@ class ExampleService
       return left(ErrorResponse(e.toString()));
     }
   }
+
+  Future<Either<ErrorResponse, Example>> retrieveByTranslation({
+    required Identifier identifier,
+  }) async {
+    try {
+      final HttpResponse<ApiResult<Example>> httpResponse = await _api
+          .fetchByDefinitionTrait(identifier: identifier.sku);
+      ApiResult<Example> apiResult = httpResponse.data;
+      if (httpResponse.response.statusCode == 200) {
+        final Example payload = apiResult.payload;
+        return right(payload);
+      } else {
+        final ErrorResponse errorResponse = ErrorResponse.fromJson(
+          httpResponse.response.data,
+        );
+        //throw Exception('Failed to retrieve scripts');
+        return left(errorResponse);
+      }
+    } on DioException catch (e) {
+      return left(ErrorResponse(e.message ?? 'Unknown error'));
+    } catch (e) {
+      return left(ErrorResponse(e.toString()));
+    }
+  }
 }

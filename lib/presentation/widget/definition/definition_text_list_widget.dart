@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/definition_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 
@@ -12,6 +13,7 @@ import 'package:kris/model/definition.dart';
 import 'package:kris/model/definition_trait.dart';
 import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import '../../../model/text.dart' as w;
 import 'definition_text_widget.dart';
@@ -29,15 +31,14 @@ class DefinitionTextListWidget extends StatefulWidget {
 class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
   @override
   void initState() {
-    super.initState();
-    _fetchTexts();
-    // if (widget.identifiers.isNotEmpty) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     if (!mounted) return;
+    if (widget.identifiers.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
 
-    //     _fetchTexts();
-    //   });
-    // }
+        _fetchTexts();
+      });
+    }
+    super.initState();
   }
 
   void _fetchTexts() {
@@ -52,7 +53,7 @@ class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
   Widget build(BuildContext context) {
     return BlocSelector<
       DefinitionBloc,
-      BaseState<Definition, w.Text, Content, Payload, DefinitionTrait>,
+      DefinitionState,
       BuiltMap<String, w.Text>
     >(
       selector: (state) {
@@ -68,17 +69,11 @@ class _DefinitionTextListWidgetState extends State<DefinitionTextListWidget> {
         return result.build();
       },
       builder: (context, state) {
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: state.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final text = state.values.elementAt(index);
-            //return Text(text.toString());
-            return DefinitionTextWidget(key: ValueKey(text.sku), text: text);
-          },
-        );
+        List<DefinitionTextWidget> items = state.values
+            .map((item) => DefinitionTextWidget(text: item))
+            .toList();
+
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }

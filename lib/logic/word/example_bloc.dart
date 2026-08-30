@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
-import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/example_state.dart';
 import 'package:kris/logic/word/service/example_service.dart';
 import 'package:kris/model/content.dart';
 import 'package:kris/model/example.dart';
@@ -14,15 +15,10 @@ import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
 
-class ExampleBloc
-    extends
-        Bloc<
-          BaseEvent,
-          BaseState<Example, Text, Content, Payload, ExampleTrait>
-        > {
+class ExampleBloc extends Bloc<BaseEvent, ExampleState> {
   final _service = getIt<ExampleService>();
 
-  ExampleBloc() : super(BaseState.initial()) {
+  ExampleBloc() : super(ExampleState.initial()) {
     on<BaseEvent>((event, emit) async {
       switch (event.type) {
         case WordFetchType.page:
@@ -66,8 +62,7 @@ class ExampleBloc
           await _fetchTraits(event, emit);
           break;
         case WordFetchType.wordTrait:
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          _fetchWordTrait(event, emit);
       }
     });
   }
@@ -518,5 +513,51 @@ class ExampleBloc
         );
       },
     );
+  }
+
+  Future<void> _fetchWordTrait(BaseEvent event, Emitter emit) async {
+    if (!state.data.containsKey(event.identifier.sku) &&
+        !state.fetching.contains(event.identifier.sku)) {
+      emit(
+        state.copyWith(
+          fetching: (state.fetching.toBuilder()..add(event.identifier.sku))
+              .build(),
+        ),
+      );
+
+      final results = await _service.retrieveByTranslation(
+        identifier: event.identifier,
+      );
+
+      results.fold(
+        (error) {
+          emit(
+            state.copyWith(
+              errors: (state.errors.toBuilder()..[event.identifier.sku] = error)
+                  .build(),
+
+              fetching:
+                  (state.fetching.toBuilder()..remove(event.identifier.sku))
+                      .build(),
+            ),
+          );
+        },
+
+        (Example example) {
+          emit(
+            state.copyWith(
+              word: (state.word.toBuilder()..[example.sku] = example).build(),
+              wordTraitsDefinitions:
+                  (state.wordTraits.toBuilder()
+                        ..[event.identifier.sku] = example)
+                      .build(),
+              fetching: state.fetching.rebuild(
+                (builder) => builder.remove(event.identifier.sku),
+              ),
+            ),
+          );
+        },
+      );
+    }
   }
 }

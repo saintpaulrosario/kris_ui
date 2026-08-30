@@ -301,15 +301,15 @@ class DefinitionService
     }
   }
 
-  Future<Either<ErrorResponse, List<Definition>>> retrieveByTranslation({
+  Future<Either<ErrorResponse, Definition>> retrieveByTranslation({
     required Identifier identifier,
   }) async {
     try {
-      final HttpResponse<ApiResult<List<Definition>>> httpResponse = await _api
+      final HttpResponse<ApiResult<Definition>> httpResponse = await _api
           .fetchByTranslationTrait(identifier: identifier.sku);
-      ApiResult<List<Definition>> apiResult = httpResponse.data;
+      ApiResult<Definition> apiResult = httpResponse.data;
       if (httpResponse.response.statusCode == 200) {
-        final List<Definition> payload = apiResult.payload;
+        final Definition payload = apiResult.payload;
         return right(payload);
       } else {
         final ErrorResponse errorResponse = ErrorResponse.fromJson(

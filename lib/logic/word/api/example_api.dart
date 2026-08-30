@@ -86,4 +86,9 @@ abstract class ExampleApi
   Future<HttpResponse<ApiResult<ExampleTrait>>> fetchTrait({
     @Path("identifier") required String identifier,
   });
+
+  @GET("/example/definition/trait/{identifier}")
+  Future<HttpResponse<ApiResult<Example>>> fetchByDefinitionTrait({
+    required String identifier,
+  });
 }

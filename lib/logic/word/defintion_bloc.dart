@@ -542,30 +542,15 @@ class DefinitionBloc extends Bloc<BaseEvent, DefinitionState> {
           );
         },
 
-        (List<Definition> definitions) {
-          final word = state.word.rebuild((builder) {
-            for (final definition in definitions) {
-              builder[definition.sku] = definition;
-            }
-          });
-
-          final wordTraitsDefinitions = state.wordTraitsDefinitions.rebuild((
-            builder,
-          ) {
-            final existing = builder[event.identifier.sku];
-
-            builder[event.identifier.sku] =
-                (existing ?? BuiltList<Definition>()).rebuild((
-                  definitionsBuilder,
-                ) {
-                  definitionsBuilder.addAll(definitions);
-                });
-          });
-
+        (Definition definition) {
           emit(
             state.copyWith(
-              word: word,
-              wordTraitsDefinitions: wordTraitsDefinitions,
+              word: (state.word.toBuilder()..[definition.sku] = definition)
+                  .build(),
+              wordTraitsDefinitions:
+                  (state.wordTraits.toBuilder()
+                        ..[event.identifier.sku] = definition)
+                      .build(),
               fetching: state.fetching.rebuild(
                 (builder) => builder.remove(event.identifier.sku),
               ),

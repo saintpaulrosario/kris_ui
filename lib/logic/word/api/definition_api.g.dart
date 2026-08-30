@@ -418,14 +418,14 @@ class _DefinitionApi implements DefinitionApi {
   }
 
   @override
-  Future<HttpResponse<ApiResult<List<Definition>>>> fetchByTranslationTrait({
+  Future<HttpResponse<ApiResult<Definition>>> fetchByTranslationTrait({
     required String identifier,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ApiResult<List<Definition>>>>(
+    final _options = _setStreamType<HttpResponse<ApiResult<Definition>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -436,17 +436,11 @@ class _DefinitionApi implements DefinitionApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ApiResult<List<Definition>> _value;
+    late ApiResult<Definition> _value;
     try {
-      _value = ApiResult<List<Definition>>.fromJson(
+      _value = ApiResult<Definition>.fromJson(
         _result.data!,
-        (json) => json is List<dynamic>
-            ? json
-                  .map<Definition>(
-                    (i) => Definition.fromJson(i as Map<String, dynamic>),
-                  )
-                  .toList()
-            : List.empty(),
+        (json) => Definition.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);

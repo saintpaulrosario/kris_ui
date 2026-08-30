@@ -20,14 +20,14 @@ class PayloadWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
-          flex: 5,
+          flex: 30,
           child: TranslationTraitListWidget(identifiers: payload.traits),
         ),
 
-        Flexible(
-          flex: 30,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 12),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Flexible(
+            flex: 10,
             child: Text(
               payload.value,
               textAlign: TextAlign.center,

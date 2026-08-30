@@ -17,11 +17,8 @@ class Definition extends Word {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> traits;
 
-
-  @JsonKey(disallowNullValue: false, defaultValue: [])
-  final List<Identifier> translations;
-
-  
+  @JsonKey(disallowNullValue: false)
+  final Identifier translation;
 
   const Definition({
     required super.sku,
@@ -33,7 +30,8 @@ class Definition extends Word {
     required super.lastModifiedDate,
     required super.createdBy,
     required super.lastModifiedBy,
-    required this.translations, required super.rows,
+    required this.translation,
+    required super.rows,
   });
 
   factory Definition.initial() {
@@ -47,7 +45,8 @@ class Definition extends Word {
       createdBy: Account.initial(),
       lastModifiedBy: Account.initial(),
       traits: [],
-      translations: [], rows: [],
+      translation: Identifier.initial(),
+      rows: [],
     );
   }
 

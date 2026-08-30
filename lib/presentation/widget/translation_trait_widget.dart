@@ -1,11 +1,13 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/word/definition_state.dart';
 import 'package:kris/logic/word/defintion_bloc.dart';
 import 'package:kris/model/definition.dart';
 import 'package:kris/model/translation_trait.dart';
+import 'package:kris/presentation/widget/carousel_widget.dart';
+import 'package:kris/presentation/widget/definition/definition_widget.dart';
 
 class TranslationTraitWidget extends StatefulWidget {
   final TranslationTrait trait;
@@ -31,34 +33,27 @@ class _TranslationTraitWidgetState extends State<TranslationTraitWidget> {
     return BlocSelector<
       DefinitionBloc,
       DefinitionState,
-      (BuiltSet<String> fetching, BuiltList<Definition> definitions)
+      (bool fetching, Definition?)
     >(
       selector: (state) {
-        final fetching = state.fetching.toBuilder();
+        final fetching = state.fetching.contains(widget.trait.sku);
 
-        fetching.removeWhere((sku) => sku != widget.trait.sku);
+        final definition = state.wordTraits[widget.trait.sku];
 
-        final definitions = state.wordTraitsDefinitions.toBuilder();
-
-        definitions.removeWhere((sku, value) => sku != widget.trait.sku);
-
-        return (
-          fetching.build(),
-          definitions[widget.trait.sku] ?? BuiltList<Definition>(),
-        );
+        return (fetching, definition);
       },
       builder: (context, state) {
-        final (fetching, definitions) = state;
+        final (fetching, definition) = state;
 
-        if (fetching.isNotEmpty) {
+        if (fetching) {
           return const CircularProgressIndicator();
         }
 
-        if (definitions.isEmpty) {
+        if (definition == null) {
           return const SizedBox.shrink();
         }
 
-        return Row(children: [Text('${definitions.length} definitions')]);
+        return DefinitionWidget(definition: definition);
       },
     );
   }

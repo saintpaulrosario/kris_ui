@@ -57,16 +57,9 @@ Definition _$DefinitionFromJson(Map json) => $checkedCreate(
             ? null
             : Account.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
-      translations: $checkedConvert(
-        'translations',
-        (v) =>
-            (v as List<dynamic>?)
-                ?.map(
-                  (e) =>
-                      Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
-                )
-                .toList() ??
-            [],
+      translation: $checkedConvert(
+        'translation',
+        (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
       ),
       rows: $checkedConvert(
         'rows',
@@ -89,5 +82,5 @@ Map<String, dynamic> _$DefinitionToJson(Definition instance) =>
       'texts': instance.texts.map((e) => e.toJson()).toList(),
       'rows': instance.rows,
       'traits': instance.traits.map((e) => e.toJson()).toList(),
-      'translations': instance.translations.map((e) => e.toJson()).toList(),
+      'translation': instance.translation.toJson(),
     };
