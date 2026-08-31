@@ -30,6 +30,9 @@ class Trait extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> audios;
 
+  @JsonKey(disallowNullValue: false)
+  final Identifier? type;
+
   const Trait({
     required super.createdDate,
     required super.lastModifiedDate,
@@ -43,6 +46,7 @@ class Trait extends Identifier {
     required this.audios,
     required this.language,
     required this.row,
+    this.type,
   });
 
   factory Trait.initial() {
@@ -59,6 +63,7 @@ class Trait extends Identifier {
       audios: [],
       language: Identifier.initial(),
       row: 0,
+      type: Identifier.initial(),
     );
   }
 

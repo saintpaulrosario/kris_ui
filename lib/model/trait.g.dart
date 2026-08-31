@@ -57,6 +57,12 @@ Trait _$TraitFromJson(Map json) => $checkedCreate('Trait', json, (
       (v) => Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
     ),
     row: $checkedConvert('row', (v) => (v as num?)?.toInt() ?? 0),
+    type: $checkedConvert(
+      'type',
+      (v) => v == null
+          ? null
+          : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
   );
   return val;
 });
@@ -74,4 +80,5 @@ Map<String, dynamic> _$TraitToJson(Trait instance) => <String, dynamic>{
   'language': instance.language.toJson(),
   'row': instance.row,
   'audios': instance.audios.map((e) => e.toJson()).toList(),
+  'type': instance.type?.toJson(),
 };

@@ -25,7 +25,11 @@ class Payload extends Identifier {
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> audios;
 
+  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> traits;
+
+  @JsonKey(disallowNullValue: false, defaultValue: [])
+  final List<Identifier> types;
 
   @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<int> rows;
@@ -44,6 +48,7 @@ class Payload extends Identifier {
     required this.traits,
     required this.rows,
     required this.language,
+    required this.types,
   });
 
   factory Payload.initial() {
@@ -61,6 +66,7 @@ class Payload extends Identifier {
       traits: [],
       rows: [],
       language: Identifier.initial(),
+      types: [],
     );
   }
 

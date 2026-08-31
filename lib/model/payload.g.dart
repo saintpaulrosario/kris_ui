@@ -57,9 +57,13 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
     ),
     traits: $checkedConvert(
       'traits',
-      (v) => (v as List<dynamic>)
-          .map((e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)))
-          .toList(),
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
     rows: $checkedConvert(
       'rows',
@@ -71,6 +75,16 @@ Payload _$PayloadFromJson(Map json) => $checkedCreate('Payload', json, (
       (v) => v == null
           ? null
           : Identifier.fromJson(Map<String, dynamic>.from(v as Map)),
+    ),
+    types: $checkedConvert(
+      'types',
+      (v) =>
+          (v as List<dynamic>?)
+              ?.map(
+                (e) => Identifier.fromJson(Map<String, dynamic>.from(e as Map)),
+              )
+              .toList() ??
+          [],
     ),
   );
   return val;
@@ -89,5 +103,6 @@ Map<String, dynamic> _$PayloadToJson(Payload instance) => <String, dynamic>{
   'language': instance.language?.toJson(),
   'audios': instance.audios.map((e) => e.toJson()).toList(),
   'traits': instance.traits.map((e) => e.toJson()).toList(),
+  'types': instance.types.map((e) => e.toJson()).toList(),
   'rows': instance.rows,
 };
