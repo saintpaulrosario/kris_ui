@@ -4,6 +4,7 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/language/language_list_widget.dart';
 import 'package:kris/presentation/widget/language/language_widget.dart';
 import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
+import 'package:kris/presentation/widget/type/type_list_widget.dart';
 
 import '../../model/language.dart';
 
@@ -27,7 +28,7 @@ class PayloadWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Flexible(
-            flex: 10,
+            flex: 5,
             child: Text(
               payload.value,
               textAlign: TextAlign.center,
@@ -36,6 +37,8 @@ class PayloadWidget extends StatelessWidget {
             ),
           ),
         ),
+
+        Flexible(flex: 5, child: TypeListWidget(identifiers: payload.types)),
 
         Flexible(
           flex: 5,

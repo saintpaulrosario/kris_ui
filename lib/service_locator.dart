@@ -13,14 +13,17 @@ import 'package:kris/logic/word/api/example_api.dart';
 import 'package:kris/logic/word/api/language_api.dart';
 import 'package:kris/logic/word/api/script_api.dart';
 import 'package:kris/logic/word/api/translation_api.dart';
+import 'package:kris/logic/word/api/type_api.dart';
 import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/logic/word/service/dialect_service.dart';
 import 'package:kris/logic/word/service/example_service.dart';
 import 'package:kris/logic/word/service/language_service.dart';
 import 'package:kris/logic/word/service/script_service.dart';
 import 'package:kris/logic/word/service/translation_service.dart';
+import 'package:kris/logic/word/service/type_service.dart';
 
 import 'package:kris/logic/word/service/word_service.dart';
+import 'package:kris/logic/word/type_bloc.dart';
 import 'package:kris/model/word_image.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';
@@ -172,6 +175,8 @@ void _registerApis() {
   getIt.registerLazySingleton<AuthenticationApi>(
     () => AuthenticationApi(dio, baseUrl: baseUrl),
   );
+
+  getIt.registerLazySingleton<TypeApi>(() => TypeApi(dio, baseUrl: baseUrl));
 }
 
 ///------------------------------------------------------------
@@ -201,5 +206,7 @@ void _registerServices() {
 
   // bloc
 
-  getIt.registerLazySingleton<UserAccountBloc>(() => UserAccountBloc());
+  //getIt.registerLazySingleton<UserAccountBloc>(() => UserAccountBloc());
+
+  getIt.registerLazySingleton<TypeService>(() => TypeService());
 }

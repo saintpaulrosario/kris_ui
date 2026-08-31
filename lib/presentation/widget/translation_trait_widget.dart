@@ -9,6 +9,7 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/translation_trait.dart';
 import 'package:kris/presentation/widget/definition/defintion_list_widget.dart';
+import 'package:kris/presentation/widget/dialect_widget.dart';
 
 import '../../model/text.dart' as w;
 
@@ -56,7 +57,20 @@ class _TranslationTraitWidgetState extends State<TranslationTraitWidget> {
           return const SizedBox.shrink();
         }
 
-        return DefinitionListWidget(identifiers: [?translation.definition]);
+        return Row(
+          children: [
+            Flexible(
+              flex: 50,
+              child: DefinitionListWidget(
+                identifiers: [?translation.definition],
+              ),
+            ),
+            Flexible(
+              flex: 5,
+              child: DialectWidget(identifier: widget.trait.dialect),
+            ),
+          ],
+        );
       },
     );
   }

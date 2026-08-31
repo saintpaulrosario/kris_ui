@@ -7,6 +7,7 @@ import 'package:kris/logic/word/example_bloc.dart';
 import 'package:kris/logic/word/language_bloc.dart';
 import 'package:kris/logic/word/script_bloc.dart';
 import 'package:kris/logic/word/translation_bloc.dart';
+import 'package:kris/logic/word/type_bloc.dart';
 import 'package:kris/logic/word/word_bloc.dart';
 
 import 'app_bar_widget.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
         BlocProvider(create: (context) => DialectBloc()),
         BlocProvider(create: (context) => ExampleBloc()),
         BlocProvider(create: (context) => DefinitionBloc()),
+        BlocProvider(create: (context) => TypeBloc()),
       ],
       child: Scaffold(
         appBar: AppBarWidget(),

@@ -1,28 +1,91 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
-import 'package:kris/presentation/widget/dialect_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../model/identifier.dart';
+import 'package:kris/logic/base_event.dart';
+import 'package:kris/logic/base_state.dart';
+import 'package:kris/logic/word/dialect_bloc.dart';
+import 'package:kris/logic/word/language_bloc.dart';
+import 'package:kris/logic/word/script_bloc.dart';
+import 'package:kris/logic/word/type_bloc.dart';
 
-class TypeListWidget extends StatelessWidget {
+import 'package:kris/model/content.dart';
+import 'package:kris/model/identifier.dart';
+import 'package:kris/model/payload.dart';
+import 'package:kris/model/trait.dart';
+import 'package:kris/model/type.dart' as w;
+
+import '../../../model/text.dart' as w;
+
+class TypeListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
 
   const TypeListWidget({super.key, required this.identifiers});
 
   @override
+  State<TypeListWidget> createState() => _TypeListWidgetState();
+}
+
+class _TypeListWidgetState extends State<TypeListWidget> {
+  @override
+  void initState() {
+    if (widget.identifiers.isNotEmpty) {
+      _fetchPayloads();
+    }
+
+    super.initState();
+
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (!mounted) return;
+
+    //   _fetchPayloads();
+    // });
+  }
+
+  void _fetchPayloads() {
+    final scripts = context.read<ScriptBloc>().state.selections.toList();
+
+    final languages = context.read<LanguageBloc>().state.selections.toList();
+
+    final dialects = context.read<DialectBloc>().state.selections.toList();
+
+    context.read<TypeBloc>().add(
+      BaseEvent.fetch(identifiers: widget.identifiers, scripts: scripts),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (_, _) => Divider(),
-          itemCount: identifiers.length,
-          itemBuilder: (_, index) {
-            final identifier = identifiers.elementAt(index);
-            return DialectWidget(identifier: identifier);
-          },
-        ),
-      ],
+    if (widget.identifiers.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return BlocSelector<
+      TypeBloc,
+      BaseState<w.Type, w.Text, Content, Payload, Trait>,
+      BuiltMap<String, w.Type>
+    >(
+      selector: (state) {
+        final identifiers = widget.identifiers.map((e) => e.sku).toSet();
+
+        final result = state.data.toBuilder();
+
+        result.removeWhere((key, value) => !identifiers.contains(key));
+
+        return result.build();
+      },
+      builder: (context, state) {
+        if (state.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Text("type");
+
+        // List<TypeWidget> items = state.values
+        //     .map((type) => TypeWidget(type: type))
+        //     .toList();
+
+        // return CarouselWidget(items: items, autoPlay: true);
+      },
     );
   }
 }
