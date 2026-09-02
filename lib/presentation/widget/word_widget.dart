@@ -9,6 +9,7 @@ import 'transliteration/transcription_wdiget.dart';
 
 class WordWidget extends StatelessWidget {
   final Translation translation;
+  //todo make clickable
 
   const WordWidget({super.key, required this.translation});
 

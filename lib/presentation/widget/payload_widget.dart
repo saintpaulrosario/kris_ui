@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kris/model/payload.dart';
+import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
 import 'package:kris/presentation/widget/language/language_list_widget.dart';
 import 'package:kris/presentation/widget/language/language_widget.dart';
 import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
@@ -36,6 +37,11 @@ class PayloadWidget extends StatelessWidget {
               key: ValueKey('value-${payload.sku}'),
             ),
           ),
+        ),
+
+        Flexible(
+          flex: 5,
+          child: DialectListWidget(identifiers: payload.dialects),
         ),
 
         Flexible(flex: 5, child: TypeListWidget(identifiers: payload.types)),

@@ -65,10 +65,6 @@ class _TranslationTraitWidgetState extends State<TranslationTraitWidget> {
                 identifiers: [?translation.definition],
               ),
             ),
-            Flexible(
-              flex: 5,
-              child: DialectWidget(identifier: widget.trait.dialect),
-            ),
           ],
         );
       },
