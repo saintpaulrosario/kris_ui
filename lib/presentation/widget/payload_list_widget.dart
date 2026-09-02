@@ -91,16 +91,19 @@ class _PayloadListWidgetState extends State<PayloadListWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
+                  flex: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PayloadWidget(payload: payload),
+                  ),
+                ),
+                Flexible(
                   flex: 5,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: LanguageListWidget(identifiers: [?payload.language]),
                   ),
                 ),
-                Flexible(flex: 20, child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: PayloadWidget(payload: payload),
-                )),
               ],
             );
           },
