@@ -39,11 +39,6 @@ class PayloadWidget extends StatelessWidget {
         ),
 
         Flexible(flex: 5, child: TypeListWidget(identifiers: payload.types)),
-
-        Flexible(
-          flex: 5,
-          child: LanguageListWidget(identifiers: [?payload.language]),
-        ),
       ],
     );
   }

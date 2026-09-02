@@ -16,6 +16,8 @@ import 'package:kris/model/trait.dart';
 import 'package:kris/model/type.dart' as w;
 
 import '../../../model/text.dart' as w;
+import '../carousel_widget.dart';
+import 'type_widget.dart';
 
 class TypeListWidget extends StatefulWidget {
   final List<Identifier> identifiers;
@@ -78,13 +80,11 @@ class _TypeListWidgetState extends State<TypeListWidget> {
           return const SizedBox.shrink();
         }
 
-        return Text("type");
+        List<TypeWidget> items = state.values
+            .map((type) => TypeWidget(type: type))
+            .toList();
 
-        // List<TypeWidget> items = state.values
-        //     .map((type) => TypeWidget(type: type))
-        //     .toList();
-
-        // return CarouselWidget(items: items, autoPlay: true);
+        return CarouselWidget(items: items, autoPlay: true);
       },
     );
   }

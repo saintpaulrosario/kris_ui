@@ -12,6 +12,7 @@ class ContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return PayloadListWidget(
       key: ValueKey(content.sku),
       identifiers: content.payloads,

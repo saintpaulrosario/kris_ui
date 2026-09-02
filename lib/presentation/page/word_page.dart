@@ -100,10 +100,10 @@ class _WordPageState extends State<WordPage>
                               child: WordWidget(translation: translation),
                             ),
 
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Flexible(
-                                flex: 1,
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: IconButton(
                                   onPressed: () {},
                                   icon: Icon(Icons.bookmark),

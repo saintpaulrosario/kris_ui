@@ -17,6 +17,7 @@ import 'package:kris/model/word.dart';
 import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import '../../model/text.dart' as w;
+import 'language/language_list_widget.dart';
 import 'payload_widget.dart';
 
 class PayloadListWidget extends StatefulWidget {
@@ -78,11 +79,32 @@ class _PayloadListWidgetState extends State<PayloadListWidget> {
           return const SizedBox.shrink();
         }
 
-        List<PayloadWidget> items = state.values
-            .map((payload) => PayloadWidget(payload: payload))
-            .toList();
-
-        return CarouselWidget(items: items, autoPlay: true);
+        return ListView.separated(
+          shrinkWrap: true,
+          separatorBuilder: (_, __) => Divider(),
+          itemCount: state.length,
+          itemBuilder: (_, index) {
+            Payload payload = state.values.elementAt(index);
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  flex: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: LanguageListWidget(identifiers: [?payload.language]),
+                  ),
+                ),
+                Flexible(flex: 20, child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PayloadWidget(payload: payload),
+                )),
+              ],
+            );
+          },
+        );
       },
     );
   }
