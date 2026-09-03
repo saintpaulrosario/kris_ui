@@ -46,9 +46,12 @@ class _HomePageState extends State<HomePage> {
           child: ConvexAppBar(
             style: TabStyle.reactCircle,
             items: [
-              TabItem(icon: Icons.list),
-              TabItem(icon: Icons.calendar_today),
-              TabItem(icon: Icons.assessment),
+              TabItem(icon: Icons.list, title: 'Home'),
+              TabItem(icon: Icons.calendar_today, title: 'Names'),
+              TabItem(icon: Icons.assessment, title: 'Plants'),
+              TabItem(icon: Icons.assessment, title: 'Animals'),
+              TabItem(icon: Icons.assessment, title: 'Rocks'),
+              TabItem(icon: Icons.assessment, title: 'Bookmarks'),
             ],
             initialActiveIndex: 1,
             onTap: (int i) => print('click index=$i'),
