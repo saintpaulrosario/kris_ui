@@ -56,21 +56,12 @@ class _DialectPayloadWidgetState extends State<DialectPayloadWidget>
           );
         }
 
-        final List<Identifier> audios = payload.audios.isEmpty
-            ? []
-            : [payload.audios.first];
-
-        return Row(
-          children: [
-            SoundListWidget(identifiers: audios),
-            Text(
-              payload.value,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              key: ValueKey(payload.sku),
-            ),
-          ],
+        return Text(
+          payload.value,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          key: ValueKey(payload.sku),
         );
       },
     );

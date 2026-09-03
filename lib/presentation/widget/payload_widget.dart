@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/dialect/dialect_list_widget.dart';
-import 'package:kris/presentation/widget/language/language_list_widget.dart';
-import 'package:kris/presentation/widget/language/language_widget.dart';
 import 'package:kris/presentation/widget/translation_trait_list_widget.dart';
 import 'package:kris/presentation/widget/type/type_list_widget.dart';
-
-import '../../model/language.dart';
 
 class PayloadWidget extends StatelessWidget {
   final Payload payload;
@@ -22,20 +18,22 @@ class PayloadWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
-          flex: 30,
-          child: TranslationTraitListWidget(identifiers: payload.traits),
-        ),
-
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Flexible(
-            flex: 5,
-            child: Text(
-              payload.value,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.clip,
-              key: ValueKey('value-${payload.sku}'),
-            ),
+          flex: 15,
+          child: Row(
+            children: [
+              Flexible(
+                child: TranslationTraitListWidget(identifiers: payload.traits),
+              ),
+              Flexible(
+                child: Text(
+                  payload.value,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.clip,
+                  key: ValueKey('value-${payload.sku}'),
+                ),
+              ),
+              Flexible(child: TypeListWidget(identifiers: payload.types)),
+            ],
           ),
         ),
 
@@ -43,8 +41,6 @@ class PayloadWidget extends StatelessWidget {
           flex: 5,
           child: DialectListWidget(identifiers: payload.dialects),
         ),
-
-        Flexible(flex: 5, child: TypeListWidget(identifiers: payload.types)),
       ],
     );
   }
