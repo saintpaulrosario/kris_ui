@@ -101,7 +101,7 @@ class _WordPageState extends State<WordPage>
                             ),
 
                             Flexible(
-                              flex: 1,
+                              flex: 5,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: IconButton(
