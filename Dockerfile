@@ -27,7 +27,7 @@ RUN flutter pub get
 
 COPY . .
 
-RUN dart run build_runner build --delete-conflicting-outputs
+#RUN dart run build_runner build --delete-conflicting-outputs
 
 ARG ACTIVE_PROFILE=develop
 ARG ENVIRONMENT=web
