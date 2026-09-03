@@ -1,3 +1,4 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kris/logic/medium/bloc/medium_bloc.dart';
@@ -40,23 +41,18 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBarWidget(),
         drawer: AppDrawer(),
         body: widget.child,
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              backgroundColor: Color(Colors.brown.shade100.value),
-              icon: Icon(Icons.work_history),
-              label: 'Names',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Animals'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.rocket_launch_sharp),
-              label: 'Plants',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark),
-              label: 'Bookmarks',
-            ),
-          ],
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: ConvexAppBar(
+            style: TabStyle.reactCircle,
+            items: [
+              TabItem(icon: Icons.list),
+              TabItem(icon: Icons.calendar_today),
+              TabItem(icon: Icons.assessment),
+            ],
+            initialActiveIndex: 1,
+            onTap: (int i) => print('click index=$i'),
+          ),
         ),
       ),
     );
