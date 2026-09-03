@@ -11,18 +11,9 @@ class DefinitionContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: DefinitionPayloadListWidget(
-            key: ValueKey(content.sku),
-            identifiers: content.payloads,
-          ),
-        ),
-      ],
+    return DefinitionPayloadListWidget(
+      key: ValueKey(content.sku),
+      identifiers: content.payloads,
     );
   }
 }

@@ -40,6 +40,24 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBarWidget(),
         drawer: AppDrawer(),
         body: widget.child,
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              backgroundColor: Color(Colors.brown.shade100.value),
+              icon: Icon(Icons.work_history),
+              label: 'Names',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Animals'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.rocket_launch_sharp),
+              label: 'Plants',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark),
+              label: 'Bookmarks',
+            ),
+          ],
+        ),
       ),
     );
   }

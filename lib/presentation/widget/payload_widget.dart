@@ -18,21 +18,36 @@ class PayloadWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Flexible(
-          flex: 15,
+          flex: 60,
           child: Row(
             children: [
               Flexible(
-                child: TranslationTraitListWidget(identifiers: payload.traits),
-              ),
-              Flexible(
-                child: Text(
-                  payload.value,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.clip,
-                  key: ValueKey('value-${payload.sku}'),
+                flex: 55,
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 50,
+                      child: TranslationTraitListWidget(
+                        identifiers: payload.traits,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 5,
+                      child: Text(
+                        softWrap: true,
+                        payload.value,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        key: ValueKey('value-${payload.sku}'),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Flexible(child: TypeListWidget(identifiers: payload.types)),
+              Flexible(
+                flex: 5,
+                child: TypeListWidget(identifiers: payload.types),
+              ),
             ],
           ),
         ),

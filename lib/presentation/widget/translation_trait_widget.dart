@@ -59,12 +59,6 @@ class _TranslationTraitWidgetState extends State<TranslationTraitWidget> {
 
         return Row(
           children: [
-            Flexible(
-              child: SoundListWidget(
-                key: ValueKey('sound-${widget.trait.sku}'),
-                identifiers: widget.trait.audios,
-              ),
-            ),
             translation.definition == null
                 ? SizedBox.shrink()
                 : Flexible(
@@ -72,6 +66,13 @@ class _TranslationTraitWidgetState extends State<TranslationTraitWidget> {
                       identifiers: [?translation.definition],
                     ),
                   ),
+
+            Flexible(
+              child: SoundListWidget(
+                key: ValueKey('sound-${widget.trait.sku}'),
+                identifiers: widget.trait.audios,
+              ),
+            ),
           ],
         );
       },

@@ -11,10 +11,6 @@ class DefinitionTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Flexible(
-        child: DefinitionContentListWidget(identifiers: text.contents),
-      ),
-    );
+    return DefinitionContentListWidget(identifiers: text.contents);
   }
 }
