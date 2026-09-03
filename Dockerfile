@@ -29,8 +29,8 @@ COPY . .
 
 #RUN dart run build_runner build --delete-conflicting-outputs
 
-ARG ACTIVE_PROFILE=develop
-ARG ENVIRONMENT=web
+ARG ACTIVE_PROFILE=web
+ARG ENVIRONMENT=develop
 ARG KRIS_BASE_URL=https://dev-kris.onrender.com
 
 RUN flutter build web \
