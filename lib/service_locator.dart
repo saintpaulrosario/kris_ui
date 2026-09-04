@@ -66,7 +66,6 @@ Future<void> loadProfiles() async {
     'ENVIRONMENT',
     defaultValue: 'local',
   );
-
   await loadProperties(activeProfile: activeProfile, environment: environment);
 }
 
