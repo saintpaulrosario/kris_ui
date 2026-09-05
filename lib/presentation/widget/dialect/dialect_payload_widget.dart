@@ -11,7 +11,6 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/audio_list_wiget.dart';
 
 class DialectPayloadWidget extends StatefulWidget {
   final Identifier identifier;

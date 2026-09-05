@@ -13,13 +13,13 @@ part 'type.g.dart';
   checked: true,
 )
 class Type extends Word {
-  @JsonKey(disallowNullValue: false, defaultValue: const [])
+  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> subTypes;
 
-  @JsonKey(disallowNullValue: false, defaultValue: const [])
+  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> payloads;
 
-  @JsonKey(disallowNullValue: false, defaultValue: const [])
+  @JsonKey(disallowNullValue: false, defaultValue: [])
   final List<Identifier> words;
 
   const Type({

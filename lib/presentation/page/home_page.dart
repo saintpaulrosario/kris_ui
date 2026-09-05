@@ -41,21 +41,45 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBarWidget(),
         drawer: AppDrawer(),
         body: widget.child,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ConvexAppBar(
-            style: TabStyle.reactCircle,
-            items: [
-              TabItem(icon: Icons.list, title: 'Home'),
-              TabItem(icon: Icons.calendar_today, title: 'Names'),
-              TabItem(icon: Icons.assessment, title: 'Plants'),
-              TabItem(icon: Icons.assessment, title: 'Animals'),
-              TabItem(icon: Icons.assessment, title: 'Rocks'),
-              TabItem(icon: Icons.assessment, title: 'Bookmarks'),
-            ],
-            initialActiveIndex: 1,
-            onTap: (int i) => print('click index=$i'),
-          ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: 0,
+          onDestinationSelected: (index) {
+            setState(() {
+              // _currentIndex = index;
+            });
+          },
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'Names',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.terrain_outlined),
+              selectedIcon: Icon(Icons.terrain),
+              label: 'Rocks',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.pets_outlined),
+              selectedIcon: Icon(Icons.pets),
+              label: 'Animals',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.forest_outlined),
+              selectedIcon: Icon(Icons.forest),
+              label: 'Plants',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.bookmark_outline),
+              selectedIcon: Icon(Icons.bookmark),
+              label: 'Bookmarks',
+            ),
+          ],
         ),
       ),
     );

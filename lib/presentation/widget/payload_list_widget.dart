@@ -81,7 +81,7 @@ class _PayloadListWidgetState extends State<PayloadListWidget> {
 
         return ListView.separated(
           shrinkWrap: true,
-          separatorBuilder: (_, __) => Divider(),
+          separatorBuilder: (_, _) => Divider(),
           itemCount: state.length,
           itemBuilder: (_, index) {
             Payload payload = state.values.elementAt(index);

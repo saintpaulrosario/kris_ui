@@ -6,7 +6,6 @@ import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/model/translation.dart';
 import 'package:kris/model/text.dart' as w;
-import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import 'package:kris/presentation/widget/word_widget.dart';
 import '../../logic/base_event.dart';
@@ -15,9 +14,6 @@ import '../../logic/base_state.dart';
 import '../../response/page_result.dart';
 import '../widget/image_list_widget.dart';
 import '../widget/pagination_widget.dart';
-import '../widget/transcription/transcription_wdiget.dart';
-import '../widget/translation/translation_widget.dart';
-import '../widget/transliteration/transcription_wdiget.dart';
 
 class WordPage extends StatefulWidget {
   const WordPage({super.key});

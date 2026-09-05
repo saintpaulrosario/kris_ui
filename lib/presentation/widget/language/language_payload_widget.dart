@@ -11,7 +11,6 @@ import 'package:kris/model/language.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart' as w;
 import 'package:kris/model/trait.dart';
-import 'package:kris/presentation/widget/audio_list_wiget.dart';
 import 'package:kris/presentation/widget/language/language_trait_list_widget.dart';
 
 class LanguagePayloadWidget extends StatefulWidget {

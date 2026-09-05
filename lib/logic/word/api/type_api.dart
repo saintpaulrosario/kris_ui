@@ -6,7 +6,6 @@ import 'package:kris/model/text.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/response/page_result.dart';
 import 'package:retrofit/retrofit.dart';
-import '../../../model/translation_trait.dart';
 import '../../../response/api_result.dart';
 
 import 'package:kris/model/type.dart' as w;

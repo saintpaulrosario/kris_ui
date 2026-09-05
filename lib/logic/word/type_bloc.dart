@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:kris/logic/base_event.dart';
 import 'package:kris/logic/base_state.dart';
-import 'package:kris/logic/word/service/definition_service.dart';
 import 'package:kris/model/content.dart';
-import 'package:kris/model/definition.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/text.dart';
 
@@ -15,7 +12,6 @@ import 'package:kris/model/type.dart' as w;
 import '../../../response/error_response.dart';
 import '../../../response/page_result.dart';
 import '../../../service_locator.dart';
-import '../../model/definition_trait.dart';
 import 'service/type_service.dart';
 
 class TypeBloc

@@ -21,7 +21,7 @@ class TranslationWidget extends StatelessWidget {
               identifiers: translation.texts,
             ),
           ),
-          Flexible(flex: 5, child: Text("Translation")),
+          //Flexible(flex: 5, child: Text("Translation")),
         ],
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:kris/feature/account/logic/user_account/user_account_bloc.dart';
 import 'package:kris/feature/authentication/api/authentication_api.dart';
 import 'package:kris/feature/authentication/logic/authenticate/authenticate_service.dart';
 import 'package:kris/logic/medium/medium_api.dart';
@@ -23,7 +22,6 @@ import 'package:kris/logic/word/service/translation_service.dart';
 import 'package:kris/logic/word/service/type_service.dart';
 
 import 'package:kris/logic/word/service/word_service.dart';
-import 'package:kris/logic/word/type_bloc.dart';
 import 'package:kris/model/word_image.dart';
 import 'package:logger/logger.dart';
 import 'package:yaml/yaml.dart';

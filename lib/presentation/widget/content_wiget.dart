@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:kris/model/content.dart';
 
-import 'language/language_list_widget.dart';
 import 'payload_list_widget.dart';
 
 class ContentWidget extends StatelessWidget {

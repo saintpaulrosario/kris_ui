@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:kris/model/payload.dart';
 import 'package:kris/presentation/widget/audio_list_wiget.dart';
-import 'package:kris/presentation/widget/example/example_trait_list_widget.dart';
-import 'package:kris/presentation/widget/trait_list_widget.dart';
 
 class ExamplePayloadWidget extends StatelessWidget {
   final Payload payload;

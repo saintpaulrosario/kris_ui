@@ -22,8 +22,8 @@ class WordWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TranslationWidget(translation: translation),
-          TranscriptionWdiget(),
-          TransliterationWdiget(),
+          //TranscriptionWdiget(),
+          //TransliterationWdiget(),
         ],
       ),
     );

@@ -12,7 +12,6 @@ import 'package:kris/model/identifier.dart';
 import 'package:kris/model/payload.dart';
 import 'package:kris/model/trait.dart';
 import 'package:kris/presentation/screen/example/example_widget.dart';
-import 'package:kris/presentation/widget/carousel_widget.dart';
 
 import '../../../model/content.dart';
 import '../../../model/text.dart' as w;
